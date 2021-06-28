@@ -1,0 +1,13 @@
+{
+    "name": "Registrant",
+    "alias": "registrant",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Registrant\\Providers\\RegistrantServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
