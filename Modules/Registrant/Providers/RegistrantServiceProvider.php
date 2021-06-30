@@ -4,6 +4,7 @@ namespace Modules\Registrant\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Symfony\Component\Finder\Finder;
 
 class RegistrantServiceProvider extends ServiceProvider
 {
@@ -28,6 +29,13 @@ class RegistrantServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+        
+        // adding global middleware
+        $kernel = $this->app->make('Illuminate\Contracts\Http\Kernel');
+        $kernel->pushMiddleware('Modules\Registrant\Http\Middleware\GenerateMenus');
+
+        // register commands
+        $this->registerCommands('\Modules\Registrant\Console');
     }
 
     /**
@@ -38,6 +46,10 @@ class RegistrantServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
+        $this->app->bind(
+			\App\Repositories\Contract\RegistrantRepositoryInterface::class,
+			\App\Repositories\RegistrantRepository::class
+		);
     }
 
     /**
@@ -108,5 +120,24 @@ class RegistrantServiceProvider extends ServiceProvider
             }
         }
         return $paths;
+    }
+
+    /**
+     * Register commands.
+     *
+     * @param string $namespace
+     */
+    protected function registerCommands($namespace = '')
+    {
+        $finder = new Finder(); // from Symfony\Component\Finder;
+        $finder->files()->name('*.php')->in(__DIR__.'/../Console');
+
+        $classes = [];
+        foreach ($finder as $file) {
+            $class = $namespace.'\\'.$file->getBasename('.php');
+            array_push($classes, $class);
+        }
+
+        $this->commands($classes);
     }
 }

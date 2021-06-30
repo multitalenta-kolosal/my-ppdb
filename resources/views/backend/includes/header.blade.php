@@ -27,6 +27,9 @@
                 <a class="dropdown-item" href="{{route("language.switch", "en")}}">
                     English (EN)
                 </a>
+                <a class="dropdown-item" href="{{route("language.switch", "id")}}">
+                    Indonesian (ID)
+                </a>
             </div>
         </li>
         <li class="c-header-nav-item dropdown d-md-down-none mx-2">

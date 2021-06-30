@@ -22,22 +22,8 @@ class GenerateMenus
          *
          * *********************************************************************
          */
-        \Menu::make('admin_sidebar', function ($menu) {
-
-            // comments
-            $menu->add('<i class="fas fa-comments c-sidebar-nav-icon"></i> Comments', [
-                'route' => 'backend.comments.index',
-                'class' => 'c-sidebar-nav-item',
-            ])
-            ->data([
-                'order' => 85,
-                'activematches' => ['admin/comments*'],
-                'permission' => ['view_comments'],
-            ])
-            ->link->attr([
-                'class' => 'c-sidebar-nav-link',
-            ]);
-        })->sortBy('order');
+       
+         //moved to article
 
         return $next($request);
     }

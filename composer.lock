@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4688a309e87dd9250268321e033398b0",
+    "content-hash": "296fe1f94f5425125af7919200dff626",
     "packages": [
         {
             "name": "alexusmai/laravel-file-manager",
@@ -376,63 +376,6 @@
                 "source": "https://github.com/czim/laravel-repository/tree/2.1.2"
             },
             "time": "2020-12-21T18:47:33+00:00"
-        },
-        {
-            "name": "derakht/repository-pattern",
-            "version": "V1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/FarhadShirmardi/laravel-repository-pattern.git",
-                "reference": "1b7755d71246eb1d8e4b22f24da495fefcbe9a9a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/FarhadShirmardi/laravel-repository-pattern/zipball/1b7755d71246eb1d8e4b22f24da495fefcbe9a9a",
-                "reference": "1b7755d71246eb1d8e4b22f24da495fefcbe9a9a",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/framework": ">=5.6"
-            },
-            "require-dev": {
-                "orchestra/testbench": "5.x-dev",
-                "phpunit/phpunit": "^8.5"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Derakht\\RepositoryPattern\\RepositoryPatternServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Derakht\\RepositoryPattern\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "farhadshirmardi",
-                    "email": "shirmardi@gmail.com"
-                }
-            ],
-            "description": "Implement repository pattern design with a command",
-            "keywords": [
-                "laravel",
-                "repository",
-                "repository-pattern",
-                "repository-pattern-design"
-            ],
-            "support": {
-                "issues": "https://github.com/FarhadShirmardi/laravel-repository-pattern/issues",
-                "source": "https://github.com/FarhadShirmardi/laravel-repository-pattern/tree/V1.0.0"
-            },
-            "time": "2020-09-21T14:39:28+00:00"
         },
         {
             "name": "doctrine/inflector",

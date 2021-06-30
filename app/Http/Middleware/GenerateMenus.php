@@ -31,13 +31,21 @@ class GenerateMenus
                 'class' => 'c-sidebar-nav-link',
             ]);
 
+            $menu->add('Data', [
+                'class' => 'c-sidebar-nav-title',
+            ])
+            ->data([
+                'order'         => 2,
+                'permission'    => ['edit_settings', 'view_backups', 'view_users', 'view_roles', 'view_logs'],
+            ]);
+
             // Notifications
             $menu->add('<i class="c-sidebar-nav-icon fas fa-bell"></i> Notifications', [
                 'route' => 'backend.notifications.index',
                 'class' => 'c-sidebar-nav-item',
             ])
             ->data([
-                'order'         => 99,
+                'order'         => 87,
                 'activematches' => 'admin/notifications*',
                 'permission'    => [],
             ])

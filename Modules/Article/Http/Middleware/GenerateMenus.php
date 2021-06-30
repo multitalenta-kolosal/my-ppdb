@@ -17,18 +17,26 @@ class GenerateMenus
     public function handle($request, Closure $next)
     {
         \Menu::make('admin_sidebar', function ($menu) {
-
-            // Articles Dropdown
-            $articles_menu = $menu->add('<i class="c-sidebar-nav-icon fas fa-file-alt"></i> Article', [
-                'class' => 'c-sidebar-nav-dropdown',
+            $menu->add('CMS', [
+                'class' => 'c-sidebar-nav-title',
             ])
             ->data([
                 'order'         => 81,
+                'permission'    => ['view_posts', 'view_categories','view_comments','view_tags'],
+            ]);
+            // Articles Dropdown
+            $articles_menu = $menu->add('<i class="c-sidebar-nav-icon fas fa-newspaper"></i> Blog', [
+                'class' => 'c-sidebar-nav-dropdown',
+            ])
+            ->data([
+                'order'         => 86,
                 'activematches' => [
                     'admin/posts*',
                     'admin/categories*',
+                    'admin/comments*',
+                    'admin/tags*'
                 ],
-                'permission' => ['view_posts', 'view_categories'],
+                'permission' => ['view_posts', 'view_categories','view_comments','view_tags'],
             ]);
             $articles_menu->link->attr([
                 'class' => 'c-sidebar-nav-dropdown-toggle',
@@ -36,7 +44,7 @@ class GenerateMenus
             ]);
 
             // Submenu: Posts
-            $articles_menu->add('<i class="c-sidebar-nav-icon fas fa-file-alt"></i> Posts', [
+            $articles_menu->add('<i class="c-sidebar-nav-icon fas fa-pencil-alt"></i> Posts', [
                 'route' => 'backend.posts.index',
                 'class' => 'c-sidebar-nav-item',
             ])
@@ -60,6 +68,32 @@ class GenerateMenus
             ])
             ->link->attr([
                 'class' => "c-sidebar-nav-link",
+            ]);
+
+            $articles_menu->add('<i class="fas fa-comments c-sidebar-nav-icon"></i> Comments', [
+                'route' => 'backend.comments.index',
+                'class' => 'c-sidebar-nav-item',
+            ])
+            ->data([
+                'order' => 85,
+                'activematches' => ['admin/comments*'],
+                'permission' => ['view_comments'],
+            ])
+            ->link->attr([
+                'class' => 'c-sidebar-nav-link',
+            ]);
+
+            $articles_menu->add('<i class="fas fa-tags c-sidebar-nav-icon"></i> Tags', [
+                'route' => 'backend.tags.index',
+                'class' => "c-sidebar-nav-item",
+            ])
+            ->data([
+                'order' => 84,
+                'activematches' => ['admin/tags*'],
+                'permission' => ['view_tags'],
+            ])
+            ->link->attr([
+                'class' => 'c-sidebar-nav-link',
             ]);
         })->sortBy('order');
 
