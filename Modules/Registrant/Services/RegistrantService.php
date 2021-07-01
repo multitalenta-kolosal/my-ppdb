@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
+use Modules\Registrant\Events\Backend\RegistrantCreated;
+
 class RegistrantService{
 
     protected $registrantRepository;
@@ -51,7 +53,11 @@ class RegistrantService{
 
         $data = $request->all();
 
-        return $this->registrantRepository->create($data);
+        $registrant = $this->registrantRepository->create($data);
+
+        event(new RegistrantCreated($registrant));
+
+        return $registrant;
     }
 
     public function show($id){

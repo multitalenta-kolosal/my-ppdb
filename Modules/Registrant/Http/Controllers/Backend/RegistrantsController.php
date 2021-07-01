@@ -11,9 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Log;
-// use Modules\Registrant\Entities\Category;
-// use Modules\Registrant\Events\RegistrantCreated;
-// use Modules\Registrant\Events\RegistrantUpdated;
 use Modules\Registrant\Services\RegistrantService;
 use Modules\Registrant\Http\Requests\Backend\RegistrantsRequest;
 use Spatie\Activitylog\Models\Activity;
@@ -183,8 +180,6 @@ class RegistrantsController extends Controller
         $module_action = 'Store';
 
         $registrants = $this->registrantService->store($request);
-
-        // event(new RegistrantCreated($$module_name_singular));
 
         Flash::success("<i class='fas fa-check'></i> New '".Str::singular($module_title)."' Added")->important();
 

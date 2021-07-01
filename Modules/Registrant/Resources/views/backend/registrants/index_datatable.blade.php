@@ -107,7 +107,7 @@
         responsive: true,
         ajax: '{{ route("backend.$module_name.index_data") }}',
         columns: [
-            {data: 'registrant_id', name: 'registrant_id'},
+            {data: 'registrant_id', name: 'ID'},
             {data: 'name', name: 'name'},
             {data: 'phone', name: 'phone'},
             {data: 'unit', name: 'unit'},

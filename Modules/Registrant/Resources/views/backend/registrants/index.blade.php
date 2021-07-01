@@ -49,19 +49,19 @@
                     <thead>
                         <tr>
                             <th>
-                                #
+                                ID
                             </th>
                             <th>
                                 Name
                             </th>
                             <th>
-                                Category
+                                Phone
                             </th>
                             <th>
-                                Type
+                                Unit
                             </th>
                             <th>
-                                Image
+                                Date
                             </th>
                             <th class="text-right">
                                 Action
@@ -81,10 +81,13 @@
                                 <small class="text-muted">Updated At: {{ $module_name_singular->updated_at->diffForHumans() }}</small>
                             </td>
                             <td>
-                                {{ $module_name_singular->category_name }}
+                                {{ $module_name_singular->phone }}
                             </td>
                             <td>
-                                {{ $module_name_singular->type }}
+                                {{ $module_name_singular->unit }}
+                            </td>
+                            <td>
+                                {{ $module_name_singular->created_at }}
                             </td>
                             <td>
                                 <img src="{{ asset($module_name_singular->featured_image) }}" class="img-fluid img-thumbnail" style="max-width:200px;" alt="{{ $module_name_singular->name }}">

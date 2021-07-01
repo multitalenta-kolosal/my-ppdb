@@ -46,6 +46,7 @@ class RegistrantServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
+        $this->app->register(EventServiceProvider::class);
         $this->app->bind(
 			\App\Repositories\Contract\RegistrantRepositoryInterface::class,
 			\App\Repositories\RegistrantRepository::class
