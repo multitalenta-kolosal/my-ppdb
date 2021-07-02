@@ -236,5 +236,24 @@ document.addEventListener("DOMContentLoaded", function() {
 function fmSetLink($url) {
   document.getElementById('featured_image').value = $url;
 }
+
+$.ajax({
+    type: "GET",
+    dataType: "json",
+    url: '{{route("backend.registrant.generate_id")}}',
+    data: "action=loadall&id=" + id,
+    complete: function(data) {
+        $('#main').html(data.responseText);
+    }
+});
+
+$(document).ready(function(){
+    $("#button-generate-id").click(function(){
+        var value = $(this).html();
+        var input = $('#registrant_id');
+        input.val(value);
+    });
+});
 </script>
+
 @endpush
