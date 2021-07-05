@@ -223,35 +223,20 @@ $(function() {
 
 CKEDITOR.replace('content', {filebrowserImageBrowseUrl: '/file-manager/ckeditor', language:'{{App::getLocale()}}', defaultLanguage: 'en'});
 
-document.addEventListener("DOMContentLoaded", function() {
-
-  document.getElementById('button-image').addEventListener('click', (event) => {
-    event.preventDefault();
-
-    window.open('/file-manager/fm-button', 'fm', 'width=800,height=600');
-  });
-});
-
 // set file link
 function fmSetLink($url) {
   document.getElementById('featured_image').value = $url;
 }
 
-$.ajax({
-    type: "GET",
-    dataType: "json",
-    url: '{{route("backend.registrant.generate_id")}}',
-    data: "action=loadall&id=" + id,
-    complete: function(data) {
-        $('#main').html(data.responseText);
-    }
-});
-
 $(document).ready(function(){
     $("#button-generate-id").click(function(){
-        var value = $(this).html();
-        var input = $('#registrant_id');
-        input.val(value);
+        $.ajax({
+        method: "GET",
+        url: '{{route("backend.registrants.generateId")}}',
+      })
+        .done(function( data ) {
+        $('#registrant_id').val(data.id);
+      });
     });
 });
 </script>

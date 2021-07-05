@@ -150,8 +150,10 @@ class RegistrantsController extends Controller
 
         $module_action = 'Create';
 
-        $unit = $this->registrantService->prepareOptions("unit");
-        $type = $this->registrantService->prepareOptions("type");
+        $options = $this->registrantService->prepareOptions();
+       
+        $unit = $options['unit'];
+        $type = $options['type'];
 
         Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
@@ -372,5 +374,28 @@ class RegistrantsController extends Controller
         Log::info(label_case($module_action)." '$module_name': '".$$module_name_singular->name.', ID:'.$$module_name_singular->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return redirect("admin/$module_name");
+    }
+
+     /**
+     * Select Options for Select 2 Request/ Response.
+     *
+     * @return Response
+     */
+    public function generateId(Request $request)
+    {
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'Generate';
+
+        $response = [];
+
+        $response = $this->registrantService->generateID();
+
+        return response()->json($response);
     }
 }

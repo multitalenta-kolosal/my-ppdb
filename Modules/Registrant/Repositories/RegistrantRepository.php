@@ -16,12 +16,12 @@ class RegistrantRepository extends BaseRepository implements RegistrantRepositor
 
     public function trashed()
     {
-        return Registrant::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate();
+        return $this->model()::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate();
     }
 
     public function restore($id)
     {
-        $registrants = Registrant::withTrashed()->find($id);
+        $registrants = $this->model()::withTrashed()->find($id);
         
         $registrants->restore();
 

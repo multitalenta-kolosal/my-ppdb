@@ -46,6 +46,9 @@
                 <table id="datatable" class="table table-bordered table-hover table-responsive-sm">
                     <thead>
                         <tr>
+                            <th class="text-right">
+                                Action
+                            </th>
                             <th>
                                 ID
                             </th>
@@ -60,9 +63,6 @@
                             </th>
                             <th>
                                 Date
-                            </th>
-                            <th class="text-right">
-                                Action
                             </th>
                         </tr>
                     </thead>
@@ -107,12 +107,12 @@
         responsive: true,
         ajax: '{{ route("backend.$module_name.index_data") }}',
         columns: [
+            {data: 'action', name: 'action', orderable: false, searchable: false},
             {data: 'registrant_id', name: 'ID'},
             {data: 'name', name: 'name'},
             {data: 'phone', name: 'phone'},
             {data: 'unit', name: 'unit'},
             {data: 'created_at', name: 'created_at'},
-            {data: 'action', name: 'action', orderable: false, searchable: false}
         ]
     });
 

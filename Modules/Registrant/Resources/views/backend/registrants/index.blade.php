@@ -48,6 +48,9 @@
                 <table id="datatable" class="table table-bordered table-hover table-responsive-sm">
                     <thead>
                         <tr>
+                            <th class="text-right">
+                                Action
+                            </th>
                             <th>
                                 ID
                             </th>
@@ -63,15 +66,16 @@
                             <th>
                                 Date
                             </th>
-                            <th class="text-right">
-                                Action
-                            </th>
                         </tr>
                     </thead>
 
                     <tbody>
                         @foreach($$module_name as $module_name_singular)
                         <tr>
+                            <td class="text-right">
+                                <a href='{!!route("backend.$module_name.edit", $module_name_singular)!!}' class='btn btn-sm btn-primary mt-1' data-toggle="tooltip" title="Edit {{ ucwords(Str::singular($module_name)) }}"><i class="fas fa-wrench"></i></a>
+                                <a href='{!!route("backend.$module_name.show", $module_name_singular)!!}' class='btn btn-sm btn-success mt-1' data-toggle="tooltip" title="Show {{ ucwords(Str::singular($module_name)) }}"><i class="fas fa-tv"></i></a>
+                            </td>
                             <td>
                                 {{ $module_name_singular->id }}
                             </td>
@@ -91,10 +95,6 @@
                             </td>
                             <td>
                                 <img src="{{ asset($module_name_singular->featured_image) }}" class="img-fluid img-thumbnail" style="max-width:200px;" alt="{{ $module_name_singular->name }}">
-                            </td>
-                            <td class="text-right">
-                                <a href='{!!route("backend.$module_name.edit", $module_name_singular)!!}' class='btn btn-sm btn-primary mt-1' data-toggle="tooltip" title="Edit {{ ucwords(Str::singular($module_name)) }}"><i class="fas fa-wrench"></i></a>
-                                <a href='{!!route("backend.$module_name.show", $module_name_singular)!!}' class='btn btn-sm btn-success mt-1' data-toggle="tooltip" title="Show {{ ucwords(Str::singular($module_name)) }}"><i class="fas fa-tv"></i></a>
                             </td>
                         </tr>
                         @endforeach

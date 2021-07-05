@@ -4,6 +4,7 @@ namespace Modules\Registrant\Services;
 
 use Modules\Registrant\Repositories\RegistrantRepository;
 use Exception;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -102,7 +103,7 @@ class RegistrantService{
         return $registrants;
     }
 
-    public function prepareOptions($options){
+    public function prepareOptions(){
         
         $unit = [
             'KB/TK',
@@ -117,14 +118,25 @@ class RegistrantService{
             'Reguler',
         ];
 
+        $options = array(
+            'unit' => $unit,
+            'type' => $type,
+        );
 
-        switch($options){
-            case 'unit':
-                return $unit;
-            break;
-            case 'type':
-                return $type;
-            break;
-        }
+        return $options;
+    }
+
+    public function generateId(){
+        $year = Carbon::now()->format('y');
+
+        $month = Carbon::now()->format('m');
+
+        $response = [
+            'id'   => $year.$month,
+            'error' => false,
+            'message' => '',
+        ];
+    
+        return $response;
     }
 }
