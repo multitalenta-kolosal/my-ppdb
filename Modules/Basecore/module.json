@@ -1,0 +1,13 @@
+{
+    "name": "Basecore",
+    "alias": "basecore",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Basecore\\Providers\\BasecoreServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

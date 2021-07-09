@@ -2,5 +2,6 @@
     "Article": true,
     "Tag": true,
     "Comment": true,
-    "Registrant": true
+    "Registrant": true,
+    "Basecore": true
 }
