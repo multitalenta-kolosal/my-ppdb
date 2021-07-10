@@ -5,7 +5,9 @@ namespace Modules\Registrant\Services;
 use Modules\Registrant\Repositories\RegistrantRepository;
 use Exception;
 use Carbon\Carbon;
+use Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -19,9 +21,14 @@ class RegistrantService{
     public function __construct(RegistrantRepository $registrantRepository) {
 
         $this->registrantRepository = $registrantRepository;
+
+        $this->module_title = Str::plural(class_basename($this->registrantRepository->model()));
+
     }
 
-    public function getAll(){
+    public function list(){
+
+        Log::info(label_case($this->module_title.' '.__FUNCTION__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         $registrant =$this->registrantRepository->all();
 
@@ -50,11 +57,31 @@ class RegistrantService{
         return $listData;
     }
 
+    public function create(){
+
+        Log::info(label_case($this->module_title.' '.__function__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+        $createOptions = $this->prepareOptions();
+
+        return $createOptions;
+    }
+
     public function store(Request $request){
 
         $data = $request->all();
 
-        $registrant = $this->registrantRepository->create($data);
+        DB::beginTransaction();
+
+        try {
+            $registrant = $this->registrantRepository->create($data);
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::info($e, $e->getMessage());
+        }
+
+        DB::commit();
+
+        Log::info(label_case($this->module_title.' '.__function__)." | '".$registrant->name.'(ID:'.$registrant->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         event(new RegistrantCreated($registrant));
 
@@ -63,21 +90,40 @@ class RegistrantService{
 
     public function show($id){
 
+        Log::info(label_case($this->module_title.' '.__function__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
         return $this->registrantRepository->findOrFail($id);
     }
 
     public function edit($id){
 
-        return $this->registrantRepository->findOrFail($id);
+        $registrant = $this->registrantRepository->findOrFail($id);
+
+        Log::info(label_case($this->module_title.' '.__function__)." | '".$registrant->name.'(ID:'.$registrant->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+        return $registrant;
     }
 
     public function update(Request $request,$id){
 
         $data = $request->all();
 
-        $registrants = $this->registrantRepository->findOrFail($id);
+        DB::beginTransaction();
 
-        $updated = $this->registrantRepository->update($data,$id);
+        try{
+
+            $registrants = $this->registrantRepository->findOrFail($id);
+
+            $updated = $this->registrantRepository->update($data,$id);
+
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::info($e, $e->getMessage());
+        }
+
+        DB::commit();
+
+        Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$registrants->name.'(ID:'.$registrants->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return $this->registrantRepository->find($id);
 
@@ -85,20 +131,45 @@ class RegistrantService{
 
     public function destroy($id){
 
-        $registrants = $this->registrantRepository->findOrFail($id);
+        DB::beginTransaction();
 
-        $deleted = $this->registrantRepository->delete($id);
+        try{
+            $registrants = $this->registrantRepository->findOrFail($id);
+    
+            $deleted = $this->registrantRepository->delete($id);
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::info($e, $e->getMessage());
+        }
+
+        DB::commit();
+
+        Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$registrants->name.', ID:'.$registrants->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return $registrants;
     }
 
     public function trashed(){
+
+        Log::info(label_case($this->module_title.' View'.__FUNCTION__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
         return $this->registrantRepository->trashed();
     }
 
     public function restore($id){
 
-        $registrants= $this->registrantRepository->restore($id);
+        DB::beginTransaction();
+
+        try{
+            $registrants= $this->registrantRepository->restore($id);
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::info($e, $e->getMessage());
+        }
+
+        DB::commit();
+
+        Log::info(label_case(__FUNCTION__)." ".$this->module_title.": ".$registrants->name.", ID:".$registrants->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return $registrants;
     }

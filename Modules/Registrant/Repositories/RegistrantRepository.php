@@ -2,7 +2,7 @@
 
 namespace Modules\Registrant\Repositories;
 
-use Czim\Repository\BaseRepository;
+use App\Repositories\BaseRepository;
 use Modules\Registrant\Repositories\Contract\RegistrantRepositoryInterface;
 use Modules\Registrant\Entities\Registrant;
 
@@ -12,19 +12,5 @@ class RegistrantRepository extends BaseRepository implements RegistrantRepositor
     public function model()
     {
         return Registrant::class;
-    }
-
-    public function trashed()
-    {
-        return $this->model()::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate();
-    }
-
-    public function restore($id)
-    {
-        $registrants = $this->model()::withTrashed()->find($id);
-        
-        $registrants->restore();
-
-        return $registrants;
     }
 }

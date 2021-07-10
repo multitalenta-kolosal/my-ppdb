@@ -2,7 +2,9 @@
 
 namespace Modules\Registrant\Repositories\Contract;
 
-interface RegistrantRepositoryInterface
+use App\Contract\BaseContract;
+
+interface RegistrantRepositoryInterface extends BaseContract
 {
 
 }

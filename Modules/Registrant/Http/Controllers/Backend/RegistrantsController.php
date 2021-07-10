@@ -60,8 +60,6 @@ class RegistrantsController extends Controller
 
         $$module_name = $module_model::paginate();
 
-        Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
-
         return view(
             "registrant::backend.$module_path.index_datatable",
             compact('module_title', 'module_name', "$module_name", 'module_icon', 'module_name_singular', 'module_action')
@@ -79,7 +77,7 @@ class RegistrantsController extends Controller
 
         $module_action = 'List';
 
-        $$module_name = $this->registrantService->getAll();
+        $$module_name = $this->registrantService->list();
 
         $data = $$module_name;
 
@@ -150,12 +148,10 @@ class RegistrantsController extends Controller
 
         $module_action = 'Create';
 
-        $options = $this->registrantService->prepareOptions();
+        $options = $this->registrantService->create();
        
         $unit = $options['unit'];
         $type = $options['type'];
-
-        Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return view(
             "registrant::backend.$module_name.create",
@@ -185,8 +181,6 @@ class RegistrantsController extends Controller
 
         Flash::success("<i class='fas fa-check'></i> New '".Str::singular($module_title)."' Added")->important();
 
-        Log::info(label_case($module_title.' '.$module_action)." | '".$registrants->name.'(ID:'.$registrants->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
-
         return redirect("admin/$module_name");
     }
 
@@ -211,8 +205,6 @@ class RegistrantsController extends Controller
         $registrants = $this->registrantService->show($id);
 
         $$module_name_singular = $registrants;
-
-        Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return view(
             "registrant::backend.$module_name.show",
@@ -240,12 +232,12 @@ class RegistrantsController extends Controller
 
         $registrants = $this->registrantService->edit($id);
 
+        $options = $this->registrantService->prepareOptions();
+       
+        $unit = $options['unit'];
+        $type = $options['type'];
+
         $$module_name_singular = $registrants;
-
-        $unit = $this->registrantService->prepareOptions("unit");
-        $type = $this->registrantService->prepareOptions("type");
-
-        Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return view(
             "registrant::backend.$module_name.edit",
@@ -280,8 +272,6 @@ class RegistrantsController extends Controller
 
         Flash::success("<i class='fas fa-check'></i> '".Str::singular($module_title)."' Updated Successfully")->important();
 
-        Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
-
         return redirect("admin/$module_name");
     }
 
@@ -307,12 +297,7 @@ class RegistrantsController extends Controller
 
         $$module_name_singular = $registrants;
 
-        Log::debug($registrants);
-        Log::debug($$module_name_singular);
-
         Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Deleted Successfully!')->important();
-
-        Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.', ID:'.$$module_name_singular->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return redirect("admin/$module_name");
     }
@@ -337,8 +322,6 @@ class RegistrantsController extends Controller
         $registrants = $this->registrantService->trashed();
 
         $$module_name = $registrants;
-
-        Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name);
 
         return view(
             "registrant::backend.$module_name.trash",
@@ -369,9 +352,7 @@ class RegistrantsController extends Controller
 
         $$module_name_singular = $registrants;
 
-        Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Restoreded Successfully!')->important();
-
-        Log::info(label_case($module_action)." '$module_name': '".$$module_name_singular->name.', ID:'.$$module_name_singular->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+        Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Restored Successfully!')->important();
 
         return redirect("admin/$module_name");
     }
