@@ -3,5 +3,5 @@
     "Tag": true,
     "Comment": true,
     "Registrant": true,
-    "Basecore": true
+    "Core": true
 }

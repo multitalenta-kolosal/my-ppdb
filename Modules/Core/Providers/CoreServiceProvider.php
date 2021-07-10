@@ -1,21 +1,21 @@
 <?php
 
-namespace Modules\Basecore\Providers;
+namespace Modules\Core\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
-class BasecoreServiceProvider extends ServiceProvider
+class CoreServiceProvider extends ServiceProvider
 {
     /**
      * @var string $moduleName
      */
-    protected $moduleName = 'Basecore';
+    protected $moduleName = 'Core';
 
     /**
      * @var string $moduleNameLower
      */
-    protected $moduleNameLower = 'basecore';
+    protected $moduleNameLower = 'core';
 
     /**
      * Boot the application events.
