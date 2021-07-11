@@ -11,35 +11,35 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Log;
-use Modules\Core\Services\UnitService;
-use Modules\Core\Http\Requests\Backend\UnitsRequest;
+use Modules\Core\Services\PeriodService;
+use Modules\Core\Http\Requests\Backend\PeriodsRequest;
 use Spatie\Activitylog\Models\Activity;
 use Yajra\DataTables\DataTables;
 
-class UnitsController extends Controller
+class PeriodsController extends Controller
 {
     use Authorizable;
 
-    protected $unitService;
+    protected $periodService;
 
-    public function __construct(UnitService $unitService)
+    public function __construct(PeriodService $periodService)
     {
         // Page Title
-        $this->module_title = 'Units';
+        $this->module_title = 'Periods';
 
         // module name
-        $this->module_name = 'units';
+        $this->module_name = 'periods';
 
         // directory path of the module
-        $this->module_path = 'units';
+        $this->module_path = 'periods';
 
         // module icon
-        $this->module_icon = 'fas fa-school';
+        $this->module_icon = 'fas calendar-day';
 
         // module model name, path
-        $this->module_model = "Modules\Core\Entities\Unit";
+        $this->module_model = "Modules\Core\Entities\Period";
 
-        $this->unitService = $unitService;
+        $this->periodService = $periodService;
     }
 
     /**
@@ -77,7 +77,7 @@ class UnitsController extends Controller
 
         $module_action = 'List';
 
-        $$module_name = $this->unitService->list();
+        $$module_name = $this->periodService->list();
 
         $data = $$module_name;
 
@@ -127,7 +127,7 @@ class UnitsController extends Controller
 
         $$module_name = [];
 
-        $$module_name = $this->unitService->getIndexList($request);
+        $$module_name = $this->periodService->getIndexList($request);
 
         return response()->json($$module_name);
     }
@@ -148,14 +148,14 @@ class UnitsController extends Controller
 
         $module_action = 'Create';
 
-        $options = $this->unitService->create();
+        $options = $this->periodService->create();
        
-        $unit = $options['unit'];
+        $period = $options['period'];
         $type = $options['type'];
 
         return view(
             "core::backend.$module_name.create",
-            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','unit','type')
+            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','period','type')
         );
     }
 
@@ -166,7 +166,7 @@ class UnitsController extends Controller
      *
      * @return Response
      */
-    public function store(UnitsRequest $request)
+    public function store(PeriodsRequest $request)
     {
         $module_title = $this->module_title;
         $module_name = $this->module_name;
@@ -177,7 +177,7 @@ class UnitsController extends Controller
 
         $module_action = 'Store';
 
-        $units = $this->unitService->store($request);
+        $periods = $this->periodService->store($request);
 
         Flash::success("<i class='fas fa-check'></i> New '".Str::singular($module_title)."' Added")->important();
 
@@ -202,9 +202,9 @@ class UnitsController extends Controller
 
         $module_action = 'Show';
 
-        $units = $this->unitService->show($id);
+        $periods = $this->periodService->show($id);
 
-        $$module_name_singular = $units;
+        $$module_name_singular = $periods;
 
         return view(
             "core::backend.$module_name.show",
@@ -230,18 +230,18 @@ class UnitsController extends Controller
 
         $module_action = 'Edit';
 
-        $units = $this->unitService->edit($id);
+        $periods = $this->periodService->edit($id);
 
-        $options = $this->unitService->prepareOptions();
+        $options = $this->periodService->prepareOptions();
        
-        $unit = $options['unit'];
+        $period = $options['period'];
         $type = $options['type'];
 
-        $$module_name_singular = $units;
+        $$module_name_singular = $periods;
 
         return view(
             "core::backend.$module_name.edit",
-            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular", 'unit', 'type')
+            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular", 'period', 'type')
         );
     }
 
@@ -253,7 +253,7 @@ class UnitsController extends Controller
      *
      * @return Response
      */
-    public function update(UnitsRequest $request, $id)
+    public function update(PeriodsRequest $request, $id)
     {
         $module_title = $this->module_title;
         $module_name = $this->module_name;
@@ -264,11 +264,11 @@ class UnitsController extends Controller
 
         $module_action = 'Update';
 
-        $units = $this->unitService->update($request,$id);
+        $periods = $this->periodService->update($request,$id);
 
-        $$module_name_singular = $units;
+        $$module_name_singular = $periods;
 
-        // event(new UnitUpdated($$module_name_singular));
+        // event(new PeriodUpdated($$module_name_singular));
 
         Flash::success("<i class='fas fa-check'></i> '".Str::singular($module_title)."' Updated Successfully")->important();
 
@@ -293,9 +293,9 @@ class UnitsController extends Controller
 
         $module_action = 'destroy';
 
-        $units = $this->unitService->destroy($id);
+        $periods = $this->periodService->destroy($id);
 
-        $$module_name_singular = $units;
+        $$module_name_singular = $periods;
 
         Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Deleted Successfully!')->important();
 
@@ -319,9 +319,9 @@ class UnitsController extends Controller
 
         $module_action = 'Trash List';
 
-        $units = $this->unitService->trashed();
+        $periods = $this->periodService->trashed();
 
-        $$module_name = $units;
+        $$module_name = $periods;
 
         return view(
             "core::backend.$module_name.trash",
@@ -348,9 +348,9 @@ class UnitsController extends Controller
 
         $module_action = 'Restore';
 
-        $units = $this->unitService->restore($id);
+        $periods = $this->periodService->restore($id);
 
-        $$module_name_singular = $units;
+        $$module_name_singular = $periods;
 
         Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Restored Successfully!')->important();
 

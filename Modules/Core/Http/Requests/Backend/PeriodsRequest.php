@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Registrant\Http\Requests\Backend;
+namespace Modules\Core\Http\Requests\Backend;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegistrantsRequest extends FormRequest
+class PeriodsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,7 @@ class RegistrantsRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'              => 'required|max:191',
-            'phone'             => 'required|numeric',
-            'type'              => 'required',
-            'unit'              => 'required',
+            'period_name'              => 'required|max:191',
         ];
     }
 }
