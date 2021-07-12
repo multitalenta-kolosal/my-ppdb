@@ -45,64 +45,11 @@
 
         <div class="row mt-4">
             <div class="col">
-                <table id="datatable" class="table table-bordered table-hover table-responsive-sm">
-                    <thead>
-                        <tr>
-                            <th class="text-right">
-                                Action
-                            </th>
-                            <th>
-                                Name
-                            </th>
-                            <th>
-                                Phone
-                            </th>
-                            <th>
-                                Email
-                            </th>
-                            <th>
-                                Requirements
-                            </th>
-                            <th>
-                                Test Site
-                            </th>
-                            <th>
-                                Date
-                            </th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @foreach($$module_name as $module_name_singular)
-                        <tr>
-                            <td class="text-right">
-                                <a href='{!!route("backend.$module_name.edit", $module_name_singular)!!}' class='btn btn-sm btn-primary mt-1' data-toggle="tooltip" title="Edit {{ ucwords(Str::singular($module_name)) }}"><i class="fas fa-wrench"></i></a>
-                                <a href='{!!route("backend.$module_name.show", $module_name_singular)!!}' class='btn btn-sm btn-success mt-1' data-toggle="tooltip" title="Show {{ ucwords(Str::singular($module_name)) }}"><i class="fas fa-tv"></i></a>
-                            </td>
-                            <td>
-                                {{ $module_name_singular->id }}
-                            </td>
-                            <td>
-                                <strong>{{ $module_name_singular->name }}</strong>
-                                <br>
-                                <small class="text-muted">Updated At: {{ $module_name_singular->updated_at->diffForHumans() }}</small>
-                            </td>
-                            <td>
-                                {{ $module_name_singular->phone }}
-                            </td>
-                            <td>
-                                {{ $module_name_singular->unit }}
-                            </td>
-                            <td>
-                                {{ $module_name_singular->created_at }}
-                            </td>
-                            <td>
-                                <img src="{{ asset($module_name_singular->featured_image) }}" class="img-fluid img-thumbnail" style="max-width:200px;" alt="{{ $module_name_singular->name }}">
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table">
+                        {{ $dataTable->table() }}
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -110,15 +57,26 @@
         <div class="row">
             <div class="col-7">
                 <div class="float-left">
-                    Total {{ $$module_name->total() }} {{ ucwords($module_name) }}
+
                 </div>
             </div>
             <div class="col-5">
                 <div class="float-right">
-                    {!! $$module_name->render() !!}
+
                 </div>
             </div>
         </div>
     </div>
 </div>
 @stop
+
+@push ('after-styles')
+<!-- DataTables Core and Extensions -->
+<link rel="stylesheet" href="{{ asset('vendor/datatable/datatables.min.css') }}">
+
+@endpush
+
+@push ('after-scripts')
+<!-- DataTables Core and Extensions -->
+{!! $dataTable->scripts()  !!}
+@endpush

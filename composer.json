@@ -9,6 +9,7 @@
         "php": "^7.3|^8.0",
         "alexusmai/laravel-file-manager": "^2.5",
         "arcanedev/log-viewer": "^8.0",
+        "barryvdh/laravel-snappy": "^0.4.8",
         "czim/laravel-repository": "^2.1",
         "doctrine/dbal": "^3.1",
         "fideloper/proxy": "^4.4",
@@ -30,7 +31,8 @@
         "spatie/laravel-html": "^2.28",
         "spatie/laravel-medialibrary": "^8.10",
         "spatie/laravel-permission": "^3.17",
-        "yajra/laravel-datatables": "^1.5"
+        "yajra/laravel-datatables": "^1.5",
+        "yajra/laravel-datatables-buttons": "^4.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",

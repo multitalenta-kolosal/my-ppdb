@@ -43,30 +43,11 @@
 
         <div class="row mt-4">
             <div class="col">
-                <table id="datatable" class="table table-bordered table-hover table-responsive-sm">
-                    <thead>
-                        <tr>
-                            <th class="text-right">
-                                Action
-                            </th>
-                            <th>
-                                ID
-                            </th>
-                            <th>
-                                Name
-                            </th>
-                            <th>
-                                Phone
-                            </th>
-                            <th>
-                                Unit
-                            </th>
-                            <th>
-                                Date
-                            </th>
-                        </tr>
-                    </thead>
-                </table>
+                <div class="table-responsive">
+                    <table class="table">
+                        {{ $dataTable->table() }}
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -96,25 +77,5 @@
 
 @push ('after-scripts')
 <!-- DataTables Core and Extensions -->
-<script type="text/javascript" src="{{ asset('vendor/datatable/datatables.min.js') }}"></script>
-
-<script type="text/javascript">
-
-    $('#datatable').DataTable({
-        processing: true,
-        serverSide: true,
-        autoWidth: true,
-        responsive: true,
-        ajax: '{{ route("backend.$module_name.index_data") }}',
-        columns: [
-            {data: 'action', name: 'action', orderable: false, searchable: false},
-            {data: 'registrant_id', name: 'ID'},
-            {data: 'name', name: 'name'},
-            {data: 'phone', name: 'phone'},
-            {data: 'unit', name: 'unit'},
-            {data: 'created_at', name: 'created_at'},
-        ]
-    });
-
-</script>
+{!! $dataTable->scripts()  !!}
 @endpush

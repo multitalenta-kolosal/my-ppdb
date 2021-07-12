@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Log;
 use Modules\Registrant\Services\RegistrantService;
-use Modules\Registrant\Entities\Registrant;
+use Modules\Registrant\DataTables\RegistrantsDataTable;
 use Modules\Registrant\Http\Requests\Backend\RegistrantsRequest;
 use Spatie\Activitylog\Models\Activity;
 use Yajra\DataTables\DataTables;
@@ -48,7 +48,7 @@ class RegistrantsController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(RegistrantsDataTable $dataTable)
     {
         $module_title = $this->module_title;
         $module_name = $this->module_name;
@@ -59,67 +59,9 @@ class RegistrantsController extends Controller
 
         $module_action = 'List';
 
-        $$module_name = $module_model::paginate();
-
-        return view(
-            "registrant::backend.$module_path.index_datatable",
-            compact('module_title', 'module_name', "$module_name", 'module_icon', 'module_name_singular', 'module_action')
+        return $dataTable->render("registrant::backend.$module_path.index",
+            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action')
         );
-    }
-
-    public function index_data()
-    {
-        $module_title = $this->module_title;
-        $module_name = $this->module_name;
-        $module_path = $this->module_path;
-        $module_icon = $this->module_icon;
-        $module_model = $this->module_model;
-        $module_name_singular = Str::singular($module_name);
-
-        $module_action = 'List';
-
-        $$module_name = $this->registrantService->list();
-
-        $data = $$module_name;
-
-        return Datatables::of($$module_name)
-                        ->parameters([
-                            'dom' => 'Bfrtip',
-                            'buttons' => ['csv', 'excel', 'print'],
-                        ])
-                        ->addColumn('action', function ($data) {
-                            $module_name = $this->module_name;
-
-                            return view('backend.includes.action_column', compact('module_name', 'data'));
-                        })
-                        ->editColumn('unit', function ($model) {
-                            if($model->unit)
-                            {
-                                return $model->unit->name;
-                            }else{
-                                return 'Unit Not Available';
-                            }
-                        })
-                        ->editColumn('updated_at', function ($data) {
-                            $module_name = $this->module_name;
-
-                            $diff = Carbon::now()->diffInHours($data->updated_at);
-
-                            if ($diff < 25) {
-                                return $data->updated_at->diffForHumans();
-                            } else {
-                                return $data->updated_at->isoFormat('LLLL');
-                            }
-                        })
-                        ->editColumn('created_at', function ($data) {
-                            $module_name = $this->module_name;
-
-                            $formated_date = Carbon::parse($data->created_at)->format('d-m-Y, H:i:s');
-
-                            return $formated_date;
-                        })
-                        ->rawColumns(['name', 'status', 'action'])
-                        ->make(true);
     }
 
     /**

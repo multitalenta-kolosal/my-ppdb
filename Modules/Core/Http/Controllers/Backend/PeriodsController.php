@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Log;
 use Modules\Core\Services\PeriodService;
+use Modules\Core\DataTables\PeriodsDataTable;
 use Modules\Core\Http\Requests\Backend\PeriodsRequest;
 use Spatie\Activitylog\Models\Activity;
 use Yajra\DataTables\DataTables;
@@ -47,7 +48,7 @@ class PeriodsController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(PeriodsDataTable $dataTable)
     {
         $module_title = $this->module_title;
         $module_name = $this->module_name;
@@ -58,55 +59,9 @@ class PeriodsController extends Controller
 
         $module_action = 'List';
 
-        $$module_name = $module_model::paginate();
-
-        return view(
-            "core::backend.$module_path.index_datatable",
-            compact('module_title', 'module_name', "$module_name", 'module_icon', 'module_name_singular', 'module_action')
+        return $dataTable->render("core::backend.$module_path.index",
+            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action')
         );
-    }
-
-    public function index_data()
-    {
-        $module_title = $this->module_title;
-        $module_name = $this->module_name;
-        $module_path = $this->module_path;
-        $module_icon = $this->module_icon;
-        $module_model = $this->module_model;
-        $module_name_singular = Str::singular($module_name);
-
-        $module_action = 'List';
-
-        $$module_name = $this->periodService->list();
-
-        $data = $$module_name;
-
-        return Datatables::of($$module_name)
-                        ->addColumn('action', function ($data) {
-                            $module_name = $this->module_name;
-
-                            return view('backend.includes.action_column', compact('module_name', 'data'));
-                        })
-                        ->editColumn('updated_at', function ($data) {
-                            $module_name = $this->module_name;
-
-                            $diff = Carbon::now()->diffInHours($data->updated_at);
-
-                            if ($diff < 25) {
-                                return $data->updated_at->diffForHumans();
-                            } else {
-                                return $data->updated_at->isoFormat('LLLL');
-                            }
-                        })
-                        ->editColumn('created_at', function ($data) {
-                            $module_name = $this->module_name;
-
-                            $formated_date = Carbon::parse($data->created_at)->format('d-m-Y, H:i:s');
-
-                            return $formated_date;
-                        })
-                        ->rawColumns(['name', 'status', 'action'])
-                        ->make(true);
     }
 
     /**
