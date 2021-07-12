@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Log;
 use Modules\Registrant\Services\RegistrantService;
+use Modules\Registrant\Entities\Registrant;
 use Modules\Registrant\Http\Requests\Backend\RegistrantsRequest;
 use Spatie\Activitylog\Models\Activity;
 use Yajra\DataTables\DataTables;
@@ -82,10 +83,22 @@ class RegistrantsController extends Controller
         $data = $$module_name;
 
         return Datatables::of($$module_name)
+                        ->parameters([
+                            'dom' => 'Bfrtip',
+                            'buttons' => ['csv', 'excel', 'print'],
+                        ])
                         ->addColumn('action', function ($data) {
                             $module_name = $this->module_name;
 
                             return view('backend.includes.action_column', compact('module_name', 'data'));
+                        })
+                        ->editColumn('unit', function ($model) {
+                            if($model->unit)
+                            {
+                                return $model->unit->name;
+                            }else{
+                                return 'Unit Not Available';
+                            }
                         })
                         ->editColumn('updated_at', function ($data) {
                             $module_name = $this->module_name;

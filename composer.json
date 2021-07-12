@@ -10,6 +10,7 @@
         "alexusmai/laravel-file-manager": "^2.5",
         "arcanedev/log-viewer": "^8.0",
         "czim/laravel-repository": "^2.1",
+        "doctrine/dbal": "^3.1",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",

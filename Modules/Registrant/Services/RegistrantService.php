@@ -3,6 +3,8 @@
 namespace Modules\Registrant\Services;
 
 use Modules\Registrant\Repositories\RegistrantRepository;
+use Modules\Core\Repositories\UnitRepository;
+use Modules\Core\Repositories\PeriodRepository;
 use Exception;
 use Carbon\Carbon;
 use Auth;
@@ -18,9 +20,21 @@ class RegistrantService{
 
     protected $registrantRepository;
 
-    public function __construct(RegistrantRepository $registrantRepository) {
+    protected $unitRepository;
+
+    protected $periodRepository;
+
+    public function __construct(
+        RegistrantRepository $registrantRepository,
+        UnitRepository $unitRepository,
+        PeriodRepository $periodRepository
+    ) {
 
         $this->registrantRepository = $registrantRepository;
+
+        $this->unitRepository = $unitRepository;
+
+        $this->periodRepository = $periodRepository;
 
         $this->module_title = Str::plural(class_basename($this->registrantRepository->model()));
 
@@ -30,7 +44,9 @@ class RegistrantService{
 
         Log::info(label_case($this->module_title.' '.__FUNCTION__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        $registrant =$this->registrantRepository->all();
+        $registrant =$this->registrantRepository
+                    ->all()
+                    ->sortByDesc('created_at');
 
         return $registrant;
     }
@@ -176,13 +192,11 @@ class RegistrantService{
 
     public function prepareOptions(){
         
-        $unit = [
-            'KB/TK',
-            'SD',
-            'SMP',
-            'SMA',
-            'SMK',
-        ];
+        $unit = $this->unitRepository->pluck('name','id');
+
+        if(!$unit){
+            $unit = ['Silakan membuat unit'];
+        }
 
         $type = [
             'Prestasi',

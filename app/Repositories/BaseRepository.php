@@ -198,6 +198,17 @@ abstract class BaseRepository implements BaseContract
        return $lists->all();
    }
 
+
+    /**
+     * @param array $relations
+     * @return $this
+     */
+    public function with(array $relations)
+    {
+        $this->model = $this->model->with($relations);
+        return $this;
+    }
+
    /**
     * @param  string      $value
     * @param  string|null $key

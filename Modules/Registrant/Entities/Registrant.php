@@ -24,6 +24,16 @@ class Registrant extends BaseModel
     protected static $logAttributes = ['name', 'registrant_id'];
 
     
+    public function unit()
+    {
+        return $this->belongsTo('Modules\Core\Entities\Unit','unit_id');
+    }
+
+    public function period()
+    {
+        return $this->belongsTo('Modules\Core\Entities\Period','period_id');
+    }
+
     /**
      * Create a new factory instance for the model.
      *

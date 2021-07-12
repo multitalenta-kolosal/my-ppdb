@@ -18,6 +18,11 @@ class Period extends BaseModel
     protected static $logAttributes = ['period_name', 'id'];
     protected $fillable = [];
     
+    public function registrants()
+    {
+        return $this->hasMany('Modules\Registrant\Entities\Registrant');
+    }
+    
     protected static function newFactory()
     {
         return \Modules\Core\Database\factories\PeriodFactory::new();
