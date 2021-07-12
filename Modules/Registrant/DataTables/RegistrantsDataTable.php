@@ -34,7 +34,7 @@ class RegistrantsDataTable extends DataTable
 
                 return view('backend.includes.action_column', compact('module_name', 'data'));
             })
-            ->editColumn('unit', function ($model) {
+            ->editColumn('unit_id', function ($model) {
                 if($model->unit)
                 {
                     return $model->unit->name;
@@ -119,7 +119,7 @@ class RegistrantsDataTable extends DataTable
             Column::make('registrant_id'),
             Column::make('name'),
             Column::make('phone'),
-            Column::make('unit_id'),
+            Column::make('unit')->data('unit_id')->name('unit_id'),
             Column::make('created_at'),
         ];
     }
