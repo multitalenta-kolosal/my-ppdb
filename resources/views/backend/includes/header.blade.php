@@ -47,15 +47,19 @@
                     <strong>@lang("You have :count notifications", ['count'=>$notifications_count])</strong>
                 </div>
                 @if($notifications_latest)
-                @foreach($notifications_latest as $notification)
-                @php
-                $notification_text = isset($notification->data['title'])? $notification->data['title'] : $notification->data['module'];
-                @endphp
-                <a class="dropdown-item" href="{{route("backend.notifications.show", $notification)}}">
-                    <i class="c-icon {{isset($notification->data['icon'])? $notification->data['icon'] : 'cil-bullhorn'}} "></i>&nbsp;{{$notification_text}}
-                </a>
-                @endforeach
+                    @foreach($notifications_latest as $notification)
+                        @php
+                        $notification_text = isset($notification->data['title'])? $notification->data['title'] : $notification->data['module'];
+                        @endphp
+                        <a class="dropdown-item" href="{{route("backend.notifications.show", $notification)}}">
+                            <i class="c-icon {{isset($notification->data['icon'])? $notification->data['icon'] : 'cil-bullhorn'}} "></i>&nbsp;{{$notification_text}}
+                        </a>
+                    @endforeach
                 @endif
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{route('backend.notifications.index')}}">
+                    See All Notification
+                </a>
             </div>
         </li>
 

@@ -40,18 +40,18 @@ class GenerateMenus
             ]);
 
             // Notifications
-            $menu->add('<i class="c-sidebar-nav-icon fas fa-bell"></i> Notifications', [
-                'route' => 'backend.notifications.index',
-                'class' => 'c-sidebar-nav-item',
-            ])
-            ->data([
-                'order'         => 87,
-                'activematches' => 'admin/notifications*',
-                'permission'    => [],
-            ])
-            ->link->attr([
-                'class' => 'c-sidebar-nav-link',
-            ]);
+            // $menu->add('<i class="c-sidebar-nav-icon fas fa-bell"></i> Notifications', [
+            //     'route' => 'backend.notifications.index',
+            //     'class' => 'c-sidebar-nav-item',
+            // ])
+            // ->data([
+            //     'order'         => 87,
+            //     'activematches' => 'admin/notifications*',
+            //     'permission'    => [],
+            // ])
+            // ->link->attr([
+            //     'class' => 'c-sidebar-nav-link',
+            // ]);
 
             // Separator: Access Management
             $menu->add('Management', [
