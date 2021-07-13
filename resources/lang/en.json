@@ -91,5 +91,9 @@
 
     "Draft": "Draft",
     "Published": "Published",
-    "Unpublished": "Unpublished"
+    "Unpublished": "Unpublished",
+
+    "delete warning": "You can still restore this data from trash",
+    "delete confirm": "Yes, Delete it!",
+    "delete error": "Delete Failed! "
 }

@@ -22,6 +22,7 @@
         "laravel/socialite": "^5.0",
         "laravel/tinker": "^2.4",
         "lavary/laravel-menu": "^1.7",
+        "livewire-ui/modal": "^1.0",
         "mews/purifier": "^3.3",
         "nwidart/laravel-modules": "^8.0",
         "predis/predis": "^1.1",

@@ -222,8 +222,6 @@ $(function() {
 
 <script type="text/javascript">
 
-CKEDITOR.replace('content', {filebrowserImageBrowseUrl: '/file-manager/ckeditor', language:'{{App::getLocale()}}', defaultLanguage: 'en'});
-
 // set file link
 function fmSetLink($url) {
   document.getElementById('featured_image').value = $url;
