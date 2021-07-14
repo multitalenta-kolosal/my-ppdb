@@ -1,4 +1,17 @@
 <div class="row">
+    <div class="col-4">
+        <div class="form-group float-left">
+            <?php
+            $field_name = 'active';
+            $field_lable = __("core::$module_name.$field_name");
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->checkbox($field_name, 0)->class('form-control float-left')->attributes(["$required"]) }}
+        </div>
+    </div>
+</div>
+<div class="row">
     <div class="col">
         <div class="form-group">
             <?php
@@ -28,7 +41,7 @@
     <div class="col-6">
         <div class="form-group">
             <?php
-            $field_name = 'year_start';
+            $field_name = 'year_end';
             $field_lable = __("core::$module_name.$field_name");
             $field_placeholder = \Carbon\Carbon::now()->format('Y');
             $required = "required";
@@ -88,6 +101,21 @@
                     <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        <div class="form-group">
+            <?php
+            $field_name = 'entrance_fee';
+            $field_lable = __("core::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required", 'aria-label'=>'Image']) }}
         </div>
     </div>
 </div>

@@ -8,5 +8,7 @@ return [
     'quota'                            => 'Kuota',
     'opening_date'                     => 'Tanggal Buka',
     'internal_date'                    => 'Batas Pendaftar Internal',
-    'closing_date'                     => 'Tanggal Penutupan'
+    'closing_date'                     => 'Tanggal Penutupan',
+    'active'                           => 'Periode Aktif?',
+    'entrance_fee'                     => 'Biaya Pendaftaran'
 ];
