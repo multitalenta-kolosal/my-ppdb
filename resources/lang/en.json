@@ -95,5 +95,6 @@
 
     "delete warning": "You can still restore this data from trash",
     "delete confirm": "Yes, Delete it!",
-    "delete error": "Delete Failed! "
+    "delete error": "Delete Failed! ",
+    "select unit first": "Please Select Unit First"
 }

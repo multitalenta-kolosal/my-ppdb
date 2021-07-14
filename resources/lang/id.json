@@ -95,5 +95,7 @@
 
     "delete warning": "Anda masih dapat mengembalikan data ini dari tempat sampah",
     "delete confirm": "Ya, Hapus!",
-    "delete error": "Gagal Mengaphus!"
+    "delete error": "Gagal Mengaphus!",    
+    "select unit first": "Silakan memilih unit terlebih dahulu"
+
 }
