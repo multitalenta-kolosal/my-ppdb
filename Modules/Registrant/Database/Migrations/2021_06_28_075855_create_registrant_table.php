@@ -15,7 +15,7 @@ class CreateRegistrantTable extends Migration
     {
         Schema::create('registrants', function (Blueprint $table) {
             $table->bigIncrements('id')->unsigned();
-            $table->string('registrant_id')->nullable()->default(NULL);
+            $table->string('registrant_id')->unique()->nullable()->default(NULL);
             $table->string('va_number')->nullable()->default(NULL);
             $table->string('name')->nullable()->default(NULL);
             $table->string('type')->nullable()->default(NULL);
