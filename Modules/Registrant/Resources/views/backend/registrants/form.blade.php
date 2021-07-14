@@ -35,7 +35,7 @@
             $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->checkbox($field_name, 0)->class('form-control float-left')->attributes(["$required"]) }}
+            {{ html()->checkbox($field_name)->class('form-control float-left')->attributes(["$required"]) }}
         </div>
     </div>
 </div>
@@ -65,9 +65,11 @@
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             <div class="input-group mb-3">
                 {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required", 'aria-label'=>'Image', 'aria-describedby'=>'button-generate-id']) }}
-                <div class="input-group-append">
-                    <button class="btn btn-info" type="button" id="button-generate-id"><i class="fas fa-sync"></i> @lang('Generate')</button>
-                </div>
+                @if($module_action != 'Edit')
+                    <div class="input-group-append">
+                        <button class="btn btn-info" type="button" id="button-generate-id"><i class="fas fa-sync"></i> @lang('Generate')</button>
+                    </div>
+                @endif
             </div>            
         </div>
     </div>
@@ -229,14 +231,27 @@ function fmSetLink($url) {
 }
 
 $(document).ready(function(){
-    $("#button-generate-id").click(function(){
+    $('#button-generate-va').attr('disabled',);
+
+    $("#button-generate-id").on("click", function (event) {
+        var unit_id = $("#{{$field_data_id}} option:selected").val().toString();
+        var generateUrl = '{!! route("backend.registrants.generateId") !!}';
+        var va_prefix = "{{setting('va_prefix')}}";
         $.ajax({
-        method: "GET",
-        url: '{{route("backend.registrants.generateId")}}',
-      })
-        .done(function( data ) {
-        $('#registrant_id').val(data.id);
-      });
+            method: "POST",
+            url: generateUrl,
+            data:{
+                "unit_id" : unit_id,
+                "_token": "{{ csrf_token() }}"
+            },
+            success: function (data) {
+                $('#registrant_id').val(data.id);
+                $('#va_number').val(va_prefix+data.id);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                Swal.fire("@lang('error')", "@lang('select unit first')", "error");
+            }
+        });
     });
 });
 </script>

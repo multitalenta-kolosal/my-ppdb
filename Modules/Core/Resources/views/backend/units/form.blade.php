@@ -13,6 +13,20 @@
     </div>
 </div>
 <div class="row">
+    <div class="col-3">
+        <div class="form-group">
+            <?php
+            $field_name = 'unit_code';
+            $field_lable = __("core::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required", 'aria-label'=>'Image']) }}
+        </div>
+    </div>
+</div>
+<div class="row">
     <div class="col-6">
         <div class="form-group">
             <?php
@@ -77,7 +91,7 @@
             $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->checkbox($field_name, 0)->class('form-control float-left')->attributes(["$required"]) }}
+            {{ html()->checkbox($field_name)->class('form-control float-left')->attributes(["$required"]) }}
         </div>
     </div>
 </div>
