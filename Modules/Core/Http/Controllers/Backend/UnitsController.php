@@ -105,14 +105,9 @@ class UnitsController extends Controller
 
         $module_action = 'Create';
 
-        $options = $this->unitService->create();
-       
-        $unit = $options['unit'];
-        $type = $options['type'];
-
         return view(
             "core::backend.$module_name.create",
-            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','unit','type')
+            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular')
         );
     }
 
@@ -189,16 +184,11 @@ class UnitsController extends Controller
 
         $units = $this->unitService->edit($id);
 
-        $options = $this->unitService->prepareOptions();
-       
-        $unit = $options['unit'];
-        $type = $options['type'];
-
         $$module_name_singular = $units;
 
         return view(
             "core::backend.$module_name.edit",
-            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular", 'unit', 'type')
+            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular")
         );
     }
 

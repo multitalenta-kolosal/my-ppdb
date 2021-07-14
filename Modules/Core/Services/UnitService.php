@@ -172,29 +172,6 @@ class UnitService{
         return $units;
     }
 
-    public function prepareOptions(){
-        
-        $unit = [
-            'KB/TK',
-            'SD',
-            'SMP',
-            'SMA',
-            'SMK',
-        ];
-
-        $type = [
-            'Prestasi',
-            'Reguler',
-        ];
-
-        $options = array(
-            'unit' => $unit,
-            'type' => $type,
-        );
-
-        return $options;
-    }
-
     public function generateId(){
         $year = Carbon::now()->format('y');
 

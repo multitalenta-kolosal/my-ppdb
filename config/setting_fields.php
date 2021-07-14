@@ -36,6 +36,24 @@ return [
             ],
         ],
     ],
+    'registrant' => [
+        'title' => 'Registrant',
+        'desc'  => 'Registrant settings for app',
+        'icon'  => 'fas fa-feather-alt',
+
+        'elements' => [
+            [
+                'type'  => 'text', // input fields type
+                'data'  => 'string', // data type, string, int, boolean
+                'name'  => 'va_prefix', // unique name for field
+                'label' => 'Virtual Account Prefix', // you know what label it is
+                'rules' => 'required|nullable|max:191', // validation rule of laravel
+                'class' => '', // any class for input
+                'value' => '8995', // default value if you want
+            ],
+        ],
+
+    ],
     'email' => [
         'title' => 'Email',
         'desc'  => 'Email settings for app',

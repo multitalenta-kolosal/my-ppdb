@@ -7,5 +7,9 @@ return [
     'contact_email'             => 'Contact Email',
     'requirements'              => 'Requirements',
     'entrance_test_url'         => 'Entrance test URL',
+    'have_major'                => 'Have Majors?',
+    'dpp'                       => 'DPP',
+    'dp'                        => 'DP',
+    'spp'                       => 'SPP',
 
 ];
