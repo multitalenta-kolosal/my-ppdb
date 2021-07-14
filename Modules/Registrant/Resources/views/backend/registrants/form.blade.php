@@ -4,13 +4,14 @@
         <div class="form-group">
             <?php
             $field_name = 'unit';
+            $field_data_id = 'unit_id';
             $field_lable = __("registrant::$module_name.$field_name");
             $field_placeholder = __("Select an option");
             $required = "required";
             $select_options = $unit;
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
+            {{ html()->select($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
         </div>
     </div>
     <div class="col-4">
