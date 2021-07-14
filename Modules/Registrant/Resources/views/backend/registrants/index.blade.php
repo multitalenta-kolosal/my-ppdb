@@ -71,7 +71,6 @@
 @stop
 
 @push ('after-styles')
-<!-- DataTables Core and Extensions -->
 <link rel="stylesheet" href="{{ asset('vendor/datatable/datatables.min.css') }}">
 
 @endpush
