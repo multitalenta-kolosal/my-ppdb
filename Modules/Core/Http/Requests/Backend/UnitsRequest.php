@@ -28,7 +28,6 @@ class UnitsRequest extends FormRequest
             'contact_number'    => 'numeric',
             'contact_email'     => 'email',
             'requirements'      => 'max:255',
-            'entrance_test_url' => 'url',
         ];
     }
 }
