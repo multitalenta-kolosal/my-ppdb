@@ -34,6 +34,11 @@ class Registrant extends BaseModel
         return $this->belongsTo('Modules\Core\Entities\Period','period_id');
     }
 
+    public function registrant_stage()
+    {
+        return $this->hasOne('Modules\Registrant\Entities\RegistrantStage', 'registrant_id', 'registrant_id');
+    }
+
     /**
      * Create a new factory instance for the model.
      *

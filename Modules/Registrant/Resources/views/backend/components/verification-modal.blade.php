@@ -9,7 +9,7 @@
             </button>
         </div>
         <div class="modal-body">
-            {{ $data->name }}
+            {{ $data->registrant_stage->va_pass ?? 'NO DATA YET' }}
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -137,7 +137,7 @@ class RegistrantsController extends Controller
         $$module_name_singular = $registrants;
 
         if($$module_name_singular){
-            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Deleted Successfully!')->important();
+            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Added Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
         }
@@ -230,7 +230,7 @@ class RegistrantsController extends Controller
         $$module_name_singular = $registrants;
 
         if($$module_name_singular){
-            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Deleted Successfully!')->important();
+            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Updated Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
         }

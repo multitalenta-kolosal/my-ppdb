@@ -2,9 +2,12 @@
 
 namespace Modules\Registrant\Services;
 
+use Modules\Registrant\Services\RegistrantStageService;
+
 use Modules\Registrant\Repositories\RegistrantRepository;
 use Modules\Core\Repositories\UnitRepository;
 use Modules\Core\Repositories\PeriodRepository;
+
 use Exception;
 use Carbon\Carbon;
 use Auth;
@@ -18,22 +21,37 @@ use Modules\Registrant\Events\Backend\RegistrantCreated;
 
 class RegistrantService{
 
+    protected $registrantStageService;
+
     protected $registrantRepository;
-
     protected $unitRepository;
-
     protected $periodRepository;
 
     public function __construct(
+        /**
+         * Services Parameter
+         * 
+         */
+        RegistrantStageService $registrantStageService,
+        /**
+         * Repositories Parameter
+         * 
+         */
         RegistrantRepository $registrantRepository,
         UnitRepository $unitRepository,
         PeriodRepository $periodRepository
     ) {
-
+        /**
+         * Services Declaration
+         * 
+         */
+        $this->registrantStageService = $registrantStageService;
+        /**
+         * Repositories Declaration
+         * 
+         */
         $this->registrantRepository = $registrantRepository;
-
         $this->unitRepository = $unitRepository;
-
         $this->periodRepository = $periodRepository;
 
         $this->module_title = Str::plural(class_basename($this->registrantRepository->model()));
@@ -102,6 +120,7 @@ class RegistrantService{
 
         try {
             $registrant = $this->registrantRepository->create($registrant->toArray());
+            $registrant_stage = $this->registrantStageService->store($request);
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
