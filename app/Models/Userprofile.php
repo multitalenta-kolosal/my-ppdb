@@ -4,6 +4,8 @@ namespace App\Models;
 
 class Userprofile extends BaseModel
 {
+    use SoftDeletes;
+    
     protected $dates = [
         'date_of_birth',
         'last_login',

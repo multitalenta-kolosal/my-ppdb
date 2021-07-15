@@ -13,7 +13,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class BaseModel extends Model implements HasMedia
 {
-    use SoftDeletes;
     use HasHashedMediaTrait;
 
     protected $guarded = [
