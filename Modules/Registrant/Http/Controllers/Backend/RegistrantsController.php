@@ -330,7 +330,7 @@ class RegistrantsController extends Controller
 
         $response = [];
 
-        $response = $this->registrantService->generateID();
+        $response = $this->registrantService->generateID($request);
 
         return response()->json($response);
     }

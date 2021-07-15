@@ -14,7 +14,7 @@ class AddVerificationBaseFieldToPeriods extends Migration
     public function up()
     {
         Schema::table('periods', function (Blueprint $table) {
-            $table->boolean('active')->nullable()->default(0);
+            $table->boolean('active_state')->nullable()->default(0);
             $table->double('entrance_fee',191,2)->nullable();
         });
     }
@@ -27,7 +27,7 @@ class AddVerificationBaseFieldToPeriods extends Migration
     public function down()
     {
         Schema::table('periods', function (Blueprint $table) {
-            $table->dropcolumn('active');
+            $table->dropcolumn('active_state');
             $table->dropcolumn('entrance_fee');
         });
     }

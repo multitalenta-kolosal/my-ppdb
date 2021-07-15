@@ -27,7 +27,7 @@ class RegistrantsRequest extends FormRequest
             'name'              => 'required|max:191',
             'phone'             => 'required|numeric',
             'type'              => 'required',
-            'unit'              => 'required',
+            'unit_id'           => 'required',
         ];
     }
 }

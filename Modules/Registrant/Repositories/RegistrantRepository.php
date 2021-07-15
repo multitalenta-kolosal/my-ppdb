@@ -13,4 +13,9 @@ class RegistrantRepository extends BaseRepository implements RegistrantRepositor
     {
         return Registrant::class;
     }
+
+    public function getBiggestUnitIncrement($unit_id)
+    {
+        return Registrant::where('unit_id', $unit_id)->withTrashed()->max('unit_increment');
+    }
 }

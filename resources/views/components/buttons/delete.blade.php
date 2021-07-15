@@ -2,7 +2,7 @@
 
 @if($route)
 <button type="button" 
-    class="btn btn-danger delete-confirm">
+    class="btn btn-danger delete-confirm {{($small=='true')? 'btn-sm' : ''}}">
     <i class="fas fa-trash-alt"></i>
 </button>
 @else

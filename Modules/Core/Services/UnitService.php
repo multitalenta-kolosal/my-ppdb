@@ -110,9 +110,15 @@ class UnitService{
 
         try{
 
-            $units = $this->unitRepository->findOrFail($id);
+            $unit_check = $this->unitRepository->findOrFail($id);
+            
+            $unit = $this->unitRepository->make($data);
 
-            $updated = $this->unitRepository->update($data,$id);
+            if(!$unit->has_major){
+                $unit->has_major = false;
+            }
+
+            $updated = $this->unitRepository->update($unit->toArray(),$id);
 
         }catch (Exception $e){
             DB::rollBack();
@@ -121,7 +127,7 @@ class UnitService{
 
         DB::commit();
 
-        Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$units->name.'(ID:'.$units->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+        Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$unit_check->name.'(ID:'.$unit_check->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return $this->unitRepository->find($id);
 

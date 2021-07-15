@@ -8,6 +8,6 @@ return [
     'opening_date'                     => 'Opeing Date',
     'internal_date'                    => 'Internal Registrant Due Date',
     'closing_date'                     => 'Closing Date',
-    'active'                           => 'Active Period?',
+    'active_state'                           => 'Active Period?',
     'entrance_fee'                     => 'Registration Fee'
 ];

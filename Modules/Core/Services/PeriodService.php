@@ -109,10 +109,15 @@ class PeriodService{
         DB::beginTransaction();
 
         try{
+            $period_check = $this->periodRepository->findOrFail($id);
 
-            $periods = $this->periodRepository->findOrFail($id);
+            $period = $this->periodRepository->make($data);
 
-            $updated = $this->periodRepository->update($data,$id);
+            if(!$period->active_state){
+                $period->active_state = false;
+            }
+
+            $updated = $this->periodRepository->update($period->toArray(),$id);
 
         }catch (Exception $e){
             DB::rollBack();
@@ -121,7 +126,7 @@ class PeriodService{
 
         DB::commit();
 
-        Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$periods->name.'(ID:'.$periods->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+        Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$period_check->name.'(ID:'.$period_check->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return $this->periodRepository->find($id);
 
@@ -172,26 +177,4 @@ class PeriodService{
         return $periods;
     }
 
-    public function prepareOptions(){
-        
-        $period = [
-            'KB/TK',
-            'SD',
-            'SMP',
-            'SMA',
-            'SMK',
-        ];
-
-        $type = [
-            'Prestasi',
-            'Reguler',
-        ];
-
-        $options = array(
-            'period' => $period,
-            'type' => $type,
-        );
-
-        return $options;
-    }
 }

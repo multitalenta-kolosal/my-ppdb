@@ -13,4 +13,13 @@ class PeriodRepository extends BaseRepository implements PeriodRepositoryInterfa
     {
         return Period::class;
     }
+
+    public function findActivePeriodId()
+    {
+        $period = Period::where('active_state',true)->first();
+        if($period)
+            return $period->id;
+        else
+            return null;
+    }
 }

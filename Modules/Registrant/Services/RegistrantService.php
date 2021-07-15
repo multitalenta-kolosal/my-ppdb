@@ -85,11 +85,23 @@ class RegistrantService{
     public function store(Request $request){
 
         $data = $request->all();
+       
+        $registrant = $this->registrantRepository->make($data);
+
+        $unit_id = $registrant->unit_id;
+
+        if(!$registrant->registrant_id)
+        {
+            $registrant->registrant_id = $this->generateId($unit_id);
+        }
+
+        $registrant->unit_increment = $this->generateUnitIncrement($unit_id);
+        $registrant->period_id = $this->periodRepository->findActivePeriodId();
 
         DB::beginTransaction();
 
         try {
-            $registrant = $this->registrantRepository->create($data);
+            $registrant = $this->registrantRepository->create($registrant->toArray());
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
@@ -128,9 +140,15 @@ class RegistrantService{
 
         try{
 
-            $registrants = $this->registrantRepository->findOrFail($id);
+            $registrant_check = $this->registrantRepository->findOrFail($id);
+     
+            $registrant = $this->registrantRepository->make($data);
 
-            $updated = $this->registrantRepository->update($data,$id);
+            if(!$registrant->internal){
+                $registrant->internal = false;
+            }
+
+            $updated = $this->registrantRepository->update($registrant->toArray(),$id);
 
         }catch (Exception $e){
             DB::rollBack();
@@ -139,7 +157,7 @@ class RegistrantService{
 
         DB::commit();
 
-        Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$registrants->name.'(ID:'.$registrants->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+        Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$registrant_check->name.'(ID:'.$registrant_check->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return $this->registrantRepository->find($id);
 
@@ -211,17 +229,43 @@ class RegistrantService{
         return $options;
     }
 
-    public function generateId(){
-        $year = Carbon::now()->format('y');
+    public function generateId(Request $request){
 
+        $unit_id = $request['unit_id'];
+        $unit = $this->unitRepository->findOrFail($unit_id);
+
+        if($unit->unit_code){
+            $unit_code = $unit->unit_code;
+        }else{
+            $unit_code = "--";
+        }
+
+        $year = Carbon::now()->format('y');
         $month = Carbon::now()->format('m');
 
+        $unit_increment_numeric = $this->generateUnitIncrement($unit_id);
+
+        $unit_increment = sprintf('%03d', $unit_increment_numeric);
+
         $response = [
-            'id'   => $year.$month,
+            'id'   => $unit_code.$year.$month.$unit_increment,
             'error' => false,
             'message' => '',
         ];
     
         return $response;
+    }
+
+    public function generateUnitIncrement($unit_id){
+
+        $max_increment = $this->registrantRepository->getBiggestUnitIncrement($unit_id);
+
+        if($max_increment){
+            $increment = $max_increment+1;
+        }else{
+            $increment = 1;
+        }
+
+        return $increment;
     }
 }

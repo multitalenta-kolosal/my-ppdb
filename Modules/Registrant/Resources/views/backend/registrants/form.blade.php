@@ -35,7 +35,11 @@
             $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->checkbox($field_name)->class('form-control float-left')->attributes(["$required"]) }}
+            @if($module_action == 'Edit')
+                {{ html()->checkbox($field_name)->class('form-control float-left')->attributes(["$required"])->checked(old($field_name, $$module_name_singular->$field_name == true)) }}
+            @else
+                {{ html()->checkbox($field_name)->class('form-control float-left')->attributes(["$required"]) }}
+            @endif
         </div>
     </div>
 </div>

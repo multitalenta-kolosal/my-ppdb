@@ -9,6 +9,6 @@ return [
     'opening_date'                     => 'Tanggal Buka',
     'internal_date'                    => 'Batas Pendaftar Internal',
     'closing_date'                     => 'Tanggal Penutupan',
-    'active'                           => 'Periode Aktif?',
+    'active_state'                           => 'Periode Aktif?',
     'entrance_fee'                     => 'Biaya Pendaftaran'
 ];

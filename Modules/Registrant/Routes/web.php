@@ -48,7 +48,7 @@ Route::group(['namespace' => '\Modules\Registrant\Http\Controllers\Backend', 'as
     Route::get("$module_name/index_data", ['as' => "$module_name.index_data", 'uses' => "$controller_name@index_data"]);
     Route::get("$module_name/trashed", ['as' => "$module_name.trashed", 'uses' => "$controller_name@trashed"]);
     Route::patch("$module_name/trashed/{id}", ['as' => "$module_name.restore", 'uses' => "$controller_name@restore"]);
-    Route::get("$module_name/generateId",['as' => "$module_name.generateId", 'uses' => "$controller_name@generateId"]);
+    Route::post("$module_name/generateId",['as' => "$module_name.generateId", 'uses' => "$controller_name@generateId"]);
     Route::resource("$module_name", "$controller_name");
 
 });

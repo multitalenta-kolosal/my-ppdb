@@ -2,12 +2,16 @@
     <div class="col-4">
         <div class="form-group float-left">
             <?php
-            $field_name = 'active';
+            $field_name = 'active_state';
             $field_lable = __("core::$module_name.$field_name");
             $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->checkbox($field_name, 0)->class('form-control float-left')->attributes(["$required"]) }}
+            @if($module_action == 'Edit')
+                {{ html()->checkbox($field_name)->class('form-control float-left')->attributes(["$required"])->checked(old($field_name, $$module_name_singular->$field_name == true)) }}
+            @else
+                {{ html()->checkbox($field_name)->class('form-control float-left')->attributes(["$required"]) }}
+            @endif
         </div>
     </div>
 </div>
@@ -215,18 +219,12 @@ $(function() {
 });
 </script>
 
-<script type="text/javascript" src="{{ asset('vendor/ckeditor/ckeditor.js') }}"></script>
-<script type="text/javascript" src="{{ asset('vendor/file-manager/js/file-manager.js') }}"></script>
-
 <script type="text/javascript">
-
-CKEDITOR.replace('content', {filebrowserImageBrowseUrl: '/file-manager/ckeditor', language:'{{App::getLocale()}}', defaultLanguage: 'en'});
 
 // set file link
 function fmSetLink($url) {
   document.getElementById('featured_image').value = $url;
 }
-
 </script>
 
 @endpush

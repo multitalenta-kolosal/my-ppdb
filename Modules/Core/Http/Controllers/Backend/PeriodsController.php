@@ -103,14 +103,9 @@ class PeriodsController extends Controller
 
         $module_action = 'Create';
 
-        $options = $this->periodService->create();
-       
-        $period = $options['period'];
-        $type = $options['type'];
-
         return view(
             "core::backend.$module_name.create",
-            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','period','type')
+            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular')
         );
     }
 
@@ -187,16 +182,11 @@ class PeriodsController extends Controller
 
         $periods = $this->periodService->edit($id);
 
-        $options = $this->periodService->prepareOptions();
-       
-        $period = $options['period'];
-        $type = $options['type'];
-
         $$module_name_singular = $periods;
 
         return view(
             "core::backend.$module_name.edit",
-            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular", 'period', 'type')
+            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular")
         );
     }
 
