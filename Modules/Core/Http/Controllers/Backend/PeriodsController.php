@@ -129,8 +129,13 @@ class PeriodsController extends Controller
 
         $periods = $this->periodService->store($request);
 
-        Flash::success("<i class='fas fa-check'></i> New '".Str::singular($module_title)."' Added")->important();
+        $$module_name_singular = $periods;
 
+        if($$module_name_singular){
+            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Restored Successfully!')->important();
+        }else{
+            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
+        }
         return redirect("admin/$module_name");
     }
 
@@ -213,10 +218,12 @@ class PeriodsController extends Controller
 
         $$module_name_singular = $periods;
 
-        // event(new PeriodUpdated($$module_name_singular));
-
-        Flash::success("<i class='fas fa-check'></i> '".Str::singular($module_title)."' Updated Successfully")->important();
-
+        if($$module_name_singular){
+            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Restored Successfully!')->important();
+        }else{
+            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
+        }
+        
         return redirect("admin/$module_name");
     }
 
@@ -242,8 +249,12 @@ class PeriodsController extends Controller
 
         $$module_name_singular = $periods;
 
-        Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Deleted Successfully!')->important();
-
+        if($$module_name_singular){
+            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Restored Successfully!')->important();
+        }else{
+            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
+        }
+        
         return redirect("admin/$module_name");
     }
 
@@ -297,8 +308,12 @@ class PeriodsController extends Controller
 
         $$module_name_singular = $periods;
 
-        Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Restored Successfully!')->important();
-
+        if($$module_name_singular){
+            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Restored Successfully!')->important();
+        }else{
+            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
+        }
+        
         return redirect("admin/$module_name");
     }
 

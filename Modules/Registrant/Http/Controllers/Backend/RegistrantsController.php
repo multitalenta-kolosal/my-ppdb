@@ -134,7 +134,13 @@ class RegistrantsController extends Controller
 
         $registrants = $this->registrantService->store($request);
 
-        Flash::success("<i class='fas fa-check'></i> New '".Str::singular($module_title)."' Added")->important();
+        $$module_name_singular = $registrants;
+
+        if($$module_name_singular){
+            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Deleted Successfully!')->important();
+        }else{
+            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
+        }
 
         return redirect("admin/$module_name");
     }
@@ -223,9 +229,11 @@ class RegistrantsController extends Controller
 
         $$module_name_singular = $registrants;
 
-        // event(new RegistrantUpdated($$module_name_singular));
-
-        Flash::success("<i class='fas fa-check'></i> '".Str::singular($module_title)."' Updated Successfully")->important();
+        if($$module_name_singular){
+            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Deleted Successfully!')->important();
+        }else{
+            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
+        }
 
         return redirect("admin/$module_name");
     }
@@ -249,10 +257,14 @@ class RegistrantsController extends Controller
         $module_action = 'destroy';
 
         $registrants = $this->registrantService->destroy($id);
-
+        
         $$module_name_singular = $registrants;
 
-        Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Deleted Successfully!')->important();
+        if($$module_name_singular){
+            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Deleted Successfully!')->important();
+        }else{
+            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
+        }
 
         return redirect("admin/$module_name");
     }
@@ -307,7 +319,11 @@ class RegistrantsController extends Controller
 
         $$module_name_singular = $registrants;
 
-        Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Restored Successfully!')->important();
+        if($$module_name_singular){
+            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Restored Successfully!')->important();
+        }else{
+            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
+        }
 
         return redirect("admin/$module_name");
     }

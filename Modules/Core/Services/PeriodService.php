@@ -77,6 +77,7 @@ class PeriodService{
         }catch (Exception $e){
             DB::rollBack();
             Log::info($e->getMessage());
+            return null;
         }
 
         DB::commit();
@@ -115,6 +116,7 @@ class PeriodService{
 
             if(!$period->active_state){
                 $period->active_state = false;
+                return null;
             }
 
             $updated = $this->periodRepository->update($period->toArray(),$id);
@@ -143,6 +145,7 @@ class PeriodService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
+            return null;
         }
 
         DB::commit();
@@ -168,6 +171,7 @@ class PeriodService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
+            return null;
         }
 
         DB::commit();

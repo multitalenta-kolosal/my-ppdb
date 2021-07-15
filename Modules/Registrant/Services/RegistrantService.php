@@ -105,6 +105,7 @@ class RegistrantService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
+            return null;
         }
 
         DB::commit();
@@ -153,6 +154,7 @@ class RegistrantService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
+            return null;
         }
 
         DB::commit();
@@ -174,6 +176,7 @@ class RegistrantService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
+            return null;
         }
 
         DB::commit();
@@ -199,6 +202,7 @@ class RegistrantService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
+            return null;
         }
 
         DB::commit();
