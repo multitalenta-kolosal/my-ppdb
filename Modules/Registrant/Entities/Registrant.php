@@ -36,7 +36,7 @@ class Registrant extends BaseModel
 
     public function registrant_stage()
     {
-        return $this->hasOne('Modules\Registrant\Entities\RegistrantStage', 'registrant_id', 'registrant_id');
+        return $this->hasOne('Modules\Registrant\Entities\RegistrantStage', 'id', 'progress_id');
     }
 
     /**
