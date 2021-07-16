@@ -27,7 +27,7 @@ Route::group(['namespace' => '\Modules\Registrant\Http\Controllers\Frontend', 'a
 *
 * --------------------------------------------------------------------
 */
-Route::group(['namespace' => '\Modules\Registrant\Http\Controllers\Backend', 'as' => 'backend.', 'middleware' => ['web', 'auth', 'can:view_backend'], 'prefix' => 'admin'], function () {
+Route::group(['namespace' => '\Modules\Registrant\Http\Controllers\Backend', 'as' => 'backend.', 'middleware' => ['web', 'auth','can:view_backend'], 'prefix' => 'admin'], function () {
     /*
     * These routes need view-backend permission
     * (good if you want to allow more than one group in the backend,
@@ -50,5 +50,17 @@ Route::group(['namespace' => '\Modules\Registrant\Http\Controllers\Backend', 'as
     Route::patch("$module_name/trashed/{id}", ['as' => "$module_name.restore", 'uses' => "$controller_name@restore"]);
     Route::post("$module_name/generateId",['as' => "$module_name.generateId", 'uses' => "$controller_name@generateId"]);
     Route::resource("$module_name", "$controller_name");
+
+     /*
+     *
+     *  Registrant Stages Routes
+     *
+     * ---------------------------------------------------------------------
+     */
+    $module_name = 'registrantStages';
+    $controller_name = 'RegistrantStagesController';
+    Route::resource("$module_name", "$controller_name")->only([
+        'store', 'update', 'destroy'
+    ])->middleware(['auth', 'throttle:60,1']);
 
 });

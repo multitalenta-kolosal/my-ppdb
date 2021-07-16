@@ -1,0 +1,238 @@
+<div class="row">
+    <div class="col">
+        <div class="form-group shadow p-2 mb-2 bg-white rounded">
+            <?php
+            $field_name = 'va_pass';
+            $field_lable = __("registrant::$module_name.$module_sub.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            $checked = ( ($data->registrant_stage->$field_name ?? 'nope') == '1' ) ? 'checked' : '';
+            ?>
+            <div class="row">
+                <div class="col-5 text-right align-self-center">
+                    {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                </div>
+                <div class="col-3 align-self-center">
+                    {{ $data->registrant_stage->$field_name ?? 'NO DATA YET' }}
+                </div>
+                <div class="col-2">
+                    {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
+                </div>
+                <div class="col-2 align-self-center text-success"  id="col_{{$field_name}}_{{$data->id}}">
+                    @if($data->registrant_stage)
+                        @if($data->registrant_stage->$field_name)
+                            <i class="far fa-lg fa-check-circle"></i>
+                        @endif
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="form-group shadow p-2 mb-2 bg-white rounded">
+            <?php
+            $field_name = 'entrance_fee_pass';
+            $field_lable = __("registrant::$module_name.$module_sub.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            $checked = ( ($data->registrant_stage->$field_name ?? 'nope') == '1' ) ? 'checked' : '';
+            ?>
+            <div class="row">
+                <div class="col-5 text-right align-self-center">
+                    {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                </div>
+                <div class="col-3 align-self-center">
+                    {{ $data->registrant_stage->$field_name ?? 'NO DATA YET' }}
+                </div>
+                <div class="col-2">
+                    {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
+                </div>
+                <div class="col-2 align-self-center text-success" id="col_{{$field_name}}_{{$data->id}}">
+                    @if($data->registrant_stage)
+                        @if($data->registrant_stage->$field_name)
+                            <i class="far fa-lg fa-check-circle"></i>
+                        @endif
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="form-group shadow p-2 mb-2 bg-white rounded">
+            <?php
+            $field_name = 'requirements_pass';
+            $field_lable = __("registrant::$module_name.$module_sub.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            $checked = ( ($data->registrant_stage->$field_name ?? 'nope') == '1' ) ? 'checked' : '';
+            ?>
+            <div class="row">
+                <div class="col-5 text-right align-self-center">
+                    {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                </div>
+                <div class="col-3 align-self-center">
+                    <button type="button" class="btn btn-sm btn-info" 
+                        data-toggle="popover" 
+                        title="Persyaratan {{$data->unit->name}}"
+                        data-placement="bottom"
+                        data-html="true"
+                        data-trigger="focus" 
+                        data-content= '<div>{!! $data->unit->requirements !!}</div>'>
+                            Lihat Persyaratan
+                    </button>
+                </div>
+                <div class="col-2">
+                    {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
+                </div>
+                <div class="col-2 align-self-center text-success" id="col_{{$field_name}}_{{$data->id}}">
+                    @if($data->registrant_stage)
+                        @if($data->registrant_stage->$field_name)
+                            <i class="far fa-lg fa-check-circle"></i>
+                        @endif
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="form-group shadow p-2 mb-2 bg-white rounded">
+            <?php
+            $field_name = 'test_pass';
+            $field_lable = __("registrant::$module_name.$module_sub.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            $checked = ( ($data->registrant_stage->$field_name ?? 'nope') == '1' ) ? 'checked' : '';
+            ?>
+            <div class="row">
+                <div class="col-5 text-right align-self-center">
+                    {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                </div>
+                <div class="col-3 align-self-center">
+                    {{ $data->registrant_stage->$field_name ?? 'NO DATA YET' }}
+                </div>
+                <div class="col-2">
+                    {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
+                </div>
+                <div class="col-2 align-self-center text-success" id="col_{{$field_name}}_{{$data->id}}">
+                        @if($data->registrant_stage)
+                            @if($data->registrant_stage->$field_name)
+                                <i class="far fa-lg fa-check-circle"></i>
+                            @endif
+                        @endif
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="form-group shadow p-2 mb-2 bg-white rounded">
+            <?php
+            $field_dpp = 'dpp_pass';
+            $field_dp  = 'dp_pass';
+            $field_spp = 'spp_pass';
+
+            $field_lable_dpp = __("registrant::$module_name.$module_sub.$field_dpp");
+            $field_lable_dp = __("registrant::$module_name.$module_sub.$field_dp");
+            $field_lable_spp = __("registrant::$module_name.$module_sub.$field_spp");
+            $field_placeholder = $field_lable;
+            $required = "";
+            $checked = ( ($data->registrant_stage->$field_name ?? 'nope') == '1' ) ? 'checked' : '';
+            ?>
+            <div class="card-header text-center py-0" style="height: 2rem;">
+                <h3>Biaya Pendidikan</h3>
+            </div>
+                <div class="row my-1">
+                    <div class="col-5 text-right align-self-center">
+                        {{ html()->div($field_lable_dpp, $field_dpp) }} {!! fielf_required($required) !!}
+                    </div>
+                    <div class="col-3 align-self-center">
+                        {{ $data->registrant_stage->$field_dpp ?? 'NO DATA YET' }}
+                    </div>
+                    <div class="col-2">
+                        {{ html()->checkbox($field_dpp.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
+                    </div>
+                    <div class="col-2 align-self-center text-success" id="col_{{$field_dpp}}_{{$data->id}}">
+                        @if($data->registrant_stage)
+                            @if($data->registrant_stage->$field_name)
+                                <i class="far fa-lg fa-check-circle"></i>
+                            @endif
+                        @endif
+                    </div>
+                </div>
+                <div class="row my-1">
+                    <div class="col-5 text-right align-self-center">
+                        {{ html()->div($field_lable_dp, $field_dp) }} {!! fielf_required($required) !!}
+                    </div>
+                    <div class="col-3 align-self-center">
+                        {{ $data->registrant_stage->$field_dp ?? 'NO DATA YET' }}
+                    </div>
+                    <div class="col-2">
+                        {{ html()->checkbox($field_dp.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
+                    </div>
+                    <div class="col-2 align-self-center text-success" id="col_{{$field_dp}}_{{$data->id}}">
+                        @if($data->registrant_stage)
+                            @if($data->registrant_stage->$field_name)
+                                <i class="far fa-lg fa-check-circle"></i>
+                            @endif
+                        @endif
+                    </div>
+                </div>
+                <div class="row my-1">
+                    <div class="col-5 text-right align-self-center">
+                        {{ html()->div($field_lable_spp, $field_spp) }} {!! fielf_required($required) !!}
+                    </div>
+                    <div class="col-3 align-self-center">
+                        {{ $data->registrant_stage->$field_spp ?? 'NO DATA YET' }}
+                    </div>
+                    <div class="col-2">
+                        {{ html()->checkbox($field_spp.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
+                    </div>
+                    <div class="col-2 align-self-center text-success" id="col_{{$field_spp}}_{{$data->id}}">
+                        @if($data->registrant_stage)
+                            @if($data->registrant_stage->$field_name)
+                                <i class="far fa-lg fa-check-circle"></i>
+                            @endif
+                        @endif
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="form-group shadow p-2 mb-2 bg-white rounded">
+            <?php
+            $field_name = 'accepted_pass';
+            $field_lable = __("registrant::$module_name.$module_sub.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            $checked = ( ($data->registrant_stage->$field_name ?? 'nope') == '1' ) ? 'checked' : '';
+            ?>
+            <div class="row">
+                <div class="col-5 text-right align-self-center">
+                    {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                </div>
+                <div class="col-3 align-self-center">
+                    {{ $data->registrant_stage->$field_name ?? 'NO DATA YET' }}
+                </div>
+                <div class="col-2">
+                    {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
+                </div>
+                <div class="col-2 align-self-center text-success" id="col_{{$field_name}}_{{$data->id}}">
+                    @if($data->registrant_stage)
+                        @if($data->registrant_stage->$field_name)
+                            <i class="far fa-2x fa-check-circle"></i>
+                        @endif
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

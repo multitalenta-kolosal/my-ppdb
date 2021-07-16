@@ -19,7 +19,7 @@ class RegistrantStage extends BaseModel
 
     protected static $logName = 'registrant_stages';
     protected static $logOnlyDirty = true;
-    protected static $logAttributes = ['name', 'registrant_id'];
+    protected static $logAttributes = ['registrant_id'];
 
     public function registrant()
     {

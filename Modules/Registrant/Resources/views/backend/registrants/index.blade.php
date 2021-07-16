@@ -42,7 +42,6 @@
             <!--/.col-->
         </div>
         <!--/.row-->
-
         <div class="row mt-4">
             <div class="col">
                 <div class="table-responsive">

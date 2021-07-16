@@ -14,4 +14,15 @@ return [
     'former_school'             => 'Sekolah Asal',
     'status'                    => 'Status',
 
+    'verification'=>
+    [
+        'va_pass'                   => 'Virtual Account',
+        'entrance_fee_pass'         => 'Pembayaran Pendaftaran',
+        'requirements_pass'         => 'Kelengkapan Berkas',
+        'test_pass'                 => 'Status Tes Masuk',
+        'dpp_pass'                  => 'Pembayaran DPP',
+        'dp_pass'                   => 'Pembayaran DP',
+        'spp_pass'                  => 'Pembayaran SPP',
+        'accepted_pass'             => 'Diterima'
+    ],
 ];
