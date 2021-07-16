@@ -69,28 +69,6 @@ class RegistrantService{
         return $registrant;
     }
 
-    public function getIndexList(Request $request){
-
-        $listData = [];
-
-        $term = trim($request->q);
-
-        if (empty($term)) {
-            return $listData;
-        }
-
-        $query_data = $this->registrantRepository->findWhere(['name', 'LIKE', "%$term%"]);
-
-        foreach ($query_data as $row) {
-            $listData[] = [
-                'id'   => $row->id,
-                'text' => $row->name,
-            ];
-        }
-
-        return $listData;
-    }
-
     public function create(){
 
         Log::info(label_case($this->module_title.' '.__function__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
@@ -115,12 +93,15 @@ class RegistrantService{
 
         $registrant->unit_increment = $this->generateUnitIncrement($unit_id);
         $registrant->period_id = $this->periodRepository->findActivePeriodId();
+        $registrant->register_ip = request()->getClientIP();
 
         DB::beginTransaction();
 
         try {
-            $registrant = $this->registrantRepository->create($registrant->toArray());
             $registrant_stage = $this->registrantStageService->store($request);
+            $registrant->progress_id = $registrant_stage['data']->id;
+
+            $registrant = $this->registrantRepository->create($registrant->toArray());
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
