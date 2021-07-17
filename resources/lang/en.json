@@ -99,5 +99,6 @@
     "select unit first": "Please Select Unit First",
 
     "verification confirm": "Verify this data?",
-    "Data Verified": "Verification Saved!"
+    "Data Verified": "Verification Saved!",
+    "Error Verified": "Error when verify!"
 }

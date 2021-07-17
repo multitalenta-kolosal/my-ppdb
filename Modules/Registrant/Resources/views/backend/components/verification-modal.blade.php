@@ -21,13 +21,12 @@
                         <input type="hidden" name="registrant_id" id="registrant_id_{{$data->id}}" value="{{ $data->registrant_id }}"> 
                         @include('registrant::backend.components.verification-form')
             
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="submit_data_{{$data->id}}" >Save changes</button>
-                        </div>
                     </form>
                 </div>
-                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="submit_data_{{$data->id}}" >Save changes</button>
+                </div>
                     
             </div>
         </div>
@@ -70,7 +69,6 @@
                             toast.addEventListener('mouseleave', Swal.resumeTimer)
                         }
                     })
-                    
                     Toast.fire({
                         icon: 'success',
                         title: '@lang("Data Verified")'
@@ -82,7 +80,6 @@
                         var col = document.getElementById("col_"+key+"_{{$data->id}}")
                         if(col){
                             if(key && (val == 1)){
-                                console.log(key)
                                 if(key == "accepted_pass"){
                                     col.innerHTML = '<i class="far fa-2x fa-check-circle"></i>';
                                 }else{
@@ -96,7 +93,10 @@
 
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    Swal.fire("@lang('delete error')", "@lang('error')", "error");
+                    Toast.fire({
+                        icon: 'error',
+                        title: '@lang("Error Verified")'
+                    });
                 }
             });
         });

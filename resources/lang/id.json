@@ -99,5 +99,6 @@
     "select unit first": "Silakan memilih unit terlebih dahulu",
 
     "verification confirm": "Verifikasi data ini?",
-    "Data Verified": "Verifikasi disimpan!"
+    "Data Verified": "Verifikasi disimpan!",
+    "Error Verified": "Gagal verifikasi!"
 }

@@ -3,6 +3,7 @@
         <div class="form-group shadow p-2 mb-2 bg-white rounded">
             <?php
             $field_name = 'va_pass';
+            $field_info = 'va_number';
             $field_lable = __("registrant::$module_name.$module_sub.$field_name");
             $field_placeholder = $field_lable;
             $required = "";
@@ -13,7 +14,7 @@
                     {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
                 </div>
                 <div class="col-3 align-self-center">
-                    {{ $data->registrant_stage->$field_name ?? 'NO DATA YET' }}
+                    {{ $data->field_info ?? 'BELUM DIBUAT' }}
                 </div>
                 <div class="col-2">
                     {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
@@ -34,6 +35,7 @@
         <div class="form-group shadow p-2 mb-2 bg-white rounded">
             <?php
             $field_name = 'entrance_fee_pass';
+            $field_info = 'entrance_fee';
             $field_lable = __("registrant::$module_name.$module_sub.$field_name");
             $field_placeholder = $field_lable;
             $required = "";
@@ -44,7 +46,7 @@
                     {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
                 </div>
                 <div class="col-3 align-self-center">
-                    {{ $data->registrant_stage->$field_name ?? 'NO DATA YET' }}
+                    {{ $data->period->$field_info ?? 'NO DATA YET' }}
                 </div>
                 <div class="col-2">
                     {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
@@ -65,6 +67,7 @@
         <div class="form-group shadow p-2 mb-2 bg-white rounded">
             <?php
             $field_name = 'requirements_pass';
+            $field_info = 'requirements';
             $field_lable = __("registrant::$module_name.$module_sub.$field_name");
             $field_placeholder = $field_lable;
             $required = "";
@@ -81,7 +84,7 @@
                         data-placement="bottom"
                         data-html="true"
                         data-trigger="focus" 
-                        data-content= '<div>{!! $data->unit->requirements !!}</div>'>
+                        data-content= '<div>{!! $data->unit->$field_info !!}</div>'>
                             Lihat Persyaratan
                     </button>
                 </div>
@@ -104,6 +107,7 @@
         <div class="form-group shadow p-2 mb-2 bg-white rounded">
             <?php
             $field_name = 'test_pass';
+            $field_info = 'entrance_test_url';
             $field_lable = __("registrant::$module_name.$module_sub.$field_name");
             $field_placeholder = $field_lable;
             $required = "";
@@ -114,7 +118,7 @@
                     {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
                 </div>
                 <div class="col-3 align-self-center">
-                    {{ $data->registrant_stage->$field_name ?? 'NO DATA YET' }}
+                    {{ $data->unit->$field_info ?? 'NO DATA YET' }}
                 </div>
                 <div class="col-2">
                     {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
@@ -138,6 +142,11 @@
             $field_dp  = 'dp_pass';
             $field_spp = 'spp_pass';
 
+
+            $field_info_dpp = 'dpp';
+            $field_info_dp = 'dp';
+            $field_info_spp = 'spp';
+
             $field_lable_dpp = __("registrant::$module_name.$module_sub.$field_dpp");
             $field_lable_dp = __("registrant::$module_name.$module_sub.$field_dp");
             $field_lable_spp = __("registrant::$module_name.$module_sub.$field_spp");
@@ -153,7 +162,7 @@
                         {{ html()->div($field_lable_dpp, $field_dpp) }} {!! fielf_required($required) !!}
                     </div>
                     <div class="col-3 align-self-center">
-                        {{ $data->registrant_stage->$field_dpp ?? 'NO DATA YET' }}
+                        {{ $data->unit->$field_info_dpp ?? 'NO DATA YET' }}
                     </div>
                     <div class="col-2">
                         {{ html()->checkbox($field_dpp.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
@@ -171,7 +180,7 @@
                         {{ html()->div($field_lable_dp, $field_dp) }} {!! fielf_required($required) !!}
                     </div>
                     <div class="col-3 align-self-center">
-                        {{ $data->registrant_stage->$field_dp ?? 'NO DATA YET' }}
+                        {{ $data->unit->$field_info_dp ?? 'NO DATA YET' }}
                     </div>
                     <div class="col-2">
                         {{ html()->checkbox($field_dp.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
@@ -189,7 +198,7 @@
                         {{ html()->div($field_lable_spp, $field_spp) }} {!! fielf_required($required) !!}
                     </div>
                     <div class="col-3 align-self-center">
-                        {{ $data->registrant_stage->$field_spp ?? 'NO DATA YET' }}
+                        {{ $data->unit->$field_info_spp ?? 'NO DATA YET' }}
                     </div>
                     <div class="col-2">
                         {{ html()->checkbox($field_spp.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
@@ -210,6 +219,7 @@
         <div class="form-group shadow p-2 mb-2 bg-white rounded">
             <?php
             $field_name = 'accepted_pass';
+            $field_info = '';
             $field_lable = __("registrant::$module_name.$module_sub.$field_name");
             $field_placeholder = $field_lable;
             $required = "";
@@ -220,7 +230,7 @@
                     {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
                 </div>
                 <div class="col-3 align-self-center">
-                    {{ $data->registrant_stage->$field_name ?? 'NO DATA YET' }}
+                    
                 </div>
                 <div class="col-2">
                     {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
