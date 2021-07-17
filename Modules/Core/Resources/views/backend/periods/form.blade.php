@@ -124,16 +124,19 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-6">
+    <div class="col-4">
         <div class="form-group">
             <?php
             $field_name = 'quota';
             $field_lable = __("core::$module_name.$field_name");
             $field_placeholder = $field_lable;
+            $field_value = $quota_value ?? [];
             $required = "";
             ?>
-            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required", 'aria-label'=>'Image']) }}
+            @foreach($units as $key => $unit)
+                {{ html()->label($field_lable.' '.$unit, $field_name) }} {!! fielf_required($required) !!}
+                {{ html()->text($field_name.'_'. $unit,$field_value["quota_".$unit] ?? null)->placeholder($field_placeholder.' '.$unit)->class('form-control mb-2')->attributes(["$required", 'aria-label'=>'Image']) }}
+            @endforeach
         </div>
     </div>
 </div>
@@ -217,14 +220,6 @@ $(function() {
         }
     });
 });
-</script>
-
-<script type="text/javascript">
-
-// set file link
-function fmSetLink($url) {
-  document.getElementById('featured_image').value = $url;
-}
 </script>
 
 @endpush

@@ -103,9 +103,13 @@ class PeriodsController extends Controller
 
         $module_action = 'Create';
 
+        $options = $this->periodService->create();
+       
+        $units = $options['unit'];
+
         return view(
             "core::backend.$module_name.create",
-            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular')
+            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','units')
         );
     }
 
@@ -186,12 +190,16 @@ class PeriodsController extends Controller
         $module_action = 'Edit';
 
         $periods = $this->periodService->edit($id);
+        $quota_value = $this->periodService->decodeQuota($periods);
+        $options = $this->periodService->prepareOptions();
+       
+        $units = $options['unit'];
 
         $$module_name_singular = $periods;
 
         return view(
             "core::backend.$module_name.edit",
-            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular")
+            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular",'units','quota_value')
         );
     }
 

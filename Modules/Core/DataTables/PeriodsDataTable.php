@@ -4,6 +4,7 @@ namespace Modules\Core\DataTables;
 
 use Carbon\Carbon;
 use Modules\Core\Repositories\PeriodRepository;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -34,6 +35,15 @@ class PeriodsDataTable extends DataTable
 
                 return view('backend.includes.action_column_admin', compact('module_name', 'data'));
             })
+            ->editColumn('quota',function ($data){
+                $module_name = $this->module_name;
+
+                $quota = json_decode($data->quota, true);
+
+                Log::debug($quota);
+
+                return view('core::backend.includes.quota-view',compact('module_name','quota'));
+            })
             ->editColumn('updated_at', function ($data) {
                 $module_name = $this->module_name;
 
@@ -52,7 +62,7 @@ class PeriodsDataTable extends DataTable
 
                 return $formated_date;
             })
-            ->rawColumns(['name', 'status', 'action']);
+            ->rawColumns(['name', 'quota','status', 'action']);
     }
 
     /**

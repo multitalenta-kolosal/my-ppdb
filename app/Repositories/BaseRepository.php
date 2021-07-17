@@ -382,11 +382,19 @@ abstract class BaseRepository implements BaseContract
     */
    public function update(array $data, $id, $attribute = null)
    {
-       $model = $this->find($id, ['*'], $attribute);
+    try{
+        $model = $this->find($id, ['*'], $attribute);
 
-       if (empty($model)) return false;
+        if (empty($model)) return false;
+ 
+        $object = $model->fill($data);
 
-       return $model->fill($data)->save();
+        return $object->save();
+    }catch (Exception $e){
+        Log::critical($e->getMessage());
+        return false;
+    }
+       
    }
 
    /**

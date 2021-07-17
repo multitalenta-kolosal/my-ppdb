@@ -3,11 +3,14 @@
 namespace Modules\Core\Services;
 
 use Modules\Core\Repositories\PeriodRepository;
+use Modules\Core\Repositories\UnitRepository;
+
 use Exception;
 use Carbon\Carbon;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -16,10 +19,32 @@ use Modules\Core\Events\Backend\PeriodCreated;
 
 class PeriodService{
 
+    protected $unitRepository;
     protected $periodRepository;
 
-    public function __construct(PeriodRepository $periodRepository) {
+    public function __construct(
+        /**
+         * Services Parameter
+         * 
+         */
+        
+        /**
+         * Repositories Parameter
+         * 
+         */
+        UnitRepository $unitRepository,
+        PeriodRepository $periodRepository
+    ) { 
+        /**
+        * Services Declaration
+        * 
+        */
 
+        /**
+         * Repositories Declaration
+         * 
+         */
+        $this->unitRepository = $unitRepository;
         $this->periodRepository = $periodRepository;
 
         $this->module_title = Str::plural(class_basename($this->periodRepository->model()));
@@ -35,28 +60,6 @@ class PeriodService{
         return $period;
     }
 
-    public function getIndexList(Request $request){
-
-        $listData = [];
-
-        $term = trim($request->q);
-
-        if (empty($term)) {
-            return $listData;
-        }
-
-        $query_data = $this->periodRepository->findWhere(['name', 'LIKE', "%$term%"]);
-
-        foreach ($query_data as $row) {
-            $listData[] = [
-                'id'   => $row->id,
-                'text' => $row->name,
-            ];
-        }
-
-        return $listData;
-    }
-
     public function create(){
 
         Log::info(label_case($this->module_title.' '.__function__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
@@ -70,11 +73,21 @@ class PeriodService{
 
         $data = $request->all();
 
+        $quota = [];
+
+        foreach($data as $key => $value){
+            if (strpos($key, 'quota') !== false) {
+                $quota = Arr::add($quota,$key,$value);
+                unset($data[$key]);
+            }
+        }
+
         DB::beginTransaction();
 
         try {
             $periodObject = $this->periodRepository->make($data);
-            
+            $periodObject->quota = json_encode($quota);
+
             $period = $this->periodRepository->create($periodObject->toArray());
         }catch (Exception $e){
             DB::rollBack();
@@ -108,28 +121,40 @@ class PeriodService{
     public function update(Request $request,$id){
 
         $data = $request->all();
+        
+        $quota = [];
 
+        foreach($data as $key => $value){
+            if (strpos($key, 'quota') !== false) {
+                $quota = Arr::add($quota,$key,$value);
+                unset($data[$key]);
+            }
+        }
+        
         DB::beginTransaction();
 
         try{
             $period_check = $this->periodRepository->findOrFail($id);
 
-            $period = $this->periodRepository->make($data);
+            $periodObject = $this->periodRepository->make($data);
 
-            if(!$period->active_state){
-                $period->active_state = false;
-                return null;
+            $periodObject->quota = json_encode($quota);
+
+            if(!$periodObject->active_state){    
+                $periodObject->active_state = false;
             }
 
-            $updated = $this->periodRepository->update($period->toArray(),$id);
+            $updated = $this->periodRepository->update($periodObject->toArray(),$id);
 
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
+            return null;
         }
 
         DB::commit();
 
+        Log::debug('not reach here 2');
         Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$period_check->name.'(ID:'.$period_check->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return $this->periodRepository->find($id);
@@ -183,4 +208,31 @@ class PeriodService{
         return $periods;
     }
 
+    public function prepareOptions(){
+        
+        $unit = $this->unitRepository->pluck('name','id');
+
+        if(!$unit){
+            $unit = ['Silakan membuat unit'];
+        }
+
+        $options = array(
+            'unit' => $unit,
+        );
+
+        return $options;
+    }
+
+
+    public function decodeQuota($period){
+        
+        $quota = json_decode($period->quota,true);
+
+
+        if(!$quota){
+            $quota = ['Quota belum diisi'];
+        }
+
+        return $quota;
+    }
 }
