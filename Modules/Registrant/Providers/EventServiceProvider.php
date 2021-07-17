@@ -6,15 +6,20 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 
 //Events
 Use Modules\Registrant\Events\Backend\RegistrantCreated;
+Use Modules\Registrant\Events\Frontend\RegistrantEnlist;
 
 //Listeners
 Use Modules\Registrant\Listeners\Backend\NotifyAdminYayasan;
+Use Modules\Registrant\Listeners\Frontend\NotifyAdminYayasanEnlist;
 
 class EventServiceProvider extends ServiceProvider
 {
     protected $listen = [
         RegistrantCreated::class => [
             NotifyAdminYayasan::class,
-        ]
+        ],
+        RegistrantEnlist::class => [
+            NotifyAdminYayasanEnlist::class,
+        ],
     ];
 }

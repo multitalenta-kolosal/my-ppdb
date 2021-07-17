@@ -14,11 +14,11 @@ Route::group(['namespace' => '\Modules\Registrant\Http\Controllers\Frontend', 'a
      *
      * ---------------------------------------------------------------------
      */
-    // $module_name = 'registrants';
-    // $controller_name = 'RegistrantsController';
-    // Route::get("$module_name", ['as' => "$module_name.index", 'uses' => "$controller_name@index"]);
-    // Route::get("$module_name/{id}/{slug?}", ['as' => "$module_name.show", 'uses' => "$controller_name@show"]);
-
+    $module_name = 'registrants';
+    $controller_name = 'RegistrantsController';
+    Route::resource("$module_name", "$controller_name")->only([
+        'store', 'update'
+    ])->middleware(['throttle:10,1']);
 });
 
 /*

@@ -1,19 +1,18 @@
 <?php
 
-namespace Modules\Registrant\Listeners\Backend;
+namespace Modules\Registrant\Listeners\Frontend;
 
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
+use App\Models\User;
 
-use Modules\Registrant\Events\Backend\RegistrantCreated;
-use Modules\Registrant\Notifications\NotifyYayasanRegistrantCreated;
-
+use Modules\Registrant\Events\Frontend\RegistrantEnlist;
+use Modules\Registrant\Notifications\NotifyYayasanRegistrantEnlist;
 use Modules\Registrant\Entities\Registrant;
 
-class NotifyAdminYayasan
+class NotifyAdminYayasanEnlist
 {
-
     public $registrant;
 
     /**
@@ -34,8 +33,9 @@ class NotifyAdminYayasan
     public function handle($event)
     {
         $registrant = $event->registrant;
-
-        auth()->user()->notify(new NotifyYayasanRegistrantCreated($registrant));
+        
+        $guest = User::findOrFail(1);
+        $guest->notify(new NotifyYayasanRegistrantEnlist($registrant));
         
     }
 }

@@ -9,7 +9,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 
 use Modules\Registrant\Entities\Registrant;
 
-class NotifyAdminYayasanNewRegistrant extends Notification
+class NotifyYayasanRegistrantCreated extends Notification
 {
     use Queueable;
 
@@ -75,14 +75,15 @@ class NotifyAdminYayasanNewRegistrant extends Notification
         $registrant = $this->registrant;
         $user = $notifiable;
 
-        $text = 'Pendaftar Baru | <strong>'.$registrant->name.'</strong> dengan ID <strong>'.$registrant->registrant_id.'</strong>  dibuat oleh <strong>'.auth()->user()->name.'</strong>';
+        $text = 'Pendaftar Ditambahkan | <strong>'.$registrant->name.'</strong> dengan ID <strong>'.$registrant->registrant_id.'</strong>  dibuat oleh <strong>'.auth()->user()->name.'</strong>';
 
         return [
-            'title'         => 'Pendaftar Baru!',
+            'title'         => 'Pendaftar Ditambahkan!',
             'module'        => 'Registrant',
             'type'          => 'created',
             'icon'          => 'fas fa-feather-alt',
             'text'          => $text,
+            'unit_id'       => $registrant->unit_id,
             'url_backend'   => '',
             'url_frontend'  => '',
         ];

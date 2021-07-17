@@ -49,7 +49,7 @@ class RegistrantStageService{
         return $registrantStage;
     }
 
-    public function store(Request $request, $manualCreate = false){
+    public function store(Request $request, $registrant_data = null, $manualCreate = false){
 
         if(!$manualCreate){
             $data = $request->only('registrant_id');
@@ -61,7 +61,11 @@ class RegistrantStageService{
 
         try {
             $regsitrantStageData = $this->registrantStageRepository->make($data);
-    
+            
+            if($registrant_data){
+                $regsitrantStageData->registrant_id = $registrant_data->registrant_id;
+            }
+
             $registrantStage = $this->registrantStageRepository->create($regsitrantStageData->toArray());
         }catch (Exception $e){
             DB::rollBack();
@@ -75,7 +79,11 @@ class RegistrantStageService{
 
         DB::commit();
 
-        Log::info(label_case($this->module_title.' '.__function__)." | '".$registrantStage->name.'(ID:'.$registrantStage->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+        if (Auth::check()) {
+            Log::info(label_case($this->module_title.' '.__function__)." | Stage Created '".$registrantStage->registrant_id.'(ID:'.$registrantStage->id.") ".Auth::check() ? ( " by User: ".Auth::user()->name.'(ID:'.Auth::user()->id.')') : ("By: Guest"));
+        }else{
+            Log::info(label_case($this->module_title.' '.__function__)." | '".$registrantStage->registrant_id.'(ID:'.$registrantStage->id.") ' by System)'");
+        }
 
         $response = [
             'data'   => $registrantStage,

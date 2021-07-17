@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 use Modules\Registrant\Events\Backend\RegistrantCreated;
+use Modules\Registrant\Events\Frontend\RegistrantEnlist;
 
 class RegistrantService{
 
@@ -91,17 +92,26 @@ class RegistrantService{
 
             if(!$registrant->registrant_id)
             {
-                $registrant->registrant_id = $this->generateId($unit_id);
+                $registrant_id = $this->generateId($unit_id);
+                $registrant->registrant_id = $registrant_id['id'];
+            }
+
+            if(!$registrant->va_number)
+            {
+                $va_number = setting('va_prefix').$registrant->registrant_id;
+                $registrant->va_number = $va_number;
             }
 
             $registrant->unit_increment = $this->generateUnitIncrement($unit_id);
             $registrant->period_id = $this->periodRepository->findActivePeriodId();
             $registrant->register_ip = request()->getClientIP();
 
-            $registrant_stage = $this->registrantStageService->store($request);
+            $registrant_stage = $this->registrantStageService->store($request, $registrant);
+
             $registrant->progress_id = $registrant_stage['data']->id;
 
             $registrant = $this->registrantRepository->create($registrant->toArray());
+
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
@@ -110,9 +120,13 @@ class RegistrantService{
 
         DB::commit();
 
-        Log::info(label_case($this->module_title.' '.__function__)." | '".$registrant->name.'(ID:'.$registrant->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
-
-        event(new RegistrantCreated($registrant));
+        if (Auth::check()) {
+            Log::info(label_case($this->module_title.' '.__function__)." | '".$registrant->name.'(ID:'.$registrant->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+            event(new RegistrantCreated($registrant));
+        }else{
+            Log::info(label_case($this->module_title.' '.__function__)." | '".$registrant->name.'(ID:'.$registrant->id.") ' by User: Guest)'");
+            event(new RegistrantEnlist($registrant));
+        }
 
         return $registrant;
     }
@@ -220,8 +234,8 @@ class RegistrantService{
         }
 
         $type = [
-            'Prestasi',
-            'Reguler',
+            'prestasi' => 'Prestasi',
+            'reguler' => 'Reguler',
         ];
 
         $options = array(
@@ -232,9 +246,15 @@ class RegistrantService{
         return $options;
     }
 
-    public function generateId(Request $request){
+    public function generateId($unit_id){
+        if(!$unit_id){
+            return $response = [
+                'id'   => null,
+                'error' => true,
+                'message' => '',
+            ];
+        }
 
-        $unit_id = $request['unit_id'];
         $unit = $this->unitRepository->findOrFail($unit_id);
 
         if($unit->unit_code){

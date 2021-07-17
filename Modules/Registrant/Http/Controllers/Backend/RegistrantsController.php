@@ -346,7 +346,7 @@ class RegistrantsController extends Controller
 
         $response = [];
 
-        $response = $this->registrantService->generateID($request);
+        $response = $this->registrantService->generateID($request['unit_id']);
 
         return response()->json($response);
     }

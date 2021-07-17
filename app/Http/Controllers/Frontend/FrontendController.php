@@ -3,9 +3,17 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use Modules\Registrant\Services\RegistrantService;
 
 class FrontendController extends Controller
 {
+    protected $registrantService;
+   
+    public function __construct(RegistrantService $registrantService)
+    {
+        $this->registrantService = $registrantService;
+    }
+
     /**
      * Show the application dashboard.
      *
@@ -15,7 +23,12 @@ class FrontendController extends Controller
     {
         $body_class = '';
 
-        return view('frontend.index', compact('body_class'));
+        $options = $this->registrantService->prepareOptions();
+       
+        $unit = $options['unit'];
+        $type = $options['type'];
+
+        return view('frontend.index', compact('body_class','unit','type'));
     }
 
     /**

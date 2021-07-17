@@ -83,7 +83,7 @@
             $field_name = 'va_number';
             $field_lable = __("registrant::$module_name.$field_name");
             $field_placeholder = $field_lable;
-            $required = "required";
+            $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
@@ -132,16 +132,6 @@
         </div>
     </div>
 </div>
-
-<!-- year -->
-<?php
-    $field_name = 'year';
-    $field_lable = __("registrant::$module_name.$field_name");
-    $field_placeholder = $field_lable;
-    $required = "";
-?>
-{{ html()->hidden($field_name,'2021')->placeholder($field_placeholder)->class('form-control')->attributes(["$required", 'aria-label'=>'Image']) }}
-
 
 <div></div>
 
@@ -250,7 +240,7 @@ $(document).ready(function(){
             },
             success: function (data) {
                 $('#registrant_id').val(data.id);
-                $('#va_number').val(va_prefix+data.id);
+                // $('#va_number').val(va_prefix+data.id);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 Swal.fire("@lang('error')", "@lang('select unit first')", "error");
