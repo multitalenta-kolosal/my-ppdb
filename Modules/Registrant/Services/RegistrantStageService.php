@@ -57,11 +57,11 @@ class RegistrantStageService{
             $data = $request->all();
         }
        
-        $regsitrantStageData = $this->registrantStageRepository->make($data);
-
         DB::beginTransaction();
 
         try {
+            $regsitrantStageData = $this->registrantStageRepository->make($data);
+    
             $registrantStage = $this->registrantStageRepository->create($regsitrantStageData->toArray());
         }catch (Exception $e){
             DB::rollBack();

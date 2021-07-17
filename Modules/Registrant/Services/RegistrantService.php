@@ -81,23 +81,23 @@ class RegistrantService{
     public function store(Request $request){
 
         $data = $request->all();
-       
-        $registrant = $this->registrantRepository->make($data);
-
-        $unit_id = $registrant->unit_id;
-
-        if(!$registrant->registrant_id)
-        {
-            $registrant->registrant_id = $this->generateId($unit_id);
-        }
-
-        $registrant->unit_increment = $this->generateUnitIncrement($unit_id);
-        $registrant->period_id = $this->periodRepository->findActivePeriodId();
-        $registrant->register_ip = request()->getClientIP();
 
         DB::beginTransaction();
 
         try {
+            $registrant = $this->registrantRepository->make($data);
+
+            $unit_id = $registrant->unit_id;
+
+            if(!$registrant->registrant_id)
+            {
+                $registrant->registrant_id = $this->generateId($unit_id);
+            }
+
+            $registrant->unit_increment = $this->generateUnitIncrement($unit_id);
+            $registrant->period_id = $this->periodRepository->findActivePeriodId();
+            $registrant->register_ip = request()->getClientIP();
+
             $registrant_stage = $this->registrantStageService->store($request);
             $registrant->progress_id = $registrant_stage['data']->id;
 
@@ -140,7 +140,6 @@ class RegistrantService{
         DB::beginTransaction();
 
         try{
-
             $registrant_check = $this->registrantRepository->findOrFail($id);
      
             $registrant = $this->registrantRepository->make($data);

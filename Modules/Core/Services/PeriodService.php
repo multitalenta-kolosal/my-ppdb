@@ -73,7 +73,9 @@ class PeriodService{
         DB::beginTransaction();
 
         try {
-            $period = $this->periodRepository->create($data);
+            $periodObject = $this->periodRepository->make($data);
+            
+            $period = $this->periodRepository->create($periodObject->toArray());
         }catch (Exception $e){
             DB::rollBack();
             Log::info($e->getMessage());

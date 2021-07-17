@@ -73,7 +73,9 @@ class UnitService{
         DB::beginTransaction();
 
         try {
-            $unit = $this->unitRepository->create($data);
+            $unitObject = $this->unitRepository->make($data);
+    
+            $unit = $this->unitRepository->create($unitObject->toArray());
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
@@ -110,7 +112,6 @@ class UnitService{
         DB::beginTransaction();
 
         try{
-
             $unit_check = $this->unitRepository->findOrFail($id);
             
             $unit = $this->unitRepository->make($data);
