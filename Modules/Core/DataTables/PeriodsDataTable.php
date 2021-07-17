@@ -42,7 +42,7 @@ class PeriodsDataTable extends DataTable
 
                 Log::debug($quota);
 
-                return view('core::backend.includes.quota-view',compact('module_name','quota'));
+                return view('core::backend.components.quota-view',compact('module_name','quota'));
             })
             ->editColumn('updated_at', function ($data) {
                 $module_name = $this->module_name;
