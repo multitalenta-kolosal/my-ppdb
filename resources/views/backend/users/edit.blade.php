@@ -37,7 +37,26 @@
         <div class="row mt-4">
             <div class="col">
                 {{ html()->modelForm($user, 'PATCH', route('backend.users.update', $user->id))->class('form-horizontal')->open() }}
-
+                    <div class="form-group row">
+                        {{ html()->label(__('labels.backend.users.fields.first_name'))->class('col-sm-2 form-control-label')->for('first_name') }}
+                        <div class="col-sm-10">
+                            {{ html()->text('first_name')
+                                ->class('form-control')
+                                ->placeholder(__('labels.backend.users.fields.first_name'))
+                                ->attribute('maxlength', 191)
+                                ->required() }}
+                        </div>
+                    </div><!--form-group-->
+                    <div class="form-group row">
+                        {{ html()->label(__('labels.backend.users.fields.last_name'))->class('col-sm-2 form-control-label')->for('last_name') }}
+                        <div class="col-sm-10">
+                            {{ html()->text('last_name')
+                                ->class('form-control')
+                                ->placeholder(__('labels.backend.users.fields.last_name'))
+                                ->attribute('maxlength', 191)
+                                ->required() }}
+                        </div>
+                    </div><!--form-group-->
                     <div class="form-group row">
                         {{ html()->label(__('labels.backend.users.fields.email'))->class('col-sm-2 form-control-label')->for('email') }}
 
@@ -49,7 +68,15 @@
                                 ->required() }}
                         </div>
                     </div><!--form-group-->
-
+                    <div class="form-group row">
+                        {{ html()->label(__('labels.backend.users.fields.unit'))->class('col-sm-2 form-control-label')->for('unit_id') }}
+                        <div class="col-sm-10">
+                        {{ html()
+                            ->select('unit_id', $units)
+                            ->placeholder('Pilih Unit')
+                            ->class('form-control select2') }}
+                        </div>
+                    </div><!--form-group-->
                     <div class="form-group row">
                         {{ html()->label(__('labels.backend.users.fields.password'))->class('col-5 col-sm-2 form-control-label')->for('password') }}
 

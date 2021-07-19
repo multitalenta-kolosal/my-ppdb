@@ -64,6 +64,7 @@ return [
                 'name'                  => 'Name',
                 'first_name'            => 'First Name',
                 'last_name'             => 'Last Name',
+                'unit'                  => 'Select Unit',
                 'email'                 => 'Email',
                 'username'              => 'Username',
                 'mobile'                => 'Mobile',

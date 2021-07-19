@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use Modules\Core\Entities\Unit;
 use App\Models\Userprofile;
 use App\Models\UserProvider;
 use Carbon\Carbon;
@@ -179,10 +180,11 @@ class UserController extends Controller
 
         $roles = Role::get();
         $permissions = Permission::select('name', 'id')->get();
+        $units = Unit::pluck('name','id')->all();
 
         return view(
             "backend.$module_name.create",
-            compact('module_title', 'module_name', 'module_path', 'module_icon', 'module_action', 'module_name_singular', 'roles', 'permissions')
+            compact('module_title', 'module_name', 'module_path', 'module_icon', 'module_action', 'module_name_singular', 'roles', 'permissions','units')
         );
     }
 
@@ -574,12 +576,13 @@ class UserController extends Controller
 
         $roles = Role::get();
         $permissions = Permission::select('name', 'id')->get();
+        $units = Unit::pluck('name','id')->all();
 
         Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".auth()->user()->name.'(ID:'.auth()->user()->id.')');
 
         return view(
             "backend.$module_name.edit",
-            compact('module_title', 'module_name', 'module_path', 'module_icon', 'module_action', 'module_name_singular', "$module_name_singular", 'roles', 'permissions', 'userRoles', 'userPermissions')
+            compact('module_title', 'module_name', 'module_path', 'module_icon', 'module_action', 'module_name_singular', "$module_name_singular", 'roles', 'permissions', 'units','userRoles', 'userPermissions')
         );
     }
 

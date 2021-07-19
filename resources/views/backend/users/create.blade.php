@@ -63,7 +63,15 @@
                                 ->required() }}
                         </div>
                     </div><!--form-group-->
-
+                    <div class="form-group row">
+                        {{ html()->label(__('labels.backend.users.fields.unit'))->class('col-sm-2 form-control-label')->for('unit_id') }}
+                        <div class="col-sm-10">
+                        {{ html()
+                            ->select('unit_id', $units)
+                            ->placeholder('Pilih Unit')
+                            ->class('form-control select2') }}
+                        </div>
+                    </div><!--form-group-->
                     <div class="form-group row">
                         {{ html()->label(__('labels.backend.users.fields.email'))->class('col-sm-2 form-control-label')->for('email') }}
 

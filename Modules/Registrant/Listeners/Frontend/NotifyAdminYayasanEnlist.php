@@ -33,7 +33,7 @@ class NotifyAdminYayasanEnlist
     public function handle($event)
     {
         $registrant = $event->registrant;
-        
+
         $guest = User::findOrFail(1);
         $guest->notify(new NotifyYayasanRegistrantEnlist($registrant));
         

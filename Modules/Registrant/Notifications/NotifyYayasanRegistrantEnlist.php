@@ -75,8 +75,8 @@ class NotifyYayasanRegistrantEnlist extends Notification
         $text = 'Pendaftar Baru | <strong>'.
                     $registrant->name.
                 '</strong> dengan ID <strong>'.
-                    $registrant->registrant_id.'</strong>'.
-                'Tambahkan VA:  <strong>'.$registrant->va_number.'</strong>';
+                    $registrant->registrant_id.' </strong>'.
+                'Tambahkan VA:  <strong> '.$registrant->va_number.'</strong>';
 
         return [
             'title'         => 'Pendaftar Baru!',

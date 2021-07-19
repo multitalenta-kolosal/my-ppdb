@@ -102,4 +102,12 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     {
         return env('SLACK_NOTIFICATION_WEBHOOK');
     }
+
+    public function hasAllUnitAccess(){
+        return $this->hasPermissionTo('inter_unit');
+    }
+
+    public function isSuperAdmin(){
+        return $this->hasRole('super admin');
+    }
 }

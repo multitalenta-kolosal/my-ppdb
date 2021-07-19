@@ -64,6 +64,7 @@ return [
                 'name'                  => 'Nama',
                 'first_name'            => 'Nama Depan',
                 'last_name'             => 'Nama Belakang',
+                'unit'                  => 'Pilih Unit',
                 'email'                 => 'Email',
                 'username'              => 'Pengguna',
                 'mobile'                => 'Mobile',
