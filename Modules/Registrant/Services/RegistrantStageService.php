@@ -108,7 +108,6 @@ class RegistrantStageService{
             $updated = $this->registrantStageRepository->update($registrantStage->toArray(),$registrant_stage_check->id);
 
             if($notified){
-                Log::debug('masuk');
                 $notification = Notification::where('id', '=', $notified)->where('notifiable_id', '=', auth()->user()->id)->first();
 
                 if ($notification) {

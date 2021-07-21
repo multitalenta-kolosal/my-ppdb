@@ -64,7 +64,7 @@
                                 $span_class = 'font-weight-bold';
                             }
                             ?>
-                            <tr class="{{$row_class}}" id="{{$row_id ?? ''}} ">
+                            <tr class="{{$row_class}}" id="{{$row_id ?? ''}}">
                                 <td>
                                     <a href="{{ route("backend.$module_name.show", $module_name_singular->id) }}">
                                         <span class="{{$span_class}}">
