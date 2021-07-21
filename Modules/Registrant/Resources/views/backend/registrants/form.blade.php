@@ -240,7 +240,7 @@ $(document).ready(function(){
             },
             success: function (data) {
                 $('#registrant_id').val(data.id);
-                // $('#va_number').val(va_prefix+data.id);
+                $('#va_number').val(va_prefix+data.id);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 Swal.fire("@lang('error')", "@lang('select unit first')", "error");

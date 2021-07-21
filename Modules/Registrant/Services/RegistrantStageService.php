@@ -5,6 +5,7 @@ namespace Modules\Registrant\Services;
 use Modules\Registrant\Repositories\RegistrantStageRepository;
 use Modules\Core\Repositories\UnitRepository;
 use Modules\Core\Repositories\PeriodRepository;
+use App\Models\Notification;
 use Exception;
 use Carbon\Carbon;
 use Auth;
@@ -100,11 +101,23 @@ class RegistrantStageService{
 
         DB::beginTransaction();
         try{
+            $notified = $data["notified"] ?? false;
 
             $registrantStage = $this->registrantStageRepository->make($data);
             $registrant_stage_check = $this->registrantStageRepository->findBy('registrant_id',$registrantStage->registrant_id);
             $updated = $this->registrantStageRepository->update($registrantStage->toArray(),$registrant_stage_check->id);
 
+            if($notified){
+                Log::debug('masuk');
+                $notification = Notification::where('id', '=', $notified)->where('notifiable_id', '=', auth()->user()->id)->first();
+
+                if ($notification) {
+                    if ($notification->read_at == '') {
+                        $notification->read_at = Carbon::now();
+                        $notification->save();
+                    }
+                }
+            }
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());

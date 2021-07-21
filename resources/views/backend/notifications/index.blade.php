@@ -34,55 +34,68 @@
 
         <div class="row mt-4">
             <div class="col">
-                <table id="datatable" class="table table-bordered table-hover table-responsive-sm">
-                    <thead>
-                        <tr>
-                            <th>
-                                @lang('Text')
-                            </th>
-                            <th>
-                                @lang('Module')
-                            </th>
-                            <th>
-                                @lang('Updated At')
-                            </th>
-                            <th class="text-right">
-                                @lang('Action')
-                            </th>
-                        </tr>
-                    </thead>
+                <div class="table-container">
+                    <table id="datatable" class="table table-bordered table-hover table-responsive-sm">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @lang('Title')
+                                </th>
+                                <th>
+                                    @lang('Information Text')
+                                </th>
+                                <th>
+                                    @lang('Updated At')
+                                </th>
+                                <th class="text-right">
+                                    @lang('Action')
+                                </th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
-                        @foreach($$module_name as $module_name_singular)
-                        <?php
-                        $row_class = '';
-                        $span_class = '';
-                        if ($module_name_singular->read_at == ''){
-                            $row_class = 'table-info';
-                            $span_class = 'font-weight-bold';
-                        }
-                        ?>
-                        <tr class="{{$row_class}}">
-                            <td>
-                                <a href="{{ route("backend.$module_name.show", $module_name_singular->id) }}">
-                                    <span class="{{$span_class}}">
-                                        {{ $module_name_singular->data['title'] }}
-                                    </span>
-                                </a>
-                            </td>
-                            <td>
-                                {{ $module_name_singular->data['module'] }}
-                            </td>
-                            <td>
-                                {{ $module_name_singular->updated_at->diffForHumans() }}
-                            </td>
-                            <td class="text-right">
-                                <a href='{!!route("backend.$module_name.show", $module_name_singular)!!}' class='btn btn-sm btn-success mt-1' data-toggle="tooltip" title="@lang('Show') {{ ucwords(Str::singular($module_name)) }}"><i class="fas fa-tv"></i></a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        <tbody>
+                            @foreach($$module_name as $module_name_singular)
+                            <?php
+                            $row_class = '';
+                            $span_class = '';
+                            if ($module_name_singular->read_at == ''){
+                                $row_id = 'row_'.$module_name_singular->id;
+                                $row_class = 'table-info';
+                                $span_class = 'font-weight-bold';
+                            }
+                            ?>
+                            <tr class="{{$row_class}}" id="{{$row_id ?? ''}} ">
+                                <td>
+                                    <a href="{{ route("backend.$module_name.show", $module_name_singular->id) }}">
+                                        <span class="{{$span_class}}">
+                                            {{ $module_name_singular->data['title'] }}
+                                        </span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <?php
+                                    $model = $module_name_singular->data['model'] ?? '';
+                                    
+                                    ?>
+                                    {!! $module_name_singular->data['information'] ?? 'Tidak ada info, silakan cek detail notifikasi' !!}
+                                </td>
+                                <td>
+                                    {{ $module_name_singular->updated_at->diffForHumans() }}
+                                </td>
+                                <td class="text-right">
+                                    @can('add_va')
+                                        <button type="button" class="btn btn-info" id="va_confirm_{{$model['registrant_id'] ?? '0'}}" data-toggle="tooltip" data-original-title="Verifikasi VA"><i class="fas fa-lg fa-check-square"></i></button>
+                                        @push ('after-scripts')
+                                            @include('backend.includes.verify-va-swal', ['model' => $model])
+                                        @endpush
+                                    @endcan
+                                        <a href='{!!route("backend.$module_name.show", $module_name_singular)!!}' class='btn btn-sm btn-success mt-1' data-toggle="tooltip" title="@lang('Show') {{ ucwords(Str::singular($module_name)) }}"><i class="fas fa-tv"></i></a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -101,4 +114,6 @@
         </div>
     </div>
 </div>
+
 @endsection
+

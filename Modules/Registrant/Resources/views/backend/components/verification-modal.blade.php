@@ -102,6 +102,6 @@
         });
     });
     $('#modal_{{$data->id}}').on('hidden.bs.modal', function (e) {
-        $('#{{$module_name}}-table').DataTable().draw();
+        $('#{{$module_name}}-table').ajax.reload( null, false );
     })
 </script>

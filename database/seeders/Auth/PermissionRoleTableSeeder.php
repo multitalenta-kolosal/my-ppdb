@@ -32,6 +32,7 @@ class PermissionRoleTableSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'edit_settings']);
         Permission::firstOrCreate(['name' => 'view_logs']);
         Permission::firstOrCreate(['name' => 'inter_unit']);
+        Permission::firstOrCreate(['name' => 'add_va']);
 
         $permissions = Permission::defaultPermissions();
 
@@ -72,6 +73,11 @@ class PermissionRoleTableSeeder extends Seeder
         \Artisan::call('auth:permission', [
             'name' => 'periods',
         ]);
+
+        \Artisan::call('auth:permission', [
+            'name' => 'registrantStages',
+        ]);
+
         echo "\n _Periods_ Permissions Created.";
         
         echo "\n\n";

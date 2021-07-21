@@ -7,6 +7,7 @@
     "Password": "Password",
     "Password Confirmation": "Password Confirmation",
 
+    "Title": "Title",
     "Value": "Value",
     "Index": "Index",
     "List": "List",
@@ -71,6 +72,7 @@
     "There are no backups": "There are no backups",
     "Mark All As Read": "Mark All As Read",
     "Delete All Notifications": "Delete All Notifications",
+    "Information Text": "Information",
     "Text": "Text",
     "Module": "Module",
     "Total": "Total",

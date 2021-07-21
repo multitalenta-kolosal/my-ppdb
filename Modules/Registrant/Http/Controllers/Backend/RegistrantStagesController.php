@@ -89,7 +89,7 @@ class RegistrantStagesController extends Controller
         $module_path = $this->module_path;
         $module_icon = $this->module_icon;
         $module_model = $this->module_model;
-        $module_name_singular = Str::singular($module_name);
+        $module_name_singular = "Registrant Verification";
 
         $module_action = 'Update';
 

@@ -83,6 +83,8 @@ class NotifyYayasanRegistrantCreated extends Notification
             'type'          => 'created',
             'icon'          => 'fas fa-feather-alt',
             'text'          => $text,
+            'model'         => $registrant,
+            'information'   => 'Silakan tambahkan VA: '.$registrant->va_number, 
             'unit_id'       => $registrant->unit_id,
             'url_backend'   => '',
             'url_frontend'  => '',

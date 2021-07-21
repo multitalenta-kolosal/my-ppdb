@@ -1,3 +1,4 @@
+
 <div class="row">
     <div class="col">
         <div class="form-group shadow p-2 mb-2 bg-white rounded">
@@ -14,10 +15,12 @@
                     {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
                 </div>
                 <div class="col-3 align-self-center">
-                    {{ $data->field_info ?? 'BELUM DIBUAT' }}
+                    {{ $data->$field_info ?? 'BELUM DIBUAT' }}
                 </div>
                 <div class="col-2">
-                    {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
+                    @can('add_va')
+                        {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
+                    @endcan
                 </div>
                 <div class="col-2 align-self-center text-success"  id="col_{{$field_name}}_{{$data->id}}">
                     @if($data->registrant_stage)
@@ -46,7 +49,7 @@
                     {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
                 </div>
                 <div class="col-3 align-self-center">
-                    {{ $data->period->$field_info ?? 'NO DATA YET' }}
+                    {{ number_format($data->period->$field_info, 2, ',', '.') ?? 'NO DATA YET' }}
                 </div>
                 <div class="col-2">
                     {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
@@ -162,7 +165,7 @@
                         {{ html()->div($field_lable_dpp, $field_dpp) }} {!! fielf_required($required) !!}
                     </div>
                     <div class="col-3 align-self-center">
-                        {{ $data->unit->$field_info_dpp ?? 'NO DATA YET' }}
+                        {{ number_format($data->unit->$field_info_dpp, 2, ',', '.') ?? 'NO DATA YET' }}
                     </div>
                     <div class="col-2">
                         {{ html()->checkbox($field_dpp.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
@@ -180,7 +183,7 @@
                         {{ html()->div($field_lable_dp, $field_dp) }} {!! fielf_required($required) !!}
                     </div>
                     <div class="col-3 align-self-center">
-                        {{ $data->unit->$field_info_dp ?? 'NO DATA YET' }}
+                        {{  number_format($data->unit->$field_info_dp, 2, ',', '.') ?? 'NO DATA YET' }}
                     </div>
                     <div class="col-2">
                         {{ html()->checkbox($field_dp.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
@@ -198,7 +201,7 @@
                         {{ html()->div($field_lable_spp, $field_spp) }} {!! fielf_required($required) !!}
                     </div>
                     <div class="col-3 align-self-center">
-                        {{ $data->unit->$field_info_spp ?? 'NO DATA YET' }}
+                        {{ number_format($data->unit->$field_info_spp, 2, ',', '.') ?? 'NO DATA YET' }}
                     </div>
                     <div class="col-2">
                         {{ html()->checkbox($field_spp.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
