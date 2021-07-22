@@ -15,7 +15,8 @@ Route::group(['namespace' => '\Modules\Registrant\Http\Controllers\Frontend', 'a
      * ---------------------------------------------------------------------
      */
     $module_name = 'registrants';
-    $controller_name = 'RegistrantsController';
+    $controller_name = 'RegistrantsController';    
+    Route::get("daftar", ['as' => "$module_name.index", 'uses' => "$controller_name@index"]);
     Route::resource("$module_name", "$controller_name")->only([
         'store', 'update'
     ])->middleware(['throttle:10,1']);

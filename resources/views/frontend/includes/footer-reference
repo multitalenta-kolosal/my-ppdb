@@ -17,7 +17,10 @@
                     Pages
                 </h6>
                 <ul class="links-vertical">
-                    <li><a target="_blank" href="{{ route('frontend.registrants.index') }}">Pendaftaran</a></li>
+                    <li><a target="_blank" href="#">Blog</a></li>
+                    <li><a target="_blank" href="#">Themes</a></li>
+                    <li><a target="_blank" href="#">Support</a></li>
+                    <li><a target="_blank" href="#">Contact Us</a></li>
                 </ul>
             </div>
             <div class="col-6 col-sm-3 col-lg-2 mb-4 mb-lg-0 text-center">
@@ -25,7 +28,18 @@
                     Account
                 </h6>
                 <ul class="links-vertical">
+                    <li>
+                        <a target="_blank" href="#">Blog</a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="#">License</a>
+                    </li>
                     @guest
+                    @if(user_registration())
+                    <li>
+                        <a href="{{ route('register') }}">Register</a>
+                    </li>
+                    @endif
                     <li>
                         <a href="{{ route('login') }}">Login</a>
                     </li>
@@ -45,7 +59,19 @@
                 </ul>
             </div>
             <div class="col-12 col-sm-6 col-lg-4">
-                <!-- <small class="mt-2 form-text">We’ll never share your details. See our <a href="{{route('frontend.privacy')}}" class="font-weight-bold text-underline">Privacy Policy</a></small> -->
+                <h6>Subscribe</h6>
+                <p class="font-small">The latest Impact news, articles, and resources, sent straight to your inbox every month.</p>
+                <form action="#">
+                    <div class="form-row">
+                        <div class="col-8">
+                            <input type="email" class="form-control mb-2" placeholder="Email Address" required>
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-secondary btn-block"><span>Subscribe</span></button>
+                        </div>
+                    </div>
+                </form>
+                <small class="mt-2 form-text">We’ll never share your details. See our <a href="{{route('frontend.privacy')}}" class="font-weight-bold text-underline">Privacy Policy</a></small>
             </div>
         </div>
 

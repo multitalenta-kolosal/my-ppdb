@@ -13,6 +13,7 @@
 
     @include('frontend.includes.meta')
 
+
     <!-- Shortcut Icon -->
     <link rel="shortcut icon" href="{{asset('img/favicon.png')}}">
     <link rel="icon" type="image/ico" href="{{asset('img/favicon.png')}}" />
@@ -41,7 +42,9 @@
 
     @include('frontend.includes.footer')
 
+
 </body>
+
 
 <!-- Scripts -->
 @stack('before-scripts')

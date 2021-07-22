@@ -35,27 +35,13 @@ class UnitService{
         return $unit;
     }
 
-    public function getIndexList(Request $request){
+    public function getList(){
 
-        $listData = [];
+        $unit =$this->unitRepository->all();
 
-        $term = trim($request->q);
-
-        if (empty($term)) {
-            return $listData;
-        }
-
-        $query_data = $this->unitRepository->findWhere(['name', 'LIKE', "%$term%"]);
-
-        foreach ($query_data as $row) {
-            $listData[] = [
-                'id'   => $row->id,
-                'text' => $row->name,
-            ];
-        }
-
-        return $listData;
+        return $unit;
     }
+
 
     public function create(){
 

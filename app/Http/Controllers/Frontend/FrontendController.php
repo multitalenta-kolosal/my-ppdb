@@ -9,7 +9,9 @@ class FrontendController extends Controller
 {
     protected $registrantService;
    
-    public function __construct(RegistrantService $registrantService)
+    public function __construct(
+        RegistrantService $registrantService
+    )
     {
         $this->registrantService = $registrantService;
     }
@@ -24,11 +26,11 @@ class FrontendController extends Controller
         $body_class = '';
 
         $options = $this->registrantService->prepareOptions();
-       
-        $unit = $options['unit'];
-        $type = $options['type'];
 
-        return view('frontend.index', compact('body_class','unit','type'));
+        $unit_options = $options['unit'];
+        $type_options = $options['type'];
+
+        return view('frontend.index', compact('body_class','unit_options','type_options'));
     }
 
     /**

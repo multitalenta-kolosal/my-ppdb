@@ -38,6 +38,32 @@ class RegistrantsController extends Controller
         $this->registrantService = $registrantService;
     }
 
+/**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'List';
+
+        $options = $this->registrantService->prepareOptions();
+
+        $unit_options = $options['unit'];
+        $type_options = $options['type'];
+
+        return view(
+            "registrant::frontend.$module_path.index",
+            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','unit_options', 'type_options')
+        );
+    }
 
     /**
      * Store a newly created resource in storage.

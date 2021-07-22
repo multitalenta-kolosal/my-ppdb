@@ -18,11 +18,6 @@
         <strong>Privacy Policy</strong>
 
         <p>
-            Nasir Khan Saikat built the {{ config('app.name') }} app as
-            an Open Source app. This SERVICE is provided by
-            Nasir Khan Saikat at no cost and is intended for use as
-            is.
-        </p> <p>
             This page is used to inform visitors regarding my
             policies with the collection, use, and disclosure of Personal
             Information if anyone decided to use my Service.
@@ -105,9 +100,9 @@
             periodically for any changes. I will
             notify you of any changes by posting the new Privacy Policy on
             this page.
-        </p> <p>This policy is effective as of 2020-01-01</p> <p><strong>Contact Us</strong></p> <p>
+        </p> <p>This policy is effective as of 2021-01-01</p> <p><strong>Contact Us</strong></p> <p>
             If you have any questions or suggestions about my
-            Privacy Policy, do not hesitate to contact me at https://nasirkhn.com.
+            Privacy Policy, do not hesitate to contact us at yp@warga.sch.id
         </p>
     </div>
 </div>

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
+use Modules\Core\Services\UnitService;
 /*
  * Global helpers file with misc functions.
  */
@@ -184,6 +185,19 @@ if (!function_exists('humanFilesize')) {
     }
 }
 
+/*
+ * getUnitContact
+ *
+ * @var [type]
+ */
+if (!function_exists('getUnitContact')) {
+    function getUnitContact()
+    {
+        $units = UnitService::getUnits();
+        
+        return $units;
+    }
+}
 /*
  *
  * Encode Id to a Hashids\Hashids
