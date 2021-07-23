@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Core\Repositories\Contract;
+namespace Modules\Core\Repositories\Contracts;
 
 use App\Contract\BaseContract;
 

@@ -25,16 +25,16 @@ class RegistrantStagesController extends Controller
     public function __construct(RegistrantStageService $registrantStageService)
     {
         // Page Title
-        $this->module_title = 'RegistrantStages';
+        $this->module_title = 'Registrantstages';
 
         // mother module name
         $this->module_mother_name = 'registrants';
 
         // module name
-        $this->module_name = 'registrantStages';
+        $this->module_name = 'registrantstages';
 
         // directory path of the module
-        $this->module_path = 'registrantStages';
+        $this->module_path = 'registrantstages';
 
         // module icon
         $this->module_icon = 'fas fa-feather-alt';

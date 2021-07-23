@@ -3,7 +3,7 @@
 namespace Modules\Registrant\Repositories;
 
 use App\Repositories\BaseRepository;
-use Modules\Registrant\Repositories\Contract\RegistrantStageRepositoryInterface;
+use Modules\Registrant\Repositories\Contracts\RegistrantStageRepositoryInterface;
 use Modules\Registrant\Entities\RegistrantStage;
 
 /** @property RegistrantStage $model */

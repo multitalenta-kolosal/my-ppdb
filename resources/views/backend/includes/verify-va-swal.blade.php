@@ -14,7 +14,7 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         type: "POST",
-                        url: '{{route("backend.registrantStages.update", $model["registrant_id"]  ?? "0")}}',
+                        url: '{{route("backend.registrantstages.update", $model["registrant_id"]  ?? "0")}}',
                         data: {
                             "_method":"PATCH",
                             "_token": "{{ csrf_token() }}",

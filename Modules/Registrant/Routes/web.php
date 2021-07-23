@@ -58,7 +58,7 @@ Route::group(['namespace' => '\Modules\Registrant\Http\Controllers\Backend', 'as
      *
      * ---------------------------------------------------------------------
      */
-    $module_name = 'registrantStages';
+    $module_name = 'registrantstages';
     $controller_name = 'RegistrantStagesController';
     Route::resource("$module_name", "$controller_name")->only([
         'store', 'update', 'destroy'

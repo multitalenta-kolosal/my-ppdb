@@ -11,6 +11,7 @@ Use Modules\Registrant\Events\Frontend\RegistrantEnlist;
 //Listeners
 Use Modules\Registrant\Listeners\Backend\NotifyAdminYayasan;
 Use Modules\Registrant\Listeners\Frontend\NotifyAdminYayasanEnlist;
+Use Modules\Registrant\Listeners\Frontend\NotifyUnitYayasanEnlist;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -19,7 +20,7 @@ class EventServiceProvider extends ServiceProvider
             NotifyAdminYayasan::class,
         ],
         RegistrantEnlist::class => [
-            NotifyAdminYayasanEnlist::class,
+            NotifyAdminYayasanEnlist::class, NotifyUnitYayasanEnlist::class,
         ],
     ];
 }

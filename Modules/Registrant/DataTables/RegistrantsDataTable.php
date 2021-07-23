@@ -71,7 +71,13 @@ class RegistrantsDataTable extends DataTable
      */
     public function query()
     {
-        $data = $this->registrantRepository->query();
+        $user = auth()->user();
+        if(!$user->isSuperAdmin() && !$user->hasAllUnitAccess()){
+            $unit_id = $user->unit_id;
+            $data = $this->registrantRepository->getRegistrantsByUnitQuery($unit_id);
+        }else{
+            $data = $this->registrantRepository->query();
+        }
 
         return $this->applyScopes($data);
     }

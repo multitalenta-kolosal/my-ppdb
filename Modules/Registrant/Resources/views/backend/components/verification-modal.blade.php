@@ -15,7 +15,7 @@
                     <?php
                         $registrantStage = $data->registrant_stage;
                     ?>
-                    <form role="form" id="form_{{$data->id}}" method="PATCH" action="{{ route('backend.registrantStages.update', $registrantStage ?? '0') }}">
+                    <form role="form" id="form_{{$data->id}}" method="PATCH" action="{{ route('backend.registrantstages.update', $registrantStage ?? '0') }}">
                         @csrf
                         <!-- <input type="hidden" name="_method" id="_method" value="PATCH">-->
                         <input type="hidden" name="registrant_id" id="registrant_id_{{$data->id}}" value="{{ $data->registrant_id }}"> 
@@ -43,7 +43,7 @@
             e.preventDefault();
             $.ajax({
                 type: "POST",
-                url: '{{route("backend.registrantStages.update", $data->registrant_id)}}',
+                url: '{{route("backend.registrantstages.update", $data->registrant_id)}}',
                 data: {
                     "_method":"PATCH",
                     "_token": "{{ csrf_token() }}",

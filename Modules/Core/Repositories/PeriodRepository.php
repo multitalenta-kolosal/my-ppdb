@@ -3,7 +3,7 @@
 namespace Modules\Core\Repositories;
 
 use App\Repositories\BaseRepository;
-use Modules\Core\Repositories\Contract\PeriodRepositoryInterface;
+use Modules\Core\Repositories\Contracts\PeriodRepositoryInterface;
 use Modules\Core\Entities\Period;
 
 /** @property Period $model */

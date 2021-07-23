@@ -3,7 +3,7 @@
 namespace Modules\Core\Repositories;
 
 use App\Repositories\BaseRepository;
-use Modules\Core\Repositories\Contract\UnitRepositoryInterface;
+use Modules\Core\Repositories\Contracts\UnitRepositoryInterface;
 use Modules\Core\Entities\Unit;
 
 /** @property Unit $model */

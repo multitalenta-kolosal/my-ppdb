@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Log;
 use App\Models\User;
 
 use Modules\Registrant\Events\Frontend\RegistrantEnlist;
-use Modules\Registrant\Notifications\NotifyYayasanRegistrantEnlist;
+use Modules\Registrant\Notifications\NotifyUnitRegistrantEnlist;
 use Modules\Registrant\Entities\Registrant;
 
-class NotifyAdminYayasanEnlist
+class NotifyUnitYayasanEnlist
 {
     public $registrant;
 
@@ -34,10 +34,10 @@ class NotifyAdminYayasanEnlist
     {
         $registrant = $event->registrant;
 
-        $users = User::whereHas("permissions", function($q){ $q->where("name", "add_va"); })->get();
+        $users = User::where('unit_id', $registrant->unit_id)->get();
 
         foreach($users as $user){
-            $user->notify(new NotifyYayasanRegistrantEnlist($registrant));
+            $user->notify(new NotifyUnitRegistrantEnlist($registrant));
         }
         
     }

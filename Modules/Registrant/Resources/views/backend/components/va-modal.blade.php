@@ -13,7 +13,7 @@
             </div>
             <div name="form">
                 <div class="modal-body">
-                    <form role="form" id="form_{{$model->id}}" method="PATCH" action="{{ route('backend.registrantStages.update', $model->registrant_stage ?? '0') }}">
+                    <form role="form" id="form_{{$model->id}}" method="PATCH" action="{{ route('backend.registrantstages.update', $model->registrant_stage ?? '0') }}">
                         @csrf
                         <!-- <input type="hidden" name="_method" id="_method" value="PATCH">-->
                         <input type="hidden" name="registrant_id" id="registrant_id_{{$model->id}}" value="{{ $model->registrant_id }}"> 
