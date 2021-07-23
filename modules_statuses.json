@@ -3,5 +3,6 @@
     "Tag": true,
     "Comment": true,
     "Registrant": true,
-    "Core": true
+    "Core": true,
+    "Message": true
 }
