@@ -78,6 +78,10 @@ class PermissionRoleTableSeeder extends Seeder
             'name' => 'registrantstages',
         ]);
 
+        \Artisan::call('auth:permission', [
+            'name' => 'messages',
+        ]);
+
         echo "\n _Periods_ Permissions Created.";
         
         echo "\n\n";

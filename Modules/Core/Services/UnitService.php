@@ -169,17 +169,4 @@ class UnitService{
         return $units;
     }
 
-    public function generateId(){
-        $year = Carbon::now()->format('y');
-
-        $month = Carbon::now()->format('m');
-
-        $response = [
-            'id'   => $year.$month,
-            'error' => false,
-            'message' => '',
-        ];
-    
-        return $response;
-    }
 }

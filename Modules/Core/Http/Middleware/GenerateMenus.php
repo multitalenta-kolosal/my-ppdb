@@ -22,17 +22,47 @@ class GenerateMenus
                 'class' => 'c-sidebar-nav-dropdown',
             ])
             ->data([
-                'order' => 79,
+                'order' => 50,
                 'activematches' => [
                     'admin/units*',
-                    'admin/periods*',                    
+                    'admin/periods*', 
+                    'admin/messages*',                    
                 ],
-                'permission' => ['view_units','view_periods'],
+                'permission' => ['view_units','view_periods','view_messages'],
             ]);
 
             $core_menu->link->attr([
                 'class' => 'c-sidebar-nav-dropdown-toggle',
-                'href'  => '#',
+                'href
+                '  => '#',
+            ]);
+
+            //template
+            $core_menu->add('<i class="fas fa-envelope c-sidebar-nav-icon"></i>Template', [
+                'route' => 'backend.messages.index',
+                'class' => 'c-sidebar-nav-item',
+            ])
+            ->data([
+                'order' => 3,
+                'activematches' => ['admin/messages*'],
+                'permission' => ['view_messages'],
+            ])
+            ->link->attr([
+                'class' => 'c-sidebar-nav-link',
+            ]);
+
+             // periods
+             $core_menu->add('<i class="fas fa-calendar-day c-sidebar-nav-icon"></i> Periods', [
+                'route' => 'backend.periods.index',
+                'class' => 'c-sidebar-nav-item',
+            ])
+            ->data([
+                'order' => 4,
+                'activematches' => ['admin/periods*'],
+                'permission' => ['view_periods'],
+            ])
+            ->link->attr([
+                'class' => 'c-sidebar-nav-link',
             ]);
 
             // units
@@ -41,7 +71,7 @@ class GenerateMenus
                 'class' => 'c-sidebar-nav-item',
             ])
             ->data([
-                'order' => 3,
+                'order' => 5,
                 'activematches' => ['admin/units*'],
                 'permission' => ['view_units'],
             ])
@@ -49,19 +79,7 @@ class GenerateMenus
                 'class' => 'c-sidebar-nav-link',
             ]);
             
-            // periods
-            $core_menu->add('<i class="fas fa-calendar-day c-sidebar-nav-icon"></i> Periods', [
-                'route' => 'backend.periods.index',
-                'class' => 'c-sidebar-nav-item',
-            ])
-            ->data([
-                'order' => 3,
-                'activematches' => ['admin/periods*'],
-                'permission' => ['view_periods'],
-            ])
-            ->link->attr([
-                'class' => 'c-sidebar-nav-link',
-            ]);
+           
         })->sortBy('order');
 
         return $next($request);
