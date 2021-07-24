@@ -45,6 +45,7 @@
     },
     "dependencies": {
         "datatables.net-bs4": "^3.2.2",
-        "datatables.net-buttons-bs4": "^1.7.1"
+        "datatables.net-buttons-bs4": "^1.7.1",
+        "ngrok": "^4.0.1"
     }
 }

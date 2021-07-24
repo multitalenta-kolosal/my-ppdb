@@ -58,6 +58,12 @@ class MessagesController extends Controller
 
         $module_action = 'webhook';
 
-        $messages = $this->messageService->messageEventCatch($request);
+        $response = $this->messageService->messageEventCatch($request);
+
+        if($response){
+            return response()->json($response);
+        }else{
+            return response()->json($response);
+        }
     }
 }

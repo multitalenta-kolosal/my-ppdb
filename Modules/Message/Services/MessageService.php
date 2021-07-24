@@ -267,8 +267,6 @@ class MessageService{
 
     public function messageEventCatch(Request $request){
 
-        Log::debug('webhookcatch!');
-
         $data_request = $request->all();
 
         $tracker_suffix = "_pass_message_sent";
@@ -278,45 +276,53 @@ class MessageService{
         $data = json_decode($data_request["data"]);
 
         try {
-            if (!$data->event=="INBOX")
-            {
-                $custom_data = explode('_', $data->custom_data);
+            $custom_data = explode('_', $data->custom_data);
+            $message_code = $custom_data[0];
+            $registrant = $this->registrantRepository->findBy('registrant_id',$custom_data[1]);
+            $parameter = $custom_data[2];
+            $parameter_value = 0;
 
-                $message_code = $custom_data[0];
-                $registrant = $this->registrantRepository->findBy('registrant_id',$custom_data[1]);
-                $parameter = $custom_data[2];
-                $parameter_value = 0;
-
-                if($registrant){
-                    if ($data->event=="MESSAGEPROCESSED") {
-                        $parameter_value = 1;
-                    }elseif ($data->event=="MESSAGEFAILED") {
-                        $parameter_value = -1;
-                    }
-
-                    $updated = $this->registrantMessageRepository->update(
-                        [
-                            $parameter.$tracker_suffix => $parameter_value,
-                        ]
-                        ,
-                        $registrant->registrant_message->id
-                    );
-                }else{
-                    Log::critical('registrant not found');
-                    return null;
+            if($registrant){
+                if ($data->event=="MESSAGEPROCESSED") {
+                    $parameter_value = 1;
+                }elseif ($data->event=="MESSAGEFAILED") {
+                    $parameter_value = -1;
                 }
-    
+
+                $updated = $this->registrantMessageRepository->update(
+                    [
+                        $parameter.$tracker_suffix => $parameter_value,
+                    ]
+                    ,
+                    $registrant->registrant_message->id
+                );
+
+            }else{
+                Log::critical('registrant not found');
+                return $response = [
+                    'data'   => null,
+                    'error' => true,
+                    'message' => 'registrant not found',
+                ];
             }
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
-            return null;
+            return $response = [
+                'data'   => null,
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
         }
 
         DB::commit();
 
-        Log::info(label_case($this->module_title.' '.__function__)."'". $parameter.$tracker_suffix." ".$registrant->registrant_id."' | '".$message->name.'(ID:'.$message->id.") ' by: System'");
+        Log::info(label_case($this->module_title.' Function: '.__function__)."' ". $parameter.$tracker_suffix." | Registrant ID:".$registrant->registrant_id."' | Destination:'".$registrant->phone.' (sender:'.$registrant->unit->name.") ' by: System'");
 
-        return $registrant;
+        return $response = [
+            'data'   => $data,
+            'error' => false,
+            'message' => '',
+        ];;
     }
 }
