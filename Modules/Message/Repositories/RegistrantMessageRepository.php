@@ -14,12 +14,9 @@ class RegistrantMessageRepository extends BaseRepository implements RegistrantMe
         return RegistrantMessage::class;
     }
 
-    public function getBiggestUnitIncrement($unit_id)
-    {
-        return RegistrantMessage::where('unit_id', $unit_id)->withTrashed()->max('unit_increment');
-    }
-
     public function getRegistrantMessagesByUnitQuery($unit_id){
-        return RegistrantMessage::where('unit_id', $unit_id)->withTrashed();
+        return RegistrantMessage::select('registrant_messages.*')
+            ->join('registrants', 'registrants.registrant_id', '=', 'registrant_messages.registrant_id')
+            ->where('registrants.unit_id', $unit_id);
     }
 }
