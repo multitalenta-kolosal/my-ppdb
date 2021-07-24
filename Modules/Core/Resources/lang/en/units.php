@@ -11,6 +11,8 @@ return [
     'dpp'                       => 'DPP',
     'dp'                        => 'DP',
     'spp'                       => 'SPP',
-    'unit_code'                 => 'Unit Code'
+    'unit_code'                 => 'Unit Code',
+    'api_key'                   => 'API Key',
+    'order'                     => 'Order'
 
 ];

@@ -11,5 +11,7 @@ return [
     'dpp'                       => 'DPP',
     'dp'                        => 'DP',
     'spp'                       => 'SPP',
-    'unit_code'                 => 'Kode Unit'
+    'unit_code'                 => 'Kode Unit',
+    'api_key'                   => 'API Key',
+    'order'                     => 'Urutan jenjang'
 ];
