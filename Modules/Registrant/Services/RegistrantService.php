@@ -3,6 +3,7 @@
 namespace Modules\Registrant\Services;
 
 use Modules\Registrant\Services\RegistrantStageService;
+use Modules\Message\Services\RegistrantMessageService;
 
 use Modules\Registrant\Repositories\RegistrantRepository;
 use Modules\Core\Repositories\UnitRepository;
@@ -34,6 +35,7 @@ class RegistrantService{
          * 
          */
         RegistrantStageService $registrantStageService,
+        RegistrantMessageService $registrantMessageService,
         /**
          * Repositories Parameter
          * 
@@ -47,6 +49,7 @@ class RegistrantService{
          * 
          */
         $this->registrantStageService = $registrantStageService;
+        $this->registrantMessageService = $registrantMessageService;
         /**
          * Repositories Declaration
          * 
@@ -107,6 +110,7 @@ class RegistrantService{
             $registrant->register_ip = request()->getClientIP();
 
             $registrant_stage = $this->registrantStageService->store($request, $registrant);
+            $registrant_message = $this->registrantMessageService->store($request, $registrant);
 
             $registrant->progress_id = $registrant_stage['data']->id;
 

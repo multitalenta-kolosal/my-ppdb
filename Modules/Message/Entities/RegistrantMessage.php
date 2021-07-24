@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Registrant\Entities;
+namespace Modules\Message\Entities;
 
 use App\Models\BaseModel;
 use Carbon\Carbon;
@@ -9,15 +9,15 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Feed\FeedItem;
 
-class RegistrantStage extends BaseModel
+class RegistrantMessage extends BaseModel
 {
     use HasFactory;
     use LogsActivity;
     use Notifiable;
 
-    protected $table = 'registrant_stages';
+    protected $table = 'registrant_messages';
 
-    protected static $logName = 'registrant_stages';
+    protected static $logName = 'registrant_messages';
     protected static $logOnlyDirty = true;
     protected static $logAttributes = ['registrant_id'];
 
@@ -33,6 +33,6 @@ class RegistrantStage extends BaseModel
      */
     protected static function newFactory()
     {
-        return \Modules\Registrant\Database\Factories\RegistrantStageFactory::new();
+        return \Modules\Registrant\Database\Factories\RegistrantMessageFactory::new();
     }
 }

@@ -39,6 +39,11 @@ class Registrant extends BaseModel
         return $this->hasOne('Modules\Registrant\Entities\RegistrantStage', 'id', 'progress_id');
     }
 
+    public function registrant_message()
+    {
+        return $this->hasOne('Modules\Message\Entities\RegistrantMessage', 'registrant_id', 'registrant_id');
+    }
+
     /**
      * Create a new factory instance for the model.
      *

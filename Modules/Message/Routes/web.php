@@ -28,7 +28,7 @@ Route::group(['namespace' => '\Modules\Message\Http\Controllers\Backend', 'as' =
 
     /*
      *
-     *  Units Routes
+     *  Message Template Routes
      *
      * ---------------------------------------------------------------------
      */
@@ -37,4 +37,18 @@ Route::group(['namespace' => '\Modules\Message\Http\Controllers\Backend', 'as' =
     Route::get("$module_name/index_list", ['as' => "$module_name.index_list", 'uses' => "$controller_name@index_list"]);
     Route::get("$module_name/index_data", ['as' => "$module_name.index_data", 'uses' => "$controller_name@index_data"]);
     Route::resource("$module_name", "$controller_name");
+
+
+     /*
+     *
+     *  Registrant Message Routes
+     *
+     * ---------------------------------------------------------------------
+     */
+    $module_name = 'registrantmessages';
+    $controller_name = 'RegistrantMessagesController';
+    Route::resource("$module_name", "$controller_name")->only([
+        'index','store', 'update', 'destroy'
+    ])->middleware(['auth', 'throttle:60,1']);
+
 });
