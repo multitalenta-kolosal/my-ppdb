@@ -3,6 +3,8 @@
 namespace Modules\Registrant\Services;
 
 use Modules\Registrant\Services\RegistrantStageService;
+use Modules\Message\Services\RegistrantMessageService;
+use Modules\Message\Services\MessageService;
 
 use Modules\Registrant\Repositories\RegistrantRepository;
 use Modules\Core\Repositories\UnitRepository;
@@ -22,7 +24,9 @@ use Modules\Registrant\Events\Frontend\RegistrantEnlist;
 
 class RegistrantService{
 
+    protected $registrantMessageService;
     protected $registrantStageService;
+    protected $messageService;
 
     protected $registrantRepository;
     protected $unitRepository;
@@ -33,7 +37,9 @@ class RegistrantService{
          * Services Parameter
          * 
          */
+        RegistrantMessageService $registrantMessageService,
         RegistrantStageService $registrantStageService,
+        MessageService $messageService,
         /**
          * Repositories Parameter
          * 
@@ -46,7 +52,9 @@ class RegistrantService{
          * Services Declaration
          * 
          */
+        $this->registrantMessageService = $registrantMessageService;
         $this->registrantStageService = $registrantStageService;
+        $this->messageService = $messageService;
         /**
          * Repositories Declaration
          * 
@@ -112,13 +120,30 @@ class RegistrantService{
 
             $registrant = $this->registrantRepository->create($registrant->toArray());
 
+            $registrant_message = $this->registrantMessageService->store($request, $registrant);
+
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
-            return null;
+            return (object) array(
+                'error'=> true,
+                'message'=> $response['message'],
+                'data'=> $registrant,
+            );
         }
 
         DB::commit();
+
+        $response = $this->messageService->send($registrant, 'pendaftaran-contoh', 'register',['name' => $registrant->name, 'unit' => $registrant->unit->name]);
+
+        if($response['error']){
+            Log::critical('Send Message error: '.$response['message']);
+            return (object) array(
+                'error'=> true,
+                'message'=> $response['message'],
+                'data'=> $registrant,
+            );
+        }
 
         if (Auth::check()) {
             Log::info(label_case($this->module_title.' '.__function__)." | '".$registrant->name.'(ID:'.$registrant->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
@@ -128,7 +153,11 @@ class RegistrantService{
             event(new RegistrantEnlist($registrant));
         }
 
-        return $registrant;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $registrant,
+        );
     }
 
     public function show($id){

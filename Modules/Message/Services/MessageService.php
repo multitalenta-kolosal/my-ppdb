@@ -3,6 +3,9 @@
 namespace Modules\Message\Services;
 
 use Modules\Message\Repositories\MessageRepository;
+use Modules\Registrant\Repositories\RegistrantRepository;
+use Modules\Message\Repositories\RegistrantMessageRepository;
+
 use Exception;
 use Carbon\Carbon;
 use Auth;
@@ -14,11 +17,35 @@ use Illuminate\Http\Request;
 
 class MessageService{
 
+    protected $registrantMessageRepository;
     protected $messageRepository;
 
-    public function __construct(MessageRepository $messageRepository) {
+    public function __construct(
+         /**
+         * Services Parameter
+         * 
+         */
 
+        /**
+         * Repositories Parameter
+         * 
+         */
+        MessageRepository $messageRepository,
+        RegistrantRepository $registrantRepository,
+        RegistrantMessageRepository $registrantMessageRepository
+    ) {
+        /**
+         * Services Declaration
+         * 
+         */
+
+        /**
+         * Repositories Declaration
+         * 
+         */
         $this->messageRepository = $messageRepository;
+        $this->registrantRepository = $registrantRepository;
+        $this->registrantMessageRepository = $registrantMessageRepository;
 
         $this->module_title = Str::plural(class_basename($this->messageRepository->model()));
 
@@ -139,5 +166,157 @@ class MessageService{
         Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$messages->name.', ID:'.$messages->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return $messages;
+    }
+
+    public function send($registrant, $message_code, $tracker_code,$replaces = []){
+        DB::beginTransaction();
+
+        $message = '';
+
+        try{
+            $template = $this->messageRepository->findBy('code',$message_code);
+
+            if($template)
+            {
+                $message = $template->message;
+
+                foreach($replaces as $key => $value){
+                    $message =  Str::replace('$'.$key, $value, $message);
+                }
+            }
+          
+            $curl = curl_init();
+            
+            $apikey = $registrant->unit->api_key;
+            $destination =  $this->getCleanNumber($registrant->phone);
+            $message_text = $message;
+            $message_custom_code = $message_code."_".$registrant->registrant_id."_".$tracker_code;
+
+            $api_url = "http://panel.rapiwha.com/send_message.php";
+            $api_url .= "?apikey=". urlencode ($apikey);
+            $api_url .= "&number=". urlencode ($destination);
+            $api_url .= "&text=". urlencode ($message_text);
+            $api_url .= "&custom_data=". urlencode ($message_custom_code);
+
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => $api_url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            ));
+
+            $api_response = json_decode(curl_exec($curl));
+            $err = curl_error($curl);
+
+            curl_close($curl);
+
+            if ($err) {
+                return $response = [
+                    'data'          => $api_response,
+                    'registrant'    => $registrant,
+                    'error'         => true,
+                    'message'       => $err,
+                ];
+            }elseif($api_response){
+                if (!$api_response->success){
+                    return $response = [
+                        'data'          => $api_response,
+                        'registrant'    => $registrant,
+                        'error'         => true,
+                        'message'       => $api_response->description,
+                    ];          
+                }      
+            }else{
+                return $response = [
+                    'data'          => null,
+                    'registrant'    => $registrant,
+                    'error'         => true,
+                    'message'       => 'not get any response',
+                ];     
+            }
+    
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::critical($e->getMessage());
+            return $response = [
+                'data'          => null,
+                'registrant'    => $registrant,
+                'error'         => true,
+                'message'       => 'response message: '.$e->getMessage(),
+            ];
+        }
+
+        DB::commit();
+
+        Log::info(label_case($this->module_title.' '.__FUNCTION__).' '.$message_code." ".', response:'.$api_response->description."' | '".$registrant->name.', ID:'.$registrant->registrant_id."'");
+
+        return $response = [
+            'data'          => $api_response,
+            'registrant'    => $registrant,
+            'error'         => false,
+            'message'       => '',
+        ];
+    }
+
+    public function getCleanNumber($rawphone){
+        return Str::replaceFirst('0','62',$rawphone);
+    }
+
+    public function messageEventCatch(Request $request){
+
+        Log::debug('webhookcatch!');
+
+        $data_request = $request->all();
+
+        $tracker_suffix = "_pass_message_sent";
+
+        DB::beginTransaction();
+
+        $data = json_decode($data_request["data"]);
+
+        try {
+            if (!$data->event=="INBOX")
+            {
+                $custom_data = explode('_', $data->custom_data);
+
+                $message_code = $custom_data[0];
+                $registrant = $this->registrantRepository->findBy('registrant_id',$custom_data[1]);
+                $parameter = $custom_data[2];
+                $parameter_value = 0;
+
+                if($registrant){
+                    if ($data->event=="MESSAGEPROCESSED") {
+                        $parameter_value = 1;
+                    }elseif ($data->event=="MESSAGEFAILED") {
+                        $parameter_value = -1;
+                    }
+
+                    $updated = $this->registrantMessageRepository->update(
+                        [
+                            $parameter.$tracker_suffix => $parameter_value,
+                        ]
+                        ,
+                        $registrant->registrant_message->id
+                    );
+                }else{
+                    Log::critical('registrant not found');
+                    return null;
+                }
+    
+            }
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::critical($e->getMessage());
+            return null;
+        }
+
+        DB::commit();
+
+        Log::info(label_case($this->module_title.' '.__function__)."'". $parameter.$tracker_suffix." ".$registrant->registrant_id."' | '".$message->name.'(ID:'.$message->id.") ' by: System'");
+
+        return $registrant;
     }
 }

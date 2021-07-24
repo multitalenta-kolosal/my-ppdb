@@ -81,7 +81,7 @@ class RegistrantMessageService{
         DB::commit();
 
         if (Auth::check()) {
-            Log::info(label_case($this->module_title.' '.__function__)." | Message Created '".$registrantMessage->registrant_id.'(ID:'.$registrantMessage->id.") ".Auth::check() ? ( " by User: ".Auth::user()->name.'(ID:'.Auth::user()->id.')') : ("By: Guest"));
+            Log::info(label_case($this->module_title.' '.__function__)." | Registrant Message Tracker Created '".$registrantMessage->registrant_id.'(ID:'.$registrantMessage->id.") ");
         }else{
             Log::info(label_case($this->module_title.' '.__function__)." | '".$registrantMessage->registrant_id.'(ID:'.$registrantMessage->id.") ' by System)'");
         }
@@ -95,28 +95,20 @@ class RegistrantMessageService{
         return $response;
     }
 
-    public function update(Request $request,$id){
+    public function update(Request $request,$registrantMessageObject = null, $id){
 
         $data = $request->all();
 
         DB::beginTransaction();
         try{
-            $notified = $data["notified"] ?? false;
-
-            $registrantMessage = $this->registrantMessageRepository->make($data);
+            if($data){
+                $registrantMessage = $this->registrantMessageRepository->make($data);
+            }elseif($registrant){
+                $registrantMessage = $this->registrantMessageRepository->make($registrantMessageObject);
+            }
             $registrant_message_check = $this->registrantMessageRepository->findBy('registrant_id',$registrantMessage->registrant_id);
             $updated = $this->registrantMessageRepository->update($registrantMessage->toArray(),$registrant_message_check->id);
 
-            if($notified){
-                $notification = Notification::where('id', '=', $notified)->where('notifiable_id', '=', auth()->user()->id)->first();
-
-                if ($notification) {
-                    if ($notification->read_at == '') {
-                        $notification->read_at = Carbon::now();
-                        $notification->save();
-                    }
-                }
-            }
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());

@@ -14,6 +14,7 @@ use Log;
 use Modules\Message\Services\MessageService;
 use Modules\Message\DataTables\MessagesDataTable;
 use Modules\Message\Http\Requests\Backend\MessagesRequest;
+use Modules\Message\Http\Requests\Backend\WebhookRequest;
 use Spatie\Activitylog\Models\Activity;
 use Yajra\DataTables\DataTables;
 
@@ -259,5 +260,25 @@ class MessagesController extends Controller
         }
 
         return redirect("admin/$module_name");
+    }
+
+    /**
+     * Catch rapiwha event and update database.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function messageWebhook(WebhookRequest $request){
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'webhook';
+
+        $messages = $this->messageService->messageEventCatch($request);
     }
 }

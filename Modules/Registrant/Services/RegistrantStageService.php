@@ -81,7 +81,7 @@ class RegistrantStageService{
         DB::commit();
 
         if (Auth::check()) {
-            Log::info(label_case($this->module_title.' '.__function__)." | Stage Created '".$registrantStage->registrant_id.'(ID:'.$registrantStage->id.") ".Auth::check() ? ( " by User: ".Auth::user()->name.'(ID:'.Auth::user()->id.')') : ("By: Guest"));
+            Log::info(label_case($this->module_title.' '.__function__)." | Registrant Stages Created '".$registrantStage->registrant_id.'(ID:'.$registrantStage->id.") ");
         }else{
             Log::info(label_case($this->module_title.' '.__function__)." | '".$registrantStage->registrant_id.'(ID:'.$registrantStage->id.") ' by System)'");
         }

@@ -87,7 +87,7 @@ class RegistrantsController extends Controller
 
         $$module_name_singular = $registrants;
 
-        if($$module_name_singular){
+        if(!$$module_name_singular->error){
             Flash::success('
                 <h4>
                     <i class="fas fa-check"></i> 
@@ -97,7 +97,7 @@ class RegistrantsController extends Controller
                     Silakan tunggu pesan WA untuk masuk ke HP mu
                 </h5>
                     Jika setelah 30 menit belum mendapat pesan bisa menghubungi (WA) '
-                    .$registrants->unit->contact_number.
+                    .$registrants->data->unit->contact_number.
                     ' Untuk info lebih lanjut.'
                 )->important();
         }else{

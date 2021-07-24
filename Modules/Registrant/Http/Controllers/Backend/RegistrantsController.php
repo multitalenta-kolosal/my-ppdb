@@ -136,7 +136,7 @@ class RegistrantsController extends Controller
 
         $$module_name_singular = $registrants;
 
-        if($$module_name_singular){
+        if(!$$module_name_singular->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Added Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();

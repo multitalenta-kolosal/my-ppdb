@@ -104,7 +104,7 @@ class RegistrantMessagesDataTable extends DataTable
                   ->addClass('text-center'),
             Column::make('registrant_id')->title('Registrant ID'),
             Column::make('registrant.name')->title('Name')->data('registrant.name')->name('registrant.name'),
-            Column::make('registration_message_sent')->title('Reg.'),
+            Column::make('register_pass_message_sent')->title('Reg.'),
             Column::make('requirements_pass_message_sent')->title('Req.'),
             Column::make('test_pass_message_sent')->title('Test'),
             Column::make('accepted_pass_message_sent')->title('Accepted'),
