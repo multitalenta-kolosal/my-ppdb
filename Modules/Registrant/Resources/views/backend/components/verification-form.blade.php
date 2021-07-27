@@ -92,6 +92,7 @@
                 </div>
                 <div class="col-2">
                     {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
+                    {{ html()->div("*Punya Pesan")->class('text-warning') }}
                 </div>
                 <div class="col-2 align-self-center text-success" id="col_{{$field_name}}_{{$data->id}}">
                     @if($data->registrant_stage)
@@ -124,6 +125,7 @@
                 </div>
                 <div class="col-2">
                     {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
+                    {{ html()->div("*Punya Pesan")->class('text-warning') }}
                 </div>
                 <div class="col-2 align-self-center text-success" id="col_{{$field_name}}_{{$data->id}}">
                         @if($data->registrant_stage)
@@ -154,7 +156,9 @@
             $field_lable_spp = __("registrant::$module_name.$module_sub.$field_spp");
             $field_placeholder = $field_lable;
             $required = "";
-            $checked = ( ($data->registrant_stage->$field_name ?? 'nope') == '1' ) ? 'checked' : '';
+            $checked_dpp = ( ($data->registrant_stage->$field_dpp ?? 'nope') == '1' ) ? 'checked' : ''; 
+            $checked_dp = ( ($data->registrant_stage->$field_dp ?? 'nope') == '1' ) ? 'checked' : '';
+            $checked_spp = ( ($data->registrant_stage->$field_spp ?? 'nope') == '1' ) ? 'checked' : '';
             ?>
             <div class="card-header text-center py-0" style="height: 2rem;">
                 <h3>Biaya Pendidikan</h3>
@@ -167,11 +171,11 @@
                         {{ number_format($data->unit->$field_info_dpp ?? 0, 2, ',', '.') ?? 0 }}
                     </div>
                     <div class="col-2">
-                        {{ html()->checkbox($field_dpp.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
+                        {{ html()->checkbox($field_dpp.$data->id)->class('form-control float-left')->attributes(["$required", "$checked_dpp"]) }}
                     </div>
                     <div class="col-2 align-self-center text-success" id="col_{{$field_dpp}}_{{$data->id}}">
                         @if($data->registrant_stage)
-                            @if($data->registrant_stage->$field_name)
+                            @if($data->registrant_stage->$field_dpp)
                                 <i class="far fa-lg fa-check-circle"></i>
                             @endif
                         @endif
@@ -185,11 +189,11 @@
                         {{  number_format($data->unit->$field_info_dp ?? 0, 2, ',', '.') }}
                     </div>
                     <div class="col-2">
-                        {{ html()->checkbox($field_dp.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
+                        {{ html()->checkbox($field_dp.$data->id)->class('form-control float-left')->attributes(["$required", "$checked_dp"]) }}
                     </div>
                     <div class="col-2 align-self-center text-success" id="col_{{$field_dp}}_{{$data->id}}">
                         @if($data->registrant_stage)
-                            @if($data->registrant_stage->$field_name)
+                            @if($data->registrant_stage->$field_dp)
                                 <i class="far fa-lg fa-check-circle"></i>
                             @endif
                         @endif
@@ -203,11 +207,11 @@
                         {{ number_format($data->unit->$field_info_spp ?? 0, 2, ',', '.') }}
                     </div>
                     <div class="col-2">
-                        {{ html()->checkbox($field_spp.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
+                        {{ html()->checkbox($field_spp.$data->id)->class('form-control float-left')->attributes(["$required", "$checked_spp"]) }}
                     </div>
                     <div class="col-2 align-self-center text-success" id="col_{{$field_spp}}_{{$data->id}}">
                         @if($data->registrant_stage)
-                            @if($data->registrant_stage->$field_name)
+                            @if($data->registrant_stage->$field_spp)
                                 <i class="far fa-lg fa-check-circle"></i>
                             @endif
                         @endif
@@ -236,6 +240,7 @@
                 </div>
                 <div class="col-2">
                     {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
+                    {{ html()->div("*Punya Pesan")->class('text-warning') }}
                 </div>
                 <div class="col-2 align-self-center text-success" id="col_{{$field_name}}_{{$data->id}}">
                     @if($data->registrant_stage)
