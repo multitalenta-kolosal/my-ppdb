@@ -35,6 +35,18 @@ class RegistrantMessagesDataTable extends DataTable
 
                 return "action";
             })
+            ->editColumn('register_pass_message_sent', function ($data) {
+                return $this->convertMessageConfirmation($data->register_pass_message_sent);
+            })
+            ->editColumn('requirements_pass_message_sent', function ($data) {
+                return $this->convertMessageConfirmation($data->requirements_pass_message_sent);
+            })
+            ->editColumn('test_pass_message_sent', function ($data) {
+                return $this->convertMessageConfirmation($data->test_pass_message_sent);
+            })
+            ->editColumn('accepted_pass_message_sent', function ($data) {
+                return $this->convertMessageConfirmation($data->accepted_pass_message_sent);
+            })
             ->editColumn('updated_at', function ($data) {
                 $module_name = $this->module_name;
 
@@ -42,7 +54,15 @@ class RegistrantMessagesDataTable extends DataTable
 
                 return $formated_date;
             })
-            ->rawColumns(['code', 'message', 'action']);
+            ->rawColumns([
+                'code',
+                'message', 
+                'action',
+                'register_pass_message_sent',
+                'requirements_pass_message_sent',
+                'test_pass_message_sent',
+                'accepted_pass_message_sent',
+            ]);
     }
 
     /**
@@ -71,11 +91,13 @@ class RegistrantMessagesDataTable extends DataTable
      */
     public function html()
     {
+        $updated_at = 7;
         return $this->builder()
                 ->setTableId('messages-table')
                 ->columns($this->getColumns())
                 ->minifiedAjax()
                 ->dom('Blfrtip')
+                ->orderBy($updated_at)
                 ->buttons(
                     Button::make('export'),
                     Button::make('print'),
@@ -120,5 +142,23 @@ class RegistrantMessagesDataTable extends DataTable
     protected function filename()
     {
         return 'Message_Trackers_' . date('YmdHis');
+    }
+
+    protected function convertMessageConfirmation($value){
+        $failed = 'GAGAL';
+        $null = '--';
+        $success = 'OK';
+
+        switch($value){
+            case '-1':
+                return '<span class="text-danger">'.$failed.'</span>';
+                break;
+            case '0':
+                return '<span class="text-warning">'.$null.'</span>';
+                break;
+            case '1':
+                return '<span class="text-success">'.$success.'</span>';
+                break;
+        }
     }
 }

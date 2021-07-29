@@ -119,14 +119,16 @@
                                             success: function (response) {
                                                 Toast.fire({
                                                     icon: 'success',
-                                                    title: '@lang("Data Verified")'
+                                                    title: '@lang("Data Verified")',
+                                                    footer: 'Mengirimkan pesan ke pengguna...',
                                                 })
                                                 return false;
                                             },
                                             error: function (xhr, ajaxOptions, thrownError) {
                                                 Toast.fire({
                                                     icon: 'error',
-                                                    title: '@lang("Error Verified")'
+                                                    title: '@lang("Error Verified")',
+                                                    footer: 'Pesan tidak terkirim',
                                                 });
                                             }
                                         });
