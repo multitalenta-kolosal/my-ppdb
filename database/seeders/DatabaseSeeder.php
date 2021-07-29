@@ -3,6 +3,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
+use Modules\Message\Database\Seeders\MessageDatabaseSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,6 +17,7 @@ class DatabaseSeeder extends Seeder
         Schema::disableForeignKeyConstraints();
 
         $this->call(AuthTableSeeder::class);
+        $this->call(MessageDatabaseSeeder::class);
 
         Schema::enableForeignKeyConstraints();
     }

@@ -37,13 +37,9 @@ class MessagesDataTable extends DataTable
             ->editColumn('updated_at', function ($data) {
                 $module_name = $this->module_name;
 
-                $diff = Carbon::now()->diffInHours($data->updated_at);
+                $formated_date = Carbon::parse($data->updated_at)->format('d-m-Y, H:i:s');
 
-                if ($diff < 25) {
-                    return $data->updated_at->diffForHumans();
-                } else {
-                    return $data->updated_at->isoFormat('LLLL');
-                }
+                return $formated_date;
             })
             ->editColumn('created_at', function ($data) {
                 $module_name = $this->module_name;
