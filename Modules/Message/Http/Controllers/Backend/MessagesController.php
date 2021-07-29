@@ -263,6 +263,29 @@ class MessagesController extends Controller
     }
 
     /**
+     * send message.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function sendMessage(Request $request)
+    {
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'send';
+
+        $response = $this->messageService->prepareAndSend($request);
+
+        return response()->json($response);
+    }
+
+    /**
      * Catch rapiwha event and update database.
      *
      * @param int $id

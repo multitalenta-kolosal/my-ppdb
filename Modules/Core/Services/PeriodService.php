@@ -154,7 +154,6 @@ class PeriodService{
 
         DB::commit();
 
-        Log::debug('not reach here 2');
         Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$period_check->name.'(ID:'.$period_check->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return $this->periodRepository->find($id);

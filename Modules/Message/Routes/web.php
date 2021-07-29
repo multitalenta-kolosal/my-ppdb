@@ -45,6 +45,7 @@ Route::group(['namespace' => '\Modules\Message\Http\Controllers\Backend', 'as' =
     $controller_name = 'MessagesController';
     Route::get("$module_name/index_list", ['as' => "$module_name.index_list", 'uses' => "$controller_name@index_list"]);
     Route::get("$module_name/index_data", ['as' => "$module_name.index_data", 'uses' => "$controller_name@index_data"]);
+    Route::post("$module_name/sendMessage", ['as' => "$module_name.sendMessage", 'uses' => "$controller_name@sendMessage"]);
     Route::resource("$module_name", "$controller_name");
 
 

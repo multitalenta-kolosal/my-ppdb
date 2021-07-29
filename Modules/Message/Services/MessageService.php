@@ -168,7 +168,56 @@ class MessageService{
         return $messages;
     }
 
-    public function send($registrant, $message_code, $tracker_code,$replaces = []){
+    public function prepareAndSend(Request $request){
+        $data = $request->all();
+
+        DB::beginTransaction();
+
+        $message = '';
+
+        try{
+            $message_code = $data['message_code'];
+            $registrant = $this->registrantRepository->findBy('registrant_id',$data['registrant_id']);
+            $tracker_code = $data['tracker_code'];
+
+            $replaces = [];
+            switch($data['tracker_code']){
+                case 'register':
+                    $replaces = ['name' => $registrant->name, 'unit' => $registrant->unit->name];
+                    break;
+                case 'requirements':
+                    $replaces = ['name' => $registrant->name, 'unit' => $registrant->unit->name];
+                    break;
+                case 'test':
+                    $replaces = ['name' => $registrant->name, 'unit' => $registrant->unit->name];
+                    break;
+                case 'accepted':
+                    $replaces = ['name' => $registrant->name, 'unit' => $registrant->unit->name];
+                    break;
+            }
+
+            $response = $this->send($registrant, $message_code, $tracker_code, $replaces);
+    
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::critical($e->getMessage());
+            return $response = [
+                'data'          => null,
+                'registrant'    => $registrant,
+                'error'         => true,
+                'message'       => 'response message: '.$e->getMessage(),
+            ];
+        }
+
+        DB::commit();
+
+
+        Log::info(label_case($this->module_title.' '.__FUNCTION__).' '.$message_code." | '".$registrant->name.', ID:'.$registrant->registrant_id."'");
+
+        return $response;
+    }
+
+    public function send($registrant, $message_code, $tracker_code, $replaces = []){
         DB::beginTransaction();
 
         $message = '';
@@ -197,7 +246,7 @@ class MessageService{
             $api_url .= "&number=". urlencode ($destination);
             $api_url .= "&text=". urlencode ($message_text);
             $api_url .= "&custom_data=". urlencode ($message_custom_code);
-
+                      
             curl_setopt_array($curl, array(
             CURLOPT_URL => $api_url,
             CURLOPT_RETURNTRANSFER => true,

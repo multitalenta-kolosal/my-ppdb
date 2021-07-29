@@ -25,7 +25,6 @@ class MessagesRequest extends FormRequest
     {
         return [
             'code'      => 'required',
-            'message'      => 'required',
         ];
     }
 }

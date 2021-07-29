@@ -39,12 +39,12 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+        const messageables = ['requirements_pass','test_pass','accepted_pas'];
         $('#submit_data_{{$data->id}}').on('click', function(e) {
             e.preventDefault();
-            $.ajax({
-                type: "POST",
-                url: '{{route("backend.registrantstages.update", $data->registrant_id)}}',
-                data: {
+            var sender = [];
+            var success_update = false;
+            var request_data = {
                     "_method":"PATCH",
                     "_token": "{{ csrf_token() }}",
                     "registrant_id": $('#registrant_id_{{$data->id}}').val(),
@@ -56,28 +56,121 @@
                     "dp_pass": +$('#dp_pass{{$data->id}}').prop('checked'),
                     "spp_pass": +$('#spp_pass{{$data->id}}').prop('checked'),
                     "accepted_pass": +$('#accepted_pass{{$data->id}}').prop('checked'),
-                } ,
-                success: function (response) {
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
-                    })
-                    Toast.fire({
-                        icon: 'success',
-                        title: '@lang("Data Verified")'
-                    })
+                };
 
+            $.ajax({
+                type: "POST",
+                url: '{{route("backend.registrantstages.update", $data->registrant_id)}}',
+                data: request_data,
+                success: function (response) {
+                    success_update = true;
                     var data = response.data;
-                    
-                    $.each(data, function(key, val) { 
+                    var will_send = false;
+
+                    $.each(data,function(key, val) {
+                        if(key && (val == 1)){
+                            if($('#'+key+'{{$data->id}}_message').prop('checked')){
+                                sender.push(key);
+                            }
+                        }
+                    });
+
+                    if(sender.length > 0){
+                        Swal.fire({
+                                title: "Kirim Pesan Ke Pendaftar?",
+                                showCancelButton: true,
+                                confirmButtonText: "Kirim",
+                                footer: 'Jika menekan close maka data diverifikasi tanpa mengirim pesan',
+                            })
+                            .then((result) => {
+                                
+                                const Toast = Swal.mixin({
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                    }
+                                })
+
+                                if (result.isConfirmed) {
+                                    will_send = true;    
+                                    $.each(sender,function(key, val) {
+                                        var generateUrl = '{!! route("backend.messages.sendMessage") !!}';
+                                        
+                                        var val_spliter = val.split('_');
+                                        var message_code_without_suffix = val_spliter[0];
+                                        var message_code = message_code_without_suffix+'-message';
+                                        
+                                        var tracker_code = message_code_without_suffix;
+                                        
+                                        $.ajax({
+                                            type: "POST",
+                                            url: generateUrl,
+                                            data: {
+                                                "_token": "{{ csrf_token() }}",
+                                                "registrant_id": '{{$data->registrant_id}}',
+                                                "tracker_code" : tracker_code,
+                                                "message_code" : message_code,
+                                            } ,
+                                            success: function (response) {
+                                                Toast.fire({
+                                                    icon: 'success',
+                                                    title: '@lang("Data Verified")'
+                                                })
+                                                return false;
+                                            },
+                                            error: function (xhr, ajaxOptions, thrownError) {
+                                                Toast.fire({
+                                                    icon: 'error',
+                                                    title: '@lang("Error Verified")'
+                                                });
+                                            }
+                                        });
+                                    });            
+                                }else{
+                                    const Toast = Swal.mixin({
+                                        toast: true,
+                                        position: 'top-end',
+                                        showConfirmButton: false,
+                                        timer: 3000,
+                                        timerProgressBar: true,
+                                        didOpen: (toast) => {
+                                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                        }
+                                    })              
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: '@lang("Data Verified")',
+                                        footer: 'Pesan tidak dikirim',
+                                    })
+                                }
+                            });
+                    }else{      
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })              
+                        Toast.fire({
+                            icon: 'success',
+                            title: '@lang("Data Verified")'
+                        })
+                    }
+
+                    $.each(data,function(key, val) { 
                         var col = document.getElementById("col_"+key+"_{{$data->id}}")
+                        $('#'+key+'{{$data->id}}_message').prop('checked',false)
                         if(col){
                             if(key && (val == 1)){
                                 if(key == "accepted_pass"){
@@ -90,9 +183,19 @@
                             }
                         }
                     });
-
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
+                    const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
                     Toast.fire({
                         icon: 'error',
                         title: '@lang("Error Verified")'

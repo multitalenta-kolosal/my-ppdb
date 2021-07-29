@@ -40,8 +40,6 @@ class PeriodsDataTable extends DataTable
 
                 $quota = json_decode($data->quota, true);
 
-                Log::debug($quota);
-
                 return view('core::backend.components.quota-view',compact('module_name','quota'));
             })
             ->editColumn('updated_at', function ($data) {
