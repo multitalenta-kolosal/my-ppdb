@@ -43,7 +43,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-6">
+    <div class="col-md-6 col-sm-6">
         <div class="form-group">
             <?php
             $field_name = 'phone';
@@ -55,7 +55,7 @@
             {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-md-6 col-sm-6">
         <div class="form-group">
             <?php
             $field_name = 'email';
@@ -69,7 +69,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-6">
+    <div class="col-md-6 col-sm-6">
         <div class="form-group">
             <?php
             $field_name = 'former_school';
@@ -81,7 +81,7 @@
             {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}
         </div>
     </div>
-    <div class="col-2">
+    <div class="col-md-6 col-sm-6">
         <div class="form-group float-left">
             <?php
             $field_name = 'internal';

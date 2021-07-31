@@ -55,15 +55,21 @@ mix.scripts(
  *
  * -----------------------------------------------------------------------------
  */
+
+// Build Frontend SASS
+mix.sass("resources/sass/frontend.scss", "public/css/custom-frontend.css");
+
 // frontend-theme
 mix.styles(
     [
+        "public/css/custom-frontend.css",
         "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
         "public/vendor/impact-design/front/css/front.css",
         "resources/css/custom-frontend.css",
     ],
     "public/css/frontend.css"
 );
+
 
 // frontend js
 mix.scripts(

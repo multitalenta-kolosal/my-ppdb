@@ -320,4 +320,45 @@ class RegistrantService{
 
         return $increment;
     }
+
+    public function track(Request $request){
+        $data = $request->all();
+        Log::debug($data);
+
+        DB::beginTransaction();
+
+        try {
+            $registrant = $this->registrantRepository->findWhere([
+                'registrant_id' => $data['registrant_id'],
+                'phone' => $data['phone'],
+            ])->first();
+
+            if(!$registrant){
+                return (object) array(
+                    'error'=> true,
+                    'message'=> 'Pendaftar Tidak Ditemukan',
+                    'data'=> null,
+                );            }
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::critical($e->getMessage());
+            return (object) array(
+                'error'=> true,
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
+        }
+
+        DB::commit();
+
+        Log::debug($registrant);
+
+        Log::info(label_case($this->module_title.' '.__function__)." | '".$registrant->name.'(ID:'.$registrant->id.") IP: ".request()->getClientIp()."'' ");
+            
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $registrant,
+        );
+    }
 }

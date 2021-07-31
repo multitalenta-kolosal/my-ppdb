@@ -17,6 +17,8 @@ Route::group(['namespace' => '\Modules\Registrant\Http\Controllers\Frontend', 'a
     $module_name = 'registrants';
     $controller_name = 'RegistrantsController';    
     Route::get("daftar", ['as' => "$module_name.index", 'uses' => "$controller_name@index"]);
+    Route::get("lacak", ['as' => "$module_name.track", 'uses' => "$controller_name@track"]);
+    Route::post("progress/{registrant_id}", ['as' => "$module_name.progress", 'uses' => "$controller_name@progress"]);
     Route::resource("$module_name", "$controller_name")->only([
         'store', 'update'
     ])->middleware(['throttle:10,1']);

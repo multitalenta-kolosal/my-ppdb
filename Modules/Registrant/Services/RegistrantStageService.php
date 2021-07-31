@@ -104,7 +104,12 @@ class RegistrantStageService{
             $notified = $data["notified"] ?? false;
 
             $registrantStage = $this->registrantStageRepository->make($data);
+            
             $registrant_stage_check = $this->registrantStageRepository->findBy('registrant_id',$registrantStage->registrant_id);
+            $registrantStage->status_id = $this->getSetStatus($registrantStage);
+
+            Log::debug($registrantStage->status_id);
+
             $updated = $this->registrantStageRepository->update($registrantStage->toArray(),$registrant_stage_check->id);
 
             if($notified){
@@ -172,4 +177,16 @@ class RegistrantStageService{
         return $response;
     }
 
+    public function getSetStatus($registrantStage){
+        $progresses =  config('stages.progress');
+        $status = 0;
+        foreach($progresses as $progress){
+            $validation = $progress['validation'];
+            if($registrantStage->$validation){
+                $status = $progress['status_id'];
+            }
+        }
+
+        return $status;
+    }
 }

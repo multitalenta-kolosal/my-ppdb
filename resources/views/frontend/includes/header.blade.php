@@ -31,6 +31,11 @@
                             <span class="fas fa-file-alt mr-1"></span> Pendaftaran
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('frontend.registrants.track') }}" class="nav-link">
+                            <span class="fas fa-file-alt mr-1"></span> Lacak Status
+                        </a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" aria-expanded="false" data-toggle="dropdown">
                             <span class="nav-link-inner-text mr-1">

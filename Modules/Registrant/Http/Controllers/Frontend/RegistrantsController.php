@@ -5,6 +5,7 @@ namespace Modules\Registrant\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Flash;
+use GeneaLabs\LaravelMultiStepProgressbar\ProgressbarItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -38,10 +39,10 @@ class RegistrantsController extends Controller
         $this->registrantService = $registrantService;
     }
 
-/**
+    /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return View
      */
     public function index()
     {
@@ -62,6 +63,58 @@ class RegistrantsController extends Controller
         return view(
             "registrant::frontend.$module_path.index",
             compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','unit_options', 'type_options')
+        );
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return View
+     */
+    public function track()
+    {
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'Tracker';
+
+        return view(
+            "registrant::frontend.$module_path.track",
+            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular')
+        );
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return View
+     */
+
+    public function progress(Request $request)
+    {
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'List';
+
+        $registrant = $this->registrantService->track($request);
+        
+        if($registrant->error){
+            Log::debug($registrant->message);
+            return response()->json($registrant);
+        }
+
+        return view(
+            "registrant::frontend.$module_path.progress",
+            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','registrant')
         );
     }
 
