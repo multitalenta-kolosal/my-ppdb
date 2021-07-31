@@ -28,12 +28,12 @@
                     </li> 
                     <li class="nav-item">
                         <a href="{{ route('frontend.registrants.index') }}" class="nav-link">
-                            <span class="fas fa-file-alt mr-1"></span> Pendaftaran
+                            <span class="fas fa-file-signature mr-1"></span> Pendaftaran
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('frontend.registrants.track') }}" class="nav-link">
-                            <span class="fas fa-running mr-1"></span> Lacak Status
+                            <span class="fas fa-running mr-1"></span> Cek Status
                         </a>
                     </li>
                     <li class="nav-item dropdown">

@@ -209,7 +209,7 @@ class PeriodService{
 
     public function prepareOptions(){
         
-        $unit = $this->unitRepository->pluck('name','id');
+        $unit = $this->unitRepository->query()->orderBy('order','asc')->pluck('name','id');
 
         if(!$unit){
             $unit = ['Silakan membuat unit'];
