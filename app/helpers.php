@@ -311,7 +311,7 @@ if (!function_exists('logUserAccess')) {
             $auth_text = "User:".\Auth::user()->name." (ID:".\Auth::user()->id.")";
         }
 
-        \Log::debug(label_case($text)." | $auth_text");
+        \Log::warning(label_case($text)." | $auth_text");
     }
 }
 

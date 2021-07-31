@@ -34,6 +34,14 @@ class RegistrantsDataTable extends DataTable
 
                 return view('registrant::backend.includes.action_column', compact('module_name', 'data'));
             })
+            ->editColumn('name', function ($model) {
+                if($model->registrant_stage->status_id == -1)
+                {
+                    return '<span class="text-danger">'.$model->name.'</span>';
+                }else{
+                    return $model->name;
+                }
+            })
             ->editColumn('unit_id', function ($model) {
                 if($model->unit)
                 {

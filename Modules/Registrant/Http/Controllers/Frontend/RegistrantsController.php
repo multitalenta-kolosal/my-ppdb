@@ -108,7 +108,6 @@ class RegistrantsController extends Controller
         $registrant = $this->registrantService->track($request);
         
         if($registrant->error){
-            Log::debug($registrant->message);
             return response()->json($registrant);
         }
 

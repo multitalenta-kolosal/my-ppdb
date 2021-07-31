@@ -43,7 +43,7 @@ class UserRegisteredProfileCreate implements ShouldQueue
         $userprofile->status = ($user->status > 0) ? $user->status : 0;
         $userprofile->save();
 
-        \Log::debug('UserRegisteredProfileCreate:'.$user->name);
+        \Log::info('UserRegisteredProfileCreate:'.$user->name);
 
         // Clear Cache
         \Artisan::call('cache:clear');

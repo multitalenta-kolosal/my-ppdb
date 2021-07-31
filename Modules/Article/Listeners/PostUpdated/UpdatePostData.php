@@ -29,6 +29,6 @@ class UpdatePostData implements ShouldQueue
     {
         $post = $event->post;
 
-        Log::debug('Listeners: UpdatePostData');
+        Log::info('Listeners: UpdatePostData');
     }
 }

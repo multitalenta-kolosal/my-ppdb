@@ -33,6 +33,6 @@ class IncrementHitCount implements ShouldQueue
 
         $post->view_counter += 1;
 
-        Log::debug('Listeners: IncrementHitCount');
+        Log::info('Listeners: IncrementHitCount');
     }
 }

@@ -1,6 +1,16 @@
 <?php
 
 return [
+    'special-status' => [
+        [
+            'title'             => 'Ditolak',
+            'tracker_action'    => 'Sayang sekali kamu tidak diterima di {{$registrant->data->unit->name}} Warga Surakarta',
+            'tracker_content'   => 'Tetap Semangat dalam meraih mimpimu',
+            'status_id'         => '-1',
+            'validation'        => '',
+            'message_tracker'   => 'not_pass_message_sent',
+        ],
+    ],
     'progress' => [
         [
             'title'             => 'Pendaftaran',

@@ -29,6 +29,6 @@ class CreatePostData implements ShouldQueue
     {
         $post = $event->post;
 
-        Log::debug('Listeners: CreatePostData');
+        Log::info('Listeners: CreatePostData');
     }
 }

@@ -24,8 +24,9 @@
                     </form>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-danger mr-4" id="reject_{{$data->id}}" ><i class="fas fa-user-slash mr-2"></i>Tolak</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="submit_data_{{$data->id}}" >Save changes</button>
+                    <button type="button" class="btn btn-primary" id="submit_data_{{$data->id}}" >Simpan</button>
                 </div>
                     
             </div>
@@ -54,6 +55,126 @@
 <script type="text/javascript">
     $(document).ready(function(){
         const messageables = ['requirements_pass','test_pass','accepted_pas'];
+
+        $('#reject_{{$data->id}}').on('click', function(e) {
+            e.preventDefault();
+            var sender = [];
+            var success_update = false;
+            var request_data = {
+                    "_method":"PATCH",
+                    "_token": "{{ csrf_token() }}",
+                    "registrant_id": $('#registrant_id_{{$data->id}}').val(),
+                    "status_id": '-1',
+                };
+
+            $.ajax({
+                type: "POST",
+                url: '{{route("backend.registrantstages.update", $data->registrant_id)}}',
+                data: request_data,
+                success: function (response) {
+                    success_update = true;
+                    var data = response.data;
+                    
+                    Swal.fire({
+                        title: "Menolak Pendaftar?",
+                        showCancelButton: true,
+                        confirmButtonText: "Tolak",
+                        footer: 'Jika ya, maka status pendaftar menjadi "ditolak"',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                title: "Kirim Pesan Ke Pendaftar?",
+                                showCancelButton: true,
+                                confirmButtonText: "Kirim",
+                                footer: 'Jika menekan close maka data diverifikasi tanpa mengirim pesan',
+                            })
+                            .then((result) => {
+                                const Toast = Swal.mixin({
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                    }
+                                })
+
+                                if (result.isConfirmed) {
+                                    var generateUrl = '{!! route("backend.messages.sendMessage") !!}';
+                                    
+                                    var message_code = 'penolakan-message';
+                                    
+                                    var tracker_code = '';
+                                    
+                                    $.ajax({
+                                        type: "POST",
+                                        url: generateUrl,
+                                        data: {
+                                            "_token": "{{ csrf_token() }}",
+                                            "registrant_id": '{{$data->registrant_id}}',
+                                            "tracker_code" : tracker_code,
+                                            "message_code" : message_code,
+                                        } ,
+                                        success: function (response) {
+                                            Toast.fire({
+                                                icon: 'warning',
+                                                title: 'Pendaftar ditolak',
+                                                footer: 'Mengirim pesan ke pengguna',
+                                            })
+                                            return false;
+                                        },
+                                        error: function (xhr, ajaxOptions, thrownError) {
+                                            Toast.fire({
+                                                icon: 'error',
+                                                title: '@lang("Error Verified")',
+                                                footer: 'Pesan tidak terkirim',
+                                            });
+                                        }
+                                    });            
+                                }else{
+                                    const Toast = Swal.mixin({
+                                        toast: true,
+                                        position: 'top-end',
+                                        showConfirmButton: false,
+                                        timer: 3000,
+                                        timerProgressBar: true,
+                                        didOpen: (toast) => {
+                                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                        }
+                                    })              
+                                    Toast.fire({
+                                        icon: 'warning',
+                                        title: 'Pendaftar ditolak',
+                                        footer: 'Pesan tidak dikirim',
+                                    })
+                                }
+                            });
+                        }
+                    });
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
+                    Toast.fire({
+                        icon: 'error',
+                        title: '@lang("Error Verified")'
+                    });
+                }
+            });
+        });
+
         $('#submit_data_{{$data->id}}').on('click', function(e) {
             e.preventDefault();
             var sender = [];
@@ -220,6 +341,7 @@
             });
         });
     });
+
     $('#modal_{{$data->id}}').on('hidden.bs.modal', function (e) {
         $('#{{$module_name}}-table').DataTable().draw(false);
     })

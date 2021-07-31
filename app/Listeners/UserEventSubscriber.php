@@ -27,7 +27,7 @@ class UserEventSubscriber
             Log::error($e);
         }
 
-        Log::debug('Login Success: '.$user->name.', IP:'.request()->getClientIp());
+        Log::info('Login Success: '.$user->name.', IP:'.request()->getClientIp());
     }
 
     /**
@@ -37,7 +37,7 @@ class UserEventSubscriber
     {
         $user = $event->user;
 
-        Log::debug('Logout Success. '.$user->name);
+        Log::warning('Logout Success. '.$user->name);
     }
 
     /**

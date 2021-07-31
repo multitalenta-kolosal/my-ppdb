@@ -106,9 +106,10 @@ class RegistrantStageService{
             $registrantStage = $this->registrantStageRepository->make($data);
             
             $registrant_stage_check = $this->registrantStageRepository->findBy('registrant_id',$registrantStage->registrant_id);
-            $registrantStage->status_id = $this->getSetStatus($registrantStage);
-
-            Log::debug($registrantStage->status_id);
+            
+            if($data['status_id'] != -1){
+                $registrantStage->status_id = $this->getSetStatus($registrantStage);
+            }
 
             $updated = $this->registrantStageRepository->update($registrantStage->toArray(),$registrant_stage_check->id);
 

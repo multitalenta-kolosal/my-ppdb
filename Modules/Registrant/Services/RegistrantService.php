@@ -323,8 +323,7 @@ class RegistrantService{
 
     public function track(Request $request){
         $data = $request->all();
-        Log::debug($data);
-
+        
         DB::beginTransaction();
 
         try {
@@ -350,8 +349,6 @@ class RegistrantService{
         }
 
         DB::commit();
-
-        Log::debug($registrant);
 
         Log::info(label_case($this->module_title.' '.__function__)." | '".$registrant->name.'(ID:'.$registrant->id.") IP: ".request()->getClientIp()."'' ");
             
