@@ -39,6 +39,20 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+        $('#requirements_pass{{$data->id}}').on('change', function(){
+            $('#requirements_pass{{$data->id}}_message').prop('checked',this.checked);
+        });
+        $('#test_pass{{$data->id}}').on('change', function(){
+            $('#test_pass{{$data->id}}_message').prop('checked',this.checked);
+        });
+        $('#accepted_pass{{$data->id}}').on('change', function(){
+            $('#accepted_pass{{$data->id}}_message').prop('checked',this.checked);
+        });
+    });
+</script>   
+
+<script type="text/javascript">
+    $(document).ready(function(){
         const messageables = ['requirements_pass','test_pass','accepted_pas'];
         $('#submit_data_{{$data->id}}').on('click', function(e) {
             e.preventDefault();
