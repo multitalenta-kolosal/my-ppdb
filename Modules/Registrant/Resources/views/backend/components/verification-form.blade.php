@@ -94,8 +94,7 @@
                     {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
 
                     {{ html()->label('kirim pesan', $field_name.$data->id.'_message') }}
-                    {{ html()->checkbox($field_name.$data->id.'_message',false,'Kirim pesan')->class('my-auto form-check-label float-left') }}       
-      
+                    {{ html()->checkbox($field_name.$data->id.'_message',false,'Kirim pesan')->class('my-auto form-check-label float-left') }}             
                 </div>
                 <div class="col-2 align-self-center text-success" id="col_{{$field_name}}_{{$data->id}}">
                     @if($data->registrant_stage)
