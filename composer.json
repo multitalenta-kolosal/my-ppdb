@@ -10,6 +10,7 @@
         "alexusmai/laravel-file-manager": "^2.5",
         "arcanedev/log-viewer": "^8.0",
         "barryvdh/laravel-snappy": "^0.4.8",
+        "consoletvs/charts": "7.*",
         "czim/laravel-repository": "^2.1",
         "doctrine/dbal": "^3.1",
         "fideloper/proxy": "^4.4",

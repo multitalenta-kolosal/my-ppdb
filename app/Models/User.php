@@ -91,6 +91,12 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         return array_map('intval', $this->roles->pluck('id')->toArray());
     }
 
+    
+    public function unit()
+    {
+        return $this->belongsTo('Modules\Core\Entities\Unit','unit_id');
+    }
+    
     /**
      * Route notifications for the Slack channel.
      *

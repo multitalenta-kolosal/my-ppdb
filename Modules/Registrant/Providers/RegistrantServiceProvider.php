@@ -2,6 +2,7 @@
 
 namespace Modules\Registrant\Providers;
 
+use ConsoleTVs\Charts\Registrar as Charts;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 use Symfony\Component\Finder\Finder;
@@ -23,13 +24,18 @@ class RegistrantServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Charts $charts)
     {
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
         
+        $charts->register([
+            \Modules\Registrant\Charts\RegistrantChart::class,
+            \Modules\Registrant\Charts\RegistrantChartBar::class
+        ]);
+
         // adding global middleware
         $kernel = $this->app->make('Illuminate\Contracts\Http\Kernel');
         $kernel->pushMiddleware('Modules\Registrant\Http\Middleware\GenerateMenus');

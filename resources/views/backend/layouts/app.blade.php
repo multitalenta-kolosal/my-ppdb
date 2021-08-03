@@ -78,6 +78,7 @@
         <script type="text/javascript" src="{{ asset('vendor/datatable/datatables.min.js') }}"></script>
         
         <script src="/vendor/datatables/buttons.server-side.js"></script>
+
         @stack('after-scripts')
         <!-- / Scripts -->
 

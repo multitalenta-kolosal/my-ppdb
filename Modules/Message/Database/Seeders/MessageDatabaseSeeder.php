@@ -49,6 +49,12 @@ class MessageDatabaseSeeder extends Seeder
                 'created_at'        => Carbon::now(),
                 'updated_at'        => Carbon::now(),
             ],
+            [
+                'code'              => 'penolakan-message',
+                'message'           => 'halo $name kamu sudah ditolak',
+                'created_at'        => Carbon::now(),
+                'updated_at'        => Carbon::now(),
+            ],
         ];
 
         foreach ($messages as $message_data) {
