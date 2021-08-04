@@ -76,28 +76,26 @@
             </div>
         </div>
     </div>
-    @if($unit_counts)
-        @foreach($unit_counts as $unit)
-            <?php
-            $unit_name = $unit->unit;
-            $unit_quota = 'quota_'.$unit_name;
-            $amount =$unit->amount;
+    @foreach($unit_counts as $unit)
+        <?php
+        $unit_name = $unit->unit;
+        $unit_quota = 'quota_'.$unit_name;
+        $amount =$unit->amount;
 
-            $bar_percentage = round( ( $amount / $quota->$unit_quota) * 100, 2);
-            ?>
-            <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="text-value-lg">{{$amount}} /<span class="text-value-sm">{{$quota->$unit_quota}}</span></div>
-                        <div>{{$unit_name}}</div>
-                        <div class="progress progress-xs my-2">
-                            <div class="progress-bar" role="progressbar" style="width: {{$bar_percentage}}%; background-color: {{$color_array[$unit->unit]}}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div><small class="text-muted">{{$bar_percentage}}% dari target</small>
-                    </div>
+        $bar_percentage = round( ( $amount / $quota->$unit_quota) * 100, 2);
+        ?>
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-value-lg">{{$amount}} /<span class="text-value-sm">{{$quota->$unit_quota}}</span></div>
+                    <div>{{$unit_name}}</div>
+                    <div class="progress progress-xs my-2">
+                        <div class="progress-bar" role="progressbar" style="width: {{$bar_percentage}}%; background-color: {{$color_array[$unit->unit]}}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div><small class="text-muted">{{$bar_percentage}}% dari target</small>
                 </div>
             </div>
-        @endforeach
-    @endif
+        </div>
+    @endforeach
 </div>
 
 
