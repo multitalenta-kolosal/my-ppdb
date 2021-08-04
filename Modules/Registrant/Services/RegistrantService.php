@@ -138,7 +138,7 @@ class RegistrantService{
 
         DB::commit();
 
-        $response = $this->messageService->send($registrant, 'pendaftaran-contoh', 'register',['name' => $registrant->name, 'unit' => $registrant->unit->name]);
+        $response = $this->messageService->send($registrant, 'register-message', 'register',['name' => $registrant->name, 'unit' => $registrant->unit->name]);
 
         if($response['error']){
             Log::critical('Send Message error: '.$response['message']);
