@@ -108,9 +108,11 @@ class RegistrantStageService{
             $registrant_stage_check = $this->registrantStageRepository->findBy('registrant_id',$registrantStage->registrant_id);
             
             if(array_key_exists("status_id",$data)){
-                if($data['status_id'] != -1){
-                    $registrantStage->status_id = $this->getSetStatus($registrantStage);
+                if($data['status_id'] > -1){
+                    $registrantStage->status_id = $$data['status_id'];
                 }
+            }else{
+                $registrantStage->status_id = $this->getSetStatus($registrantStage);
             }
 
             $updated = $this->registrantStageRepository->update($registrantStage->toArray(),$registrant_stage_check->id);
