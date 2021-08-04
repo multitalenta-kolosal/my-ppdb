@@ -5,6 +5,8 @@ namespace Modules\Core\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
+use Modules\Core\Database\Seeders\PeriodDatabaseSeeder;
+
 class CoreDatabaseSeeder extends Seeder
 {
     /**
@@ -16,6 +18,6 @@ class CoreDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+        $this->call(PeriodDatabaseSeeder::class);
     }
 }

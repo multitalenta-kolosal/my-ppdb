@@ -4,6 +4,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
 use Modules\Message\Database\Seeders\MessageDatabaseSeeder;
+use Modules\Core\Database\Seeders\PeriodDatabaseSeeder;
 
 class DatabaseSeeder extends Seeder
 {
