@@ -76,7 +76,7 @@
             </div>
         </div>
     </div>
-    @if($unit_counts>0)
+    @if($unit_counts)
         @foreach($unit_counts as $unit)
             <?php
             $unit_name = $unit->unit;
