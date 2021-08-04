@@ -165,7 +165,7 @@ class RegistrantsController extends Controller
 
         $registrants = $this->registrantService->show($id);
 
-        $$module_name_singular = $registrants;
+        $$module_name_singular = $registrants->data;
 
         return view(
             "registrant::backend.$module_name.show",
@@ -198,7 +198,7 @@ class RegistrantsController extends Controller
         $unit = $options['unit'];
         $type = $options['type'];
 
-        $$module_name_singular = $registrants;
+        $$module_name_singular = $registrants->data;
 
         return view(
             "registrant::backend.$module_name.edit",
@@ -227,9 +227,9 @@ class RegistrantsController extends Controller
 
         $registrants = $this->registrantService->update($request,$id);
 
-        $$module_name_singular = $registrants;
+        $$module_name_singular = $registrants->data;
 
-        if($$module_name_singular){
+        if(!$registrants->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Updated Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
@@ -258,9 +258,9 @@ class RegistrantsController extends Controller
 
         $registrants = $this->registrantService->destroy($id);
         
-        $$module_name_singular = $registrants;
+        $$module_name_singular = $registrants->data;
 
-        if($$module_name_singular){
+        if(!$registrants->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Deleted Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
@@ -288,7 +288,7 @@ class RegistrantsController extends Controller
 
         $registrants = $this->registrantService->trashed();
 
-        $$module_name = $registrants;
+        $$module_name = $registrants->data;
 
         return view(
             "registrant::backend.$module_name.trash",
@@ -317,9 +317,9 @@ class RegistrantsController extends Controller
 
         $registrants = $this->registrantService->restore($id);
 
-        $$module_name_singular = $registrants;
+        $$module_name_singular = $registrants->data;
 
-        if($$module_name_singular){
+        if(!$registrants->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Restored Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();

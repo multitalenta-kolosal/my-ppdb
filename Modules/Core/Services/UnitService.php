@@ -31,15 +31,23 @@ class UnitService{
         Log::info(label_case($this->module_title.' '.__FUNCTION__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         $unit =$this->unitRepository->all();
-
-        return $unit;
+        
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $unit,
+        );
     }
 
     public function getList(){
 
         $unit =$this->unitRepository->all();
 
-        return $unit;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $unit,
+        );
     }
 
 
@@ -65,21 +73,33 @@ class UnitService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
-            return null;
+            return (object) array(
+                'error'=> true,
+                'message'=> $response['message'],
+                'data'=> null,
+            );
         }
 
         DB::commit();
 
         Log::info(label_case($this->module_title.' '.__function__)." | '".$unit->name.'(ID:'.$unit->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $unit;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $unit,
+        );
     }
 
     public function show($id){
 
         Log::info(label_case($this->module_title.' '.__function__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $this->unitRepository->findOrFail($id);
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $this->unitRepository->findOrFail($id),
+        );
     }
 
     public function edit($id){
@@ -88,7 +108,11 @@ class UnitService{
 
         Log::info(label_case($this->module_title.' '.__function__)." | '".$unit->name.'(ID:'.$unit->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $unit;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $unit,
+        );
     }
 
     public function update(Request $request,$id){
@@ -111,15 +135,22 @@ class UnitService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
-            return null;
+            return (object) array(
+                'error'=> true,
+                'message'=> $response['message'],
+                'data'=> null,
+            );
         }
 
         DB::commit();
 
         Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$unit_check->name.'(ID:'.$unit_check->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $this->unitRepository->find($id);
-
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $this->unitRepository->find($id),
+        );
     }
 
     public function destroy($id){
@@ -133,21 +164,33 @@ class UnitService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
-            return null;
+            return (object) array(
+                'error'=> true,
+                'message'=> $response['message'],
+                'data'=> null,
+            );
         }
 
         DB::commit();
 
         Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$units->name.', ID:'.$units->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $units;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $units,
+        );
     }
 
     public function trashed(){
 
         Log::info(label_case($this->module_title.' View'.__FUNCTION__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $this->unitRepository->trashed();
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $this->unitRepository->trashed(),
+        );
     }
 
     public function restore($id){
@@ -159,14 +202,22 @@ class UnitService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
-            return null;
+            return (object) array(
+                'error'=> true,
+                'message'=> $response['message'],
+                'data'=> null,
+            );
         }
 
         DB::commit();
 
         Log::info(label_case(__FUNCTION__)." ".$this->module_title.": ".$units->name.", ID:".$units->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $units;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $units,
+        );
     }
 
 }

@@ -131,9 +131,9 @@ class UnitsController extends Controller
 
         $units = $this->unitService->store($request);
 
-        $$module_name_singular = $units;
+        $$module_name_singular = $units->data;
 
-        if($$module_name_singular){
+        if(!$units->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Added Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
@@ -162,7 +162,7 @@ class UnitsController extends Controller
 
         $units = $this->unitService->show($id);
 
-        $$module_name_singular = $units;
+        $$module_name_singular = $units->data;
 
         return view(
             "core::backend.$module_name.show",
@@ -190,7 +190,7 @@ class UnitsController extends Controller
 
         $units = $this->unitService->edit($id);
 
-        $$module_name_singular = $units;
+        $$module_name_singular = $units->data;
 
         return view(
             "core::backend.$module_name.edit",
@@ -219,9 +219,9 @@ class UnitsController extends Controller
 
         $units = $this->unitService->update($request,$id);
 
-        $$module_name_singular = $units;
+        $$module_name_singular = $units->data;
 
-        if($$module_name_singular){
+        if(!$units->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Updated Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
@@ -250,9 +250,9 @@ class UnitsController extends Controller
 
         $units = $this->unitService->destroy($id);
 
-        $$module_name_singular = $units;
+        $$module_name_singular = $units->data;
 
-        if($$module_name_singular){
+        if(!$units->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Deleted Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
@@ -280,7 +280,7 @@ class UnitsController extends Controller
 
         $units = $this->unitService->trashed();
 
-        $$module_name = $units;
+        $$module_name = $units->data;
 
         return view(
             "core::backend.$module_name.trash",
@@ -309,9 +309,9 @@ class UnitsController extends Controller
 
         $units = $this->unitService->restore($id);
 
-        $$module_name_singular = $units;
+        $$module_name_singular = $units->data;
 
-        if($$module_name_singular){
+        if(!$units->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Restored Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();

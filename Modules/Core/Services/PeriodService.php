@@ -57,7 +57,11 @@ class PeriodService{
 
         $period =$this->periodRepository->all();
 
-        return $period;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $period,
+        );
     }
 
     public function create(){
@@ -92,21 +96,33 @@ class PeriodService{
         }catch (Exception $e){
             DB::rollBack();
             Log::info($e->getMessage());
-            return null;
+            return (object) array(
+                'error'=> true,            
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
         }
 
         DB::commit();
 
         Log::info(label_case($this->module_title.' '.__function__)." | '".$period->name.'(ID:'.$period->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $period;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $period,
+        );
     }
 
     public function show($id){
 
         Log::info(label_case($this->module_title.' '.__function__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $this->periodRepository->findOrFail($id);
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $this->periodRepository->findOrFail($id),
+        );
     }
 
     public function edit($id){
@@ -115,7 +131,11 @@ class PeriodService{
 
         Log::info(label_case($this->module_title.' '.__function__)." | '".$period->name.'(ID:'.$period->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $period;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $period,
+        );
     }
 
     public function update(Request $request,$id){
@@ -149,15 +169,22 @@ class PeriodService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
-            return null;
+            return (object) array(
+                'error'=> true,            
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
         }
 
         DB::commit();
 
         Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$period_check->name.'(ID:'.$period_check->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $this->periodRepository->find($id);
-
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $this->periodRepository->find($id),
+        );
     }
 
     public function destroy($id){
@@ -171,21 +198,33 @@ class PeriodService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
-            return null;
+            return (object) array(
+                'error'=> true,            
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
         }
 
         DB::commit();
 
         Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$periods->name.', ID:'.$periods->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $periods;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $periods,
+        );
     }
 
     public function trashed(){
 
         Log::info(label_case($this->module_title.' View'.__FUNCTION__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $this->periodRepository->trashed();
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $this->periodRepository->trashed(),
+        );
     }
 
     public function restore($id){
@@ -197,14 +236,22 @@ class PeriodService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
-            return null;
+            return (object) array(
+                'error'=> true,            
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
         }
 
         DB::commit();
 
         Log::info(label_case(__FUNCTION__)." ".$this->module_title.": ".$periods->name.", ID:".$periods->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $periods;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $periods,
+        );
     }
 
     public function prepareOptions(){
