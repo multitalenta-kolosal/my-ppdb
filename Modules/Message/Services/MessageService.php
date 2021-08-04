@@ -246,7 +246,8 @@ class MessageService{
             $api_url .= "&number=". urlencode ($destination);
             $api_url .= "&text=". urlencode ($message_text);
             $api_url .= "&custom_data=". urlencode ($message_custom_code);
-                      
+            Log::debug($api_url);
+
             curl_setopt_array($curl, array(
             CURLOPT_URL => $api_url,
             CURLOPT_RETURNTRANSFER => true,
