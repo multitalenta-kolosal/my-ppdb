@@ -75,7 +75,11 @@ class RegistrantService{
                     ->all()
                     ->sortByDesc('created_at');
 
-        return $registrant;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $registrant,
+        );
     }
 
     public function create(){
@@ -127,7 +131,7 @@ class RegistrantService{
             Log::critical($e->getMessage());
             return (object) array(
                 'error'=> true,
-                'message'=> $response['message'],
+                'message'=> $e->getMessage(),
                 'data'=> $registrant,
             );
         }
@@ -163,8 +167,12 @@ class RegistrantService{
     public function show($id){
 
         Log::info(label_case($this->module_title.' '.__function__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
-
-        return $this->registrantRepository->findOrFail($id);
+ 
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $this->registrantRepository->findOrFail($id),
+        );
     }
 
     public function edit($id){
@@ -173,7 +181,11 @@ class RegistrantService{
 
         Log::info(label_case($this->module_title.' '.__function__)." | '".$registrant->name.'(ID:'.$registrant->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $registrant;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $registrant,
+        );
     }
 
     public function update(Request $request,$id){
@@ -195,16 +207,23 @@ class RegistrantService{
 
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
-            return null;
+            Log::critical($e->getMessage()); 
+            return (object) array(
+                'error'=> true,            
+                'message'=> $e->getMessage(),
+                'data'=>  null,
+            );
         }
 
         DB::commit();
 
         Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$registrant_check->name.'(ID:'.$registrant_check->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $this->registrantRepository->find($id);
-
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=>  $this->registrantRepository->find($id),
+        );  
     }
 
     public function destroy($id){
@@ -218,21 +237,33 @@ class RegistrantService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
-            return null;
+            return (object) array(
+                'error'=> true,            
+                'message'=> $e->getMessage(),
+                'data'=>  null,
+            );
         }
 
         DB::commit();
 
         Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$registrants->name.', ID:'.$registrants->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $registrants;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $registrants,
+        );  
     }
 
     public function trashed(){
 
         Log::info(label_case($this->module_title.' View'.__FUNCTION__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
-
-        return $this->registrantRepository->trashed();
+        
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $this->registrantRepository->trashed(),
+        ); 
     }
 
     public function restore($id){
@@ -244,14 +275,22 @@ class RegistrantService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
-            return null;
+            return (object) array(
+                'error'=> true,            
+                'message'=> $e->getMessage(),
+                'data'=>  null,
+            );
         }
 
         DB::commit();
 
         Log::info(label_case(__FUNCTION__)." ".$this->module_title.": ".$registrants->name.", ID:".$registrants->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $registrants;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=>  $registrants,
+        );
     }
 
     public function prepareOptions(){
