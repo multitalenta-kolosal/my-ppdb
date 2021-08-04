@@ -56,7 +56,11 @@
 <div class="row">
     <?php
     $total = 0;
-    $quota = json_decode($batch_period->quota);
+    if($batch_period){
+        $quota = json_decode($batch_period->quota);
+    }else{
+        $quota = null;
+    }
     foreach($unit_counts as $unit){
         $total += $unit->amount;
     }
