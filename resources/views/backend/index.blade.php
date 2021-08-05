@@ -77,7 +77,8 @@
         </div>
     </div>
     @foreach($unit_counts as $unit)
-        <?php
+        <?php 
+        \Log::debug(json_encode($unit_counts));
         $unit_name = $unit->unit;
         $unit_quota = 'quota_'.$unit_name;
         $amount =$unit->amount;
