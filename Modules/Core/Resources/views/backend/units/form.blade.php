@@ -246,9 +246,6 @@ $(function() {
 });
 </script>
 
-<script type="text/javascript" src="{{ asset('vendor/ckeditor/ckeditor.js') }}"></script>
-<script type="text/javascript" src="{{ asset('vendor/file-manager/js/file-manager.js') }}"></script>
-
 <script type="text/javascript">
 
 CKEDITOR.replace('requirements', {filebrowserImageBrowseUrl: '/file-manager/ckeditor', language:'{{App::getLocale()}}', defaultLanguage: 'en'});

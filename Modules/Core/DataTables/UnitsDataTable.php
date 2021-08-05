@@ -52,7 +52,7 @@ class UnitsDataTable extends DataTable
 
                 return $formated_date;
             })
-            ->rawColumns(['name', 'requirements', 'action']);
+            ->rawColumns(['name', 'action']);
     }
 
     /**

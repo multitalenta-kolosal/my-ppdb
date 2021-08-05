@@ -80,7 +80,7 @@ class PeriodService{
         $quota = [];
 
         foreach($data as $key => $value){
-            if (strpos($key, 'quota') !== false) {
+            if (strpos($key, 'key') !== false) {
                 $quota = Arr::add($quota,$key,$value);
                 unset($data[$key]);
             }

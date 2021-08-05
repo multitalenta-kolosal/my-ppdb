@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -85,11 +86,28 @@ class MessageService{
 
         $data = $request->all();
 
+        $replacement = [];
+
+        foreach($data as $key => $value){
+            if (strpos($key, 'rep-key') !== false) {
+                $input_number = Str::after($key, 'rep-key');
+                $replacement = Arr::add($replacement,$value,$data['rep-val'.$input_number]);
+                unset($data[$key]);
+                unset($data['rep-val'.$input_number]);
+            }
+        }
+
+        Log::debug(json_encode($replacement));
+
         DB::beginTransaction();
 
         try {
             $messageObject = $this->messageRepository->make($data);
     
+            if($replacement){
+                $messageObject->replacement = json_encode($replacement);
+            }
+
             $message = $this->messageRepository->create($messageObject->toArray());
         }catch (Exception $e){
             DB::rollBack();
@@ -136,6 +154,19 @@ class MessageService{
 
         $data = $request->all();
 
+        $replacement = [];
+
+        foreach($data as $key => $value){
+            if (strpos($key, 'rep-key') !== false) {
+                $input_number = Str::after($key, 'rep-key');
+                $replacement = Arr::add($replacement,$value,$data['rep-val'.$input_number]);
+                unset($data[$key]);
+                unset($data['rep-val'.$input_number]);
+            }
+        }
+
+        Log::debug(json_encode($replacement));
+        
         DB::beginTransaction();
 
         try{
@@ -145,6 +176,10 @@ class MessageService{
 
             if(!$message->has_major){
                 $message->has_major = false;
+            }
+
+            if($replacement){
+                $message->replacement = json_encode($replacement);
             }
 
             $updated = $this->messageRepository->update($message->toArray(),$id);
@@ -187,7 +222,7 @@ class MessageService{
         return (object) array(
             'error'=> false,            
             'message'=> '',
-            'data'=> $message,
+            'data'=> $messages,
         );
     }
 
@@ -219,7 +254,7 @@ class MessageService{
                     break;
             }
 
-            $response = $this->send($registrant, $message_code, $tracker_code, $replaces);
+            $response = $this->send($registrant, $message_code, $tracker_code);
     
         }catch (Exception $e){
             DB::rollBack();
@@ -240,7 +275,7 @@ class MessageService{
         return (object) $response;
     }
 
-    public function send($registrant, $message_code, $tracker_code, $replaces = []){
+    public function send($registrant, $message_code, $tracker_code, $replaces = null){
         DB::beginTransaction();
 
         $message = '';
@@ -252,6 +287,14 @@ class MessageService{
             {
                 $message = $template->message;
 
+                Log::debug('masuk sinii 1');
+
+                if(!$replaces){
+                    Log::debug('masuk sinii');
+                    $replaces = $this->parseMessageReplaces($registrant, $template);
+                }
+
+                Log::debug('masuk sinii end');
                 foreach($replaces as $key => $value){
                     $message =  Str::replace('$'.$key, $value, $message);
                 }
@@ -397,5 +440,32 @@ class MessageService{
             'error' => false,
             'message' => '',
         ];
+    }
+
+    public function parseMessageReplaces($model, $template){
+        $model_name = class_basename($model);
+        $replacements = json_decode($template->replacement, false);
+
+        Log::debug('modle '.$model_name);
+        $parsed = [];
+
+        if($model_name == 'Registrant'){
+            foreach($replacements as $key => $value){
+                Log::debug('key '.$key);
+                Log::debug('value '.$value);
+                $connector = '->';
+                if (Str::contains($value, $connector)) {
+                    Log::debug('masuk connector : '.$key);
+                    $relation = Str::before($value, $connector);
+                    $relation_value = Str::after($value, $connector);
+
+                    $parsed = Arr::add($parsed, $key, html_entity_decode($model->$relation->$relation_value));
+                }else{
+                    $parsed = Arr::add($parsed, $key, html_entity_decode($model->$value));
+                }
+            }
+        }
+
+        return $parsed;
     }
 }

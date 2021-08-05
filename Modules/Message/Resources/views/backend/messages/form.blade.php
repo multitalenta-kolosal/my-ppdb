@@ -26,6 +26,62 @@
         </div>
     </div>
 </div>
+<a class="btn btn-primary text-light m-1" id="button-clone">Tambah Variabel</a>
+<div class="row">
+    <?php
+        $field_name = '';
+        $key_field = 'rep-key';
+        $val_field = 'rep-val';
+        $placholder_key = 'Key';
+        $placholder_val = 'Value';
+        $required = "";
+    ?>
+    @if($module_action == 'Edit')
+        <?php
+            $rep_inputs = json_decode($message->replacement);
+            $i = 1;
+        ?>
+        <div id="rep">
+            @if($rep_inputs)
+                @foreach($rep_inputs as $key => $value)
+                    <div class="row m-1" id="rep-input">
+                        <div class="col-4">
+                                {{ html()->text($key_field.$i)->id($key_field.($i > 1 ? $i : ''))->value($key)->placeholder($placholder_key)->class('form-control m-1')->attributes(["$required"]) }}
+                        </div>
+                        <div class="col-4">
+                                {{ html()->text($val_field.$i)->id($val_field.($i > 1 ? $i : ''))->value($value)->placeholder($placholder_val)->class('form-control m-1')->attributes(["$required"]) }}
+                        </div>            
+                    </div>
+                    <?php
+                        $i = $i+1;
+                    ?>
+                @endforeach
+            @else
+            <div id="rep">
+                <div class="row m-1" id="rep-input">
+                    <div class="col-4">
+                            {{ html()->text($key_field)->id($key_field)->placeholder($placholder_key)->class('form-control m-1')->attributes(["$required"]) }}
+                    </div>
+                    <div class="col-4">
+                            {{ html()->text($val_field)->id($val_field)->placeholder($placholder_val)->class('form-control m-1')->attributes(["$required"]) }}
+                    </div>            
+                </div>
+            </div>
+            @endif
+        </div>
+    @else
+        <div id="rep">
+            <div class="row m-1" id="rep-input">
+                <div class="col-4">
+                        {{ html()->text($key_field)->id($key_field)->placeholder($placholder_key)->class('form-control m-1')->attributes(["$required"]) }}
+                </div>
+                <div class="col-4">
+                        {{ html()->text($val_field)->id($val_field)->placeholder($placholder_val)->class('form-control m-1')->attributes(["$required"]) }}
+                </div>            
+            </div>
+        </div>
+    @endif
+</div>
 <div></div>
 
 
@@ -105,6 +161,15 @@ $(function() {
         }
     });
 });
+
+var input_id = {{$i ?? 1}};
+ $('#button-clone').click(function() {
+        console.log(input_id);
+        $('#rep-input').clone().appendTo('#rep').prop('id', 'rep-input' + input_id);
+        $('#rep-input'+input_id).find('#rep-key').prop('id', 'rep-key' + input_id).prop('name', 'rep-key' + input_id).val('');
+        $('#rep-input'+input_id).find('#rep-val').prop('id', 'rep-val' + input_id).prop('name', 'rep-val' + input_id).val('');
+        input_id++; 
+ });
 </script>
 
 @endpush
