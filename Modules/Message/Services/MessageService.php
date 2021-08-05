@@ -63,8 +63,12 @@ class MessageService{
     public function getList(){
 
         $message =$this->messageRepository->all();
-
-        return $message;
+ 
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $message,
+        );
     }
 
 
@@ -96,15 +100,23 @@ class MessageService{
         DB::commit();
 
         Log::info(label_case($this->module_title.' '.__function__)." | '".$message->name.'(ID:'.$message->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
-
-        return $message;
+        
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $message,
+        );
     }
 
     public function show($id){
 
         Log::info(label_case($this->module_title.' '.__function__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $this->messageRepository->findOrFail($id);
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $this->messageRepository->findOrFail($id),
+        );
     }
 
     public function edit($id){
@@ -113,7 +125,11 @@ class MessageService{
 
         Log::info(label_case($this->module_title.' '.__function__)." | '".$message->name.'(ID:'.$message->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $message;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $message,
+        );
     }
 
     public function update(Request $request,$id){
@@ -143,8 +159,11 @@ class MessageService{
 
         Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$message_check->name.'(ID:'.$message_check->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $this->messageRepository->find($id);
-
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $this->messageRepository->find($id),
+        );
     }
 
     public function destroy($id){
@@ -165,7 +184,11 @@ class MessageService{
 
         Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$messages->name.', ID:'.$messages->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $messages;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $message,
+        );
     }
 
     public function prepareAndSend(Request $request){
@@ -201,7 +224,7 @@ class MessageService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
-            return $response = [
+            return (object) $response = [
                 'data'          => null,
                 'registrant'    => $registrant,
                 'error'         => true,
@@ -214,7 +237,7 @@ class MessageService{
 
         Log::info(label_case($this->module_title.' '.__FUNCTION__).' '.$message_code." | '".$registrant->name.', ID:'.$registrant->registrant_id."'");
 
-        return $response;
+        return (object) $response;
     }
 
     public function send($registrant, $message_code, $tracker_code, $replaces = []){
@@ -264,7 +287,7 @@ class MessageService{
             curl_close($curl);
 
             if ($err) {
-                return $response = [
+                return (object) $response = [
                     'data'          => $api_response,
                     'registrant'    => $registrant,
                     'error'         => true,
@@ -272,7 +295,7 @@ class MessageService{
                 ];
             }elseif($api_response){
                 if (!$api_response->success){
-                    return $response = [
+                    return (object) $response = [
                         'data'          => $api_response,
                         'registrant'    => $registrant,
                         'error'         => true,
@@ -280,7 +303,7 @@ class MessageService{
                     ];          
                 }      
             }else{
-                return $response = [
+                return (object) $response = [
                     'data'          => null,
                     'registrant'    => $registrant,
                     'error'         => true,
@@ -291,7 +314,7 @@ class MessageService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
-            return $response = [
+            return (object) $response = [
                 'data'          => null,
                 'registrant'    => $registrant,
                 'error'         => true,
@@ -303,7 +326,7 @@ class MessageService{
 
         Log::info(label_case($this->module_title.' '.__FUNCTION__).' '.$message_code." ".', response:'.$api_response->description."' | '".$registrant->name.', ID:'.$registrant->registrant_id."'");
 
-        return $response = [
+        return (object) $response = [
             'data'          => $api_response,
             'registrant'    => $registrant,
             'error'         => false,
@@ -349,7 +372,7 @@ class MessageService{
 
             }else{
                 Log::critical('registrant not found');
-                return $response = [
+                return (object) $response = [
                     'data'   => null,
                     'error' => true,
                     'message' => 'registrant not found',
@@ -358,7 +381,7 @@ class MessageService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
-            return $response = [
+            return (object) $response = [
                 'data'   => null,
                 'error' => true,
                 'message' => $e->getMessage(),
@@ -369,10 +392,10 @@ class MessageService{
 
         Log::info(label_case($this->module_title.' Function: '.__function__)."' ". $parameter.$tracker_suffix." | Registrant ID:".$registrant->registrant_id."' | Destination:'".$registrant->phone.' (sender:'.$registrant->unit->name.") ' by: System'");
 
-        return $response = [
+        return (object) $response = [
             'data'   => $data,
             'error' => false,
             'message' => '',
-        ];;
+        ];
     }
 }

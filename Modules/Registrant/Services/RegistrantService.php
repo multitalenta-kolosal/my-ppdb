@@ -120,7 +120,7 @@ class RegistrantService{
 
             $registrant_stage = $this->registrantStageService->store($request, $registrant);
 
-            $registrant->progress_id = $registrant_stage['data']->id;
+            $registrant->progress_id = $registrant_stage->data->id;
 
             $registrant = $this->registrantRepository->create($registrant->toArray());
 
@@ -140,11 +140,11 @@ class RegistrantService{
 
         $response = $this->messageService->send($registrant, 'register-message', 'register',['name' => $registrant->name, 'unit' => $registrant->unit->name]);
 
-        if($response['error']){
-            Log::critical('Send Message error: '.$response['message']);
+        if($response->error){
+            Log::critical('Send Message error: '.$response->message);
             return (object) array(
                 'error'=> true,
-                'message'=> $response['message'],
+                'message'=> $response->message,
                 'data'=> $registrant,
             );
         }

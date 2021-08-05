@@ -89,7 +89,7 @@ class RegistrantMessagesController extends Controller
 
         $response = $this->registrantMessageService->store($request);
 
-        if($response){
+        if(!$response->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Added Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
@@ -119,7 +119,7 @@ class RegistrantMessagesController extends Controller
 
         $response = $this->registrantMessageService->update($request,$id);
 
-        if($response){
+        if(!$response->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Updated Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
@@ -148,7 +148,7 @@ class RegistrantMessagesController extends Controller
 
         $response = $this->registrantMessageService->destroy($id);
 
-        if($response){
+        if(!$response->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Deleted Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();

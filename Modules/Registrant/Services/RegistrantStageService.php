@@ -47,7 +47,11 @@ class RegistrantStageService{
                     ->all()
                     ->sortByDesc('created_at');
 
-        return $registrantStage;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $registrantStage,
+        );
     }
 
     public function store(Request $request, $registrant_data = null, $manualCreate = false){
@@ -71,7 +75,7 @@ class RegistrantStageService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
-            return $response = [
+            return (object) $response = [
                 'data'   => null,
                 'error' => true,
                 'message' => $e->getMessage(),
@@ -92,7 +96,7 @@ class RegistrantStageService{
             'message' => '',
         ];
     
-        return $response;
+        return (object) $response;
     }
 
     public function update(Request $request,$id){
@@ -130,7 +134,7 @@ class RegistrantStageService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
-            return $response = [
+            return (object) $response = [
                 'data'   => null,
                 'error' => true,
                 'message' => $e->getMessage(),
@@ -146,7 +150,7 @@ class RegistrantStageService{
             'message' => '',
         ];
     
-        return $response;
+        return (object) $response;
 
     }
 
@@ -161,7 +165,7 @@ class RegistrantStageService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
-            return $response = [
+            return (object) $response = [
                 'data'   => null,
                 'error' => true,
                 'message' => $e->getMessage(),
@@ -179,7 +183,7 @@ class RegistrantStageService{
             'message' => '',
         ];
     
-        return $response;
+        return (object) $response;
     }
 
     public function getSetStatus($registrantStage){

@@ -47,7 +47,11 @@ class RegistrantMessageService{
                     ->all()
                     ->sortByDesc('created_at');
 
-        return $registrantMessage;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $registrantMessage,
+        );
     }
 
     public function store(Request $request, $registrant_data = null, $manualCreate = false){
@@ -71,7 +75,7 @@ class RegistrantMessageService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
-            return $response = [
+            return (object) $response = [
                 'data'   => null,
                 'error' => true,
                 'message' => $e->getMessage(),
@@ -92,7 +96,7 @@ class RegistrantMessageService{
             'message' => '',
         ];
     
-        return $response;
+        return (object) $response;
     }
 
     public function update(Request $request,$registrantMessageObject = null, $id){
@@ -112,7 +116,7 @@ class RegistrantMessageService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
-            return $response = [
+            return (object) $response = [
                 'data'   => null,
                 'error' => true,
                 'message' => $e->getMessage(),
@@ -128,7 +132,7 @@ class RegistrantMessageService{
             'message' => '',
         ];
     
-        return $response;
+        return (object) $response;
 
     }
 
@@ -143,7 +147,7 @@ class RegistrantMessageService{
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
-            return $response = [
+            return (object) $response = [
                 'data'   => null,
                 'error' => true,
                 'message' => $e->getMessage(),
@@ -161,7 +165,7 @@ class RegistrantMessageService{
             'message' => '',
         ];
     
-        return $response;
+        return (object) $response;
     }
 
 }
