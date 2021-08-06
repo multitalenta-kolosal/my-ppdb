@@ -105,9 +105,14 @@ class UnitsController extends Controller
 
         $module_action = 'Create';
 
+        $options = $this->unitService->create();
+       
+        $path_options = $options['paths'];
+
+
         return view(
             "core::backend.$module_name.create",
-            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular')
+            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','path_options')
         );
     }
 
@@ -190,11 +195,16 @@ class UnitsController extends Controller
 
         $units = $this->unitService->edit($id);
 
+        $path_value = $this->unitService->decodePath($units->data);
+        $options = $this->unitService->prepareOptions();
+       
+        $path_options = $options['paths'];
+
         $$module_name_singular = $units->data;
 
         return view(
             "core::backend.$module_name.edit",
-            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular")
+            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular",'path_options','path_value')
         );
     }
 

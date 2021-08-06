@@ -29,6 +29,12 @@ class Registrant extends BaseModel
         return $this->belongsTo('Modules\Core\Entities\Unit','unit_id');
     }
 
+    
+    public function path()
+    {
+        return $this->belongsTo('Modules\Core\Entities\Path','type');
+    }
+
     public function period()
     {
         return $this->belongsTo('Modules\Core\Entities\Period','period_id');

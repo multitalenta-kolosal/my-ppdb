@@ -14,11 +14,14 @@
         </div>
     </div>
     <div class="row py-1 my-3 shadow border rounded text-center">
-        <div class="col-6 align-middle">
+        <div class="col-4 align-middle">
+            <strong>Jalur: </strong><br>{{$registrant->data->path->name ?? 'Jalur Tidak Ditemukan'}}
+        </div>
+        <div class="col-4 align-middle">
             <strong>ID: </strong><br>{{$registrant->data->registrant_id ?? 'DATA NOT FOUND'}}
         </div>
-        <div class="col-6 align-middle">
-            <strong>Tgl. Mendaftar: </strong><br>{{Carbon\Carbon::parse($registrant->data->created_at)->format('d-m-Y, H:i:s') ?? 'DATA NOT FOUND'}}
+        <div class="col-4 align-middle">
+            <strong>Tgl. Daftar: </strong><br>{{Carbon\Carbon::parse($registrant->data->created_at)->format('d-m-Y, H:i:s') ?? 'DATA NOT FOUND'}}
         </div>
     </div>
     <!-- progress timeline    -->

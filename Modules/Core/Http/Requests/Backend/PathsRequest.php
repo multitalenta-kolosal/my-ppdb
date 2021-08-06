@@ -4,7 +4,7 @@ namespace Modules\Core\Http\Requests\Backend;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UnitsRequest extends FormRequest
+class PathsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,8 @@ class UnitsRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'              => 'required|max:191',
-            'contact_number'    => 'nullable|numeric',
-            'contact_email'     => 'nullable|email',
-            'requirements'      => 'nullable|max:255',
+            'name'                         => 'required|max:191',
+            'additional_requirements'      => 'max:255',
         ];
     }
 }

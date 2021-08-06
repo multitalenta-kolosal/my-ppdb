@@ -165,7 +165,25 @@
         </div>
     </div>
 </div>
-<div></div>
+
+<div class="h3">Jalur Pendaftaran</div>
+<div class="row">
+    <?php
+        $field_name = 'path';
+        $field_lable = __("core::$module_name.$field_name");
+        $field_placeholder = $field_lable;
+        $field_value = $path_value ?? [];
+        $required = "";
+    ?>
+    @foreach($path_options as $key => $path)
+        <div class="col-sm-6 col-md-3 col-lg-2 m-2">
+            <div class="form-group">
+                    {{ html()->label($path)->class('float-center') }} {!! fielf_required($required) !!}
+                    {{ html()->checkbox($field_name.'_'.strtolower($path), array_key_exists($key, $field_value) ? true : false, $key)->class('inline m-1 display-1')->attributes(["$required"]) }}
+            </div>
+        </div>
+    @endforeach
+</div>
 
 
 <!-- Select2 Library -->
@@ -178,53 +196,6 @@
 @endpush
 
 @push ('after-scripts')
-<script type="text/javascript">
-$(document).ready(function() {
-    $('.select2-category').select2({
-        theme: "bootstrap",
-        placeholder: '@lang("Select an option")',
-        minimumInputLength: 2,
-        allowClear: true,
-        ajax: {
-            url: '{{route("backend.categories.index_list")}}',
-            dataType: 'json',
-            data: function (params) {
-                return {
-                    q: $.trim(params.term)
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
-    });
-
-    $('.select2-tags').select2({
-        theme: "bootstrap",
-        placeholder: '@lang("Select an option")',
-        minimumInputLength: 2,
-        allowClear: true,
-        ajax: {
-            url: '{{route("backend.tags.index_list")}}',
-            dataType: 'json',
-            data: function (params) {
-                return {
-                    q: $.trim(params.term)
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
-    });
-});
-</script>
 
 <!-- Date Time Picker & Moment Js-->
 <script type="text/javascript">
@@ -248,12 +219,6 @@ $(function() {
 
 <script type="text/javascript">
 
-CKEDITOR.replace('requirements', {filebrowserImageBrowseUrl: '/file-manager/ckeditor', language:'{{App::getLocale()}}', defaultLanguage: 'en'});
-
-// set file link
-function fmSetLink($url) {
-  document.getElementById('featured_image').value = $url;
-}
 
 </script>
 

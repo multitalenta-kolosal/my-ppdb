@@ -11,36 +11,36 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Log;
-use Modules\Core\Services\PeriodService;
-use Modules\Core\DataTables\PeriodsDataTable;
-use Modules\Core\Http\Requests\Backend\PeriodsRequest;
+use Modules\Core\Services\PathService;
+use Modules\Core\DataTables\PathsDataTable;
+use Modules\Core\Http\Requests\Backend\PathsRequest;
 use Spatie\Activitylog\Models\Activity;
 use Yajra\DataTables\DataTables;
 
-class PeriodsController extends Controller
+class PathsController extends Controller
 {
     use Authorizable;
 
-    protected $periodService;
+    protected $pathService;
 
-    public function __construct(PeriodService $periodService)
+    public function __construct(PathService $pathService)
     {
         // Page Title
-        $this->module_title = 'Periods';
+        $this->module_title = 'Paths';
 
         // module name
-        $this->module_name = 'periods';
+        $this->module_name = 'paths';
 
         // directory path of the module
-        $this->module_path = 'periods';
+        $this->module_path = 'paths';
 
         // module icon
-        $this->module_icon = 'fas fa-calendar-day';
+        $this->module_icon = 'fas fa-map-signs';
 
         // module model name, path
-        $this->module_model = "Modules\Core\Entities\Period";
+        $this->module_model = "Modules\Core\Entities\Path";
 
-        $this->periodService = $periodService;
+        $this->pathService = $pathService;
     }
 
     /**
@@ -48,7 +48,7 @@ class PeriodsController extends Controller
      *
      * @return Response
      */
-    public function index(PeriodsDataTable $dataTable)
+    public function index(PathsDataTable $dataTable)
     {
         $module_title = $this->module_title;
         $module_name = $this->module_name;
@@ -58,6 +58,8 @@ class PeriodsController extends Controller
         $module_name_singular = Str::singular($module_name);
 
         $module_action = 'List';
+
+        $$module_name = $module_model::paginate();
 
         return $dataTable->render("core::backend.$module_path.index",
             compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action')
@@ -82,7 +84,7 @@ class PeriodsController extends Controller
 
         $$module_name = [];
 
-        $$module_name = $this->periodService->getIndexList($request);
+        $$module_name = $this->pathService->getIndexList($request);
 
         return response()->json($$module_name);
     }
@@ -103,13 +105,9 @@ class PeriodsController extends Controller
 
         $module_action = 'Create';
 
-        $options = $this->periodService->create();
-       
-        $units = $options['unit'];
-
         return view(
             "core::backend.$module_name.create",
-            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','units')
+            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular')
         );
     }
 
@@ -120,7 +118,7 @@ class PeriodsController extends Controller
      *
      * @return Response
      */
-    public function store(PeriodsRequest $request)
+    public function store(PathsRequest $request)
     {
         $module_title = $this->module_title;
         $module_name = $this->module_name;
@@ -131,15 +129,16 @@ class PeriodsController extends Controller
 
         $module_action = 'Store';
 
-        $periods = $this->periodService->store($request);
+        $paths = $this->pathService->store($request);
 
-        $$module_name_singular = $periods->data;
+        $$module_name_singular = $paths->data;
 
-        if(!$periods->error){
+        if(!$paths->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Added Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
         }
+
         return redirect("admin/$module_name");
     }
 
@@ -161,9 +160,9 @@ class PeriodsController extends Controller
 
         $module_action = 'Show';
 
-        $periods = $this->periodService->show($id);
+        $paths = $this->pathService->show($id);
 
-        $$module_name_singular = $periods->data;
+        $$module_name_singular = $paths->data;
 
         return view(
             "core::backend.$module_name.show",
@@ -189,17 +188,13 @@ class PeriodsController extends Controller
 
         $module_action = 'Edit';
 
-        $periods = $this->periodService->edit($id);
-        $quota_value = $this->periodService->decodeQuota($periods->data);
-        $options = $this->periodService->prepareOptions();
-       
-        $units = $options['unit'];
+        $paths = $this->pathService->edit($id);
 
-        $$module_name_singular = $periods->data;
+        $$module_name_singular = $paths->data;
 
         return view(
             "core::backend.$module_name.edit",
-            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular",'units','quota_value')
+            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular")
         );
     }
 
@@ -211,7 +206,7 @@ class PeriodsController extends Controller
      *
      * @return Response
      */
-    public function update(PeriodsRequest $request, $id)
+    public function update(PathsRequest $request, $id)
     {
         $module_title = $this->module_title;
         $module_name = $this->module_name;
@@ -222,16 +217,16 @@ class PeriodsController extends Controller
 
         $module_action = 'Update';
 
-        $periods = $this->periodService->update($request,$id);
+        $paths = $this->pathService->update($request,$id);
 
-        $$module_name_singular = $periods->data;
+        $$module_name_singular = $paths->data;
 
-        if(!$periods->error){
+        if(!$paths->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Updated Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
         }
-        
+
         return redirect("admin/$module_name");
     }
 
@@ -253,76 +248,16 @@ class PeriodsController extends Controller
 
         $module_action = 'destroy';
 
-        $periods = $this->periodService->destroy($id);
+        $paths = $this->pathService->destroy($id);
 
-        $$module_name_singular = $periods->data;
+        $$module_name_singular = $paths->data;
 
-        if(!$periods->error){
+        if(!$paths->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Deleted Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
         }
-        
+
         return redirect("admin/$module_name");
     }
-
-    /**
-     * List of trashed ertries
-     * works if the softdelete is enabled.
-     *
-     * @return Response
-     */
-    public function trashed()
-    {
-        $module_title = $this->module_title;
-        $module_name = $this->module_name;
-        $module_path = $this->module_path;
-        $module_icon = $this->module_icon;
-        $module_model = $this->module_model;
-        $module_name_singular = Str::singular($module_name);
-
-        $module_action = 'Trash List';
-
-        $periods = $this->periodService->trashed();
-
-        $$module_name = $periods->data;
-
-        return view(
-            "core::backend.$module_name.trash",
-            compact('module_title', 'module_name', "$module_name", 'module_icon', 'module_name_singular', 'module_action')
-        );
-    }
-
-    /**
-     * Restore a soft deleted entry.
-     *
-     * @param Request $request
-     * @param int     $id
-     *
-     * @return Response
-     */
-    public function restore($id)
-    {
-        $module_title = $this->module_title;
-        $module_name = $this->module_name;
-        $module_path = $this->module_path;
-        $module_icon = $this->module_icon;
-        $module_model = $this->module_model;
-        $module_name_singular = Str::singular($module_name);
-
-        $module_action = 'Restore';
-
-        $periods = $this->periodService->restore($id);
-
-        $$module_name_singular = $periods->data;
-
-        if(!$periods->error){
-            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Restored Successfully!')->important();
-        }else{
-            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
-        }
-        
-        return redirect("admin/$module_name");
-    }
-
 }

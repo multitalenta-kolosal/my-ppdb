@@ -3,15 +3,14 @@
 namespace Modules\Core\DataTables;
 
 use Carbon\Carbon;
-use Modules\Core\Repositories\PeriodRepository;
-use Illuminate\Support\Facades\Log;
+use Modules\Core\Repositories\PathRepository;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class PeriodsDataTable extends DataTable
+class PathsDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -19,11 +18,11 @@ class PeriodsDataTable extends DataTable
      * @param mixed $query Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
-    public function __construct(PeriodRepository $periodRepository)
+    public function __construct(PathRepository $pathRepository)
     {
-        $this->module_name = 'periods';
+        $this->module_name = 'paths';
 
-        $this->periodRepository = $periodRepository;
+        $this->pathRepository = $pathRepository;
     }
 
     public function dataTable($query)
@@ -35,12 +34,12 @@ class PeriodsDataTable extends DataTable
 
                 return view('backend.includes.action_column_admin', compact('module_name', 'data'));
             })
-            ->editColumn('quota',function ($data){
+            ->editColumn('units',function ($data){
                 $module_name = $this->module_name;
 
-                $item = json_decode($data->quota, true);
+                $item = json_decode($data->units, true);
 
-                return view('core::backend.components.bullet-view',compact('module_name','item'));
+                return view('core::backend.components.number-view',compact('module_name','item'));
             })
             ->editColumn('updated_at', function ($data) {
                 $module_name = $this->module_name;
@@ -60,18 +59,18 @@ class PeriodsDataTable extends DataTable
 
                 return $formated_date;
             })
-            ->rawColumns(['name', 'quota','status', 'action']);
+            ->rawColumns(['name', 'action']);
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Period $model
+     * @param \App\Path $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query()
     {
-        $data = $this->periodRepository->query();
+        $data = $this->pathRepository->query();
 
         return $this->applyScopes($data);
     }
@@ -84,7 +83,7 @@ class PeriodsDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                ->setTableId('periods-table')
+                ->setTableId('paths-table')
                 ->columns($this->getColumns())
                 ->minifiedAjax()
                 ->dom('Blfrtip')
@@ -114,10 +113,11 @@ class PeriodsDataTable extends DataTable
                   ->exportable(false)
                   ->printable(false)
                   ->addClass('text-center'),
-            Column::make('period_name'),
-            Column::make('quota'),
-            Column::make('closing_date'),
+            Column::make('name'),
+            Column::make('units'),
+            Column::make('additional_requirements'),
             Column::make('created_at'),
+            Column::make('updated_at'),
         ];
     }
 
@@ -128,6 +128,6 @@ class PeriodsDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Periods_' . date('YmdHis');
+        return 'Paths_' . date('YmdHis');
     }
 }

@@ -34,6 +34,13 @@ class UnitsDataTable extends DataTable
 
                 return view('backend.includes.action_column_admin', compact('module_name', 'data'));
             })
+            ->editColumn('paths',function ($data){
+                $module_name = $this->module_name;
+
+                $item = json_decode($data->paths, true);
+
+                return view('core::backend.components.number-view',compact('module_name','item'));
+            })
             ->editColumn('updated_at', function ($data) {
                 $module_name = $this->module_name;
 
@@ -109,6 +116,7 @@ class UnitsDataTable extends DataTable
             Column::make('name'),
             Column::make('contact_number'),
             Column::make('contact_email'),
+            Column::make('paths'),
             Column::make('requirements'),
             Column::make('entrance_test_url'),
             Column::make('created_at'),

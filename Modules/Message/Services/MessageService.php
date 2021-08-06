@@ -97,7 +97,6 @@ class MessageService{
             }
         }
 
-        Log::debug(json_encode($replacement));
 
         DB::beginTransaction();
 
@@ -164,8 +163,6 @@ class MessageService{
                 unset($data['rep-val'.$input_number]);
             }
         }
-
-        Log::debug(json_encode($replacement));
         
         DB::beginTransaction();
 
@@ -287,14 +284,10 @@ class MessageService{
             {
                 $message = $template->message;
 
-                Log::debug('masuk sinii 1');
-
                 if(!$replaces){
-                    Log::debug('masuk sinii');
                     $replaces = $this->parseMessageReplaces($registrant, $template);
                 }
 
-                Log::debug('masuk sinii end');
                 foreach($replaces as $key => $value){
                     $message =  Str::replace('$'.$key, $value, $message);
                 }
@@ -312,7 +305,6 @@ class MessageService{
             $api_url .= "&number=". urlencode ($destination);
             $api_url .= "&text=". urlencode ($message_text);
             $api_url .= "&custom_data=". urlencode ($message_custom_code);
-            Log::debug($api_url);
 
             curl_setopt_array($curl, array(
             CURLOPT_URL => $api_url,
@@ -446,16 +438,12 @@ class MessageService{
         $model_name = class_basename($model);
         $replacements = json_decode($template->replacement, false);
 
-        Log::debug('modle '.$model_name);
         $parsed = [];
 
         if($model_name == 'Registrant'){
             foreach($replacements as $key => $value){
-                Log::debug('key '.$key);
-                Log::debug('value '.$value);
                 $connector = '->';
                 if (Str::contains($value, $connector)) {
-                    Log::debug('masuk connector : '.$key);
                     $relation = Str::before($value, $connector);
                     $relation_value = Str::after($value, $connector);
 

@@ -105,5 +105,31 @@
 @endpush
 
 @push ('after-scripts')
-
+<script>
+    $(document).ready(function() {
+        $('#unit_id').on('change', function(){
+            $('#type').empty();
+            var unit_id = $('#unit_id').val();
+            $.ajax({
+                type: "GET",
+                url: '{{route("frontend.units.getpath",'')}}'+'/'+unit_id,
+                success: function (response) {
+                    var defaultOption = $('<option value="">--Pilih--</option>');
+                    $('#type').append(defaultOption);
+                    
+                    $.each(response.data,function(key, val) {
+                        var newOption = $('<option value="'+key+'">'+val+'</option>');
+                        $('#type').append(newOption);
+                    });
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    Swal.fire("@lang('delete error')", "@lang('error')", "error");
+                }
+            });
+            // var newOption = $('<option value="1">test</option>');
+            // $('#type').append(newOption);
+            // $('#type').trigger("chosen:updated");
+        });
+    });
+</script>
 @endpush

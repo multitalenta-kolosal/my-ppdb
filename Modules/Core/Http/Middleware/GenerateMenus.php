@@ -26,9 +26,10 @@ class GenerateMenus
                 'activematches' => [
                     'admin/units*',
                     'admin/periods*', 
+                    'admin/paths*', 
                     'admin/messages*',                    
                 ],
-                'permission' => ['view_units','view_periods','view_messages'],
+                'permission' => ['view_units','view_periods','view_messages','view_paths'],
             ]);
 
             $core_menu->link->attr([
@@ -51,6 +52,20 @@ class GenerateMenus
                 'class' => 'c-sidebar-nav-link',
             ]);
 
+             // paths
+             $core_menu->add('<i class="fas fa-map-signs c-sidebar-nav-icon"></i> Paths', [
+                'route' => 'backend.paths.index',
+                'class' => 'c-sidebar-nav-item',
+            ])
+            ->data([
+                'order' => 4,
+                'activematches' => ['admin/paths*'],
+                'permission' => ['view_paths'],
+            ])
+            ->link->attr([
+                'class' => 'c-sidebar-nav-link',
+            ]);
+            
              // periods
              $core_menu->add('<i class="fas fa-calendar-day c-sidebar-nav-icon"></i> Periods', [
                 'route' => 'backend.periods.index',

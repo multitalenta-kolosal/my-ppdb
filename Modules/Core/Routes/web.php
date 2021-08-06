@@ -13,6 +13,27 @@
 
 /*
 *
+* Frontend Routes
+*
+* --------------------------------------------------------------------
+*/
+Route::group(['namespace' => '\Modules\Core\Http\Controllers\Frontend', 'as' => 'frontend.', 'middleware' => 'web', 'prefix' => ''], function () {
+
+    /*
+     *
+     *  Cores Routes
+     *
+     * ---------------------------------------------------------------------
+     */
+    $module_name = 'units';
+    $controller_name = 'UnitsController';    
+    Route::get("getpath/{id}", 
+        ['as' => "$module_name.getpath", 'uses' => "$controller_name@getPath"])->middleware(['throttle:10,1']);;
+   
+});
+
+/*
+*
 * Backend Routes
 *
 * --------------------------------------------------------------------
@@ -52,6 +73,16 @@ Route::group(['namespace' => '\Modules\Core\Http\Controllers\Backend', 'as' => '
     Route::get("$module_name/index_data", ['as' => "$module_name.index_data", 'uses' => "$controller_name@index_data"]);
     Route::get("$module_name/trashed", ['as' => "$module_name.trashed", 'uses' => "$controller_name@trashed"]);
     Route::patch("$module_name/trashed/{id}", ['as' => "$module_name.restore", 'uses' => "$controller_name@restore"]);
+    Route::resource("$module_name", "$controller_name");
+
+    /*
+     *
+     *  Paths Routes
+     *
+     * ---------------------------------------------------------------------
+     */
+    $module_name = 'paths';
+    $controller_name = 'PathsController';
     Route::resource("$module_name", "$controller_name");
 
 });

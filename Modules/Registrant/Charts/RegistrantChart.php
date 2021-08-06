@@ -69,13 +69,11 @@ class RegistrantChart extends BaseChart
                     }
                 }
             }else{
-                \Log::debug(json_encode($periods));
                 if($periods == 'monthly'){
                     $periods = 6;
                 }else if($periods == 'year'){
                     $periods = 11;
                 }
-                \Log::debug(json_encode($periods));
 
                 $default_date_raw = CarbonPeriod::create(Carbon::now()->subMonth($periods), Carbon::now())->toArray();
                 

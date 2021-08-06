@@ -9,6 +9,7 @@ use Modules\Message\Services\MessageService;
 use Modules\Registrant\Repositories\RegistrantRepository;
 use Modules\Core\Repositories\UnitRepository;
 use Modules\Core\Repositories\PeriodRepository;
+use Modules\Core\Repositories\PathRepository;
 
 use Exception;
 use Carbon\Carbon;
@@ -31,6 +32,7 @@ class RegistrantService{
     protected $registrantRepository;
     protected $unitRepository;
     protected $periodRepository;
+    protected $pathRepository;
 
     public function __construct(
         /**
@@ -44,6 +46,7 @@ class RegistrantService{
          * Repositories Parameter
          * 
          */
+        PathRepository $pathRepository,
         RegistrantRepository $registrantRepository,
         UnitRepository $unitRepository,
         PeriodRepository $periodRepository
@@ -59,6 +62,7 @@ class RegistrantService{
          * Repositories Declaration
          * 
          */
+        $this->pathRepository = $pathRepository;
         $this->registrantRepository = $registrantRepository;
         $this->unitRepository = $unitRepository;
         $this->periodRepository = $periodRepository;
@@ -301,10 +305,7 @@ class RegistrantService{
             $unit = ['Silakan membuat unit'];
         }
 
-        $type = [
-            'prestasi' => 'Prestasi',
-            'reguler' => 'Reguler',
-        ];
+        $type = [];
 
         $options = array(
             'unit' => $unit,

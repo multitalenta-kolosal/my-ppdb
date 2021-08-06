@@ -2,12 +2,20 @@
 
 namespace Modules\Core\Services;
 
+use Modules\Core\Services\PathService;
+
 use Modules\Core\Repositories\UnitRepository;
+use Modules\Core\Repositories\PathRepository;
+
 use Exception;
 use Carbon\Carbon;
 use Auth;
+
+use App\Exceptions\GeneralException;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -16,11 +24,22 @@ use Modules\Core\Events\Backend\UnitCreated;
 
 class UnitService{
 
+    protected $pathService;
+
     protected $unitRepository;
+    protected $pathRepository;
 
-    public function __construct(UnitRepository $unitRepository) {
+    public function __construct(
+        PathService $pathService,
 
+        PathRepository $pathRepository,
+        UnitRepository $unitRepository
+        )
+        {
+        $this->pathService = $pathService;
+        
         $this->unitRepository = $unitRepository;
+        $this->pathRepository = $pathRepository;
 
         $this->module_title = Str::plural(class_basename($this->unitRepository->model()));
 
@@ -64,18 +83,41 @@ class UnitService{
 
         $data = $request->all();
 
+        $field_value = 'path_';
+        $paths = array();
+
+        foreach($data as $key => $value){
+            if (Str::contains($key, $field_value)) {
+                $paths = Arr::add($paths,$value,Str::after($key, $field_value));
+                unset($data[$key]);
+            }
+        }
+
         DB::beginTransaction();
 
         try {
             $unitObject = $this->unitRepository->make($data);
-    
+            $unitObject->paths = json_encode($paths);
+
             $unit = $this->unitRepository->create($unitObject->toArray());
+
+            //Updating Paths
+            $sync_path = $this->pathService->syncPath();
+
+            if($sync_path->error){
+                return (object) array(
+                    'error'=> true,
+                    'message'=> $sync_path->message,
+                    'data'=> null,
+                );            
+            }
+
         }catch (Exception $e){
             DB::rollBack();
             Log::critical($e->getMessage());
             return (object) array(
                 'error'=> true,
-                'message'=> $response['message'],
+                'message'=> $e->getMessage(),
                 'data'=> null,
             );
         }
@@ -119,12 +161,21 @@ class UnitService{
 
         $data = $request->all();
 
+        $field_value = 'path_';
+        $paths = array();
+
+        foreach($data as $key => $value){
+            if (Str::contains($key, $field_value)) {
+                $paths = Arr::add($paths,$value,Str::after($key, $field_value));
+                unset($data[$key]);
+            }
+        }
+
         DB::beginTransaction();
 
         try{
-            $unit_check = $this->unitRepository->findOrFail($id);
-            
             $unit = $this->unitRepository->make($data);
+            $unit->paths = json_encode($paths);
 
             if(!$unit->has_major){
                 $unit->has_major = false;
@@ -132,24 +183,38 @@ class UnitService{
 
             $updated = $this->unitRepository->update($unit->toArray(),$id);
 
+            $updated_unit = $this->unitRepository->findOrFail($id);
+            
+            //Updating Paths
+            $sync_path = $this->pathService->syncPath();
+
+            if($sync_path->error){
+                return (object) array(
+                    'error'=> true,
+                    'message'=> $sync_path->message,
+                    'data'=> null,
+                );            
+            }
+
         }catch (Exception $e){
             DB::rollBack();
+            report($e);
             Log::critical($e->getMessage());
             return (object) array(
                 'error'=> true,
-                'message'=> $response['message'],
+                'message'=> $e->getMessage(),
                 'data'=> null,
             );
         }
 
         DB::commit();
 
-        Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$unit_check->name.'(ID:'.$unit_check->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+        Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$updated_unit->name.'(ID:'.$updated_unit->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return (object) array(
             'error'=> false,            
             'message'=> '',
-            'data'=> $this->unitRepository->find($id),
+            'data'=> $updated_unit,
         );
     }
 
@@ -166,7 +231,7 @@ class UnitService{
             Log::critical($e->getMessage());
             return (object) array(
                 'error'=> true,
-                'message'=> $response['message'],
+                'message'=> $e->getMessage(),
                 'data'=> null,
             );
         }
@@ -204,7 +269,7 @@ class UnitService{
             Log::critical($e->getMessage());
             return (object) array(
                 'error'=> true,
-                'message'=> $response['message'],
+                'message'=> $e->getMessage(),
                 'data'=> null,
             );
         }
@@ -219,5 +284,47 @@ class UnitService{
             'data'=> $units,
         );
     }
+    
+    public function prepareOptions(){
+        
+        $paths = $this->pathRepository->query()->orderBy('id','asc')->pluck('name','id');
 
+        if(!$paths){
+            $paths = ['Silakan membuat Jalur Pendaftaran'];
+        }
+
+        $options = array(
+            'paths' => $paths,
+        );
+
+        return $options;
+    }
+
+
+    public function decodePath($unit){
+        
+        $path = json_decode($unit->paths,true);
+
+        if(!$path){
+            $path = ['Path belum diisi'];
+        }
+
+        return $path;
+    }
+
+    public function getPath($unit_id){
+        $unit = $this->unitRepository->findOrFail($unit_id);
+        $paths = [];
+        $raw_path = json_decode($unit->paths,true);
+
+        foreach($raw_path as $key => $value){
+            $paths = Arr::add($paths, $key, $this->pathRepository->findOrFail($key)->name);
+        }
+
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $paths,
+        );
+    }
 }
