@@ -36,13 +36,13 @@
                     <thead>
                         <tr>
                             <th>
-                                #
-                            </th>
-                            <th>
                                 Name
                             </th>
                             <th>
-                                Page
+                                ID
+                            </th>
+                            <th>
+                                Unit
                             </th>
                             <th>
                                 Updated At
@@ -60,13 +60,13 @@
                         @foreach($$module_name as $module_name_singular)
                         <tr>
                             <td>
-                                {{ $module_name_singular->id }}
-                            </td>
-                            <td>
                                 <a href="{{ url("admin/$module_name", $module_name_singular->id) }}">{{ $module_name_singular->name }}</a>
                             </td>
                             <td>
-                                {{ $module_name_singular->slug }}
+                                {{ $module_name_singular->registrant_id }}
+                            </td>
+                            <td>
+                                {{ $module_name_singular->unit->name }}
                             </td>
                             <td>
                                 {{ $module_name_singular->updated_at->diffForHumans() }}

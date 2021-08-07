@@ -42,7 +42,7 @@
                                 Name
                             </th>
                             <th>
-                                Page
+                                id
                             </th>
                             <th>
                                 Updated At

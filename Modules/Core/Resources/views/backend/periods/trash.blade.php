@@ -42,7 +42,7 @@
                                 Name
                             </th>
                             <th>
-                                Page
+                                Year Start
                             </th>
                             <th>
                                 Updated At
@@ -63,10 +63,10 @@
                                 {{ $module_name_singular->id }}
                             </td>
                             <td>
-                                <a href="{{ url("admin/$module_name", $module_name_singular->id) }}">{{ $module_name_singular->name }}</a>
+                                <a href="{{ url("admin/$module_name", $module_name_singular->id) }}">{{ $module_name_singular->period_name }}</a>
                             </td>
                             <td>
-                                {{ $module_name_singular->slug }}
+                                {{ $module_name_singular->year_start }}
                             </td>
                             <td>
                                 {{ $module_name_singular->updated_at->diffForHumans() }}

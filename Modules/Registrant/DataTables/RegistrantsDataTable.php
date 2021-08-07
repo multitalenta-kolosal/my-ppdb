@@ -34,6 +34,10 @@ class RegistrantsDataTable extends DataTable
 
                 return view('registrant::backend.includes.action_column', compact('module_name', 'data'));
             })
+            ->editColumn('type', function ($data) {
+
+                return $data->path->name ?? 'No Path';
+            })
             ->editColumn('name', function ($model) {
                 if( ($model->registrant_stage->status_id ?? null) == -1)
                 {
@@ -41,6 +45,10 @@ class RegistrantsDataTable extends DataTable
                 }else{
                     return $model->name;
                 }
+            })
+            ->editColumn('period_id', function ($data) {
+
+                return $data->period->period_name ?? 'Tidak ada periode';
             })
             ->editColumn('unit_id', function ($model) {
                 if($model->unit)
@@ -64,9 +72,13 @@ class RegistrantsDataTable extends DataTable
             ->editColumn('created_at', function ($data) {
                 $module_name = $this->module_name;
 
-                $formated_date = Carbon::parse($data->created_at)->format('d-m-Y, H:i:s');
+                $formated_date = Carbon::parse($data->created_at)->format('d m Y, H:i:s');
 
                 return $formated_date;
+            })
+            ->editColumn('status', function ($data) {
+
+                return $data->registrant_stage->status_id ?? 'No Status';
             })
             ->rawColumns(['name', 'status', 'action']);
     }
@@ -97,13 +109,13 @@ class RegistrantsDataTable extends DataTable
      */
     public function html()
     {
-        $created_at = 5;
+        $created_at = 10;
         return $this->builder()
                 ->setTableId('registrants-table')
                 ->columns($this->getColumns())
                 ->minifiedAjax()
                 ->dom('Blfrtip')
-                ->orderBy($created_at)
+                ->orderBy($created_at,'desc')
                 ->buttons(
                     Button::make('export'),
                     Button::make('print'),
@@ -132,10 +144,17 @@ class RegistrantsDataTable extends DataTable
                   ->printable(false)
                   ->addClass('text-center'),
             Column::make('registrant_id'),
+            Column::make('va_number')->hidden(),
+            Column::make('type')->title('Jalur'),
             Column::make('name'),
             Column::make('phone'),
+            Column::make('period_id')->title('Tahun')->hidden(),
+            Column::make('email')->hidden(),
             Column::make('unit')->data('unit_id')->name('unit_id'),
+            Column::make('former_school')->title('Asal Sekolah')->hidden(),
             Column::make('created_at'),
+            Column::make('register_ip')->title('IP')->hidden(),
+            Column::computed('status'),
         ];
     }
 

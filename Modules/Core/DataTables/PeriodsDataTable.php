@@ -35,6 +35,13 @@ class PeriodsDataTable extends DataTable
 
                 return view('backend.includes.action_column_admin', compact('module_name', 'data'));
             })
+            ->editColumn('active_state',function ($data){
+                $module_name = $this->module_name;
+
+                if($data->active_state){
+                    return '<i class="fas fa-3x fa-check-square text-success"></i>';
+                }
+            })
             ->editColumn('quota',function ($data){
                 $module_name = $this->module_name;
 
@@ -60,7 +67,7 @@ class PeriodsDataTable extends DataTable
 
                 return $formated_date;
             })
-            ->rawColumns(['name', 'quota','status', 'action']);
+            ->rawColumns(['name','active_state', 'quota','status', 'action']);
     }
 
     /**
@@ -115,9 +122,15 @@ class PeriodsDataTable extends DataTable
                   ->exportable(false)
                   ->printable(false)
                   ->addClass('text-center'),
+            Column::make('active_state'),
             Column::make('period_name'),
+            Column::make('entrance_fee'),
+            Column::make('year_start')->hidden(),
+            Column::make('year_end')->hidden(),
+            Column::make('opening_date')->hidden(),
+            Column::make('internal_date')->hidden(),
+            Column::make('closing_date')->hidden(),
             Column::make('quota'),
-            Column::make('closing_date'),
             Column::make('created_at'),
         ];
     }

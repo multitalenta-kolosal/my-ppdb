@@ -70,7 +70,7 @@ class UnitsDataTable extends DataTable
      */
     public function query()
     {
-        $data = $this->unitRepository->query();
+        $data = $this->unitRepository->query()->orderBy('order','asc');
 
         return $this->applyScopes($data);
     }
@@ -119,7 +119,10 @@ class UnitsDataTable extends DataTable
             Column::make('contact_email'),
             Column::make('paths'),
             Column::make('requirements'),
-            Column::make('entrance_test_url'),
+            Column::make('entrance_test_url')->hidden(),
+            Column::make('dpp')->hidden(),
+            Column::make('dp')->hidden(),
+            Column::make('spp')->hidden(),
             Column::make('created_at'),
         ];
     }
