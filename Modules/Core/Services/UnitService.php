@@ -317,8 +317,10 @@ class UnitService{
         $paths = [];
         $raw_path = json_decode($unit->paths,true);
 
-        foreach($raw_path as $key => $value){
-            $paths = Arr::add($paths, $key, $this->pathRepository->findOrFail($key)->name);
+        if($raw_path){
+            foreach($raw_path as $key => $value){
+                $paths = Arr::add($paths, $key, $this->pathRepository->findOrFail($key)->name);
+            }
         }
 
         return (object) array(

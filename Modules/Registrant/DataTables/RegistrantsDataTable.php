@@ -107,7 +107,8 @@ class RegistrantsDataTable extends DataTable
                 ->buttons(
                     Button::make('export'),
                     Button::make('print'),
-                    Button::make('reset')
+                    Button::make('reset')->className('rounded-right'),
+                    Button::make('colvis')->text('Kolom')->className('m-2 rounded btn-info'),
                 )->parameters([
                     'paging' => true,
                     'searching' => true,
