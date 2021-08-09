@@ -29,6 +29,21 @@
     </div>
 </div>
 <div class="row">
+    <div class="col d-none" id="tier_options">
+        <div class="form-group">
+            <?php
+            $field_name = 'tier';
+            $field_data_id = 'tier_id';
+            $field_lable = __("registrant::$module_name.$field_name");
+            $field_placeholder = __("Select an option");
+            $required = "required";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->select($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required"]) }}
+        </div>
+    </div>
+</div>
+<div class="row">
     <div class="col">
         <div class="form-group">
             <?php
@@ -81,17 +96,6 @@
             {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}
         </div>
     </div>
-    <div class="col-md-6 col-sm-6">
-        <div class="form-group float-left">
-            <?php
-            $field_name = 'internal';
-            $field_lable = __("registrant::$module_name.$field_name");
-            $required = "";
-            ?>
-            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->checkbox($field_name)->class('form-control float-left border-purple')->attributes(["$required"]) }}
-        </div>
-    </div>
 </div>
 
 <div></div>
@@ -113,15 +117,31 @@
             if(unit_id){
                 $.ajax({
                     type: "GET",
-                    url: '{{route("frontend.units.getpath",'')}}'+'/'+unit_id,
+                    url: '{{route("frontend.units.getunitopt",'')}}'+'/'+unit_id,
                     success: function (response) {
                         var defaultOption = $('<option value="">-- Pilih --</option>');
                         $('#type').append(defaultOption);
                         
-                        $.each(response.data,function(key, val) {
+                        $.each(response.path,function(key, val) {
                             var newOption = $('<option value="'+key+'">'+val+'</option>');
                             $('#type').append(newOption);
                         });
+
+
+                        if(response.tier){
+                            $('#tier_id').empty();
+                            $('#tier_options').removeClass('d-none');
+
+                            var defaultOption = $('<option value="">-- Pilih --</option>');
+                            $('#tier_id').append(defaultOption);
+                            $.each(response.tier,function(key, val) {
+                                var newOption = $('<option value="'+key+'">'+val+'</option>');
+                                $('#tier_id').append(newOption);
+                            });
+                        }else{
+                            $('#tier_id').empty();
+                            $('#tier_options').addClass('d-none');
+                        }
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         Swal.fire("@lang('delete error')", "@lang('error')", "error");

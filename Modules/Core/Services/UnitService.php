@@ -6,6 +6,8 @@ use Modules\Core\Services\PathService;
 
 use Modules\Core\Repositories\UnitRepository;
 use Modules\Core\Repositories\PathRepository;
+use Modules\Core\Repositories\TierRepository;
+
 
 use Exception;
 use Carbon\Carbon;
@@ -33,13 +35,15 @@ class UnitService{
         PathService $pathService,
 
         PathRepository $pathRepository,
-        UnitRepository $unitRepository
+        UnitRepository $unitRepository,
+        TierRepository $tierRepository
         )
         {
         $this->pathService = $pathService;
         
         $this->unitRepository = $unitRepository;
         $this->pathRepository = $pathRepository;
+        $this->tierRepository = $tierRepository;
 
         $this->module_title = Str::plural(class_basename($this->unitRepository->model()));
 
@@ -177,8 +181,8 @@ class UnitService{
             $unit = $this->unitRepository->make($data);
             $unit->paths = json_encode($paths);
 
-            if(!$unit->has_major){
-                $unit->has_major = false;
+            if(!$unit->have_major){
+                $unit->have_major = false;
             }
 
             $updated = $this->unitRepository->update($unit->toArray(),$id);
@@ -312,9 +316,11 @@ class UnitService{
         return $path;
     }
 
-    public function getPath($unit_id){
+    //set option according to unit
+    public function getUnitOpt($unit_id){
         $unit = $this->unitRepository->findOrFail($unit_id);
         $paths = [];
+        $tiers = null;
         $raw_path = json_decode($unit->paths,true);
 
         if($raw_path){
@@ -323,10 +329,17 @@ class UnitService{
             }
         }
 
+        if($unit->have_major){
+            $tiers = $this->tierRepository->query()->where('unit_id',$unit_id)->pluck('tier_name','id');
+        }
+
+        Log::debug("tiers: ".json_encode($tiers));
+
         return (object) array(
-            'error'=> false,            
-            'message'=> '',
-            'data'=> $paths,
+            'error'     => false,            
+            'message'   => '',
+            'path'      => $paths,
+            'tier'     => $tiers,
         );
     }
 }

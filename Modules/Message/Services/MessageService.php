@@ -171,8 +171,8 @@ class MessageService{
             
             $message = $this->messageRepository->make($data);
 
-            if(!$message->has_major){
-                $message->has_major = false;
+            if(!$message->have_major){
+                $message->have_major = false;
             }
 
             if($replacement){

@@ -171,7 +171,17 @@
                         {{ html()->div($field_lable_dpp, $field_dpp) }} {!! fielf_required($required) !!}
                     </div>
                     <div class="col-3 align-self-center">
-                        {{ number_format($data->unit->$field_info_dpp ?? 0, 2, ',', '.') ?? 0 }}
+                        @if($data->unit)
+                            @if(!$data->unit->have_major)
+                                {{ number_format($data->unit->$field_info_dpp ?? 0, 2, ',', '.') ?? 0 }}
+                            @else
+                                @if($data->tier)
+                                    {{ number_format($data->tier->$field_info_dpp ?? 0, 2, ',', '.') ?? 0 }}
+                                @else
+                                    {{ number_format($data->unit->$field_info_dpp ?? 0, 2, ',', '.') ?? 0 }}
+                                @endif
+                            @endif
+                        @endif
                     </div>
                     <div class="col-2">
                         {{ html()->checkbox($field_dpp.$data->id)->class('form-control float-left')->attributes(["$required", "$checked_dpp"]) }}
@@ -189,7 +199,17 @@
                         {{ html()->div($field_lable_dp, $field_dp) }} {!! fielf_required($required) !!}
                     </div>
                     <div class="col-3 align-self-center">
-                        {{  number_format($data->unit->$field_info_dp ?? 0, 2, ',', '.') }}
+                        @if($data->unit)
+                            @if(!$data->unit->have_major)                        
+                                {{  number_format($data->unit->$field_info_dp ?? 0, 2, ',', '.') }}
+                            @else
+                                @if($data->tier)
+                                    {{ number_format($data->tier->$field_info_dp ?? 0, 2, ',', '.') ?? 0 }}
+                                @else
+                                    {{ number_format($data->unit->$field_info_dp ?? 0, 2, ',', '.') ?? 0 }}
+                                @endif
+                            @endif
+                        @endif
                     </div>
                     <div class="col-2">
                         {{ html()->checkbox($field_dp.$data->id)->class('form-control float-left')->attributes(["$required", "$checked_dp"]) }}
@@ -207,7 +227,17 @@
                         {{ html()->div($field_lable_spp, $field_spp) }} {!! fielf_required($required) !!}
                     </div>
                     <div class="col-3 align-self-center">
-                        {{ number_format($data->unit->$field_info_spp ?? 0, 2, ',', '.') }}
+                        @if($data->unit)
+                            @if(!$data->unit->have_major)       
+                                {{ number_format($data->unit->$field_info_spp ?? 0, 2, ',', '.') }}
+                            @else
+                                @if($data->tier)
+                                    {{ number_format($data->tier->$field_info_spp ?? 0, 2, ',', '.') ?? 0 }}
+                                @else
+                                    {{ number_format($data->unit->$field_info_spp ?? 0, 2, ',', '.') ?? 0 }}
+                                @endif
+                            @endif
+                        @endif
                     </div>
                     <div class="col-2">
                         {{ html()->checkbox($field_spp.$data->id)->class('form-control float-left')->attributes(["$required", "$checked_spp"]) }}

@@ -43,7 +43,7 @@ class UnitsController extends Controller
      *
      * @return Response
      */
-    public function getPath($id)
+    public function getUnitOpt($id)
     {
         $module_title = $this->module_title;
         $module_name = $this->module_name;
@@ -54,7 +54,7 @@ class UnitsController extends Controller
 
         $module_action = 'get Path';
 
-        $paths = $this->unitService->getPath($id);
+        $paths = $this->unitService->getUnitOpt($id);
         
         return response()->json($paths);
     }

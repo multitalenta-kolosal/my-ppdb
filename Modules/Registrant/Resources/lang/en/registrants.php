@@ -12,6 +12,7 @@ return [
     'email'                     => 'Email',
     'unit'                      => 'Unit',
     'former_school'             => 'Former School',
+    'tier'                      => 'Tier / Major',
     'status'                    => 'Status',
 
     'verification'=>

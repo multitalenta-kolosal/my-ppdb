@@ -12,6 +12,7 @@ return [
     'email'                     => 'Email',
     'unit'                      => 'Mendaftar ke Unit',
     'former_school'             => 'Sekolah Asal',
+    'tier'                      => 'Kelas / Jurusan',
     'status'                    => 'Status',
 
     'verification'=>

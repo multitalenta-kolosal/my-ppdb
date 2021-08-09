@@ -181,8 +181,8 @@ class TierService{
             $tier = $this->tierRepository->make($data);
             $tier->paths = json_encode($paths);
 
-            if(!$tier->has_major){
-                $tier->has_major = false;
+            if(!$tier->have_major){
+                $tier->have_major = false;
             }
 
             $updated = $this->tierRepository->update($tier->toArray(),$id);

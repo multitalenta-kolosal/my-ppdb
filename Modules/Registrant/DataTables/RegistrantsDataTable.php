@@ -80,7 +80,7 @@ class RegistrantsDataTable extends DataTable
             ->editColumn('created_at', function ($data) {
                 $module_name = $this->module_name;
 
-                $formated_date = Carbon::parse($data->created_at)->format('d m Y, H:i:s');
+                $formated_date = Carbon::parse($data->created_at)->format('d M Y, H:i:s');
 
                 return $formated_date;
             })
@@ -117,7 +117,7 @@ class RegistrantsDataTable extends DataTable
      */
     public function html()
     {
-        $created_at = 10;
+        $created_at = 11;
         return $this->builder()
                 ->setTableId('registrants-table')
                 ->columns($this->getColumns())

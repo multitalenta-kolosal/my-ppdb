@@ -27,19 +27,17 @@
             {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
         </div>
     </div>
-    <div class="col-4">
-        <div class="form-group float-left">
+    <div class="col-4 d-none" id="tier_options">
+        <div class="form-group">
             <?php
-            $field_name = 'internal';
+            $field_name = 'tier';
+            $field_data_id = 'tier_id';
             $field_lable = __("registrant::$module_name.$field_name");
-            $required = "";
+            $field_placeholder = __("Select an option");
+            $required = "required";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            @if($module_action == 'Edit')
-                {{ html()->checkbox($field_name)->class('form-control float-left')->attributes(["$required"])->checked(old($field_name, $$module_name_singular->$field_name == true)) }}
-            @else
-                {{ html()->checkbox($field_name)->class('form-control float-left')->attributes(["$required"]) }}
-            @endif
+            {{ html()->select($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
         </div>
     </div>
 </div>
@@ -244,6 +242,49 @@ $(document).ready(function(){
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 Swal.fire("@lang('error')", "@lang('select unit first')", "error");
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        $('#unit_id').on('change', function(){
+            $('#type').empty();
+            var unit_id = $('#unit_id').val();
+            if(unit_id){
+                $.ajax({
+                    type: "GET",
+                    url: '{{route("frontend.units.getunitopt",'')}}'+'/'+unit_id,
+                    success: function (response) {
+                        var defaultOption = $('<option value="">-- Pilih --</option>');
+                        $('#type').append(defaultOption);
+                        
+                        $.each(response.path,function(key, val) {
+                            var newOption = $('<option value="'+key+'">'+val+'</option>');
+                            $('#type').append(newOption);
+                        });
+
+                        if(response.tier){
+                            $('#tier_id').empty();
+                            $('#tier_options').removeClass('d-none');
+
+                            var defaultOption = $('<option value="">-- Pilih --</option>');
+                            $('#tier_id').append(defaultOption);
+                            $.each(response.tier,function(key, val) {
+                                var newOption = $('<option value="'+key+'">'+val+'</option>');
+                                $('#tier_id').append(newOption);
+                            });
+                        }else{
+                            $('#tier_id').empty();
+                            $('#tier_options').addClass('d-none');
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        Swal.fire("@lang('delete error')", "@lang('error')", "error");
+                    }
+                });
+            }else{
+                var defaultOption = $('<option value="">--Silakan Pilih Unit Dahulu--</option>');
+                $('#type').append(defaultOption);
             }
         });
     });

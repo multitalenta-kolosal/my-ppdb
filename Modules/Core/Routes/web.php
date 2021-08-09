@@ -27,8 +27,8 @@ Route::group(['namespace' => '\Modules\Core\Http\Controllers\Frontend', 'as' => 
      */
     $module_name = 'units';
     $controller_name = 'UnitsController';    
-    Route::get("getpath/{id}", 
-        ['as' => "$module_name.getpath", 'uses' => "$controller_name@getPath"])->middleware(['throttle:10,1']);;
+    Route::get("getunitopt/{id}", 
+        ['as' => "$module_name.getunitopt", 'uses' => "$controller_name@getUnitOpt"])->middleware(['throttle:10,1']);;
    
 });
 

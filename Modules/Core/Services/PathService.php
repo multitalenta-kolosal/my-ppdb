@@ -132,8 +132,8 @@ class PathService{
             
             $path = $this->pathRepository->make($data);
 
-            if(!$path->has_major){
-                $path->has_major = false;
+            if(!$path->have_major){
+                $path->have_major = false;
             }
 
             $updated = $this->pathRepository->update($path->toArray(),$id);
