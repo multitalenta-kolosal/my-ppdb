@@ -4,7 +4,7 @@
             <?php
             $field_name = 'unit';
             $field_data_id = 'unit_id';
-            $field_lable = __("registrant::$module_name.$field_name");
+            $field_lable = __("core::$module_name.$field_name");
             $field_placeholder = __("Select an option");
             $required = "required";
             $select_options = $unit_options;
@@ -109,23 +109,6 @@
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required", 'aria-label'=>'Image']) }}
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-4">
-        <div class="form-group float-left">
-            <?php
-            $field_name = 'have_major';
-            $field_lable = __("core::$module_name.$field_name");
-            $required = "";
-            ?>
-            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            @if($module_action == 'Edit')
-                {{ html()->checkbox($field_name)->class('form-control float-left')->attributes(["$required"])->checked(old($field_name, $$module_name_singular->$field_name == true)) }}
-            @else
-                {{ html()->checkbox($field_name)->class('form-control float-left')->attributes(["$required"]) }}
-            @endif
         </div>
     </div>
 </div>

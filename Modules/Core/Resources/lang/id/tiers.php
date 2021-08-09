@@ -2,16 +2,15 @@
 
 return [
 
-    'name'                      => 'Nama Unit',
+    'tier_name'                 => 'Nama Kelas / Jurusan',
+    'tier_code'                 => 'Kode',
     'contact_number'            => 'Telepon PIC',
     'contact_email'             => 'Email Unit',
-    'requirements'              => 'Syarat',
+    'tier_requirements'         => 'Syarat Tambahan',
     'entrance_test_url'         => 'Link Tes Masuk',
-    'have_major'                => 'Memiliki Jurusan?',
     'dpp'                       => 'DPP',
     'dp'                        => 'DP',
     'spp'                       => 'SPP',
-    'unit_code'                 => 'Kode Unit (angka, misal: 11,22, etc..)',
-    'api_key'                   => 'API Key',
+    'unit'                      => 'Nama Unit',
     'order'                     => 'Urutan jenjang'
 ];
