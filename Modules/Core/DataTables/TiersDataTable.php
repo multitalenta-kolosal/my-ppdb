@@ -1,16 +1,16 @@
 <?php
 
-namespace Modules\Registrant\DataTables;
+namespace Modules\Core\DataTables;
 
 use Carbon\Carbon;
-use Modules\Registrant\Repositories\RegistrantRepository;
+use Modules\Core\Repositories\TierRepository;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class RegistrantsDataTable extends DataTable
+class TiersDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -18,11 +18,11 @@ class RegistrantsDataTable extends DataTable
      * @param mixed $query Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
-    public function __construct(RegistrantRepository $registrantRepository)
+    public function __construct(TierRepository $tierRepository)
     {
-        $this->module_name = 'registrants';
+        $this->module_name = 'tiers';
 
-        $this->registrantRepository = $registrantRepository;
+        $this->tierRepository = $tierRepository;
     }
 
     public function dataTable($query)
@@ -32,38 +32,14 @@ class RegistrantsDataTable extends DataTable
             ->addColumn('action', function ($data) {
                 $module_name = $this->module_name;
 
-                return view('registrant::backend.includes.action_column', compact('module_name', 'data'));
+                return view('backend.includes.action_column_admin', compact('module_name', 'data'));
             })
-            ->editColumn('type', function ($data) {
-
-                return $data->path->name ?? 'No Path';
-            })
-            ->editColumn('name', function ($model) {
-                if( ($model->registrant_stage->status_id ?? null) == -1)
-                {
-                    return '<span class="text-danger">'.$model->name.'</span>';
-                }else{
-                    return $model->name;
-                }
-            })
-            ->editColumn('period_id', function ($data) {
-
-                return $data->period->period_name ?? 'Tidak ada periode';
-            })
-            ->editColumn('unit_id', function ($model) {
+            ->editColumn('unit_id',function ($model){
                 if($model->unit)
                 {
                     return $model->unit->name;
                 }else{
-                    return '';
-                }
-            })
-            ->editColumn('tier_id', function ($model) {
-                if($model->tier)
-                {
-                    return $model->tier->tier_name;
-                }else{
-                    return 'Tier Not Available';
+                    return 'Unit Not Available';
                 }
             })
             ->editColumn('updated_at', function ($data) {
@@ -80,32 +56,22 @@ class RegistrantsDataTable extends DataTable
             ->editColumn('created_at', function ($data) {
                 $module_name = $this->module_name;
 
-                $formated_date = Carbon::parse($data->created_at)->format('d m Y, H:i:s');
+                $formated_date = Carbon::parse($data->created_at)->format('d-m-Y, H:i:s');
 
                 return $formated_date;
             })
-            ->editColumn('status', function ($data) {
-
-                return $data->registrant_stage->status_id ?? 'No Status';
-            })
-            ->rawColumns(['name', 'status', 'action']);
+            ->rawColumns(['tier_name', 'action']);
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Registrant $model
+     * @param \App\Tier $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query()
     {
-        $user = auth()->user();
-        if(!$user->isSuperAdmin() && !$user->hasAllUnitAccess()){
-            $unit_id = $user->unit_id;
-            $data = $this->registrantRepository->getRegistrantsByUnitQuery($unit_id);
-        }else{
-            $data = $this->registrantRepository->query();
-        }
+        $data = $this->tierRepository->query()->orderBy('order','asc');
 
         return $this->applyScopes($data);
     }
@@ -117,13 +83,11 @@ class RegistrantsDataTable extends DataTable
      */
     public function html()
     {
-        $created_at = 10;
         return $this->builder()
-                ->setTableId('registrants-table')
+                ->setTableId('tiers-table')
                 ->columns($this->getColumns())
                 ->minifiedAjax()
                 ->dom('Blfrtip')
-                ->orderBy($created_at,'desc')
                 ->buttons(
                     Button::make('export'),
                     Button::make('print'),
@@ -151,19 +115,16 @@ class RegistrantsDataTable extends DataTable
                   ->exportable(false)
                   ->printable(false)
                   ->addClass('text-center'),
-            Column::make('registrant_id'),
-            Column::make('va_number')->hidden(),
-            Column::make('type')->title('Jalur'),
-            Column::make('name'),
-            Column::make('phone'),
-            Column::make('period_id')->title('Tahun')->hidden(),
-            Column::make('email')->hidden(),
+            Column::make('tier_name'),
             Column::make('unit')->data('unit_id')->name('unit_id'),
-            Column::make('tier')->data('tier_id')->name('tier_id')->hidden(),
-            Column::make('former_school')->title('Asal Sekolah')->hidden(),
+            Column::make('contact_number')->hidden(),
+            Column::make('contact_email')->hidden(),
+            Column::make('tier_requirements')->hidden(),
+            Column::make('entrance_test_url')->hidden(),
+            Column::make('dpp')->hidden(),
+            Column::make('dp')->hidden(),
+            Column::make('spp')->hidden(),
             Column::make('created_at'),
-            Column::make('register_ip')->title('IP')->hidden(),
-            Column::computed('status'),
         ];
     }
 
@@ -174,6 +135,6 @@ class RegistrantsDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Registrants_' . date('YmdHis');
+        return 'Tiers_' . date('YmdHis');
     }
 }

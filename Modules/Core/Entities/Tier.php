@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Unit extends BaseModel
+class Tier extends BaseModel
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = "units";
+    protected $table = "tiers";
 
-    protected static $logName = 'units';
+    protected static $logName = 'tiers';
     protected static $logOnlyDirty = true;
     protected static $logAttributes = ['name', 'id'];
     
@@ -23,13 +23,13 @@ class Unit extends BaseModel
         return $this->hasMany('Modules\Registrant\Entities\Registrant');
     }
 
-    public function tier()
+    public function unit()
     {
-        return $this->hasMany('Modules\Core\Entities\Unit');
+        return $this->belongsTo('Modules\Core\Entities\Unit');
     }
 
     protected static function newFactory()
     {
-        return \Modules\Core\Database\factories\UnitFactory::new();
+        return \Modules\Core\Database\factories\TierFactory::new();
     }
 }

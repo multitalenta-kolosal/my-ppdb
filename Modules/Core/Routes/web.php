@@ -63,6 +63,18 @@ Route::group(['namespace' => '\Modules\Core\Http\Controllers\Backend', 'as' => '
 
     /*
      *
+     *  Tiers Routes
+     *
+     * ---------------------------------------------------------------------
+     */
+    $module_name = 'tiers';
+    $controller_name = 'TiersController';
+    Route::get("$module_name/trashed", ['as' => "$module_name.trashed", 'uses' => "$controller_name@trashed"]);
+    Route::patch("$module_name/trashed/{id}", ['as' => "$module_name.restore", 'uses' => "$controller_name@restore"]);
+    Route::resource("$module_name", "$controller_name");
+
+    /*
+     *
      *  Periods Routes
      *
      * ---------------------------------------------------------------------

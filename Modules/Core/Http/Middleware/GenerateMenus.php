@@ -94,6 +94,19 @@ class GenerateMenus
                 'class' => 'c-sidebar-nav-link',
             ]);
             
+            // tiers
+            $core_menu->add('<i class="fas fa-sitemap c-sidebar-nav-icon"></i> Tiers', [
+                'route' => 'backend.tiers.index',
+                'class' => 'c-sidebar-nav-item',
+            ])
+            ->data([
+                'order' => 5,
+                'activematches' => ['admin/tiers*'],
+                'permission' => ['view_tiers'],
+            ])
+            ->link->attr([
+                'class' => 'c-sidebar-nav-link',
+            ]);
            
         })->sortBy('order');
 

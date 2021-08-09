@@ -40,6 +40,11 @@ class Registrant extends BaseModel
         return $this->belongsTo('Modules\Core\Entities\Period','period_id');
     }
 
+    public function tier()
+    {
+        return $this->belongsTo('Modules\Core\Entities\Tier','tier_id');
+    }
+
     public function registrant_stage()
     {
         return $this->hasOne('Modules\Registrant\Entities\RegistrantStage', 'id', 'progress_id');
