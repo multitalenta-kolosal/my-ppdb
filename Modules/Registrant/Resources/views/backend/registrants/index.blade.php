@@ -77,4 +77,22 @@
 @push ('after-scripts')
 <!-- DataTables Core and Extensions -->
 {!! $dataTable->scripts()  !!}
+
+<script>
+    $(document).ready(function(){
+        $('.sorting').on( 'click',  function () { 
+            $('#{{$module_name}}-table').busyLoad("show", 
+            { 
+                fontawesome: "fa fa-cog fa-spin fa-3x fa-fw" ,
+                background: "rgba(255, 255, 255, 0.86)",
+                containerClass: "z-2",
+            });
+        });
+
+        $('#{{$module_name}}-table').on( 'order.dt',  function () { 
+            $('#{{$module_name}}-table').busyLoad("hide");
+        });
+    })
+</script>
+
 @endpush
