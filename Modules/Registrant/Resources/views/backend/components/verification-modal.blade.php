@@ -38,6 +38,9 @@
     $('[data-toggle="popover"]').popover();
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/busy-load/dist/app.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/busy-load/dist/app.min.css" rel="stylesheet">
+
 <script type="text/javascript">
     $(document).ready(function(){
         $('#requirements_pass{{$data->id}}').on('change', function(){
@@ -344,6 +347,13 @@
 
     $('#modal_{{$data->id}}').on('hidden.bs.modal', function (e) {
         // $('#{{$module_name}}-table').addClass("d-none");
+        $(".dtr-control").busyLoad("show", 
+            { 
+                spinner: "cube-grid",
+                background: "rgba(255, 152, 0, 0.86)",
+                containerClass: "z-2",
+            });
         $('#{{$module_name}}-table').DataTable().draw('page');
+
     })
 </script>

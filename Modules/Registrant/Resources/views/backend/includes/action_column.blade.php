@@ -1,4 +1,4 @@
-<div class="text-right">
+<div class="text-right action-button-group">
     @can('edit_'.$module_name)
     <button type="button" id ="{{$data->name}}" class="btn btn-success" data-toggle="modal" data-target="#modal_{{$data->id}}">Verify</button>
     @endcan
