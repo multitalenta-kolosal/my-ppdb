@@ -349,7 +349,7 @@
         // $('#{{$module_name}}-table').addClass("d-none");
         $(".dtr-control").busyLoad("show", 
             { 
-                spinner: "cube-grid",
+                fontawesome: "fa fa-cog fa-spin fa-3x fa-fw" ,
                 background: "rgba(255, 152, 0, 0.86)",
                 containerClass: "z-2",
             });
