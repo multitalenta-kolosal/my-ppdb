@@ -34,10 +34,6 @@ class RegistrantsDataTable extends DataTable
 
                 return view('registrant::backend.includes.action_column', compact('module_name', 'data'));
             })
-            ->editColumn('type', function ($data) {
-
-                return $data->path->name ?? 'No Path';
-            })
             ->editColumn('name', function ($model) {
                 if( ($model->registrant_stage->status_id ?? null) == -1)
                 {
@@ -46,33 +42,15 @@ class RegistrantsDataTable extends DataTable
                     return $model->name;
                 }
             })
-            ->editColumn('period_id', function ($data) {
-
-                return $data->period->period_name ?? 'Tidak ada periode';
-            })
-            ->editColumn('unit_id', function ($model) {
-                if($model->unit)
-                {
-                    return $model->unit->name;
-                }else{
-                    return '';
-                }
-            })
-            ->editColumn('tier_id', function ($model) {
-                if($model->tier)
-                {
-                    return $model->tier->tier_name;
-                }else{
-                    return 'Tier Not Available';
-                }
-            })
             ->editColumn('updated_at', function ($data) {
                 $module_name = $this->module_name;
 
                 $diff = Carbon::now()->diffInHours($data->updated_at);
 
+                \Log::debug(json_encode($data));
+
                 if ($diff < 25) {
-                    return $data->updated_at->diffForHumans();
+                    return $data->updated_at ? $data->updated_at->diffForHumans() : '-';
                 } else {
                     return $data->updated_at->isoFormat('LLLL');
                 }
@@ -83,10 +61,6 @@ class RegistrantsDataTable extends DataTable
                 $formated_date = Carbon::parse($data->created_at)->format('d M Y, H:i:s');
 
                 return $formated_date;
-            })
-            ->editColumn('status', function ($data) {
-
-                return $data->registrant_stage->status_id ?? 'No Status';
             })
             ->rawColumns(['name', 'status', 'action']);
     }
@@ -102,9 +76,14 @@ class RegistrantsDataTable extends DataTable
         $user = auth()->user();
         if(!$user->isSuperAdmin() && !$user->hasAllUnitAccess()){
             $unit_id = $user->unit_id;
-            $data = $this->registrantRepository->getRegistrantsByUnitQuery($unit_id);
+            $data = $this->registrantRepository->query()
+                    ->select('registrants.*')
+                    ->with(['unit','tier','registrant_stage','path','period'])
+                    ->getRegistrantsByUnitQuery($unit_id);
         }else{
-            $data = $this->registrantRepository->query();
+            $data = $this->registrantRepository->query()
+                    ->select('registrants.*')
+                    ->with(['unit','tier','registrant_stage','path','period']);
         }
 
         return $this->applyScopes($data);
@@ -153,17 +132,18 @@ class RegistrantsDataTable extends DataTable
                   ->addClass('text-center'),
             Column::make('registrant_id'),
             Column::make('va_number')->hidden(),
-            Column::make('type')->title('Jalur'),
+            Column::make('path.name')->data('path.name')->name('path.name')->title('Jalur'),
             Column::make('name'),
             Column::make('phone'),
-            Column::make('period_id')->title('Tahun')->hidden(),
+            Column::make('period.period_name')->data('period.period_name')->name('period.period_name')->title('Tahun')->hidden(),
             Column::make('email')->hidden(),
-            Column::make('unit')->data('unit_id')->name('unit_id'),
-            Column::make('tier')->data('tier_id')->name('tier_id')->hidden(),
+            Column::make('unit.name')->data('unit.name')->name('unit.name')->title('Unit'),
+            Column::make('tier.tier_name')->data('tier.tier_name')->name('tier.tier_name')->title('Kelas / Jurusan'),
             Column::make('former_school')->title('Asal Sekolah')->hidden(),
             Column::make('created_at'),
+            Column::make('updated_at')->hidden(),
             Column::make('register_ip')->title('IP')->hidden(),
-            Column::computed('status'),
+            Column::computed('registrant_stage.status_id')->data('registrant_stage.status_id')->name('registrant_stage.status_id')->title('Status'),
         ];
     }
 
