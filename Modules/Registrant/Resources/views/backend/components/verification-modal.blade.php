@@ -343,8 +343,7 @@
     });
 
     $('#modal_{{$data->id}}').on('hidden.bs.modal', function (e) {
-        $('#{{$module_name}}-table').addClass("d-none");
+        // $('#{{$module_name}}-table').addClass("d-none");
         $('#{{$module_name}}-table').DataTable().draw('page');
-        $('#{{$module_name}}-table').removeClass("d-none");
     })
 </script>
