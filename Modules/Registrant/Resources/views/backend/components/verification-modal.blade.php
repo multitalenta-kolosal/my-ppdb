@@ -1,5 +1,5 @@
 
-<div class="modal fade z-5" id="modal_{{$data->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_{{$data->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content ">
             <div class="modal-header">
@@ -343,6 +343,8 @@
     });
 
     $('#modal_{{$data->id}}').on('hidden.bs.modal', function (e) {
-        $('#{{$module_name}}-table').DataTable().draw(false);
+        $('#{{$module_name}}-table').addClass("d-none");
+        $('#{{$module_name}}-table').DataTable().draw('page');
+        $('#{{$module_name}}-table').removeClass("d-none");
     })
 </script>
