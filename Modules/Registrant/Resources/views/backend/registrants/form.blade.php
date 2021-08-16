@@ -34,7 +34,7 @@
             $field_data_id = 'tier_id';
             $field_lable = __("registrant::$module_name.$field_name");
             $field_placeholder = __("Select an option");
-            $required = "required";
+            $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->select($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
@@ -226,7 +226,7 @@ $(document).ready(function(){
     $('#button-generate-va').attr('disabled',);
 
     $("#button-generate-id").on("click", function (event) {
-        var unit_id = $("#{{$field_data_id}} option:selected").val().toString();
+        var unit_id = $("#unit_id option:selected").val().toString();
         var generateUrl = '{!! route("backend.registrants.generateId") !!}';
         var va_prefix = "{{setting('va_prefix')}}";
         $.ajax({

@@ -36,7 +36,7 @@
             $field_data_id = 'tier_id';
             $field_lable = __("registrant::$module_name.$field_name");
             $field_placeholder = __("Select an option");
-            $required = "required";
+            $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->select($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required"]) }}
