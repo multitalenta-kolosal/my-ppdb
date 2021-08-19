@@ -9,7 +9,7 @@
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 text-center">
                 <h1 class="display-2 mb-4">
-                    Pendaftaran Calon Peserta
+                   Pendaftaran Peserta
                 </h1>
                 <p class="lead">
                 </p>
