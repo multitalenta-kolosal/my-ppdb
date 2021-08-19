@@ -12,6 +12,8 @@
                    Pendaftaran Peserta
                 </h1>
                 <p class="lead">
+                    Pastikan anda memasukkan nomor telepon dengan benar supaya sistem
+                    kami dapat berkomunikasi dengan anda melalui pesan Whatsapp
                 </p>
 
                 @include('frontend.includes.messages')

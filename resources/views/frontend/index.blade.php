@@ -26,6 +26,10 @@
             @include('flash::message')
             <div class="col-12 text-center">
                 <h2 class="mb-4 mb-lg-5">Pendaftaran Peserta</h2>
+                <p class="lead text-info">
+                    Pastikan anda memasukkan nomor telepon dengan benar supaya sistem
+                    kami dapat berkomunikasi dengan anda melalui pesan Whatsapp
+                </p>
             </div>
             @include('registrant::frontend.registrants.create')
 

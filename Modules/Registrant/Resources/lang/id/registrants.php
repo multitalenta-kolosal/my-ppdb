@@ -8,7 +8,7 @@ return [
     'type'                      => 'Jalur Pendaftaran',
     'internal'                  => 'Jalur Internal?',
     'year'                      => 'Tahun',
-    'phone'                     => 'Nomor Telepon',
+    'phone'                     => 'Nomor Telepon (Whatsapp)',
     'email'                     => 'Email',
     'unit'                      => 'Mendaftar ke Unit',
     'former_school'             => 'Sekolah Asal',

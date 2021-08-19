@@ -8,7 +8,7 @@ return [
     'type'                      => 'Type',
     'internal'                  => 'Internal',
     'year'                      => 'Year',
-    'phone'                     => 'Phone',
+    'phone'                     => 'Phone (Whatsapp)',
     'email'                     => 'Email',
     'unit'                      => 'Unit',
     'former_school'             => 'Former School',

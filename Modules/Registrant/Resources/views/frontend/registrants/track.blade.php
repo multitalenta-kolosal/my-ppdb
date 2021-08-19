@@ -9,9 +9,11 @@
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 text-center">
                 <h1 class="display-2 mb-4">
-                    Lacak Status
+                    Cek Status
                 </h1>
                 <p class="lead">
+                    Ingin melihat progres anda atau bingung apa yang harus dilakukan? Lihat status anda dengan menggunakan data <span class= "text-info">ID Pendaftaran</span>
+                    dan <span class= "text-info">Nomor Telepon</span>
                 </p>
 
                 @include('frontend.includes.messages')
