@@ -38,7 +38,7 @@ class RegistrantChart extends BaseChart
                 $default_date_raw = CarbonPeriod::create(Carbon::now()->subDays($periods), Carbon::now())->toArray();
                 
                 foreach($default_date_raw as $value){
-                    array_push($default_date,$value->format('Y-m-d'));
+                    array_push($default_date,$value->format('d M'));
                 }
 
                 $count_keys = $default_date;
@@ -50,7 +50,7 @@ class RegistrantChart extends BaseChart
                                         ->groupBy('date')
                                         ->orderBy('date', 'ASC')
                                         ->get(array(
-                                            DB::raw('Date(created_at) as date'),
+                                            DB::raw('DATE_FORMAT(created_at, "%d %b") as date'),
                                             DB::raw('COUNT(*) as "views"')
                                         )
                                     );
@@ -61,7 +61,7 @@ class RegistrantChart extends BaseChart
                                             ->groupBy('date')
                                             ->orderBy('date', 'ASC')
                                             ->get(array(
-                                                DB::raw('Date(created_at) as date'),
+                                                DB::raw('DATE_FORMAT(created_at, "%d %b") as date'),
                                                 DB::raw('COUNT(*) as "views"')
                                             )
                                         );

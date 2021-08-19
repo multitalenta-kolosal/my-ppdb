@@ -12,6 +12,7 @@
                     Daftar Link Verifikasi
                 </h1>
                 <p class="lead">
+                    Verifikasi pembayaran dan berkas secara online melalui media Google Form
                 </p>
             </div>
         </div>
@@ -32,7 +33,7 @@
                                         <a href="{{$unit->register_form_link}}" class="btn btn-primary"><i class="fas fa-user-check"></i> Form Verifikasi</a>
                                     @else
                                         <button class="btn btn-gray" disabled><i class="fas fa-user-check"></i> Form Verifikasi</button>
-                                        <p class="text-warning">Verifikasi Online tidak tersedia</p>
+                                        <p class="text-warning">Verifikasi Online belum tersedia</p>
                                     @endif
                                 </div>
                             </div>

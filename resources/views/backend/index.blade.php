@@ -133,27 +133,11 @@
                 { 
                     type: 'line', 
                     fill: false,
+                    borderWidth: 2,
+                    bezierCurve: false,
                 }
             ]),
     });
-
-    // const registrant_chart_bar = new Chartisan({
-    //     el: '#registrant_chart_bar',
-    //     url: "@chart('registrant_chart')"+"?periods="+$('#periods').val(),
-    //     hooks: new ChartisanHooks()
-    //         .title('Pendaftar')
-    //         .colors({!! $color !!})
-    //         .borderColors({!! $color !!})
-    //         .responsive(true)
-    //         .tooltip(true)
-    //         .stepSize(2,'y')
-    //         .datasets([
-    //             { 
-    //                 type: 'bar', 
-    //                 fill: false,
-    //             }
-    //         ]),
-    // });
 
     $(document).ready(function(){
         $("#periods").change(function () {
