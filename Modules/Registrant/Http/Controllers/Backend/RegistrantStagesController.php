@@ -65,12 +65,6 @@ class RegistrantStagesController extends Controller
 
         $response = $this->registrantStageService->store($request);
 
-        if(!$response->error){
-            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Added Successfully!')->important();
-        }else{
-            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
-        }
-
         return response()->json($response);
     }
 
@@ -95,12 +89,6 @@ class RegistrantStagesController extends Controller
 
         $response = $this->registrantStageService->update($request,$id);
 
-        if(!$response->error){
-            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Updated Successfully!')->important();
-        }else{
-            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
-        }
-
         return response()->json($response);
     }
 
@@ -123,12 +111,6 @@ class RegistrantStagesController extends Controller
         $module_action = 'destroy';
 
         $response = $this->registrantStageService->destroy($id);
-
-        if(!$response->error){
-            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Deleted Successfully!')->important();
-        }else{
-            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
-        }
         
         return response()->json($response);
     }

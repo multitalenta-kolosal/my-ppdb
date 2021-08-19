@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddInstallmentIdToRegistrants extends Migration
+class AddPassToRegistrantStagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddInstallmentIdToRegistrants extends Migration
      */
     public function up()
     {
-        Schema::table('registrants', function (Blueprint $table) {
-            $table->integer('installment_id')->nullable();
+        Schema::table('registrant_stages', function (Blueprint $table) {
+            $table->boolean('delay_payment_pass')->nullable()->default(0);
         });
     }
 
@@ -25,8 +25,8 @@ class AddInstallmentIdToRegistrants extends Migration
      */
     public function down()
     {
-        Schema::table('registrants', function (Blueprint $table) {
-            $table->dropColumn('installment_id');
+        Schema::table('registrant_stages', function (Blueprint $table) {
+            $table->dropColumn('delay_payment_pass');
         });
     }
 }

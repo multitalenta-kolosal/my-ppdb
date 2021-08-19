@@ -43,6 +43,13 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+        $('#delay_payment_{{$data->id}}').on('change', function(){
+            console.log('ck');
+            $('#dpp_pass{{$data->id}}').prop('checked',this.checked);
+            $('#dp_pass{{$data->id}}').prop('checked',this.checked);
+            $('#spp_pass{{$data->id}}').prop('checked',this.checked);
+        });
+
         $('#requirements_pass{{$data->id}}').on('change', function(){
             $('#requirements_pass{{$data->id}}_message').prop('checked',this.checked);
         });
@@ -53,6 +60,7 @@
             $('#accepted_pass{{$data->id}}_message').prop('checked',this.checked);
         });
     });
+
 </script>   
 
 <script type="text/javascript">
@@ -193,6 +201,7 @@
                     "dpp_pass": +$('#dpp_pass{{$data->id}}').prop('checked'),
                     "dp_pass": +$('#dp_pass{{$data->id}}').prop('checked'),
                     "spp_pass": +$('#spp_pass{{$data->id}}').prop('checked'),
+                    "delay_payment_pass": +$('#delay_payment_{{$data->id}}').prop('checked'),
                     "accepted_pass": +$('#accepted_pass{{$data->id}}').prop('checked'),
                 };
 

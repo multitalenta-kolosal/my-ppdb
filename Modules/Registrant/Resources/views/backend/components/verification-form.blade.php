@@ -165,6 +165,8 @@
             ?>
             <div class="card-header text-center py-0" style="height: 2rem;">
                 <h3>Biaya Pendidikan</h3>
+                {{ html()->label('Lewati', 'delay_payment_'.$data->id) }}
+                {{ html()->checkbox('delay_payment_'.$data->id)->class('form-control float-left mb-2')}}
             </div>
                 <div class="row my-1">
                     <div class="col-5 text-right align-self-center">
