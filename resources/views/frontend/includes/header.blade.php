@@ -32,6 +32,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="{{ route('frontend.registrants.veriform') }}" class="nav-link">
+                            <span class="fas fa-user-check mr-1"></span> Verifikasi
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{ route('frontend.registrants.track') }}" class="nav-link">
                             <span class="fas fa-running mr-1"></span> Cek Status
                         </a>

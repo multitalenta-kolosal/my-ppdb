@@ -16,6 +16,7 @@ Route::group(['namespace' => '\Modules\Registrant\Http\Controllers\Frontend', 'a
      */
     $module_name = 'registrants';
     $controller_name = 'RegistrantsController';    
+    Route::get("verifikasi", ['as' => "$module_name.veriform", 'uses' => "$controller_name@veriform"]);
     Route::get("daftar", ['as' => "$module_name.index", 'uses' => "$controller_name@index"]);
     Route::get("lacak", ['as' => "$module_name.track", 'uses' => "$controller_name@track"]);
     Route::post("progress/{registrant_id}", ['as' => "$module_name.progress", 'uses' => "$controller_name@progress"]);

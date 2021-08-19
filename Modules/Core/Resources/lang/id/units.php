@@ -13,5 +13,8 @@ return [
     'spp'                       => 'SPP',
     'unit_code'                 => 'Kode Unit (angka, misal: 11,22, etc..)',
     'api_key'                   => 'API Key',
-    'order'                     => 'Urutan jenjang'
+    'order'                     => 'Urutan jenjang',
+    'register_form_link'        => 'Link Formulir Pendaftaran Unit',
+    'registration_veriform_link'=> 'Link Verifikasi dan Pengiriman Berkas',
+    'tuition_veriform_link'     => 'Link Verifikasi Pembayaran Biaya Pendidikan',
 ];

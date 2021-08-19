@@ -65,6 +65,29 @@ class RegistrantsController extends Controller
             compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','unit_options', 'type_options')
         );
     }
+/**
+     * Display a listing of the resource.
+     *
+     * @return View
+     */
+    public function veriform()
+    {
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'List';
+
+        $units = $this->registrantService->getUnits();
+
+        return view(
+            "registrant::frontend.$module_path.veriform",
+            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','units')
+        );
+    }
 
     /**
      * Display a listing of the resource.

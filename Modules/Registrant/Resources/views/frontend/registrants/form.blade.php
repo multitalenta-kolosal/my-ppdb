@@ -118,6 +118,13 @@
                 $.ajax({
                     type: "GET",
                     url: '{{route("frontend.units.getunitopt",'')}}'+'/'+unit_id,
+                    beforeSend: function () {
+                        var loader = $('<option value="xloader">Loading...</option>');
+                        $('#type').append(loader);
+                    },
+                    complete: function () {
+                        $("#type option[value='xloader']").remove();
+                    },
                     success: function (response) {
                         var defaultOption = $('<option value="">-- Pilih --</option>');
                         $('#type').append(defaultOption);
@@ -144,7 +151,7 @@
                         }
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
-                        Swal.fire("@lang('delete error')", "@lang('error')", "error");
+                        Swal.fire("Silakan coba lagi beberapa saat", "@lang('error')", "error");
                     }
                 });
             }else{

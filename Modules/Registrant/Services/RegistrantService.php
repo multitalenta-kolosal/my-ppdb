@@ -315,6 +315,17 @@ class RegistrantService{
         return $options;
     }
 
+    public function getUnits(){
+        
+        $units = $this->unitRepository->query()->orderBy('order','asc')->get();
+
+        if(!$units){
+            $units = ['Silakan membuat unit'];
+        }
+
+        return $units;
+    }
+
     public function generateId($unit_id){
         if(!$unit_id){
             return $response = [
