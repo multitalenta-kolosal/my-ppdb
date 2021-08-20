@@ -1,6 +1,10 @@
 <header class="c-header c-header-light c-header-fixed c-header-with-subheader">
-    <button class="c-header-toggler c-class-toggler d-lg-none mr-auto" type="button" data-target="#sidebar" data-class="c-sidebar-show"><span class="c-header-toggler-icon"></span></button><a class="c-header-brand d-sm-none" href="{{route("backend.dashboard")}}"><img class="c-header-brand" src="{{asset("img/backend-logo.jpg")}}" style="max-height:50px;min-height:40px;" alt="{{ app_name() }}"></a>
-    <button class="c-header-toggler c-class-toggler ml-3 d-md-down-none" type="button" data-target="#sidebar" data-class="c-sidebar-lg-show" responsive="true"><span class="c-header-toggler-icon"></span></button>
+    <button class="c-header-toggler c-class-toggler d-lg-none mr-auto" type="button" data-target="#sidebar" data-class="c-sidebar-show"><span class="c-header-toggler-icon"></span></button>
+        <!-- small -->
+        <a class="c-header-brand d-sm-none" href="{{route("backend.dashboard")}}"><img class="c-header-brand p-1" src="{{asset("img/logo-square.jpg")}}" style="max-height:50px;min-height:40px;" alt="{{ app_name() }}"></a>
+        <!-- medium small -->
+        <a class="c-header-brand d-none d-sm-block d-lg-none" href="{{route("backend.dashboard")}}"><img class="c-header-brand p-1" src="{{asset("img/logo-with-text-dark.png")}}" style="max-height:50px;min-height:40px;" alt="{{ app_name() }}"></a>
+    <button class="c-header-toggler c-class-toggler ml-3 d-lg-down-none" type="button" data-target="#sidebar" data-class="c-sidebar-lg-show" responsive="true"><span class="c-header-toggler-icon"></span></button>
 
     <ul class="c-header-nav d-md-down-none">
         <li class="c-header-nav-item px-3">
@@ -12,7 +16,7 @@
     </ul>
 
     <ul class="c-header-nav ml-auto mr-4">
-        <li class="c-header-nav-item dropdown d-md-down-none mx-2">
+        <li class="c-header-nav-item dropdown mx-2">
             <a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 <i class="c-icon cil-language"></i>&nbsp; {{strtoupper(App::getLocale())}}
             </a>
@@ -32,7 +36,7 @@
                 </a>
             </div>
         </li>
-        <li class="c-header-nav-item dropdown d-md-down-none mx-2">
+        <li class="c-header-nav-item dropdown mx-2">
             <?php
             $notifications = optional(auth()->user())->unreadNotifications;
             $notifications_count = optional($notifications)->count();

@@ -4,7 +4,7 @@
 
 @section('content')
 
-<section class="section-header pb-6 pb-lg-6 bg-indigo text-white">
+<section class="section-header pb-6 pb-lg-6 warga-purple text-white">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-md-10 text-center">
