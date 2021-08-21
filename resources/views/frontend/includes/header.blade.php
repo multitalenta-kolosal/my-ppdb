@@ -1,5 +1,5 @@
 <header class="header-global">
-    <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg headroom py-lg-3 px-lg-6 navbar-dark warga-purple">
+    <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg headroom py-lg-3 px-lg-6 navbar-dark navbar-theme-indigo">
         <div class="container">
             <a class="navbar-brand" href="/">
                 <img class="navbar-brand-dark common" src="{{asset('img/backend-logo.jpg')}}" height="35" alt="Logo light">
@@ -42,7 +42,7 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown d-none d-lg-block">
-                        <a href="#" class="nav-link dropdown-toggle" aria-expanded="false">
+                        <a href="#" class="nav-link dropdown-toggle" aria-expanded="false" data-toggle="dropdown">
                             <span class="nav-link-inner-text mr-1">
                                 <span class="fas fa-user mr-1"></span>
                                 Account
@@ -50,7 +50,7 @@
                             <i class="fas fa-angle-down nav-link-arrow"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg">
-                            <div class="col-auto px-0">
+                            <div class="col-auto px-0" data-dropdown-content>
                                 <div class="list-group list-group-flush">
                                     @auth
                                     <a href="{{ route('frontend.users.profile', auth()->user()->id) }}"
@@ -95,7 +95,7 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown show d-block d-lg-none">
-                        <a href="#" class="nav-link dropdown-toggle" aria-expanded="true">
+                        <a href="#" class="nav-link dropdown-toggle" aria-expanded="true" data-toggle="dropdown">
                             <span class="nav-link-inner-text mr-1">
                                 <span class="fas fa-user mr-1"></span>
                                 Account
