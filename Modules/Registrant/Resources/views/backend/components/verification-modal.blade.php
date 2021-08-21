@@ -194,7 +194,7 @@
                     "_method":"PATCH",
                     "_token": "{{ csrf_token() }}",
                     "registrant_id": $('#registrant_id_{{$data->id}}').val(),
-                    "va_pass": +$('#va_pass{{$data->id}}').prop('checked'),
+                    "va_pass": $.isNumeric(+$('#va_pass{{$data->id}}').prop('checked')) ? +$('#va_pass{{$data->id}}').prop('checked') : 0,
                     "entrance_fee_pass": +$('#entrance_fee_pass{{$data->id}}').prop('checked'),
                     "requirements_pass": +$('#requirements_pass{{$data->id}}').prop('checked'),
                     "test_pass": +$('#test_pass{{$data->id}}').prop('checked'),

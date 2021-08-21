@@ -20,8 +20,8 @@ class RegistrantRepository extends BaseRepository implements RegistrantRepositor
         return Registrant::where('unit_id', $unit_id)->withTrashed()->max('unit_increment');
     }
 
-    public function getRegistrantsByUnitQuery($unit_id){
-        return Registrant::where('unit_id', $unit_id)->withTrashed();
+    public function getRegistrantsByUnitQuery($query, $unit_id){
+        return $query->where('unit_id', $unit_id)->withTrashed();
     }
 
     public function getCount($unit_id = null){

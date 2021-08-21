@@ -47,8 +47,6 @@ class RegistrantsDataTable extends DataTable
 
                 $diff = Carbon::now()->diffInHours($data->updated_at);
 
-                \Log::debug(json_encode($data));
-
                 if ($diff < 25) {
                     return $data->updated_at ? $data->updated_at->diffForHumans() : '-';
                 } else {
@@ -78,13 +76,71 @@ class RegistrantsDataTable extends DataTable
             $unit_id = $user->unit_id;
             $data = $this->registrantRepository->query()
                     ->select('registrants.*')
-                    ->with(['unit','tier','registrant_stage','path','period'])
-                    ->getRegistrantsByUnitQuery($unit_id);
+                    ->with(['unit','tier','registrant_stage','path','period']);
+            $data = $this->registrantRepository->getRegistrantsByUnitQuery($data, $unit_id);
         }else{
             $data = $this->registrantRepository->query()
                     ->select('registrants.*')
                     ->with(['unit','tier','registrant_stage','path','period']);
         }
+
+        //START APPLY FILTERING
+
+        if($this->request()->get('phone')){
+            $query->where('phone', 'LIKE', "%".$this->request()->get('phone')."%");
+        }
+
+        if($this->request()->get('email')){
+            $query->where('email', 'LIKE', "%".$this->request()->get('email')."%");
+        }
+
+        if($this->request()->get('former_school')){
+            $query->where('former_school', 'LIKE', "%".$this->request()->get('former_school')."%");
+        }
+
+        if($this->request()->get('unit_name')){
+            $data->whereHas('unit', function($query){
+                $query->where('name', $this->request()->get('unit_name'));
+            });
+        }
+
+        if($this->request()->get('path')){
+            $data->whereHas('path', function($query){
+                $query->where('name', 'LIKE', "%".$this->request()->get('path')."%");
+            });
+        }
+
+        if($this->request()->get('tier')){
+            $data->whereHas('tier', function($query){
+                $query->where('tier_name', 'LIKE', "%".$this->request()->get('tier')."%");
+            });
+        }
+
+        if($this->request()->get('status')){
+            $data->whereHas('registrant_stage', function($query){
+                $query->where('status_id', $this->request()->get('status'));
+            });
+        }
+
+        if($this->request()->get('dpp_pass')){
+            $data->whereHas('registrant_stage', function($query){
+                $query->where('dpp_pass', $this->request()->get('dpp_pass'));
+            });
+        }
+
+        if($this->request()->get('dp_pass')){
+            $data->whereHas('registrant_stage', function($query){
+                $query->where('dp_pass', $this->request()->get('dp_pass'));
+            });
+        }
+
+        if($this->request()->get('spp_pass')){
+            $data->whereHas('registrant_stage', function($query){
+                $query->where('spp_pass', $this->request()->get('spp_pass'));
+            });
+        }
+
+        //END APPLY FILTERING
 
         return $this->applyScopes($data);
     }
@@ -108,6 +164,12 @@ class RegistrantsDataTable extends DataTable
                     Button::make('print'),
                     Button::make('reset')->className('rounded-right'),
                     Button::make('colvis')->text('Kolom')->className('m-2 rounded btn-info'),
+                    Button::raw('filterData')->text('Filter')->className('m-2 rounded btn-warning')
+                            ->attr([
+                                "data-toggle" => "modal",
+                                "data-target" => "#filterModal",
+                            ])
+                            ->text('<i class="fas fa-filter"></i>Filter'),
                 )->parameters([
                     'paging' => true,
                     'searching' => true,

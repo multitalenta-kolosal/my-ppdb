@@ -46,7 +46,7 @@
             <div class="col">
                 <div class="table-responsive">
                     <table class="table">
-                        {{ $dataTable->table() }}
+                        {{ $dataTable->table([], true) }}
                     </table>
                 </div>
             </div>
@@ -67,7 +67,11 @@
         </div>
     </div>
 </div>
+
+@include('registrant::backend.components.filter-modal')
+
 @stop
+
 
 @push ('after-styles')
 <link rel="stylesheet" href="{{ asset('vendor/datatable/datatables.min.css') }}">
