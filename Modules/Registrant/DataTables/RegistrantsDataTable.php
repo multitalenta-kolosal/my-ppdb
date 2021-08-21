@@ -86,28 +86,28 @@ class RegistrantsDataTable extends DataTable
 
         //START APPLY FILTERING
 
+        if($this->request()->get('name')){
+            $data->where('name', 'LIKE', "%".$this->request()->get('name')."%");
+        }
+
         if($this->request()->get('phone')){
-            $query->where('phone', 'LIKE', "%".$this->request()->get('phone')."%");
+            $data->where('phone', 'LIKE', "%".$this->request()->get('phone')."%");
         }
 
         if($this->request()->get('email')){
-            $query->where('email', 'LIKE', "%".$this->request()->get('email')."%");
+            $data->where('email', 'LIKE', "%".$this->request()->get('email')."%");
         }
 
         if($this->request()->get('former_school')){
-            $query->where('former_school', 'LIKE', "%".$this->request()->get('former_school')."%");
+            $data->where('former_school', 'LIKE', "%".$this->request()->get('former_school')."%");
         }
 
         if($this->request()->get('unit_name')){
-            $data->whereHas('unit', function($query){
-                $query->where('name', $this->request()->get('unit_name'));
-            });
+            $data->where('unit_id', $this->request()->get('unit_name'));
         }
 
         if($this->request()->get('path')){
-            $data->whereHas('path', function($query){
-                $query->where('name', 'LIKE', "%".$this->request()->get('path')."%");
-            });
+            $data->where('type', $this->request()->get('path'));
         }
 
         if($this->request()->get('tier')){

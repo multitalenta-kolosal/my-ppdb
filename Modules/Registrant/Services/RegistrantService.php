@@ -10,12 +10,14 @@ use Modules\Registrant\Repositories\RegistrantRepository;
 use Modules\Core\Repositories\UnitRepository;
 use Modules\Core\Repositories\PeriodRepository;
 use Modules\Core\Repositories\PathRepository;
+use Modules\Core\Repositories\TierRepository;
 
 use Exception;
 use Carbon\Carbon;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -33,6 +35,7 @@ class RegistrantService{
     protected $unitRepository;
     protected $periodRepository;
     protected $pathRepository;
+    protected $tierRepository;
 
     public function __construct(
         /**
@@ -49,7 +52,8 @@ class RegistrantService{
         PathRepository $pathRepository,
         RegistrantRepository $registrantRepository,
         UnitRepository $unitRepository,
-        PeriodRepository $periodRepository
+        PeriodRepository $periodRepository,
+        TierRepository $tierRepository
     ) {
         /**
          * Services Declaration
@@ -66,6 +70,7 @@ class RegistrantService{
         $this->registrantRepository = $registrantRepository;
         $this->unitRepository = $unitRepository;
         $this->periodRepository = $periodRepository;
+        $this->tierRepository = $tierRepository;
 
         $this->module_title = Str::plural(class_basename($this->registrantRepository->model()));
 
@@ -295,6 +300,31 @@ class RegistrantService{
             'message'=> '',
             'data'=>  $registrants,
         );
+    }
+    public function prepareFilterOptions(){
+        
+        $unit = $this->unitRepository->query()->orderBy('order','asc')->pluck('name','id');
+
+        if(!$unit){
+            $unit = ['Silakan membuat unit'];
+        }
+
+        $type = $this->pathRepository->pluck('name','id');
+
+        $tier = $this->tierRepository->pluck('tier_name','id');
+
+        $stages   =  config('stages.progress');
+
+        $status = Arr::pluck($stages,'title','status_id');
+
+        $options = array(
+            'unit' => $unit,
+            'type' => $type,
+            'tier' => $tier,
+            'status' => $status,
+        );
+
+        return $options;
     }
 
     public function prepareOptions(){
