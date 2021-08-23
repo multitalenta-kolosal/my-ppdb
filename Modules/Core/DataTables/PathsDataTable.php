@@ -86,7 +86,7 @@ class PathsDataTable extends DataTable
                 ->setTableId('paths-table')
                 ->columns($this->getColumns())
                 ->minifiedAjax()
-                ->dom('Blfrtip')
+                ->dom(config('ppdb-datatables.ppdb-dom'))
                 ->buttons(
                     Button::make('export'),
                     Button::make('print'),

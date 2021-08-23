@@ -157,7 +157,7 @@ class RegistrantsDataTable extends DataTable
                 ->setTableId('registrants-table')
                 ->columns($this->getColumns())
                 ->minifiedAjax()
-                ->dom('Blfrtip')
+                ->dom(config('ppdb-datatables.ppdb-dom'))
                 ->orderBy($created_at,'desc')
                 ->buttons(
                     Button::make('export'),

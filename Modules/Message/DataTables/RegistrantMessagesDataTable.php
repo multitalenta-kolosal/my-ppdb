@@ -96,7 +96,7 @@ class RegistrantMessagesDataTable extends DataTable
                 ->setTableId('messages-table')
                 ->columns($this->getColumns())
                 ->minifiedAjax()
-                ->dom('Blfrtip')
+                ->dom(config('ppdb-datatables.ppdb-dom'))
                 ->orderBy($updated_at)
                 ->buttons(
                     Button::make('export'),
