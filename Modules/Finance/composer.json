@@ -1,5 +1,5 @@
 {
-    "name": "mikaeldiok/payment",
+    "name": "mikaeldiok/finance",
     "description": "",
     "authors": [
         {
@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\Payment\\": ""
+            "Modules\\Finance\\": ""
         }
     }
 }

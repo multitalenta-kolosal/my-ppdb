@@ -1,11 +1,11 @@
 {
-    "name": "Payment",
-    "alias": "payment",
+    "name": "Finance",
+    "alias": "finance",
     "description": "",
     "keywords": [],
     "priority": 0,
     "providers": [
-        "Modules\\Payment\\Providers\\PaymentServiceProvider"
+        "Modules\\Finance\\Providers\\FinanceServiceProvider"
     ],
     "aliases": {},
     "files": [],

@@ -1,21 +1,21 @@
 <?php
 
-namespace Modules\Payment\Providers;
+namespace Modules\Finance\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
-class PaymentServiceProvider extends ServiceProvider
+class FinanceServiceProvider extends ServiceProvider
 {
     /**
      * @var string $moduleName
      */
-    protected $moduleName = 'Payment';
+    protected $moduleName = 'Finance';
 
     /**
      * @var string $moduleNameLower
      */
-    protected $moduleNameLower = 'payment';
+    protected $moduleNameLower = 'finance';
 
     /**
      * Boot the application events.

@@ -5,5 +5,6 @@
     "Registrant": true,
     "Core": true,
     "Message": true,
-    "Payment": true
+    "Payment": true,
+    "Finance": true
 }

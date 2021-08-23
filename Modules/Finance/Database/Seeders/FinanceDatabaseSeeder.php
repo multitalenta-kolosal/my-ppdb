@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\Payment\Database\Seeders;
+namespace Modules\Finance\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-class PaymentDatabaseSeeder extends Seeder
+class FinanceDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
