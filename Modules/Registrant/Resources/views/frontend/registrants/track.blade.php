@@ -81,7 +81,7 @@ $(document).ready(function(){
 
         $('#render-view').html('');
         var registrant_id = $('#registrant_id').val();
-        var generateUrl = '{!! route("frontend.$module_name.progress",'+registrant_id+') !!}';
+        var generateUrl = '{{ route("frontend.$module_name.progress", 'registrant_id') }}';
         $.ajax({
             method: "POST",
             url: generateUrl,

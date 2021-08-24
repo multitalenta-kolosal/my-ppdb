@@ -15,7 +15,7 @@ return [
         [
             'title'             => 'Pendaftaran',
             'tracker_action'    => 'Menunggu Pembayaran Pendaftaran',
-            'tracker_content'   => 'Silakan Mengikuti Tata Pembayaran yang Ada, Kami juga akan membuat Virtual Account untuk Kamu!',
+            'tracker_content'   => 'Silakan Mengikuti Tata Pembayaran yang Ada.',
             'status_id'         => '0',
             'validation'        => 'va_pass',
             'message_tracker'   => 'register_pass_message_sent',
@@ -23,7 +23,7 @@ return [
         [
             'title'             => 'Virtual Account',
             'tracker_action'    => 'Menunggu Pembayaran Pendaftaran',
-            'tracker_content'   => 'Silakan Mengikuti Tata Pembayaran yang Ada, Virtual Account untuk Kamu sudah jadi nih!',
+            'tracker_content'   => 'Silakan Mengikuti Tata Pembayaran yang Ada.',
             'status_id'         => '1',
             'validation'        => 'va_pass',
             'message_tracker'   => null,
