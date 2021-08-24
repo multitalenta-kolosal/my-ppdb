@@ -21,6 +21,7 @@ return [
         'entrance_fee_pass'         => 'Entrance Fee payment',
         'requirements_pass'         => 'Requirements completeness',
         'test_pass'                 => 'Entrance test status',
+        'installment'               => 'Payment',
         'dpp_pass'                  => 'DPP payment',
         'dp_pass'                   => 'DP payment',
         'spp_pass'                  => 'SPP payment',

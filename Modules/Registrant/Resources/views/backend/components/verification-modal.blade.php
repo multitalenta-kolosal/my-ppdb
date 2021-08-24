@@ -33,7 +33,7 @@
         </div>
     </div>
 </div>
-    
+
 <script type="text/javascript">
     $('[data-toggle="popover"]').popover();
 </script>
@@ -43,13 +43,6 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $('#delay_payment_{{$data->id}}').on('change', function(){
-            console.log('ck');
-            $('#dpp_pass{{$data->id}}').prop('checked',this.checked);
-            $('#dp_pass{{$data->id}}').prop('checked',this.checked);
-            $('#spp_pass{{$data->id}}').prop('checked',this.checked);
-        });
-
         $('#requirements_pass{{$data->id}}').on('change', function(){
             $('#requirements_pass{{$data->id}}_message').prop('checked',this.checked);
         });
@@ -198,10 +191,7 @@
                     "entrance_fee_pass": +$('#entrance_fee_pass{{$data->id}}').prop('checked'),
                     "requirements_pass": +$('#requirements_pass{{$data->id}}').prop('checked'),
                     "test_pass": +$('#test_pass{{$data->id}}').prop('checked'),
-                    "dpp_pass": +$('#dpp_pass{{$data->id}}').prop('checked'),
-                    "dp_pass": +$('#dp_pass{{$data->id}}').prop('checked'),
-                    "spp_pass": +$('#spp_pass{{$data->id}}').prop('checked'),
-                    "delay_payment_pass": +$('#delay_payment_{{$data->id}}').prop('checked'),
+                    "installment_id": $('#installment_id{{$data->id}}').val(),
                     "accepted_pass": +$('#accepted_pass{{$data->id}}').prop('checked'),
                 };
 
@@ -318,17 +308,23 @@
                     }
 
                     $.each(data,function(key, val) { 
+                        console.log(key+" val: "+val);
                         var col = document.getElementById("col_"+key+"_{{$data->id}}")
                         $('#'+key+'{{$data->id}}_message').prop('checked',false)
                         if(col){
-                            if(key && (val == 1)){
-                                if(key == "accepted_pass"){
-                                    col.innerHTML = '<i class="far fa-2x fa-check-circle"></i>';
-                                }else{
-                                    col.innerHTML = '<i class="far fa-lg fa-check-circle"></i>';
-                                }
+                            console.log(key+" masuk val: "+val);
+                            if(key == "installment_id" && val > 0){
+                                col.innerHTML = '<i class="far fa-lg fa-check-circle"></i>';
                             }else{
-                                col.innerHTML = '';                                
+                                if(key && (val == 1)){
+                                    if(key == "accepted_pass"){
+                                        col.innerHTML = '<i class="far fa-2x fa-check-circle"></i>';
+                                    }else{
+                                        col.innerHTML = '<i class="far fa-lg fa-check-circle"></i>';
+                                    }
+                                }else{
+                                    col.innerHTML = '';                                
+                                }
                             }
                         }
                     });

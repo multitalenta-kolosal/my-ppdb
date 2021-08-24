@@ -3,7 +3,10 @@
 namespace Modules\Registrant\DataTables;
 
 use Carbon\Carbon;
+
 use Modules\Registrant\Repositories\RegistrantRepository;
+use Modules\Finance\Repositories\InstallmentRepository;
+
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -18,11 +21,18 @@ class RegistrantsDataTable extends DataTable
      * @param mixed $query Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
-    public function __construct(RegistrantRepository $registrantRepository)
+    public function __construct(
+        RegistrantRepository $registrantRepository,
+        InstallmentRepository $installmentRepository    
+    )
     {
         $this->module_name = 'registrants';
 
         $this->registrantRepository = $registrantRepository;
+        $this->installmentRepository = $installmentRepository;
+
+
+        $this->installment = $this->installmentRepository->pluck('name','id');
     }
 
     public function dataTable($query)
@@ -32,7 +42,9 @@ class RegistrantsDataTable extends DataTable
             ->addColumn('action', function ($data) {
                 $module_name = $this->module_name;
 
-                return view('registrant::backend.includes.action_column', compact('module_name', 'data'));
+                $installment = $this->installment;
+
+                return view('registrant::backend.includes.action_column', compact('module_name', 'data','installment'));
             })
             ->editColumn('name', function ($model) {
                 if( ($model->registrant_stage->status_id ?? null) == -1)

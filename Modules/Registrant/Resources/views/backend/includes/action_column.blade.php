@@ -10,5 +10,6 @@
     @endcan
 </div>
 
+
 <!-- verification modal -->
-@include('registrant::backend.components.verification-modal', ['data' => $data, 'module_sub' => 'verification'])
+@include('registrant::backend.components.verification-modal', ['data' => $data, 'module_sub' => 'verification', 'installment' => $installment])
