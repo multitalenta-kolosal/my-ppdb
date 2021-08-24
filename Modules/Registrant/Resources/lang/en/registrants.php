@@ -9,6 +9,7 @@ return [
     'internal'                  => 'Internal',
     'year'                      => 'Year',
     'phone'                     => 'Phone (Whatsapp)',
+    'phone2'                    => 'Phone 2',
     'email'                     => 'Email',
     'unit'                      => 'Unit',
     'former_school'             => 'Former School',
