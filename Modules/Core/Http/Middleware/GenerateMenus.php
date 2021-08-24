@@ -18,7 +18,7 @@ class GenerateMenus
     {
         \Menu::make('admin_sidebar', function ($menu) {
             //core dropdown
-            $core_menu = $menu->add('<i class="fas fa-database c-sidebar-nav-icon"></i> Core Data', [
+            $core_menu = $menu->add('<i class="fas fa-server c-sidebar-nav-icon"></i> Core Data', [
                 'class' => 'c-sidebar-nav-dropdown',
             ])
             ->data([

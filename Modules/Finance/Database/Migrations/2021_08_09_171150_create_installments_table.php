@@ -15,11 +15,18 @@ class CreateInstallmentsTable extends Migration
     {
         Schema::create('installments', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('order')->nullable()->default(999);
             $table->string('name');
-            $table->integer('tenor_month');
-            $table->double('done_payment_rate')->nullable(); 
-            $table->double('interest')->nullable();    
+            $table->text('description');
+            $table->integer('tenor');
+            $table->double('done_payment_fixed')->nullable()->default(0); 
+            $table->double('done_payment_rate')->nullable()->default(0); 
+            $table->double('interest')->nullable()->default(0);    
             $table->timestamps();
+            $table->integer('created_by')->unsigned()->nullable();
+            $table->integer('updated_by')->unsigned()->nullable();
+            $table->integer('deleted_by')->unsigned()->nullable();
+            $table->softDeletes();
         });
     }
 
