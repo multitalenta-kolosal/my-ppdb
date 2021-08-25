@@ -3,12 +3,12 @@
 namespace Modules\Core\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Modules\Core\Entities\Period;
+use Modules\Finance\Entities\Installment;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon as Carbon;
 
-class PeriodDatabaseSeeder extends Seeder
+class InstallmentDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -23,20 +23,19 @@ class PeriodDatabaseSeeder extends Seeder
 
         $faker = \Faker\Factory::create();
 
-        // Add the master administrator, user id of 1
-        $periods = [
+        $installments = [
             [
-                'period_name'              => Carbon::now()->year."/".Carbon::now()->year+1,
-                'year_start'               => Carbon::now()->year,
-                'year_end'                 => Carbon::now()->year+1,
-                'active_state'             => 1,
+                'name'                     => "Penuh",
+                'order'                    => 0,
+                'tenor'                    => 0,
+                'description'              => "Pembayaran Penuh",
                 'created_at'               => Carbon::now(),
                 'updated_at'               => Carbon::now(),
             ]
         ];
 
-        foreach ($periods as $period_data) {
-            $period = Period::create($period_data);
+        foreach ($installments as $installment_data) {
+            $installment = Installment::create($installment_data);
         }
 
         Schema::enableForeignKeyConstraints();

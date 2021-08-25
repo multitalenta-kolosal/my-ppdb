@@ -5,6 +5,8 @@ namespace Modules\Finance\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
+use Modules\Finance\Database\Seeders\InstallmentDatabaseSeeder;
+
 class FinanceDatabaseSeeder extends Seeder
 {
     /**
@@ -16,6 +18,6 @@ class FinanceDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+        $this->call(InstallmentDatabaseSeeder::class);
     }
 }
