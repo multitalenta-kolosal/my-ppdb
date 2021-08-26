@@ -7,6 +7,8 @@ use Modules\Message\Services\RegistrantMessageService;
 use Modules\Message\Services\MessageService;
 
 use Modules\Registrant\Repositories\RegistrantRepository;
+use Modules\Registrant\Repositories\RegistrantStageRepository;
+use Modules\Message\Repositories\RegistrantMessageRepository;
 use Modules\Core\Repositories\UnitRepository;
 use Modules\Core\Repositories\PeriodRepository;
 use Modules\Core\Repositories\PathRepository;
@@ -51,6 +53,8 @@ class RegistrantService{
          */
         PathRepository $pathRepository,
         RegistrantRepository $registrantRepository,
+        RegistrantStageRepository $registrantStageRepository,
+        RegistrantMessageRepository $registrantMessageRepository,
         UnitRepository $unitRepository,
         PeriodRepository $periodRepository,
         TierRepository $tierRepository
@@ -68,6 +72,8 @@ class RegistrantService{
          */
         $this->pathRepository = $pathRepository;
         $this->registrantRepository = $registrantRepository;
+        $this->registrantStageRepository = $registrantStageRepository;
+        $this->registrantMessageRepository = $registrantMessageRepository;
         $this->unitRepository = $unitRepository;
         $this->periodRepository = $periodRepository;
         $this->tierRepository = $tierRepository;
@@ -264,6 +270,39 @@ class RegistrantService{
         );  
     }
 
+    public function purge($id){
+        DB::beginTransaction();
+
+        try{
+            $registrants = $this->registrantRepository->findTrash($id);
+    
+            $deleted = $this->registrantRepository->purge($id);
+
+            $deleted = $this->registrantStageRepository->delete($registrants->progress_id);
+
+            $deleted = $this->registrantMessageRepository->delete($registrants->registrant_message->id);
+
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::critical($e->getMessage());
+            return (object) array(
+                'error'=> true,
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
+        }
+
+        DB::commit();
+
+        Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$registrants->name.', ID:'.$registrants->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $registrants,
+        );
+    }
+
     public function trashed(){
 
         Log::info(label_case($this->module_title.' View'.__FUNCTION__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
@@ -437,6 +476,46 @@ class RegistrantService{
             'error'=> false,            
             'message'=> '',
             'data'=> $registrant,
+        );
+    }
+
+    public function purgeAll($all = false){
+        DB::beginTransaction();
+
+        try{
+            if($all){
+                $trashedDatas = $this->registrantRepository->all();
+            }else{
+                $trashedDatas = $this->registrantRepository->trashed();
+            }
+
+            foreach($trashedDatas as $trashedData){
+                $purged = $this->registrantRepository->purge($trashedData->id);
+
+                $purged = $this->registrantStageRepository->delete($trashedData->progress_id);
+
+                $purged = $this->registrantMessageRepository->delete($trashedData->registrant_message->id);
+
+            }
+
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::critical($e->getMessage());
+            return (object) array(
+                'error'=> true,
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
+        }
+
+        DB::commit();
+
+        Log::info(label_case($this->module_title.' AT '.Carbon::now().' '.__FUNCTION__)." | by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> null,
         );
     }
 }

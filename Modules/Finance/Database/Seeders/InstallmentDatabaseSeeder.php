@@ -26,7 +26,7 @@ class InstallmentDatabaseSeeder extends Seeder
         $installments = [
             [
                 'name'                     => "Penuh",
-                'order'                    => 0,
+                'order'                    => -1,
                 'tenor'                    => 0,
                 'description'              => "Pembayaran Penuh",
                 'created_at'               => Carbon::now(),

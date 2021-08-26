@@ -52,6 +52,7 @@ Route::group(['namespace' => '\Modules\Finance\Http\Controllers\Backend', 'as' =
     $controller_name = 'InstallmentsController';
     Route::get("$module_name/trashed", ['as' => "$module_name.trashed", 'uses' => "$controller_name@trashed"]);
     Route::patch("$module_name/trashed/{id}", ['as' => "$module_name.restore", 'uses' => "$controller_name@restore"]);
+    Route::delete("$module_name/purge/{id}", ['as' => "$module_name.purge", 'uses' => "$controller_name@purge"]);
     Route::resource("$module_name", "$controller_name");
 
 

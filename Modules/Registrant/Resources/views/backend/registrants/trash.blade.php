@@ -75,6 +75,7 @@
                                 {{ $module_name_singular->created_by }}
                             </td>
                             <td class="text-right">
+                                <a href="{{route("backend.$module_name.purge", $module_name_singular)}}" class="btn btn-danger btn-sm" data-method="DELETE" data-token="{{csrf_token()}}" data-toggle="tooltip" title="{{__('labels.backend.purge')}}"><i class='fas fa-fire-alt'></i> {{__('labels.backend.purge')}}</a>
                                 <a href="{{route("backend.$module_name.restore", $module_name_singular)}}" class="btn btn-warning btn-sm" data-method="PATCH" data-token="{{csrf_token()}}" data-toggle="tooltip" title="{{__('labels.backend.restore')}}"><i class='fas fa-undo'></i> {{__('labels.backend.restore')}}</a>
                             </td>
                         </tr>

@@ -133,6 +133,7 @@ return [
         'changePassword'    => 'Change Password',
         'delete'            => 'Delete',
         'restore'           => 'Restore',
+        'purge'             => 'Purge',
         'save'              => 'Save',
         'show'              => 'Show',
         'update'            => 'Update',

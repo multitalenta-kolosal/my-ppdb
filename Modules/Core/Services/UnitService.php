@@ -342,4 +342,32 @@ class UnitService{
             'tier'     => $tiers,
         );
     }
+
+    public function purge($id){
+        DB::beginTransaction();
+
+        try{
+            $units = $this->unitRepository->findTrash($id);
+    
+            $deleted = $this->unitRepository->purge($id);
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::critical($e->getMessage());
+            return (object) array(
+                'error'=> true,
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
+        }
+
+        DB::commit();
+
+        Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$units->name.', ID:'.$units->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $units,
+        );
+    }
 }

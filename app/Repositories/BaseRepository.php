@@ -805,6 +805,13 @@ abstract class BaseRepository implements BaseContract
         return $this->model()::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate();
     }
 
+    public function findTrash($id)
+    {
+        $restored = $this->model()::withTrashed()->findOrFail($id);
+
+        return $restored;
+    }
+
     public function restore($id)
     {
         $restored = $this->model()::withTrashed()->find($id);
@@ -827,8 +834,8 @@ abstract class BaseRepository implements BaseContract
     public function purgeAll()
     {
         $purged = $this->model()::onlyTrashed()->get();
-        
-        return $purged->forceDelete();
+
+        return true;
 
     }
 }

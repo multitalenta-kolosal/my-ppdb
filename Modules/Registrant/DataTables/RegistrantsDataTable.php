@@ -32,7 +32,7 @@ class RegistrantsDataTable extends DataTable
         $this->installmentRepository = $installmentRepository;
 
 
-        $this->installment = $this->installmentRepository->pluck('name','id');
+        $this->installment = $this->installmentRepository->query()->orderBy('order','asc')->pluck('name','id');
     }
 
     public function dataTable($query)

@@ -98,6 +98,10 @@ class PermissionRoleTableSeeder extends Seeder
             'name' => 'installments',
         ]);
 
+        \Artisan::call('auth:permission', [
+            'name' => 'bulkpurges',
+        ]);
+
         echo "\n _Periods_ Permissions Created.";
         
         echo "\n\n";

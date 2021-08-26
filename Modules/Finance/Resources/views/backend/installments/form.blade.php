@@ -33,7 +33,7 @@
             $field_name = 'tenor';
             $field_lable = __("finance::$module_name.$field_name");
             $field_placeholder = $field_lable;
-            $required = "";
+            $required = "required";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             <div class="input-group mb-3">
@@ -52,7 +52,7 @@
             $field_name = 'description';
             $field_lable = __("finance::$module_name.$field_name");
             $field_placeholder = $field_lable;
-            $required = "";
+            $required = "required";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->textarea($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}

@@ -90,6 +90,20 @@ class GenerateMenus
                 'class' => 'c-sidebar-nav-link',
             ]);
 
+            // Purge
+            $menu->add('<i class="c-sidebar-nav-icon fas fa-archive"></i> Purges', [
+                'route' => 'backend.purges.index',
+                'class' => 'nav-item',
+            ])
+            ->data([
+                'order'         => 103,
+                'activematches' => 'admin/purges*',
+                'permission'    => ['view_purges'],
+            ])
+            ->link->attr([
+                'class' => 'c-sidebar-nav-link',
+            ]);
+
             // Access Control Dropdown
             $accessControl = $menu->add('<i class="c-sidebar-nav-icon cil-shield-alt"></i> Access Control', [
                 'class' => 'c-sidebar-nav-dropdown',

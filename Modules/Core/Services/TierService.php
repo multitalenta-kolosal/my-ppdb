@@ -303,4 +303,67 @@ class TierService{
 
         return $options;
     }
+
+    public function purge($id){
+        DB::beginTransaction();
+
+        try{
+            $units = $this->tierRepository->findTrash($id);
+    
+            $deleted = $this->tierRepository->purge($id);
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::critical($e->getMessage());
+            return (object) array(
+                'error'=> true,
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
+        }
+
+        DB::commit();
+
+        Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$units->name.', ID:'.$units->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $units,
+        );
+    }
+
+    public function purgeAll($all = false){
+        DB::beginTransaction();
+
+        try{
+            if($all){
+                $trashedDatas = $this->tierRepository->all();
+            }else{
+                $trashedDatas = $this->tierRepository->trashed();
+            }
+
+            foreach($trashedDatas as $trashedData){
+                $purged = $this->tierRepository->purge($trashedData->id);
+            }
+
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::critical($e->getMessage());
+            return (object) array(
+                'error'=> true,
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
+        }
+
+        DB::commit();
+
+        Log::info(label_case($this->module_title.' AT '.Carbon::now().' '.__FUNCTION__)." | by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> null,
+        );
+    }
 }

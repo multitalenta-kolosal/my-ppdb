@@ -232,6 +232,35 @@ class InstallmentsController extends Controller
         return redirect("admin/$module_name");
     }
 
+        /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function purge($id)
+    {
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'purge';
+
+        $installment = $this->installmentService->purge($id);
+
+        if(!$installment->error){
+            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Deleted Successfully!')->important();
+        }else{
+            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
+        }
+
+        return redirect("admin/$module_name/trashed");
+    }
+
     /**
      * Remove the specified resource from storage.
      *

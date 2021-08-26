@@ -112,6 +112,17 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'as' => 'backend.',
 
     /*
     *
+    *  Purge Routes
+    *
+    * ---------------------------------------------------------------------
+    */
+    $module_name = 'purges';
+    $controller_name = 'PurgeController';
+    Route::get("$module_name/purgeAll/{name}", ['as' => "$module_name.purgeAll", 'uses' => "$controller_name@purgeAll"]);
+    Route::get("$module_name", ['as' => "$module_name.index", 'uses' => "$controller_name@index"]);
+
+    /*
+    *
     *  Roles Routes
     *
     * ---------------------------------------------------------------------
