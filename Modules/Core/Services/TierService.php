@@ -118,7 +118,7 @@ class TierService{
 
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) array(
                 'error'=> true,
                 'message'=> $e->getMessage(),
@@ -203,7 +203,7 @@ class TierService{
         }catch (Exception $e){
             DB::rollBack();
             report($e);
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) array(
                 'error'=> true,
                 'message'=> $e->getMessage(),
@@ -232,7 +232,7 @@ class TierService{
             $deleted = $this->tierRepository->delete($id);
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) array(
                 'error'=> true,
                 'message'=> $e->getMessage(),
@@ -270,7 +270,7 @@ class TierService{
             $tiers= $this->tierRepository->restore($id);
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) array(
                 'error'=> true,
                 'message'=> $e->getMessage(),
@@ -313,7 +313,7 @@ class TierService{
             $deleted = $this->tierRepository->purge($id);
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) array(
                 'error'=> true,
                 'message'=> $e->getMessage(),
@@ -348,7 +348,7 @@ class TierService{
 
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) array(
                 'error'=> true,
                 'message'=> $e->getMessage(),

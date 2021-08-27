@@ -118,7 +118,7 @@ class UnitService{
 
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) array(
                 'error'=> true,
                 'message'=> $e->getMessage(),
@@ -203,7 +203,7 @@ class UnitService{
         }catch (Exception $e){
             DB::rollBack();
             report($e);
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) array(
                 'error'=> true,
                 'message'=> $e->getMessage(),
@@ -232,7 +232,7 @@ class UnitService{
             $deleted = $this->unitRepository->delete($id);
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) array(
                 'error'=> true,
                 'message'=> $e->getMessage(),
@@ -270,7 +270,7 @@ class UnitService{
             $units= $this->unitRepository->restore($id);
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) array(
                 'error'=> true,
                 'message'=> $e->getMessage(),
@@ -352,7 +352,7 @@ class UnitService{
             $deleted = $this->unitRepository->purge($id);
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) array(
                 'error'=> true,
                 'message'=> $e->getMessage(),

@@ -74,7 +74,7 @@ class RegistrantMessageService{
             $registrantMessage = $this->registrantMessageRepository->create($regsitrantMessageData->toArray());
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) $response = [
                 'data'   => null,
                 'error' => true,
@@ -115,7 +115,7 @@ class RegistrantMessageService{
 
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) $response = [
                 'data'   => null,
                 'error' => true,
@@ -146,7 +146,7 @@ class RegistrantMessageService{
             $deleted = $this->registrantMessageRepository->delete($id);
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) $response = [
                 'data'   => null,
                 'error' => true,

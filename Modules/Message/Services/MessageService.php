@@ -110,7 +110,7 @@ class MessageService{
             $message = $this->messageRepository->create($messageObject->toArray());
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return null;
         }
 
@@ -183,7 +183,7 @@ class MessageService{
 
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return null;
         }
 
@@ -208,7 +208,7 @@ class MessageService{
             $deleted = $this->messageRepository->delete($id);
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return null;
         }
 
@@ -255,7 +255,7 @@ class MessageService{
     
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) $response = [
                 'data'          => null,
                 'registrant'    => $registrant,
@@ -348,7 +348,7 @@ class MessageService{
     
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) $response = [
                 'data'          => null,
                 'registrant'    => $registrant,
@@ -415,7 +415,7 @@ class MessageService{
             }
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) $response = [
                 'data'   => null,
                 'error' => true,

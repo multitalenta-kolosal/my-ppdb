@@ -74,7 +74,7 @@ class RegistrantStageService{
             $registrantStage = $this->registrantStageRepository->create($regsitrantStageData->toArray());
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) $response = [
                 'data'   => null,
                 'error' => true,
@@ -133,7 +133,7 @@ class RegistrantStageService{
             }
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) $response = [
                 'data'   => null,
                 'error' => true,
@@ -164,7 +164,7 @@ class RegistrantStageService{
             $deleted = $this->registrantStageRepository->delete($id);
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) $response = [
                 'data'   => null,
                 'error' => true,

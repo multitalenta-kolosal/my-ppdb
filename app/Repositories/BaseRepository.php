@@ -391,7 +391,7 @@ abstract class BaseRepository implements BaseContract
 
         return $object->save();
     }catch (Exception $e){
-        Log::critical($e->getMessage());
+        Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
         return false;
     }
        
