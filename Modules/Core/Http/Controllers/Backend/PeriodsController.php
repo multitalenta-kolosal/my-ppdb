@@ -104,12 +104,14 @@ class PeriodsController extends Controller
         $module_action = 'Create';
 
         $options = $this->periodService->create();
+
+        $nowActivePeriod = $this->periodService->getActivePeriod();
        
         $units = $options['unit'];
 
         return view(
             "core::backend.$module_name.create",
-            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','units')
+            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','units','nowActivePeriod')
         );
     }
 
@@ -138,7 +140,7 @@ class PeriodsController extends Controller
         if(!$periods->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Added Successfully!')->important();
         }else{
-            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
+            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."' ".$periods->message)->important();
         }
         return redirect("admin/$module_name");
     }
@@ -192,6 +194,8 @@ class PeriodsController extends Controller
         $periods = $this->periodService->edit($id);
         $quota_value = $this->periodService->decodeQuota($periods->data);
         $options = $this->periodService->prepareOptions();
+
+        $nowActivePeriod = $this->periodService->getActivePeriod();
        
         $units = $options['unit'];
 
@@ -199,7 +203,7 @@ class PeriodsController extends Controller
 
         return view(
             "core::backend.$module_name.edit",
-            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular",'units','quota_value')
+            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular",'units','quota_value','nowActivePeriod')
         );
     }
 

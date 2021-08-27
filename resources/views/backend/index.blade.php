@@ -82,6 +82,10 @@
         $unit_quota = 'quota_'.$unit_name;
         $amount =$unit->amount;
 
+        if($quota->$unit_quota<1){
+            $quota->$unit_quota = 1;
+        }
+
         $bar_percentage = round( ( $amount / $quota->$unit_quota) * 100, 2);
         ?>
         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">

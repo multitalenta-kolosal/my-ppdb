@@ -6,6 +6,7 @@ use Modules\Core\Repositories\PeriodRepository;
 use Modules\Core\Repositories\UnitRepository;
 
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Carbon\Carbon;
 use Auth;
 use Illuminate\Support\Facades\DB;
@@ -80,7 +81,7 @@ class PeriodService{
         $quota = [];
 
         foreach($data as $key => $value){
-            if (strpos($key, 'key') !== false) {
+            if (strpos($key, 'quota') !== false) {
                 $quota = Arr::add($quota,$key,$value);
                 unset($data[$key]);
             }
@@ -90,12 +91,16 @@ class PeriodService{
 
         try {
             $periodObject = $this->periodRepository->make($data);
-            $periodObject->quota = json_encode($quota);
 
+            $periodObject->quota = json_encode($quota);
+            
             $period = $this->periodRepository->create($periodObject->toArray());
+
+            $this->maintainOneActivePeriod();
+
         }catch (Exception $e){
             DB::rollBack();
-            Log::info($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) array(
                 'error'=> true,            
                 'message'=> $e->getMessage(),
@@ -104,6 +109,10 @@ class PeriodService{
         }
 
         DB::commit();
+
+        if($period->active_state){
+            $syncPeriod = $this->syncWithActivePeriod($period->id);
+        }
 
         Log::info(label_case($this->module_title.' '.__function__)." | '".$period->name.'(ID:'.$period->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
@@ -164,7 +173,13 @@ class PeriodService{
                 $periodObject->active_state = false;
             }
 
+            if($periodObject->active_state){
+                $syncPeriod = $this->syncWithActivePeriod($periodObject->id);
+            }
+
             $updated = $this->periodRepository->update($periodObject->toArray(),$id);
+
+            $this->maintainOneActivePeriod();
 
         }catch (Exception $e){
             DB::rollBack();
@@ -308,5 +323,57 @@ class PeriodService{
             'message'=> '',
             'data'=> $units,
         );
+    }
+
+    public function getActivePeriod() {
+        return $this->periodRepository->getActivePeriod();
+    }
+
+    public function maintainOneActivePeriod(){
+        if($this->periodRepository->getActivePeriod()){
+            return (object) array(
+                'error'=> false,            
+                'message'=> '',
+                'data'=> null,
+            );
+        }
+    }
+
+    // Function To deactive former active period if this new / edited period is set active
+    public function syncWithActivePeriod(){
+        $nowActiveExist = $this->periodRepository->getActivePeriod();
+
+        DB::beginTransaction();
+
+        try{
+            if($nowActiveExist){
+
+                $deactiveNowActive = $this->periodRepository->deactivatePeriod($nowActiveExist->id);
+                
+                if(!$deactiveNowActive){
+                    return (object) array(
+                        'error'=> true,            
+                        'message'=> '',
+                        'data'=> null,
+                    );
+                }
+            }
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
+            return (object) array(
+                'error'=> true,
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
+        }
+
+        DB::commit();
+
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> null,
+        );         
     }
 }

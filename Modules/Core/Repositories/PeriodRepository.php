@@ -5,6 +5,7 @@ namespace Modules\Core\Repositories;
 use App\Repositories\BaseRepository;
 use Modules\Core\Repositories\Contracts\PeriodRepositoryInterface;
 use Modules\Core\Entities\Period;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /** @property Period $model */
 class PeriodRepository extends BaseRepository implements PeriodRepositoryInterface
@@ -20,7 +21,39 @@ class PeriodRepository extends BaseRepository implements PeriodRepositoryInterfa
         if($period)
             return $period;
         else
-            return null;
+            throw new ModelNotFoundException('Tidak ada periode aktif, setidaknya harus ada 1 periode aktif!');
+    }
+
+    public function activatePeriod($id)
+    {
+        $period = Period::findOrFail($id);
+
+        $period->active_state = true;
+
+        $status = $period->save();
+
+        if($status){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+    public function deactivatePeriod($id)
+    {
+        $period = Period::findOrFail($id);
+
+        $period->active_state = false;
+
+        $status = $period->save();
+
+        if($status){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 
     public function findActivePeriodId()

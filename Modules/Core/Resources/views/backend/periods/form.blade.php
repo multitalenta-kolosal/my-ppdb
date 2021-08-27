@@ -4,6 +4,7 @@
             <?php
             $field_name = 'active_state';
             $field_lable = __("core::$module_name.$field_name");
+            $helper = __("core::$module_name.$field_name"."_helper",['active_period' => $nowActivePeriod->period_name ?? 'NULL']);
             $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
@@ -14,6 +15,9 @@
             @endif
         </div>
     </div>
+</div>
+<div class="row">
+    {{ html()->div($helper)->class('d-block mx-3 mb-3') }}
 </div>
 <div class="row">
     <div class="col">
@@ -47,7 +51,7 @@
             <?php
             $field_name = 'year_end';
             $field_lable = __("core::$module_name.$field_name");
-            $field_placeholder = \Carbon\Carbon::now()->format('Y');
+            $field_placeholder = \Carbon\Carbon::now()->addYears(1)->format('Y');
             $required = "required";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
@@ -62,7 +66,7 @@
             $field_name = 'opening_date';
             $field_lable = __("core::$module_name.$field_name");
             $field_placeholder = $field_lable;
-            $required = "required";
+            $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             <div class="input-group date datetime" id="{{$field_name}}" data-target-input="nearest">
@@ -79,7 +83,7 @@
             $field_name = 'internal_date';
             $field_lable = __("core::$module_name.$field_name");
             $field_placeholder = $field_lable;
-            $required = "required";
+            $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             <div class="input-group date datetime" id="{{$field_name}}" data-target-input="nearest">
@@ -96,7 +100,7 @@
             $field_name = 'closing_date';
             $field_lable = __("core::$module_name.$field_name");
             $field_placeholder = $field_lable;
-            $required = "required";
+            $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             <div class="input-group date datetime" id="{{$field_name}}" data-target-input="nearest">
