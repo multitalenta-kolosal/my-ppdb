@@ -7,7 +7,7 @@ use Modules\Core\Services\PathService;
 use Modules\Core\Repositories\UnitRepository;
 use Modules\Core\Repositories\PathRepository;
 use Modules\Core\Repositories\TierRepository;
-
+use Modules\Finance\Repositories\InstallmentRepository;
 
 use Exception;
 use Carbon\Carbon;
@@ -30,13 +30,15 @@ class UnitService{
 
     protected $unitRepository;
     protected $pathRepository;
+    protected $installmentRepository;
 
     public function __construct(
         PathService $pathService,
 
         PathRepository $pathRepository,
         UnitRepository $unitRepository,
-        TierRepository $tierRepository
+        TierRepository $tierRepository,
+        InstallmentRepository $installmentRepository
         )
         {
         $this->pathService = $pathService;
@@ -44,6 +46,7 @@ class UnitService{
         $this->unitRepository = $unitRepository;
         $this->pathRepository = $pathRepository;
         $this->tierRepository = $tierRepository;
+        $this->installmentRepository = $installmentRepository;
 
         $this->module_title = Str::plural(class_basename($this->unitRepository->model()));
 
@@ -100,6 +103,9 @@ class UnitService{
         DB::beginTransaction();
 
         try {
+
+            $data['installment_ids'] = json_encode($data['installment_ids']);
+
             $unitObject = $this->unitRepository->make($data);
             $unitObject->paths = json_encode($paths);
 
@@ -152,6 +158,8 @@ class UnitService{
 
         $unit = $this->unitRepository->findOrFail($id);
 
+        $unit->installment_ids = json_decode($unit->installment_ids, true);
+
         Log::info(label_case($this->module_title.' '.__function__)." | '".$unit->name.'(ID:'.$unit->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return (object) array(
@@ -178,6 +186,8 @@ class UnitService{
         DB::beginTransaction();
 
         try{
+            $data['installment_ids'] = json_encode($data['installment_ids']);
+
             $unit = $this->unitRepository->make($data);
             $unit->paths = json_encode($paths);
 
@@ -297,8 +307,14 @@ class UnitService{
             $paths = ['Silakan membuat Jalur Pendaftaran'];
         }
 
+        $installments = $this->installmentRepository->query()->orderBy('id','asc')->pluck('name','id');
+
+        if(!$installments){
+            $installments = ['Silakan membuat Angsuran'];
+        }
         $options = array(
             'paths' => $paths,
+            'installments' => $installments
         );
 
         return $options;

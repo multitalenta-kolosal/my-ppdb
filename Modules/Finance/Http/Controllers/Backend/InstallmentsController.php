@@ -106,10 +106,14 @@ class InstallmentsController extends Controller
         $module_action = 'Create';
 
         $options = $this->installmentService->create();
+
+        $options_data = $options->data;
+
+        $unit = $options_data['unit'];
        
         return view(
             "finance::backend.$module_name.create",
-            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular')
+            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','unit')
         );
     }
 
@@ -192,11 +196,15 @@ class InstallmentsController extends Controller
 
         $installments = $this->installmentService->edit($id);
 
+        $options = $this->installmentService->prepareOptions();
+
+        $unit = $options['unit'];
+
         $$module_name_singular = $installments->data;
 
         return view(
             "finance::backend.$module_name.edit",
-            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular")
+            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular",'unit')
         );
     }
 

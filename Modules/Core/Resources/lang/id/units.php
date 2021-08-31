@@ -17,4 +17,5 @@ return [
     'register_form_link'        => 'Link Formulir Pendaftaran Unit',
     'registration_veriform_link'=> 'Link Verifikasi dan Pengiriman Berkas',
     'tuition_veriform_link'     => 'Link Verifikasi Pembayaran Biaya Pendidikan',
+    'installments'              => 'Angsuran',
 ];

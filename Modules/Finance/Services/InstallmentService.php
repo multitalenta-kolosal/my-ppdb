@@ -3,6 +3,7 @@
 namespace Modules\Finance\Services;
 
 use Modules\Finance\Repositories\InstallmentRepository;
+use Modules\Core\Repositories\UnitRepository;
 
 
 use Exception;
@@ -21,12 +22,16 @@ use Illuminate\Http\Request;
 class InstallmentService{
 
     protected $installmentRepository;
+    protected $unitRepository;
+
     public function __construct(
-        InstallmentRepository $installmentRepository
+        InstallmentRepository $installmentRepository,
+        UnitRepository $unitRepository
         )
         {
         
         $this->installmentRepository = $installmentRepository;
+        $this->unitRepository = $unitRepository;
 
         $this->module_title = Str::plural(class_basename($this->installmentRepository->model()));
 
@@ -61,10 +66,12 @@ class InstallmentService{
 
         Log::info(label_case($this->module_title.' '.__function__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
+        $createOptions = $this->prepareOptions();
+
         return (object) array(
             'error'=> false,            
             'message'=> '',
-            'data'=> null,
+            'data'=> $createOptions,
         );
     }
 
@@ -75,6 +82,8 @@ class InstallmentService{
         DB::beginTransaction();
 
         try {
+            $data['unit_ids'] = json_encode($data['unit_ids']);
+
             $installmentObject = $this->installmentRepository->make($data);
 
             $installment = $this->installmentRepository->create($installmentObject->toArray());
@@ -117,6 +126,8 @@ class InstallmentService{
 
         Log::info(label_case($this->module_title.' '.__function__)." | '".$installment->name.'(ID:'.$installment->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
+        $installment->unit_ids = json_decode($installment->unit_ids, true);
+
         return (object) array(
             'error'=> false,            
             'message'=> '',
@@ -131,6 +142,8 @@ class InstallmentService{
         DB::beginTransaction();
 
         try{
+            $data['unit_ids'] = json_encode($data['unit_ids']);
+            
             $installment = $this->installmentRepository->make($data);
 
             if(!$installment->have_major){
@@ -258,4 +271,22 @@ class InstallmentService{
         );
     }
 
+
+    public function prepareOptions(){
+        
+        $unit = $this->unitRepository->query()->orderBy('order','asc')->pluck('name','id');
+
+        if(!$unit){
+            $unit = ['Silakan membuat unit'];
+        }
+
+        $type = [];
+
+        $options = array(
+            'unit' => $unit,
+            'type' => $type,
+        );
+
+        return $options;
+    }
 }

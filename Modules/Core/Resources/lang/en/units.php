@@ -17,4 +17,5 @@ return [
     'register_form_link'        => 'Register Form',
     'registration_veriform_link'=> 'Register Verification',
     'tuition_veriform_link'     => 'Tuition Payments Verification',
+    'installments'              => 'Installment',
 ];

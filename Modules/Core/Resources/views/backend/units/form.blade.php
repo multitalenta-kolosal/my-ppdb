@@ -208,6 +208,24 @@
     </div>
 </div>
 
+<div class="h3">Angsuran</div>
+<div class="row">
+    <div class="col-4">
+        <div class="form-group">
+            <?php
+            $field_name = 'installments';
+            $field_data_id = 'installment_ids';
+            $field_lable = __("registrant::$module_name.$field_name");
+            $field_placeholder = "--Silakan Pilih Angsuran (bisa lebih dari satu)--";
+            $required = "required";
+            $select_options = $installment_options;
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->multiselect($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
+        </div>
+    </div>
+</div>
+
 <div class="h3">Jalur Pendaftaran</div>
 <div class="row">
     <?php
