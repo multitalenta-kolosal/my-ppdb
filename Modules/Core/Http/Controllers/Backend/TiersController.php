@@ -26,7 +26,7 @@ class TiersController extends Controller
     public function __construct(TierService $tierService)
     {
         // Page Title
-        $this->module_title = 'Tiers';
+        $this->module_title = trans('menu.core.tiers');
 
         // module name
         $this->module_name = 'tiers';

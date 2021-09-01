@@ -19,7 +19,7 @@ class GenerateMenus
     {
         \Menu::make('admin_sidebar', function ($menu) {
             // Dashboard
-            $menu->add('<i class="cil-speedometer c-sidebar-nav-icon"></i> Dashboard', [
+            $menu->add('<i class="cil-speedometer c-sidebar-nav-icon"></i> '.trans('menu.dashboard'), [
                 'route' => 'backend.dashboard',
                 'class' => 'c-sidebar-nav-item',
             ])
@@ -63,7 +63,7 @@ class GenerateMenus
             ]);
 
             // Settings
-            $menu->add('<i class="c-sidebar-nav-icon fas fa-cogs"></i> Settings', [
+            $menu->add('<i class="c-sidebar-nav-icon fas fa-cogs"></i> '.trans('menu.settings'), [
                 'route' => 'backend.settings',
                 'class' => 'c-sidebar-nav-item',
             ])
@@ -77,7 +77,7 @@ class GenerateMenus
             ]);
 
             // Backup
-            $menu->add('<i class="c-sidebar-nav-icon fas fa-archive"></i> Backups', [
+            $menu->add('<i class="c-sidebar-nav-icon fas fa-archive"></i> '.trans('menu.backups'), [
                 'route' => 'backend.backups.index',
                 'class' => 'nav-item',
             ])
@@ -91,7 +91,7 @@ class GenerateMenus
             ]);
 
             // Purge
-            $menu->add('<i class="c-sidebar-nav-icon fas fa-archive"></i> Purges', [
+            $menu->add('<i class="c-sidebar-nav-icon fas fa-fire-alt"></i> '.trans('menu.purges'), [
                 'route' => 'backend.purges.index',
                 'class' => 'nav-item',
             ])
@@ -105,7 +105,7 @@ class GenerateMenus
             ]);
 
             // Access Control Dropdown
-            $accessControl = $menu->add('<i class="c-sidebar-nav-icon cil-shield-alt"></i> Access Control', [
+            $accessControl = $menu->add('<i class="c-sidebar-nav-icon cil-shield-alt"></i> '.trans('menu.access_control.title'), [
                 'class' => 'c-sidebar-nav-dropdown',
             ])
             ->data([
@@ -122,7 +122,7 @@ class GenerateMenus
             ]);
 
             // Submenu: Users
-            $accessControl->add('<i class="c-sidebar-nav-icon cil-people"></i> Users', [
+            $accessControl->add('<i class="c-sidebar-nav-icon cil-people"></i> '.trans('menu.access_control.users'), [
                 'route' => 'backend.users.index',
                 'class' => 'nav-item',
             ])
@@ -136,7 +136,7 @@ class GenerateMenus
             ]);
 
             // Submenu: Roles
-            $accessControl->add('<i class="c-sidebar-nav-icon cil-people"></i> Roles', [
+            $accessControl->add('<i class="c-sidebar-nav-icon cil-people"></i> '.trans('menu.access_control.roles'), [
                 'route' => 'backend.roles.index',
                 'class' => 'nav-item',
             ])
@@ -151,7 +151,7 @@ class GenerateMenus
 
             // Log Viewer
             // Log Viewer Dropdown
-            $accessControl = $menu->add('<i class="c-sidebar-nav-icon cil-list-rich"></i> Log Viewer', [
+            $accessControl = $menu->add('<i class="c-sidebar-nav-icon cil-list-rich"></i> '.trans('menu.log_viewer.title'), [
                 'class' => 'c-sidebar-nav-dropdown',
             ])
             ->data([
@@ -167,7 +167,7 @@ class GenerateMenus
             ]);
 
             // Submenu: Log Viewer Dashboard
-            $accessControl->add('<i class="c-sidebar-nav-icon cil-list"></i> Dashboard', [
+            $accessControl->add('<i class="c-sidebar-nav-icon cil-list"></i> '.trans('menu.log_viewer.dashboard'), [
                 'route' => 'log-viewer::dashboard',
                 'class' => 'nav-item',
             ])
@@ -180,7 +180,7 @@ class GenerateMenus
             ]);
 
             // Submenu: Log Viewer Logs by Days
-            $accessControl->add('<i class="c-sidebar-nav-icon cil-list-numbered"></i> Logs by Days', [
+            $accessControl->add('<i class="c-sidebar-nav-icon cil-list-numbered"></i> '.trans('menu.log_viewer.logs_by_days'), [
                 'route' => 'log-viewer::logs.list',
                 'class' => 'nav-item',
             ])

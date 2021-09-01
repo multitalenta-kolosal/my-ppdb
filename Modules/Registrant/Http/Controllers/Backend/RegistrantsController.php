@@ -26,7 +26,7 @@ class RegistrantsController extends Controller
     public function __construct(RegistrantService $registrantService)
     {
         // Page Title
-        $this->module_title = 'Registrants';
+        $this->module_title = trans('menu.registrants');
 
         // module name
         $this->module_name = 'registrants';

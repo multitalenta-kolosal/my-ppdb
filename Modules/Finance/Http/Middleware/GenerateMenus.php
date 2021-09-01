@@ -18,7 +18,7 @@ class GenerateMenus
     {
         \Menu::make('admin_sidebar', function ($menu) {
             //finance dropdown
-            $finance_menu = $menu->add('<i class="fas fa-coins c-sidebar-nav-icon"></i> Finance', [
+            $finance_menu = $menu->add('<i class="fas fa-coins c-sidebar-nav-icon"></i> '.trans('menu.finance.title'), [
                 'class' => 'c-sidebar-nav-dropdown',
             ])
             ->data([
@@ -36,7 +36,7 @@ class GenerateMenus
             ]);
 
             //Installments
-            $finance_menu->add('<i class="fas fa-percentage c-sidebar-nav-icon"></i>Installments', [
+            $finance_menu->add('<i class="fas fa-percentage c-sidebar-nav-icon"></i> '.trans('menu.finance.installments'), [
                 'route' => 'backend.installments.index',
                 'class' => 'c-sidebar-nav-item',
             ])

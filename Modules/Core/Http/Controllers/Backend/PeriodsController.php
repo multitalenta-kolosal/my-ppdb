@@ -26,7 +26,7 @@ class PeriodsController extends Controller
     public function __construct(PeriodService $periodService)
     {
         // Page Title
-        $this->module_title = 'Periods';
+        $this->module_title = trans('menu.core.periods');
 
         // module name
         $this->module_name = 'periods';

@@ -30,7 +30,7 @@ class UserController extends Controller
     public function __construct()
     {
         // Page Title
-        $this->module_title = 'Users';
+        $this->module_title = trans('menu.access_control.users');
 
         // module name
         $this->module_name = 'users';

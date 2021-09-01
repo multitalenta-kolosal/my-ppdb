@@ -26,7 +26,7 @@ class PathsController extends Controller
     public function __construct(PathService $pathService)
     {
         // Page Title
-        $this->module_title = 'Paths';
+        $this->module_title = trans('menu.core.paths');
 
         // module name
         $this->module_name = 'paths';

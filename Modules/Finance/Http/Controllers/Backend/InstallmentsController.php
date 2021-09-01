@@ -26,7 +26,7 @@ class InstallmentsController extends Controller
     public function __construct(InstallmentService $installmentService)
     {
         // Page Title
-        $this->module_title = 'Installments';
+        $this->module_title = trans('menu.finance.installments');
 
         // module name
         $this->module_name = 'installments';

@@ -26,7 +26,7 @@ class RegistrantMessagesController extends Controller
     public function __construct(RegistrantMessageService $registrantMessageService)
     {
         // Page Title
-        $this->module_title = 'Registrantmessages';
+        $this->module_title = trans('menu.message.message_tracker');
 
         // mother module name
         $this->module_mother_name = 'registrants';

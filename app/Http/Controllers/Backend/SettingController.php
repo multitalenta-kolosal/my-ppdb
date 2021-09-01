@@ -14,7 +14,7 @@ class SettingController extends Controller
     public function __construct()
     {
         // Page Title
-        $this->module_title = 'Settings';
+        $this->module_title = trans('menu.settings');
 
         // module name
         $this->module_name = 'settings';

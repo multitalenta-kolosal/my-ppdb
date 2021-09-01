@@ -24,7 +24,7 @@ class CommentsController extends Controller
     public function __construct()
     {
         // Page Title
-        $this->module_title = 'Comments';
+        $this->module_title = trans('menu.blog.comments');
 
         // module name
         $this->module_name = 'comments';

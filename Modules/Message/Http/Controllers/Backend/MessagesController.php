@@ -27,7 +27,7 @@ class MessagesController extends Controller
     public function __construct(MessageService $messageService)
     {
         // Page Title
-        $this->module_title = 'Messages';
+        $this->module_title = trans('menu.message.template');
 
         // module name
         $this->module_name = 'messages';

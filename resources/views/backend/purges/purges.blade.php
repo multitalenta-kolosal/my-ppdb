@@ -26,7 +26,7 @@
             <!--/.col-->
             <div class="col-4">
                 <div class="float-right">
-                    cerate
+                    
                 </div>
             </div>
             <!--/.col-->

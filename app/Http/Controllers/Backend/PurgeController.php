@@ -23,7 +23,7 @@ class PurgeController extends Controller
     )
     {
         // Page Title
-        $this->module_title = 'Purges';
+        $this->module_title = trans('menu.purges');
 
         // module name
         $this->module_name = 'purges';

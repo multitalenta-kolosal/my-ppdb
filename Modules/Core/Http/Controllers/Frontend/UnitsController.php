@@ -18,7 +18,7 @@ class UnitsController extends Controller
     public function __construct(UnitService $unitService)
     {
         // Page Title
-        $this->module_title = 'Units';
+        $this->module_title = trans('menu.core.units');
 
         // module name
         $this->module_name = 'units';

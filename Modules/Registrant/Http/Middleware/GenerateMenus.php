@@ -25,7 +25,7 @@ class GenerateMenus
         \Menu::make('admin_sidebar', function ($menu) {
 
             // registrants
-            $menu->add('<i class="fas fa-feather-alt c-sidebar-nav-icon"></i> Registrants', [
+            $menu->add('<i class="fas fa-feather-alt c-sidebar-nav-icon"></i> '.trans('menu.registrants'), [
                 'route' => 'backend.registrants.index',
                 'class' => 'c-sidebar-nav-item',
             ])
