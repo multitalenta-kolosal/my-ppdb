@@ -40,7 +40,7 @@ class RegistrantsDataTable extends DataTable
             ->addColumn('action', function ($data) {
                 $module_name = $this->module_name;
 
-                $installment = $this->installmentRepository->query()->whereIn('id',json_decode($data->unit->installment_ids ?? [NULL],true))->orderBy('order','asc')->pluck('name','id');
+                $installment = $this->installmentRepository->query()->whereIn('id',json_decode($data->unit->installment_ids ?? "[]",true))->orderBy('order','asc')->pluck('name','id');
 
                 return view('registrant::backend.includes.action_column', compact('module_name', 'data','installment'));
             })
