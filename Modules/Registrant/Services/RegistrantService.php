@@ -156,7 +156,7 @@ class RegistrantService{
         $response = $this->messageService->send($registrant, 'register-message', 'register');
 
         if($response->error){
-            Log::critical('Send Message error: '.$response->message);
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Send Message error: '.$response->message);
             return (object) array(
                 'error'=> true,
                 'message'=> $response->message,

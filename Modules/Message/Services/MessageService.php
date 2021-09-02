@@ -406,7 +406,7 @@ class MessageService{
                 );
 
             }else{
-                Log::critical('registrant not found');
+                Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: registrant not found');
                 return (object) $response = [
                     'data'   => null,
                     'error' => true,
