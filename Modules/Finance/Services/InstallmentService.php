@@ -82,8 +82,6 @@ class InstallmentService{
         DB::beginTransaction();
 
         try {
-            $data['unit_ids'] = json_encode($data['unit_ids']);
-
             $installmentObject = $this->installmentRepository->make($data);
 
             $installment = $this->installmentRepository->create($installmentObject->toArray());
@@ -126,8 +124,6 @@ class InstallmentService{
 
         Log::info(label_case($this->module_title.' '.__function__)." | '".$installment->name.'(ID:'.$installment->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        $installment->unit_ids = json_decode($installment->unit_ids, true);
-
         return (object) array(
             'error'=> false,            
             'message'=> '',
@@ -141,9 +137,7 @@ class InstallmentService{
 
         DB::beginTransaction();
 
-        try{
-            $data['unit_ids'] = json_encode($data['unit_ids']);
-            
+        try{            
             $installment = $this->installmentRepository->make($data);
 
             if(!$installment->have_major){
@@ -247,7 +241,7 @@ class InstallmentService{
         DB::beginTransaction();
 
         try{
-            $units = $this->installmentRepository->findTrash($id);
+            $installments = $this->installmentRepository->findTrash($id);
     
             $deleted = $this->installmentRepository->purge($id);
         }catch (Exception $e){
@@ -262,12 +256,12 @@ class InstallmentService{
 
         DB::commit();
 
-        Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$units->name.', ID:'.$units->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+        Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$installments->name.', ID:'.$installments->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return (object) array(
             'error'=> false,            
             'message'=> '',
-            'data'=> $units,
+            'data'=> $installments,
         );
     }
 
