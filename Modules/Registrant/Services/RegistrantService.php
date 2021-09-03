@@ -352,7 +352,7 @@ class RegistrantService{
 
         $tier = $this->tierRepository->pluck('tier_name','id');
 
-        $stages   =  config('stages.progress');
+        $stages   =  array_merge(config('stages.progress'),config('stages.special-status'));
 
         $status = Arr::pluck($stages,'title','status_id');
 

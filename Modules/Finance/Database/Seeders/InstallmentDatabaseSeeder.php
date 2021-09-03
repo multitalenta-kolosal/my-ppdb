@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Core\Database\Seeders;
+namespace Modules\Finance\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Modules\Finance\Entities\Installment;

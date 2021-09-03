@@ -102,5 +102,8 @@
 
     "verification confirm": "Verify this data?",
     "Data Verified": "Verification Saved!",
-    "Error Verified": "Error when verify!"
+    "Error Verified": "Error when verify!",
+
+
+    "auto": "autoselect"
 }

@@ -64,6 +64,7 @@ Route::group(['namespace' => '\Modules\Registrant\Http\Controllers\Backend', 'as
      */
     $module_name = 'registrantstages';
     $controller_name = 'RegistrantStagesController';
+    Route::post("$module_name/chooseInstallments",['as' => "$module_name.chooseInstallments", 'uses' => "$controller_name@chooseInstallments"]);
     Route::resource("$module_name", "$controller_name")->only([
         'store', 'update', 'destroy'
     ])->middleware(['auth', 'throttle:60,1']);

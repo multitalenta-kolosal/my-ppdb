@@ -26,7 +26,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger mr-4" id="reject_{{$data->id}}" ><i class="fas fa-user-slash mr-2"></i>Tolak</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="submit_data_{{$data->id}}" >Simpan</button>
+                    <button type="button" class="btn btn-success" id="submit_data_{{$data->id}}" >Simpan</button>
                 </div>
                     
             </div>
@@ -360,5 +360,44 @@
             });
         $('#{{$module_name}}-table').DataTable().draw('page');
 
-    })
+    });
+
+    $('#button-installment-set-{{$data->id}}').on('click', function(){
+        $.ajax({
+            type: "POST",
+            url: "{{route('backend.registrantstages.chooseInstallments')}}",
+            data:{
+                "_method":"POST",
+                "_token": "{{ csrf_token() }}",
+                "id": "{{ $data->id }}"
+            },
+            success: function(response) {
+                if(!response.error){
+                    var installment = response.data;
+
+                    var installment_exists = false;
+
+                    $('#installment_id{{$data->id}} option').each(function(){
+                        console.log("value: "+this.value);
+                        console.log("value: "+installment.id);
+                        if (this.value == installment.id) {
+                            installment_exists = true;
+                            return false;
+                        }
+                    });
+
+                    if(installment_exists){
+                        $('#installment_id{{$data->id}}').val(installment.id);
+                    }else{
+                        Swal.fire("Warning", "Jenis Angsuran "+installment.name+" tidak diperkenankan untuk unit {{$data->unit->name}}", "warning");
+                    }
+                }else{
+                    Swal.fire("@lang('error')", response.message, "error");
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                Swal.fire("@lang('error')","error occured! please try again", "error");
+            },
+        });
+    });
 </script>

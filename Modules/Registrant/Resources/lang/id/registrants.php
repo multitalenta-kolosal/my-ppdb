@@ -22,7 +22,7 @@ return [
         'entrance_fee_pass'         => 'Pembayaran Pendaftaran',
         'requirements_pass'         => 'Kelengkapan Berkas',
         'test_pass'                 => 'Status Tes Masuk',
-        'installment'               => 'Pembayaran / Angsuran',
+        'installment'               => 'Pembayaran / Angsuran (DPP + DP)',
         'dpp_pass'                  => 'Pembayaran DPP',
         'dp_pass'                   => 'Pembayaran DP',
         'spp_pass'                  => 'Pembayaran SPP',

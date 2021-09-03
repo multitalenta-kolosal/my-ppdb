@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AuthTableSeeder::class);
         $this->call(MessageDatabaseSeeder::class);
         $this->call(CoreDatabaseSeeder::class);
+        $this->call(FinanceDatabaseSeeder::class);
 
         Schema::enableForeignKeyConstraints();
     }

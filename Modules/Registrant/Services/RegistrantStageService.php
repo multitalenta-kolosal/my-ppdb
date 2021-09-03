@@ -3,6 +3,7 @@
 namespace Modules\Registrant\Services;
 
 use Modules\Registrant\Repositories\RegistrantStageRepository;
+use Modules\Finance\Repositories\InstallmentRepository;
 use Modules\Core\Repositories\UnitRepository;
 use Modules\Core\Repositories\PeriodRepository;
 use App\Models\Notification;
@@ -23,10 +24,13 @@ class RegistrantStageService{
 
     protected $periodRepository;
 
+    protected $installmentRepository;
+
     public function __construct(
         RegistrantStageRepository $registrantStageRepository,
         UnitRepository $unitRepository,
-        PeriodRepository $periodRepository
+        PeriodRepository $periodRepository,
+        InstallmentRepository $installmentRepository
     ) {
 
         $this->registrantStageRepository = $registrantStageRepository;
@@ -34,6 +38,8 @@ class RegistrantStageService{
         $this->unitRepository = $unitRepository;
 
         $this->periodRepository = $periodRepository;
+
+        $this->installmentRepository = $installmentRepository;
 
         $this->module_title = Str::plural(class_basename($this->registrantStageRepository->model()));
 
@@ -197,5 +203,58 @@ class RegistrantStageService{
         }
 
         return $status;
+    }
+
+    public function chooseInstallments(Request $request){
+        $data = $request->all();
+
+        $period = $this->periodRepository->getActivePeriod();
+        $this_month = Carbon::now()->floorMonth();
+        $this_wave = NULL;
+        
+        if($this_month->lt(Carbon::parse($period->wave_1)->floorMonth())){
+            
+            $this_wave = "1";
+            $expected_tenor = $this_month->diffInMonths(Carbon::parse($period->wave_1)->floorMonth());
+        
+        }else if($this_month->lt(Carbon::parse($period->wave_2)->floorMonth())){
+        
+            $this_wave = "2";
+            $expected_tenor = $this_month->diffInMonths(Carbon::parse($period->wave_2)->floorMonth());
+        
+        }else if($this_month->lt(Carbon::parse($period->wave_3)->floorMonth())){
+        
+            $this_wave = "3";
+            $expected_tenor = $this_month->diffInMonths(Carbon::parse($period->wave_3)->floorMonth());
+        
+        }else{
+            $expected_tenor = NULL;
+        }
+
+        if($expected_tenor){
+
+            $expected_installment = $this->installmentRepository->findBy('tenor',$expected_tenor);
+
+            if($expected_installment){
+                return (object) $response = [
+                    'data'   => $expected_installment,
+                    'error' => false,
+                    'message' => "",
+                ];
+            }else{
+                return (object) $response = [
+                    'data'   => null,
+                    'error' => true,
+                    'message' => "Angsuran dengan jangka waktu ".$expected_tenor." bulan pada Gelombang".$this_wave." belum dibuat Silakan hubungi Kantor Yayasan",
+                ];
+            }
+        }else{
+            return (object) $response = [
+                'data'   => null,
+                'error' => true,
+                'message' => "error when looking for expected tenor",
+            ];
+        }
+        
     }
 }

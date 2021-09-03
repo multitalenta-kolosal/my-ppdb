@@ -11,5 +11,8 @@ return [
     'closing_date'                     => 'Tanggal Penutupan',
     'active_state'                           => 'Periode Aktif?',
     'active_state_helper'              => 'Periode yang aktif sekarang adalah periode <span class="text-primary">:active_period</span>. Jika kamu mencentang kotak ini maka periode yang aktif menjadi data ini.',
-    'entrance_fee'                     => 'Biaya Pendaftaran'
+    'entrance_fee'                     => 'Biaya Pendaftaran',
+    'wave_1'                           => 'Gelombang 1',
+    'wave_2'                           => 'Gelombang 2',
+    'wave_3'                           => 'Gelombang 3',
 ];

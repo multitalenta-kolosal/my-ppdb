@@ -102,5 +102,7 @@
 
     "verification confirm": "Verifikasi data ini?",
     "Data Verified": "Verifikasi disimpan!",
-    "Error Verified": "Gagal verifikasi!"
+    "Error Verified": "Gagal verifikasi!",
+
+    "auto": "autoselect"
 }
