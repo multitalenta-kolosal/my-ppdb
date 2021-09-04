@@ -378,8 +378,6 @@
                     var installment_exists = false;
 
                     $('#installment_id{{$data->id}} option').each(function(){
-                        console.log("value: "+this.value);
-                        console.log("value: "+installment.id);
                         if (this.value == installment.id) {
                             installment_exists = true;
                             return false;

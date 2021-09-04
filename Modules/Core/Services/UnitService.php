@@ -349,8 +349,6 @@ class UnitService{
             $tiers = $this->tierRepository->query()->where('unit_id',$unit_id)->pluck('tier_name','id');
         }
 
-        Log::debug("tiers: ".json_encode($tiers));
-
         return (object) array(
             'error'     => false,            
             'message'   => '',

@@ -21,10 +21,13 @@
             $field_lable = __("registrant::$module_name.$field_name");
             $field_placeholder = __("Select an option");
             $required = "required";
-            $select_options = $type;
+            $select_options = $type ?? [];
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
+            @if($module_action == 'Edit')
+                <small id="nowPath" class="form-text text-muted">Jurusan pendaftar saat ini: <span class="text-primary">{{$registrant->path->name}}</span></small>      
+            @endif
         </div>
     </div>
     <div class="col-4 d-none" id="tier_options">
@@ -35,9 +38,13 @@
             $field_lable = __("registrant::$module_name.$field_name");
             $field_placeholder = __("Select an option");
             $required = "";
+            $select_options = $tier ?? [];
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->select($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
+            @if($module_action == 'Edit')    
+                <small id="nowTier" class="form-text text-muted">Kelas/Jurusan pendaftar saat ini: <span class="text-primary">{{$registrant->tier->tier_name}}</span></small>      
+            @endif
         </div>
     </div>
 </div>
@@ -258,48 +265,12 @@ $(document).ready(function(){
         });
     });
 
-    $(document).ready(function() {
-        $('#unit_id').on('change', function(){
-            $('#type').empty();
-            var unit_id = $('#unit_id').val();
-            if(unit_id){
-                $.ajax({
-                    type: "GET",
-                    url: '{{route("frontend.units.getunitopt",'')}}'+'/'+unit_id,
-                    success: function (response) {
-                        var defaultOption = $('<option value="">-- Pilih --</option>');
-                        $('#type').append(defaultOption);
-                        
-                        $.each(response.path,function(key, val) {
-                            var newOption = $('<option value="'+key+'">'+val+'</option>');
-                            $('#type').append(newOption);
-                        });
-
-                        if(response.tier){
-                            $('#tier_id').empty();
-                            $('#tier_options').removeClass('d-none');
-
-                            var defaultOption = $('<option value="">-- Pilih --</option>');
-                            $('#tier_id').append(defaultOption);
-                            $.each(response.tier,function(key, val) {
-                                var newOption = $('<option value="'+key+'">'+val+'</option>');
-                                $('#tier_id').append(newOption);
-                            });
-                        }else{
-                            $('#tier_id').empty();
-                            $('#tier_options').addClass('d-none');
-                        }
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        Swal.fire("@lang('delete error')", "@lang('error')", "error");
-                    }
-                });
-            }else{
-                var defaultOption = $('<option value="">--Silakan Pilih Unit Dahulu--</option>');
-                $('#type').append(defaultOption);
-            }
-        });
-    });
+    // $(document).ready(function() {
+    //     if($('#unit_id').val() != ""){
+    //         setTier();
+    //         $('#unit_id').trigger('change');
+    //     }
+    // });
 });
 </script>
 

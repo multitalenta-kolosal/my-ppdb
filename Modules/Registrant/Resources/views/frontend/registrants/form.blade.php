@@ -19,7 +19,7 @@
             <?php
             $field_name = 'type';
             $field_lable = __("registrant::$module_name.$field_name");
-            $field_placeholder = __("Select an option");
+            $field_placeholder = "-- Silakan memilih unit terlebih dahulu --";
             $required = "required";
             $select_options = $type_options;
             ?>

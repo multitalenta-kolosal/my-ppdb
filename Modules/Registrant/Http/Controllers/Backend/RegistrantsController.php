@@ -113,11 +113,10 @@ class RegistrantsController extends Controller
         $options = $this->registrantService->create();
        
         $unit = $options['unit'];
-        $type = $options['type'];
 
         return view(
             "registrant::backend.$module_name.create",
-            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','unit','type')
+            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','unit')
         );
     }
 
@@ -204,12 +203,13 @@ class RegistrantsController extends Controller
        
         $unit = $options['unit'];
         $type = $options['type'];
+        $tier = $options['tier'];
 
         $$module_name_singular = $registrants->data;
 
         return view(
             "registrant::backend.$module_name.edit",
-            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular", 'unit', 'type')
+            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular", 'unit', 'type','tier')
         );
     }
 

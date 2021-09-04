@@ -376,9 +376,16 @@ class RegistrantService{
 
         $type = [];
 
+        $type = $this->pathRepository->query()->pluck('name','id');
+
+        $tier = [];
+
+        $tier = $this->tierRepository->query()->pluck('tier_name','id');
+
         $options = array(
             'unit' => $unit,
             'type' => $type,
+            'tier' => $tier,
         );
 
         return $options;
