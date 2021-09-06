@@ -23,17 +23,20 @@
             <!--/.col-->
             <div class="col-4">
                 <div class="float-right">
-                    <x-buttons.create route='{{ route("backend.$module_name.create") }}' title="{{__('Create')}} {{ ucwords(Str::singular($module_name)) }}"/>
-
+                    @can('add_'.$module_name)
+                        <x-buttons.create route='{{ route("backend.$module_name.create") }}' title="{{__('Create')}} {{ ucwords(Str::singular($module_name)) }}"/>
+                    @endcan
                     <div class="btn-group" role="group" aria-label="Toolbar button groups">
                         <div class="btn-group" role="group">
                             <button id="btnGroupToolbar" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-cog"></i>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="btnGroupToolbar">
-                                <a class="dropdown-item" href="{{ route("backend.$module_name.trashed") }}">
-                                    <i class="fas fa-eye-slash"></i> View trash
-                                </a>
+                                @can('delete_'.$module_name)
+                                    <a class="dropdown-item" href="{{ route("backend.$module_name.trashed") }}">
+                                        <i class="fas fa-eye-slash"></i> View trash
+                                    </a>
+                                @endcan
                             </div>
                         </div>
                     </div>
