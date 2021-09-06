@@ -4,6 +4,7 @@ return [
     'special-status' => [
         [
             'title'             => 'Ditolak',
+            'pass-title'        => 'Ditolak',
             'tracker_action'    => 'Sayang sekali kamu tidak diterima di {{$registrant->data->unit->name}} Warga Surakarta',
             'tracker_content'   => 'Tetap Semangat dalam meraih mimpimu',
             'status_id'         => '-1',
@@ -14,6 +15,7 @@ return [
     'progress' => [
         [
             'title'             => 'Pendaftaran',
+            'pass-title'        => 'Mendaftar',
             'tracker_action'    => 'Menunggu Pembayaran Pendaftaran',
             'tracker_content'   => 'Silakan Mengikuti Tata Pembayaran yang Ada.',
             'status_id'         => '0',
@@ -22,6 +24,7 @@ return [
         ],
         [
             'title'             => 'Virtual Account',
+            'pass-title'        => 'VA Dibuat',
             'tracker_action'    => 'Menunggu Pembayaran Pendaftaran',
             'tracker_content'   => 'Silakan Mengikuti Tata Pembayaran yang Ada.',
             'status_id'         => '1',
@@ -30,6 +33,7 @@ return [
         ],
         [
             'title'             => 'Pembayaran Registrasi',
+            'pass-title'        => 'Pendaftaran Lunas',
             'tracker_action'    => 'Menunggu Pengumpulan Berkas',
             'tracker_content'   => '',
             'status_id'         => '2',
@@ -38,6 +42,7 @@ return [
         ],
         [
             'title'             => 'Pengumpulan Berkas',
+            'pass-title'        => 'Berkas Diterima',
             'tracker_action'    => 'Mengikuti Tes Masuk',
             'tracker_content'   => '',
             'status_id'         => '3',
@@ -46,6 +51,7 @@ return [
         ],
         [
             'title'             => 'Status Kelulusan Tes',
+            'pass-title'        => 'Lulus Tes',
             'tracker_action'    => 'Selamat, Kamu dinyatakan lulus Tes!',
             'tracker_content'   => 'Silakan menunggu pesan masuk, Jika sudah, silakan ikuti instruksi yang ada untuk melanjutkan',
             'status_id'         => '4',
@@ -53,7 +59,8 @@ return [
             'message_tracker'   => 'test_pass_message_sent',
         ],
         [
-            'title'             => 'Pembayaran Biaya Pendidikan',
+            'title'             => 'Angsuran Biaya Pendidikan',
+            'pass-title'        => 'Angsuran Dipilih',
             'tracker_action'    => 'Pembayaran sedang Dikonfirmasi',
             'tracker_content'   => 'Silakan Menunggu Konfirmasi dari Admin Sekolah',
             'status_id'         => '5',
@@ -62,6 +69,7 @@ return [
         ],
         [
             'title'             => 'Keputusan Penerimaan',
+            'pass-title'        => 'Diterima',
             'tracker_action'    => 'Selamat!',
             'tracker_content'   => 'Anda Sudah diterima sebagai peserta didik!',
             'status_id'         => '6',

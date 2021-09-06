@@ -354,7 +354,7 @@ class RegistrantService{
 
         $stages   =  array_merge(config('stages.progress'),config('stages.special-status'));
 
-        $status = Arr::pluck($stages,'title','status_id');
+        $status = Arr::pluck($stages,'pass-title','status_id');
 
         $options = array(
             'unit' => $unit,

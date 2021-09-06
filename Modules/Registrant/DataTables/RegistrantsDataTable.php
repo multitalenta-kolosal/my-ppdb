@@ -13,6 +13,8 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
+use Illuminate\Support\Arr;
+
 class RegistrantsDataTable extends DataTable
 {
     /**
@@ -30,6 +32,8 @@ class RegistrantsDataTable extends DataTable
 
         $this->registrantRepository = $registrantRepository;
         $this->installmentRepository = $installmentRepository;
+        
+        $this->stages = array_merge(config('stages.progress'),config('stages.special-status'));
 
     }
 
@@ -69,6 +73,15 @@ class RegistrantsDataTable extends DataTable
                 $formated_date = Carbon::parse($data->created_at)->format('d M Y, H:i:s');
 
                 return $formated_date;
+            })
+            ->editColumn('registrant_stage.status_id', function ($data) {
+                $selected = Arr::where($this->stages, function ($value, $key) use ($data) {
+                    return $value['status_id'] == $data->registrant_stage->status_id;
+                });
+
+                $value_array = array_values($selected);
+
+                return "(".$value_array[0]['status_id'].") ".$value_array[0]['pass-title'];
             })
             ->rawColumns(['name', 'status', 'action']);
     }
@@ -126,7 +139,7 @@ class RegistrantsDataTable extends DataTable
             });
         }
 
-        if($this->request()->get('status')){
+        if($this->request()->get('status') != null){
             $data->whereHas('registrant_stage', function($query){
                 $query->where('status_id', $this->request()->get('status'));
             });
