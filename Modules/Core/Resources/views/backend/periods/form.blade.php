@@ -4,7 +4,7 @@
             <?php
             $field_name = 'active_state';
             $field_lable = __("core::$module_name.$field_name");
-            $helper = __("core::$module_name.$field_name"."_helper",['active_period' => $nowActivePeriod->period_name ?? 'NULL']);
+            $helper = __("core::$module_name.$field_name"."_helper",['active_period' => ($nowActivePeriod != null) ? ($nowActivePeriod->period_name) : 'NULL']);
             $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}

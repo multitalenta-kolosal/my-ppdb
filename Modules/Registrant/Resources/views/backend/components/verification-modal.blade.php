@@ -390,6 +390,13 @@
                 "_token": "{{ csrf_token() }}",
                 "id": "{{ $data->id }}"
             },
+            beforeSend: function () {
+                        var loader = $('<option value="xloader">Loading...</option>');
+                        $('#type').append(loader);
+                    },
+            complete: function () {
+                $("#type option[value='xloader']").remove();
+            },
             success: function(response) {
                 if(!response.error){
                     var installment = response.data;

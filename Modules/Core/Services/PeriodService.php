@@ -336,11 +336,28 @@ class PeriodService{
                 'message'=> '',
                 'data'=> null,
             );
+        }else{
+            return (object) array(
+                'error'=> true,            
+                'message'=> '',
+                'data'=> null,
+            );
         }
     }
 
     // Function To deactive former active period if this new / edited period is set active
     public function syncWithActivePeriod(){
+
+        $maintainPeriod = $this->maintainOneActivePeriod();
+
+        if($maintainPeriod->error){
+            return (object) array(
+                'error'=> true,
+                'message'=> "No Active Period",
+                'data'=> null,
+            );
+        }
+
         $nowActiveExist = $this->periodRepository->getActivePeriod();
 
         DB::beginTransaction();

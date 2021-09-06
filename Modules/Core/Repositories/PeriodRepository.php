@@ -21,7 +21,7 @@ class PeriodRepository extends BaseRepository implements PeriodRepositoryInterfa
         if($period)
             return $period;
         else
-            throw new ModelNotFoundException('Tidak ada periode aktif, setidaknya harus ada 1 periode aktif!');
+            return null;
     }
 
     public function activatePeriod($id)
