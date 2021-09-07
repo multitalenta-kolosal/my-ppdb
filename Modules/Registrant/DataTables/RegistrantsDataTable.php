@@ -95,16 +95,14 @@ class RegistrantsDataTable extends DataTable
     public function query()
     {
         $user = auth()->user();
+     
+        $data = $this->registrantRepository->query()
+                ->select('registrants.*')
+                ->with(['unit','tier','registrant_stage','path','period']);
+
         if(!$user->isSuperAdmin() && !$user->hasAllUnitAccess()){
             $unit_id = $user->unit_id;
-            $data = $this->registrantRepository->query()
-                    ->select('registrants.*')
-                    ->with(['unit','tier','registrant_stage','path','period']);
             $data = $this->registrantRepository->getRegistrantsByUnitQuery($data, $unit_id);
-        }else{
-            $data = $this->registrantRepository->query()
-                    ->select('registrants.*')
-                    ->with(['unit','tier','registrant_stage','path','period']);
         }
 
         //START APPLY FILTERING

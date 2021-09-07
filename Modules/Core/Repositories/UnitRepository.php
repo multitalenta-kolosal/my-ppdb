@@ -13,4 +13,8 @@ class UnitRepository extends BaseRepository implements UnitRepositoryInterface
     {
         return Unit::class;
     }
+
+    public function getUnitsByUnitQuery($query, $unit_id){
+        return $query->where('id', $unit_id)->withTrashed();
+    }
 }

@@ -69,7 +69,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="text-value-lg">{{$total}}</div>
-                <div>kabeh</div>
+                <div>Semua</div>
                 <div class="progress progress-xs my-2">
                     <div class="progress-bar bg-dark" role="progressbar" style="width: 12.5%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                 </div><small class="text-muted">Widget helper text</small>

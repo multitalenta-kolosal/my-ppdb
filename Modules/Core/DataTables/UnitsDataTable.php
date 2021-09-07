@@ -70,7 +70,13 @@ class UnitsDataTable extends DataTable
      */
     public function query()
     {
+        $user = auth()->user();
         $data = $this->unitRepository->query()->orderBy('order','asc');
+
+        if(!$user->isSuperAdmin() && !$user->hasAllUnitAccess()){
+            $unit_id = $user->unit_id;
+            $data =  $this->unitRepository->getUnitsByUnitQuery($data, $unit_id);
+        }
 
         return $this->applyScopes($data);
     }
