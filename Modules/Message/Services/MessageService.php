@@ -375,9 +375,11 @@ class MessageService{
     }
 
     public function sendEmail($registrant, $message){
-        if($registrant->email){
-            Notification::route('mail', $registrant->email)
-                ->notify(new SendStageEmailToRegistrant($registrant, $message));
+        if(setting('send_email')){
+            if($registrant->email){
+                Notification::route('mail', $registrant->email)
+                    ->notify(new SendStageEmailToRegistrant($registrant, $message));
+            }
         }
     }
 
