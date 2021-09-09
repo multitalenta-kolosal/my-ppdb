@@ -6,9 +6,12 @@ use Modules\Message\Repositories\MessageRepository;
 use Modules\Registrant\Repositories\RegistrantRepository;
 use Modules\Message\Repositories\RegistrantMessageRepository;
 
+use Modules\Message\Notifications\SendStageEmailToRegistrant;
+
 use Exception;
 use Carbon\Carbon;
 use Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
@@ -292,6 +295,8 @@ class MessageService{
                     $message =  Str::replace('$'.$key, $value, $message);
                 }
             }
+
+            $this->sendEmail($registrant, $message);
           
             $curl = curl_init();
             
@@ -367,6 +372,13 @@ class MessageService{
             'error'         => false,
             'message'       => '',
         ];
+    }
+
+    public function sendEmail($registrant, $message){
+        if($registrant->email){
+            Notification::route('mail', $registrant->email)
+                ->notify(new SendStageEmailToRegistrant($registrant, $message));
+        }
     }
 
     public function getCleanNumber($rawphone){
