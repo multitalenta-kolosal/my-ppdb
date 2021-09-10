@@ -74,6 +74,10 @@ class PathService{
 
         try {
             $pathObject = $this->pathRepository->make($data);
+
+            if(!$pathObject->additional_requirements){
+                $pathObject->additional_requirements = "Tidak Ada\n";
+            }
     
             $path = $this->pathRepository->create($pathObject->toArray());
         }catch (Exception $e){
@@ -131,6 +135,10 @@ class PathService{
             $path_check = $this->pathRepository->findOrFail($id);
             
             $path = $this->pathRepository->make($data);
+
+            if(!$path->additional_requirements){
+                $path->additional_requirements = "Tidak Ada\n";
+            }
 
             if(!$path->have_major){
                 $path->have_major = false;

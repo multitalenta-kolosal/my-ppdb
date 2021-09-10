@@ -21,7 +21,7 @@
             $field_lable = __("registrant::$module_name.$field_name");
             $field_placeholder = "-- Silakan memilih unit terlebih dahulu --";
             $required = "required";
-            $select_options = $type_options;
+            $select_options = [];
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control select2 border-purple')->attributes(["$required"]) }}
