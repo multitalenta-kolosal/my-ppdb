@@ -7,6 +7,7 @@ return [
     'contact_email'             => 'Email Unit',
     'requirements'              => 'Syarat',
     'entrance_test_url'         => 'Link Tes Masuk',
+    'entrance_fee'              => 'Biaya Pendaftaran Unit',
     'have_major'                => 'Memiliki Jurusan?',
     'dpp'                       => 'DPP',
     'dp'                        => 'DP',
