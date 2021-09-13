@@ -122,49 +122,17 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-4">
+            <div class="col">
                 <div class="form-group">
                     <?php
-                    $field_name = 'dpp_pass';
-                    $field_lable = "DPP";
-                    $field_placeholder = "Semua";
-                    $select_options = [
-                        "1"  => "Sudah",
-                        "0"  => "Belum",
-                    ];
+                    $field_name = 'installment';
+                    $field_lable = "Angsuran Peserta";
+                    $field_placeholder = "";
+                    $required = "";
+                    $select_options = $installment
                     ?>
-                    {{ html()->label($field_lable, $field_name) }} 
-                    {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control') }}
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="form-group">
-                    <?php
-                    $field_name = 'dp_pass';
-                    $field_lable = "DP";
-                    $field_placeholder = "Semua";
-                    $select_options = [
-                        "1"  => "Sudah",
-                        "0"  => "Belum",
-                    ];
-                    ?>
-                    {{ html()->label($field_lable, $field_name) }} 
-                    {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control') }}
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="form-group">
-                    <?php
-                    $field_name = 'spp_pass';
-                    $field_lable = "SPP";
-                    $field_placeholder = "Semua";
-                    $select_options = [
-                        "1"  => "Sudah",
-                        "0"  => "Belum",
-                    ];
-                    ?>
-                    {{ html()->label($field_lable, $field_name) }} 
-                    {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control') }}
+                    {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                    {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control select2') }}
                 </div>
             </div>
         </div>

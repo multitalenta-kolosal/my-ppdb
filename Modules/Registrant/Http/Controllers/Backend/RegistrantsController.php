@@ -61,13 +61,14 @@ class RegistrantsController extends Controller
 
         $options = $this->registrantService->prepareFilterOptions();
        
-        $unit        = $options['unit'];
-        $type        = $options['type'];
-        $tier        = $options['tier'];
-        $status      = $options['status'];
+        $unit             = $options['unit'];
+        $type             = $options['type'];
+        $tier             = $options['tier'];
+        $status           = $options['status'];
+        $installment      = $options['installment'];
 
         return $dataTable->render("registrant::backend.$module_path.index",
-            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', 'unit', 'type', 'tier', 'status')
+            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', 'unit', 'type', 'tier', 'status','installment')
         );
     }
 

@@ -9,6 +9,7 @@ use Modules\Message\Services\MessageService;
 use Modules\Registrant\Repositories\RegistrantRepository;
 use Modules\Registrant\Repositories\RegistrantStageRepository;
 use Modules\Message\Repositories\RegistrantMessageRepository;
+use Modules\Finance\Repositories\InstallmentRepository;
 use Modules\Core\Repositories\UnitRepository;
 use Modules\Core\Repositories\PeriodRepository;
 use Modules\Core\Repositories\PathRepository;
@@ -38,6 +39,7 @@ class RegistrantService{
     protected $periodRepository;
     protected $pathRepository;
     protected $tierRepository;
+    protected $installmentRepository;
 
     public function __construct(
         /**
@@ -57,7 +59,8 @@ class RegistrantService{
         RegistrantMessageRepository $registrantMessageRepository,
         UnitRepository $unitRepository,
         PeriodRepository $periodRepository,
-        TierRepository $tierRepository
+        TierRepository $tierRepository,
+        InstallmentRepository $installmentRepository
     ) {
         /**
          * Services Declaration
@@ -77,6 +80,7 @@ class RegistrantService{
         $this->unitRepository = $unitRepository;
         $this->periodRepository = $periodRepository;
         $this->tierRepository = $tierRepository;
+        $this->installmentRepository = $installmentRepository;
 
         $this->module_title = Str::plural(class_basename($this->registrantRepository->model()));
 
@@ -352,6 +356,8 @@ class RegistrantService{
 
         $tier = $this->tierRepository->pluck('tier_name','id');
 
+        $installment = $this->installmentRepository->pluck('name','id');
+
         $stages   =  array_merge(config('stages.progress'),config('stages.special-status'));
 
         $status = Arr::pluck($stages,'pass-title','status_id');
@@ -361,6 +367,7 @@ class RegistrantService{
             'type' => $type,
             'tier' => $tier,
             'status' => $status,
+            'installment' => $installment,
         );
 
         return $options;

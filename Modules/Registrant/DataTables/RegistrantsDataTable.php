@@ -161,6 +161,12 @@ class RegistrantsDataTable extends DataTable
             });
         }
 
+        if($this->request()->get('installment')){
+            $data->whereHas('registrant_stage', function($query){
+                $query->where('installment_id', $this->request()->get('installment'));          
+            });
+        }
+
         //END APPLY FILTERING
 
         return $this->applyScopes($data);

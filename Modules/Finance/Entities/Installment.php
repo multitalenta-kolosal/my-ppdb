@@ -23,9 +23,9 @@ class Installment extends BaseModel
         return $this->hasMany('Modules\Registrant\Entities\Registrant');
     }
 
-    public function tier()
+    public function registrant_stages()
     {
-        return $this->hasMany('Modules\Finance\Entities\Installment');
+        return $this->hasMany('Modules\Registrant\Entities\RegistrantStage');
     }
 
     protected static function newFactory()
