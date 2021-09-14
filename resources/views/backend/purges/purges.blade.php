@@ -56,7 +56,7 @@
                                 {{ $key }}
                             </td>
                             <td class="text-right">
-                                <a href="{{ route("backend.$module_name.purgeAll", $key) }}" class="btn btn-danger m-1 btn-sm" data-toggle="tooltip" title="purge">Kosongkan Data</a>
+                                <a href="{{ route("backend.$module_name.purgeAll", $key) }}" onclick="return confirm('INI AKAN MENGHAPUS PERMANEN SEMUA DATA DI TABEL. ANDA YAKIN?')" class="btn btn-danger m-1 btn-sm" data-toggle="tooltip" title="purge">Kosongkan Data</a>
                             </td>
                         </tr>
                         @endforeach
@@ -73,3 +73,15 @@
     </div>
 </div>
 @endsection
+
+
+<script type="text/javascript">
+    var elems = document.getElementsByClassName('confirmation');
+    var confirmIt = function (e) {
+        if (!confirm('Are you sure?')) e.preventDefault();
+    };
+    for (var i = 0, l = elems.length; i < l; i++) {
+        console.log(elems[i].title);
+        elems[i].addEventListener('click', confirmIt, false);
+    }
+</script>

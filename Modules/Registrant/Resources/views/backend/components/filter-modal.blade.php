@@ -37,9 +37,12 @@
     });
 
     $('#filterModal').on('hidden.bs.modal', function (e) {
-        // $('#{{$module_name}}-table').addClass("d-none");
         $('.js-datatable-filter-form :input').each(function () {
             $(this).val("");
+        });
+
+        $('.js-datatable-filter-form .select2-hidden-accessible').each(function () {
+            $(this).val('').trigger('change');
         });
     })
 </script>
