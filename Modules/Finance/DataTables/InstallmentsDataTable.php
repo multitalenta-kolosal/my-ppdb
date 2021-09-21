@@ -36,7 +36,7 @@ class InstallmentsDataTable extends DataTable
             })
             ->editColumn('tenor', function ($data) {
                 $module_name = $this->module_name;
-                return $data->tenor.' '.__("finance::$module_name.month");
+                return $data->tenor.' '.__("finance::$module_name.times");
             })
             ->editColumn('updated_at', function ($data) {
                 $module_name = $this->module_name;

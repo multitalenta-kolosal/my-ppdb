@@ -9,5 +9,5 @@ return [
     'done_payment_fixed'        => 'Done Payment (fix)',
     'done_payment_rate'         => 'Done Payment (%)',
     'interest'                  => 'Interest',
-    'month'                     => 'Month',
+    'times'                     => 'Times',
 ];

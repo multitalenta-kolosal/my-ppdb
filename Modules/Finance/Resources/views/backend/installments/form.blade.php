@@ -39,7 +39,7 @@
             <div class="input-group mb-3">
                 {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required", 'aria-label'=>'Image']) }}
                 <div class="input-group-append">
-                    <span class="input-group-text"> {{__("finance::$module_name.month")}}</span>   
+                    <span class="input-group-text"> {{__("finance::$module_name.times")}}</span>   
                 </div>
             </div>      
         </div>

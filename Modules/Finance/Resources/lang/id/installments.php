@@ -9,5 +9,5 @@ return [
     'done_payment_fixed'        => 'Uang Muka (fixed)',
     'done_payment_rate'         => 'Uang Muka (%)',
     'interest'                  => 'Bunga',
-    'month'                     => 'Bulan',
+    'times'                     => 'Kali',
 ];
