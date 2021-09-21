@@ -28,4 +28,20 @@ return [
         'spp_pass'                  => 'SPP payment',
         'accepted_pass'             => 'Accepted'
     ],
+
+    'datatable'=>
+    [
+        'name'                      => 'Name',
+        'registrant_id'             => 'ID',
+        'va_number'                 => 'VA Number',
+        'type'                      => 'Path',
+        'year'                      => 'Year',
+        'phone'                     => 'Phone',
+        'phone2'                    => 'Phone 2',
+        'email'                     => 'Email',
+        'unit'                      => 'Unit',
+        'former_school'             => 'FOrmer School',
+        'tier'                      => 'Class/Major',
+        'status'                    => 'Status',
+    ],
 ];

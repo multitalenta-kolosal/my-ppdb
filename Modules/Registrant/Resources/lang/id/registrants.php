@@ -28,4 +28,20 @@ return [
         'spp_pass'                  => 'Pembayaran SPP',
         'accepted_pass'             => 'Diterima'
     ],
+
+    'datatable'=>
+    [
+        'name'                      => 'Nama',
+        'registrant_id'             => 'ID',
+        'va_number'                 => 'Nomor VA',
+        'type'                      => 'Jalur',
+        'year'                      => 'Tahun',
+        'phone'                     => 'Telepon',
+        'phone2'                    => 'Telepon 2',
+        'email'                     => 'Email',
+        'unit'                      => 'Unit',
+        'former_school'             => 'Sekolah Asal',
+        'tier'                      => 'Kelas/Jurusan',
+        'status'                    => 'Status',
+    ],
 ];

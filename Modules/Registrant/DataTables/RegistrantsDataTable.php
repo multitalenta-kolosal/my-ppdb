@@ -179,7 +179,7 @@ class RegistrantsDataTable extends DataTable
      */
     public function html()
     {
-        $created_at = 11;
+        $created_at = 12;
         return $this->builder()
                 ->setTableId('registrants-table')
                 ->columns($this->getColumns())
@@ -219,20 +219,46 @@ class RegistrantsDataTable extends DataTable
                   ->exportable(false)
                   ->printable(false)
                   ->addClass('text-center'),
-            Column::make('registrant_id'),
-            Column::make('name'),
-            Column::make('va_number')->hidden(),
-            Column::make('path.name')->data('path.name')->name('path.name')->title('Jalur'),
-            Column::make('phone'),
-            Column::make('period.period_name')->data('period.period_name')->name('period.period_name')->title('Tahun')->hidden(),
-            Column::make('email')->hidden(),
-            Column::make('unit.name')->data('unit.name')->name('unit.name')->title('Unit'),
-            Column::make('tier.tier_name')->data('tier.tier_name')->name('tier.tier_name')->title('Kelas / Jurusan')->hidden(),
-            Column::make('former_school')->title('Asal Sekolah')->hidden(),
+
+            Column::make('registrant_id')
+                    ->title(__("registrant::$this->module_name.datatable.registrant_id")),
+
+            Column::make('name')
+                    ->title(__("registrant::$this->module_name.datatable.name")),
+
+            Column::make('va_number')->hidden()
+                    ->title(__("registrant::$this->module_name.datatable.va_number")),
+
+            Column::make('path.name')->data('path.name')->name('path.name')
+                    ->title(__("registrant::$this->module_name.datatable.type")),
+
+            Column::make('phone')
+                    ->title(__("registrant::$this->module_name.datatable.phone")),
+
+            Column::make('phone2')->hidden()
+                    ->title(__("registrant::$this->module_name.datatable.phone2")),
+
+            Column::make('period.period_name')->data('period.period_name')->name('period.period_name')->title('Tahun')->hidden()
+                    ->title(__("registrant::$this->module_name.datatable.year")),
+
+            Column::make('email')->hidden()
+                    ->title(__("registrant::$this->module_name.datatable.email")),
+
+            Column::make('unit.name')->data('unit.name')->name('unit.name')
+                    ->title(__("registrant::$this->module_name.datatable.unit")),
+
+            Column::make('tier.tier_name')->data('tier.tier_name')->name('tier.tier_name')->title('Kelas / Jurusan')->hidden()
+                    ->title(__("registrant::$this->module_name.datatable.tier")),
+
+            Column::make('former_school')->title('Asal Sekolah')->hidden()
+                    ->title(__("registrant::$this->module_name.datatable.former_school")),
+
             Column::make('created_at'),
             Column::make('updated_at')->hidden(),
             Column::make('register_ip')->title('IP')->hidden(),
-            Column::computed('registrant_stage.status_id')->data('registrant_stage.status_id')->name('registrant_stage.status_id')->title('Status'),
+
+            Column::computed('registrant_stage.status_id')->data('registrant_stage.status_id')->name('registrant_stage.status_id')
+            ->title(__("registrant::$this->module_name.datatable.status")),
         ];
     }
 
