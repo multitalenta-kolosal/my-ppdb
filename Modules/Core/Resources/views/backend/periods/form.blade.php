@@ -60,7 +60,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-6">
+    <div class="col-4">
         <div class="form-group">
             <?php
             $field_name = 'opening_date';
@@ -77,10 +77,27 @@
             </div>
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-4">
         <div class="form-group">
             <?php
             $field_name = 'closing_date';
+            $field_lable = __("core::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            <div class="input-group date datetime" id="{{$field_name}}" data-target-input="nearest">
+                {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control datetimepicker-input')->attributes(["$required", 'data-target'=>"#$field_name"]) }}
+                <div class="input-group-append" data-target="#{{$field_name}}" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="form-group">
+            <?php
+            $field_name = 'payment_limit_date';
             $field_lable = __("core::$module_name.$field_name");
             $field_placeholder = $field_lable;
             $required = "";

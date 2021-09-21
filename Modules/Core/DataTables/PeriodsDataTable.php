@@ -128,6 +128,7 @@ class PeriodsDataTable extends DataTable
             Column::make('year_start')->hidden(),
             Column::make('year_end')->hidden(),
             Column::make('opening_date')->hidden(),
+            Column::make('payment_limit_date')->hidden(),
             Column::make('internal_date')->hidden(),
             Column::make('closing_date')->hidden(),
             Column::make('quota'),

@@ -7,6 +7,7 @@ return [
     'year_end'                         => 'Tahun Selesai',
     'quota'                            => 'Kuota',
     'opening_date'                     => 'Tanggal Buka',
+    'payment_limit_date'               => 'Tanggal batas angsuran',
     'internal_date'                    => 'Batas Pendaftar Internal',
     'closing_date'                     => 'Tanggal Penutupan',
     'active_state'                     => 'Periode Aktif?',

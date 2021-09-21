@@ -155,6 +155,7 @@
             <div class="row">
                 <div class="col-5 text-right align-self-center">
                     {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                    <small id="emailHelp" class="form-text text-muted">Batas akhir pembayaran angsuran untuk periode ini adalah <span class="text-info">{{$data->period->payment_limit_date == null ? "--": date("d-M-Y", strtotime($data->period->payment_limit_date))}}</span></small>      
                 </div>
                 <div class="col-5 align-self-center">
                     <div class="input-group mb-3">
