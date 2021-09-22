@@ -15,8 +15,8 @@ class AddVerificationBaseFieldToRegistrants extends Migration
     {
         Schema::table('registrants', function (Blueprint $table) {
            $table->integer('unit_increment')->nullable()->default(NULL);
-           $table->integer('progress_id')->nullable()->default(NULL);
-           $table->integer('message_tracker_id')->nullable()->default(NULL);
+           $table->bigInteger('progress_id')->nullable()->default(NULL);
+           $table->bigInteger('message_tracker_id')->nullable()->default(NULL);
         });
     }
 

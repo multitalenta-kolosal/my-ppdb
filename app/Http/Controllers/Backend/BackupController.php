@@ -17,7 +17,7 @@ class BackupController extends Controller
     public function __construct()
     {
         // Page Title
-        $this->module_title = 'Backup';
+        $this->module_title = trans('menu.backups');
 
         // module name
         $this->module_name = 'backups';

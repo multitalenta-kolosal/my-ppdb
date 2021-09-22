@@ -22,7 +22,7 @@ class CategoriesController extends Controller
     public function __construct()
     {
         // Page Title
-        $this->module_title = 'Categories';
+        $this->module_title = trans('menu.blog.categories');
 
         // module name
         $this->module_name = 'categories';

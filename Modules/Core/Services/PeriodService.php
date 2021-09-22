@@ -6,6 +6,7 @@ use Modules\Core\Repositories\PeriodRepository;
 use Modules\Core\Repositories\UnitRepository;
 
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Carbon\Carbon;
 use Auth;
 use Illuminate\Support\Facades\DB;
@@ -57,7 +58,11 @@ class PeriodService{
 
         $period =$this->periodRepository->all();
 
-        return $period;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $period,
+        );
     }
 
     public function create(){
@@ -86,27 +91,47 @@ class PeriodService{
 
         try {
             $periodObject = $this->periodRepository->make($data);
-            $periodObject->quota = json_encode($quota);
 
+            $periodObject->quota = json_encode($quota);
+            
             $period = $this->periodRepository->create($periodObject->toArray());
+
+            $this->maintainOneActivePeriod();
+
         }catch (Exception $e){
             DB::rollBack();
-            Log::info($e->getMessage());
-            return null;
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
+            return (object) array(
+                'error'=> true,            
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
         }
 
         DB::commit();
 
+        if($period->active_state){
+            $syncPeriod = $this->syncWithActivePeriod($period->id);
+        }
+
         Log::info(label_case($this->module_title.' '.__function__)." | '".$period->name.'(ID:'.$period->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $period;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $period,
+        );
     }
 
     public function show($id){
 
         Log::info(label_case($this->module_title.' '.__function__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $this->periodRepository->findOrFail($id);
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $this->periodRepository->findOrFail($id),
+        );
     }
 
     public function edit($id){
@@ -115,7 +140,11 @@ class PeriodService{
 
         Log::info(label_case($this->module_title.' '.__function__)." | '".$period->name.'(ID:'.$period->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $period;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $period,
+        );
     }
 
     public function update(Request $request,$id){
@@ -144,20 +173,33 @@ class PeriodService{
                 $periodObject->active_state = false;
             }
 
+            if($periodObject->active_state){
+                $syncPeriod = $this->syncWithActivePeriod($periodObject->id);
+            }
+
             $updated = $this->periodRepository->update($periodObject->toArray(),$id);
+
+            $this->maintainOneActivePeriod();
 
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
-            return null;
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
+            return (object) array(
+                'error'=> true,            
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
         }
 
         DB::commit();
 
         Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$period_check->name.'(ID:'.$period_check->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $this->periodRepository->find($id);
-
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $this->periodRepository->find($id),
+        );
     }
 
     public function destroy($id){
@@ -170,22 +212,34 @@ class PeriodService{
             $deleted = $this->periodRepository->delete($id);
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
-            return null;
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
+            return (object) array(
+                'error'=> true,            
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
         }
 
         DB::commit();
 
         Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$periods->name.', ID:'.$periods->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $periods;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $periods,
+        );
     }
 
     public function trashed(){
 
         Log::info(label_case($this->module_title.' View'.__FUNCTION__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $this->periodRepository->trashed();
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $this->periodRepository->trashed(),
+        );
     }
 
     public function restore($id){
@@ -196,15 +250,23 @@ class PeriodService{
             $periods= $this->periodRepository->restore($id);
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
-            return null;
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
+            return (object) array(
+                'error'=> true,            
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
         }
 
         DB::commit();
 
         Log::info(label_case(__FUNCTION__)." ".$this->module_title.": ".$periods->name.", ID:".$periods->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $periods;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $periods,
+        );
     }
 
     public function prepareOptions(){
@@ -233,5 +295,102 @@ class PeriodService{
         }
 
         return $quota;
+    }
+
+    public function purge($id){
+        DB::beginTransaction();
+
+        try{
+            $units = $this->periodRepository->findTrash($id);
+    
+            $deleted = $this->periodRepository->purge($id);
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
+            return (object) array(
+                'error'=> true,
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
+        }
+
+        DB::commit();
+
+        Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$units->name.', ID:'.$units->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $units,
+        );
+    }
+
+    public function getActivePeriod() {
+        return $this->periodRepository->getActivePeriod();
+    }
+
+    public function maintainOneActivePeriod(){
+        if($this->periodRepository->getActivePeriod()){
+            return (object) array(
+                'error'=> false,            
+                'message'=> '',
+                'data'=> null,
+            );
+        }else{
+            return (object) array(
+                'error'=> true,            
+                'message'=> '',
+                'data'=> null,
+            );
+        }
+    }
+
+    // Function To deactive former active period if this new / edited period is set active
+    public function syncWithActivePeriod(){
+
+        $maintainPeriod = $this->maintainOneActivePeriod();
+
+        if($maintainPeriod->error){
+            return (object) array(
+                'error'=> true,
+                'message'=> "No Active Period",
+                'data'=> null,
+            );
+        }
+
+        $nowActiveExist = $this->periodRepository->getActivePeriod();
+
+        DB::beginTransaction();
+
+        try{
+            if($nowActiveExist){
+
+                $deactiveNowActive = $this->periodRepository->deactivatePeriod($nowActiveExist->id);
+                
+                if(!$deactiveNowActive){
+                    return (object) array(
+                        'error'=> true,            
+                        'message'=> '',
+                        'data'=> null,
+                    );
+                }
+            }
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
+            return (object) array(
+                'error'=> true,
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
+        }
+
+        DB::commit();
+
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> null,
+        );         
     }
 }

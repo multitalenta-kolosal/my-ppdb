@@ -145,81 +145,35 @@
     <div class="col">
         <div class="form-group shadow p-2 mb-2 bg-white rounded">
             <?php
-            $field_dpp = 'dpp_pass';
-            $field_dp  = 'dp_pass';
-            $field_spp = 'spp_pass';
-
-
-            $field_info_dpp = 'dpp';
-            $field_info_dp = 'dp';
-            $field_info_spp = 'spp';
-
-            $field_lable_dpp = __("registrant::$module_name.$module_sub.$field_dpp");
-            $field_lable_dp = __("registrant::$module_name.$module_sub.$field_dp");
-            $field_lable_spp = __("registrant::$module_name.$module_sub.$field_spp");
-            $field_placeholder = $field_lable;
+            $field_name = 'installment';
+            $field_data_id = 'installment_id';
+            $field_lable = __("registrant::$module_name.$module_sub.$field_name");
+            $field_placeholder = __("Select an option");;
             $required = "";
-            $checked_dpp = ( ($data->registrant_stage->$field_dpp ?? 'nope') == '1' ) ? 'checked' : ''; 
-            $checked_dp = ( ($data->registrant_stage->$field_dp ?? 'nope') == '1' ) ? 'checked' : '';
-            $checked_spp = ( ($data->registrant_stage->$field_spp ?? 'nope') == '1' ) ? 'checked' : '';
+            $select_options = $installment;
             ?>
-            <div class="card-header text-center py-0" style="height: 2rem;">
-                <h3>Biaya Pendidikan</h3>
+            <div class="row">
+                <div class="col-5 text-right align-self-center">
+                    {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                    <small id="emailHelp" class="form-text text-muted">Batas akhir pembayaran angsuran untuk periode ini adalah <span class="text-info">{{$data->period->payment_limit_date == null ? "--": date("d-M-Y", strtotime($data->period->payment_limit_date))}}</span></small>      
+                </div>
+                <div class="col-5 align-self-center">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <button class="btn btn-primary" type="button" id="button-installment-set-{{$data->id}}">@lang('auto') <i class="fas fa-hand-point-right"></i></button>
+                        </div>
+                        {{ html()->select($field_data_id.$data->id,$select_options, $data->registrant_stage->$field_data_id)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
+                    </div>
+                    <small id="emailHelp" class="form-text text-muted">tombol "autoselect" akan otomatis memilih angsuran sesuai dengan ketentuan</small>      
+                </div>
+                <div class="col-2 align-self-center text-success" id="col_{{$field_data_id}}_{{$data->id}}">
+                    @if($data->registrant_stage)
+                        @if($data->registrant_stage->$field_data_id)
+                            <i class="far fa-lg fa-check-circle"></i>
+                        @endif
+                    @endif
+                </div>
             </div>
-                <div class="row my-1">
-                    <div class="col-5 text-right align-self-center">
-                        {{ html()->div($field_lable_dpp, $field_dpp) }} {!! fielf_required($required) !!}
-                    </div>
-                    <div class="col-3 align-self-center">
-                        {{ number_format($data->unit->$field_info_dpp ?? 0, 2, ',', '.') ?? 0 }}
-                    </div>
-                    <div class="col-2">
-                        {{ html()->checkbox($field_dpp.$data->id)->class('form-control float-left')->attributes(["$required", "$checked_dpp"]) }}
-                    </div>
-                    <div class="col-2 align-self-center text-success" id="col_{{$field_dpp}}_{{$data->id}}">
-                        @if($data->registrant_stage)
-                            @if($data->registrant_stage->$field_dpp)
-                                <i class="far fa-lg fa-check-circle"></i>
-                            @endif
-                        @endif
-                    </div>
-                </div>
-                <div class="row my-1">
-                    <div class="col-5 text-right align-self-center">
-                        {{ html()->div($field_lable_dp, $field_dp) }} {!! fielf_required($required) !!}
-                    </div>
-                    <div class="col-3 align-self-center">
-                        {{  number_format($data->unit->$field_info_dp ?? 0, 2, ',', '.') }}
-                    </div>
-                    <div class="col-2">
-                        {{ html()->checkbox($field_dp.$data->id)->class('form-control float-left')->attributes(["$required", "$checked_dp"]) }}
-                    </div>
-                    <div class="col-2 align-self-center text-success" id="col_{{$field_dp}}_{{$data->id}}">
-                        @if($data->registrant_stage)
-                            @if($data->registrant_stage->$field_dp)
-                                <i class="far fa-lg fa-check-circle"></i>
-                            @endif
-                        @endif
-                    </div>
-                </div>
-                <div class="row my-1">
-                    <div class="col-5 text-right align-self-center">
-                        {{ html()->div($field_lable_spp, $field_spp) }} {!! fielf_required($required) !!}
-                    </div>
-                    <div class="col-3 align-self-center">
-                        {{ number_format($data->unit->$field_info_spp ?? 0, 2, ',', '.') }}
-                    </div>
-                    <div class="col-2">
-                        {{ html()->checkbox($field_spp.$data->id)->class('form-control float-left')->attributes(["$required", "$checked_spp"]) }}
-                    </div>
-                    <div class="col-2 align-self-center text-success" id="col_{{$field_spp}}_{{$data->id}}">
-                        @if($data->registrant_stage)
-                            @if($data->registrant_stage->$field_spp)
-                                <i class="far fa-lg fa-check-circle"></i>
-                            @endif
-                        @endif
-                    </div>
-                </div>
         </div>
     </div>
 </div>

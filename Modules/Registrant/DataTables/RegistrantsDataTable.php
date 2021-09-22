@@ -3,12 +3,17 @@
 namespace Modules\Registrant\DataTables;
 
 use Carbon\Carbon;
+
 use Modules\Registrant\Repositories\RegistrantRepository;
+use Modules\Finance\Repositories\InstallmentRepository;
+
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+
+use Illuminate\Support\Arr;
 
 class RegistrantsDataTable extends DataTable
 {
@@ -18,11 +23,18 @@ class RegistrantsDataTable extends DataTable
      * @param mixed $query Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
-    public function __construct(RegistrantRepository $registrantRepository)
+    public function __construct(
+        RegistrantRepository $registrantRepository,
+        InstallmentRepository $installmentRepository    
+    )
     {
         $this->module_name = 'registrants';
 
         $this->registrantRepository = $registrantRepository;
+        $this->installmentRepository = $installmentRepository;
+        
+        $this->stages = array_merge(config('stages.progress'),config('stages.special-status'));
+
     }
 
     public function dataTable($query)
@@ -32,7 +44,9 @@ class RegistrantsDataTable extends DataTable
             ->addColumn('action', function ($data) {
                 $module_name = $this->module_name;
 
-                return view('registrant::backend.includes.action_column', compact('module_name', 'data'));
+                $installment = $this->installmentRepository->query()->whereIn('id',json_decode($data->unit->installment_ids ?? "[]",true))->orderBy('order','asc')->pluck('name','id');
+
+                return view('registrant::backend.includes.action_column', compact('module_name', 'data','installment'));
             })
             ->editColumn('name', function ($model) {
                 if( ($model->registrant_stage->status_id ?? null) == -1)
@@ -42,21 +56,13 @@ class RegistrantsDataTable extends DataTable
                     return $model->name;
                 }
             })
-            ->editColumn('unit_id', function ($model) {
-                if($model->unit)
-                {
-                    return $model->unit->name;
-                }else{
-                    return 'Unit Not Available';
-                }
-            })
             ->editColumn('updated_at', function ($data) {
                 $module_name = $this->module_name;
 
                 $diff = Carbon::now()->diffInHours($data->updated_at);
 
                 if ($diff < 25) {
-                    return $data->updated_at->diffForHumans();
+                    return $data->updated_at ? $data->updated_at->diffForHumans() : '-';
                 } else {
                     return $data->updated_at->isoFormat('LLLL');
                 }
@@ -64,9 +70,18 @@ class RegistrantsDataTable extends DataTable
             ->editColumn('created_at', function ($data) {
                 $module_name = $this->module_name;
 
-                $formated_date = Carbon::parse($data->created_at)->format('d-m-Y, H:i:s');
+                $formated_date = Carbon::parse($data->created_at)->format('d M Y, H:i:s');
 
                 return $formated_date;
+            })
+            ->editColumn('registrant_stage.status_id', function ($data) {
+                $selected = Arr::where($this->stages, function ($value, $key) use ($data) {
+                    return $value['status_id'] == $data->registrant_stage->status_id;
+                });
+
+                $value_array = array_values($selected);
+
+                return "(".$value_array[0]['status_id'].") ".$value_array[0]['pass-title'];
             })
             ->rawColumns(['name', 'status', 'action']);
     }
@@ -80,12 +95,79 @@ class RegistrantsDataTable extends DataTable
     public function query()
     {
         $user = auth()->user();
+     
+        $data = $this->registrantRepository->query()
+                ->select('registrants.*')
+                ->with(['unit','tier','registrant_stage','path','period']);
+
         if(!$user->isSuperAdmin() && !$user->hasAllUnitAccess()){
             $unit_id = $user->unit_id;
-            $data = $this->registrantRepository->getRegistrantsByUnitQuery($unit_id);
-        }else{
-            $data = $this->registrantRepository->query();
+            $data = $this->registrantRepository->getRegistrantsByUnitQuery($data, $unit_id);
         }
+
+        //START APPLY FILTERING
+
+        if($this->request()->get('name')){
+            $data->where('name', 'LIKE', "%".$this->request()->get('name')."%");
+        }
+
+        if($this->request()->get('phone')){
+            $data->where('phone', 'LIKE', "%".$this->request()->get('phone')."%");
+        }
+
+        if($this->request()->get('email')){
+            $data->where('email', 'LIKE', "%".$this->request()->get('email')."%");
+        }
+
+        if($this->request()->get('former_school')){
+            $data->where('former_school', 'LIKE', "%".$this->request()->get('former_school')."%");
+        }
+
+        if($this->request()->get('unit_name')){
+            $data->where('unit_id', $this->request()->get('unit_name'));
+        }
+
+        if($this->request()->get('path')){
+            $data->where('type', $this->request()->get('path'));
+        }
+
+        if($this->request()->get('tier')){
+            $data->whereHas('tier', function($query){
+                $query->where('tier_name', 'LIKE', "%".$this->request()->get('tier')."%");
+            });
+        }
+
+        if($this->request()->get('status') != null){
+            $data->whereHas('registrant_stage', function($query){
+                $query->where('status_id', $this->request()->get('status'));
+            });
+        }
+
+        if($this->request()->get('dpp_pass')){
+            $data->whereHas('registrant_stage', function($query){
+                $query->where('dpp_pass', $this->request()->get('dpp_pass'));
+            });
+        }
+
+        if($this->request()->get('dp_pass')){
+            $data->whereHas('registrant_stage', function($query){
+                $query->where('dp_pass', $this->request()->get('dp_pass'));
+            });
+        }
+
+        if($this->request()->get('spp_pass')){
+            $data->whereHas('registrant_stage', function($query){
+                $query->where('spp_pass', $this->request()->get('spp_pass'));
+            });
+        }
+
+        if($this->request()->get('installment')){
+            $data->whereHas('registrant_stage', function($query){
+                $query->where('installment_id', $this->request()->get('installment'));          
+            });
+        }
+
+        //END APPLY FILTERING
 
         return $this->applyScopes($data);
     }
@@ -97,17 +179,24 @@ class RegistrantsDataTable extends DataTable
      */
     public function html()
     {
-        $created_at = 5;
+        $created_at = 12;
         return $this->builder()
                 ->setTableId('registrants-table')
                 ->columns($this->getColumns())
                 ->minifiedAjax()
-                ->dom('Blfrtip')
-                ->orderBy($created_at)
+                ->dom(config('ppdb-datatables.ppdb-dom'))
+                ->orderBy($created_at,'desc')
                 ->buttons(
                     Button::make('export'),
                     Button::make('print'),
-                    Button::make('reset')
+                    Button::make('reset')->className('rounded-right'),
+                    Button::make('colvis')->text('Kolom')->className('m-2 rounded btn-info'),
+                    Button::raw('filterData')->text('Filter')->className('m-2 rounded btn-warning')
+                            ->attr([
+                                "data-toggle" => "modal",
+                                "data-target" => "#filterModal",
+                            ])
+                            ->text('<i class="fas fa-filter"></i>Filter'),
                 )->parameters([
                     'paging' => true,
                     'searching' => true,
@@ -130,11 +219,46 @@ class RegistrantsDataTable extends DataTable
                   ->exportable(false)
                   ->printable(false)
                   ->addClass('text-center'),
-            Column::make('registrant_id'),
-            Column::make('name'),
-            Column::make('phone'),
-            Column::make('unit')->data('unit_id')->name('unit_id'),
+
+            Column::make('registrant_id')
+                    ->title(__("registrant::$this->module_name.datatable.registrant_id")),
+
+            Column::make('name')
+                    ->title(__("registrant::$this->module_name.datatable.name")),
+
+            Column::make('va_number')->hidden()
+                    ->title(__("registrant::$this->module_name.datatable.va_number")),
+
+            Column::make('path.name')->data('path.name')->name('path.name')
+                    ->title(__("registrant::$this->module_name.datatable.type")),
+
+            Column::make('phone')
+                    ->title(__("registrant::$this->module_name.datatable.phone")),
+
+            Column::make('phone2')->hidden()
+                    ->title(__("registrant::$this->module_name.datatable.phone2")),
+
+            Column::make('period.period_name')->data('period.period_name')->name('period.period_name')->title('Tahun')->hidden()
+                    ->title(__("registrant::$this->module_name.datatable.year")),
+
+            Column::make('email')->hidden()
+                    ->title(__("registrant::$this->module_name.datatable.email")),
+
+            Column::make('unit.name')->data('unit.name')->name('unit.name')
+                    ->title(__("registrant::$this->module_name.datatable.unit")),
+
+            Column::make('tier.tier_name')->data('tier.tier_name')->name('tier.tier_name')->title('Kelas / Jurusan')->hidden()
+                    ->title(__("registrant::$this->module_name.datatable.tier")),
+
+            Column::make('former_school')->title('Asal Sekolah')->hidden()
+                    ->title(__("registrant::$this->module_name.datatable.former_school")),
+
             Column::make('created_at'),
+            Column::make('updated_at')->hidden(),
+            Column::make('register_ip')->title('IP')->hidden(),
+
+            Column::computed('registrant_stage.status_id')->data('registrant_stage.status_id')->name('registrant_stage.status_id')
+            ->title(__("registrant::$this->module_name.datatable.status")),
         ];
     }
 

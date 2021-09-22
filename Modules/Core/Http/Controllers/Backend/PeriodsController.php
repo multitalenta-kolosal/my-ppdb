@@ -26,7 +26,7 @@ class PeriodsController extends Controller
     public function __construct(PeriodService $periodService)
     {
         // Page Title
-        $this->module_title = 'Periods';
+        $this->module_title = trans('menu.core.periods');
 
         // module name
         $this->module_name = 'periods';
@@ -35,7 +35,7 @@ class PeriodsController extends Controller
         $this->module_path = 'periods';
 
         // module icon
-        $this->module_icon = 'fas calendar-day';
+        $this->module_icon = 'fas fa-calendar-day';
 
         // module model name, path
         $this->module_model = "Modules\Core\Entities\Period";
@@ -104,12 +104,14 @@ class PeriodsController extends Controller
         $module_action = 'Create';
 
         $options = $this->periodService->create();
+
+        $nowActivePeriod = $this->periodService->getActivePeriod();
        
         $units = $options['unit'];
 
         return view(
             "core::backend.$module_name.create",
-            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','units')
+            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','units','nowActivePeriod')
         );
     }
 
@@ -133,12 +135,12 @@ class PeriodsController extends Controller
 
         $periods = $this->periodService->store($request);
 
-        $$module_name_singular = $periods;
+        $$module_name_singular = $periods->data;
 
-        if($$module_name_singular){
+        if(!$periods->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Added Successfully!')->important();
         }else{
-            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
+            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."' ".$periods->message)->important();
         }
         return redirect("admin/$module_name");
     }
@@ -163,7 +165,7 @@ class PeriodsController extends Controller
 
         $periods = $this->periodService->show($id);
 
-        $$module_name_singular = $periods;
+        $$module_name_singular = $periods->data;
 
         return view(
             "core::backend.$module_name.show",
@@ -190,16 +192,18 @@ class PeriodsController extends Controller
         $module_action = 'Edit';
 
         $periods = $this->periodService->edit($id);
-        $quota_value = $this->periodService->decodeQuota($periods);
+        $quota_value = $this->periodService->decodeQuota($periods->data);
         $options = $this->periodService->prepareOptions();
+
+        $nowActivePeriod = $this->periodService->getActivePeriod();
        
         $units = $options['unit'];
 
-        $$module_name_singular = $periods;
+        $$module_name_singular = $periods->data;
 
         return view(
             "core::backend.$module_name.edit",
-            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular",'units','quota_value')
+            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular",'units','quota_value','nowActivePeriod')
         );
     }
 
@@ -224,9 +228,9 @@ class PeriodsController extends Controller
 
         $periods = $this->periodService->update($request,$id);
 
-        $$module_name_singular = $periods;
+        $$module_name_singular = $periods->data;
 
-        if($$module_name_singular){
+        if(!$periods->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Updated Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
@@ -255,15 +259,46 @@ class PeriodsController extends Controller
 
         $periods = $this->periodService->destroy($id);
 
-        $$module_name_singular = $periods;
+        $$module_name_singular = $periods->data;
 
-        if($$module_name_singular){
+        if(!$periods->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Deleted Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
         }
         
         return redirect("admin/$module_name");
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function purge($id)
+    {
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'purge';
+
+        $units = $this->periodService->purge($id);
+
+        $$module_name_singular = $units->data;
+
+        if(!$units->error){
+            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Deleted Successfully!')->important();
+        }else{
+            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
+        }
+
+        return redirect("admin/$module_name/trashed");
     }
 
     /**
@@ -285,7 +320,7 @@ class PeriodsController extends Controller
 
         $periods = $this->periodService->trashed();
 
-        $$module_name = $periods;
+        $$module_name = $periods->data;
 
         return view(
             "core::backend.$module_name.trash",
@@ -314,9 +349,9 @@ class PeriodsController extends Controller
 
         $periods = $this->periodService->restore($id);
 
-        $$module_name_singular = $periods;
+        $$module_name_singular = $periods->data;
 
-        if($$module_name_singular){
+        if(!$periods->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Restored Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();

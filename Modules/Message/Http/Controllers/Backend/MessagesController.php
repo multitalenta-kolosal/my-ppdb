@@ -27,7 +27,7 @@ class MessagesController extends Controller
     public function __construct(MessageService $messageService)
     {
         // Page Title
-        $this->module_title = 'Messages';
+        $this->module_title = trans('menu.message.template');
 
         // module name
         $this->module_name = 'messages';
@@ -191,7 +191,7 @@ class MessagesController extends Controller
 
         $messages = $this->messageService->edit($id);
 
-        $$module_name_singular = $messages;
+        $$module_name_singular = $messages->data;
 
         return view(
             "message::backend.$module_name.edit",
@@ -220,9 +220,9 @@ class MessagesController extends Controller
 
         $messages = $this->messageService->update($request,$id);
 
-        $$module_name_singular = $messages;
+        $$module_name_singular = $messages->data;
 
-        if($$module_name_singular){
+        if(!$messages->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Updated Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
@@ -251,9 +251,9 @@ class MessagesController extends Controller
 
         $messages = $this->messageService->destroy($id);
 
-        $$module_name_singular = $messages;
+        $$module_name_singular = $messages->data;
 
-        if($$module_name_singular){
+        if($messages->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Deleted Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();

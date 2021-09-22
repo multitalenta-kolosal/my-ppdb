@@ -25,9 +25,9 @@ class UnitsRequest extends FormRequest
     {
         return [
             'name'              => 'required|max:191',
-            'contact_number'    => 'numeric',
-            'contact_email'     => 'email',
-            'requirements'      => 'max:255',
+            'contact_number'    => 'nullable|numeric',
+            'contact_email'     => 'nullable|email',
+            'requirements'      => 'nullable|max:255',
         ];
     }
 }

@@ -14,11 +14,14 @@
         </div>
     </div>
     <div class="row py-1 my-3 shadow border rounded text-center">
-        <div class="col-6 align-middle">
+        <div class="col-4 align-middle">
+            <strong>Jalur: </strong><br>{{$registrant->data->path->name ?? 'Jalur Tidak Ditemukan'}}
+        </div>
+        <div class="col-4 align-middle">
             <strong>ID: </strong><br>{{$registrant->data->registrant_id ?? 'DATA NOT FOUND'}}
         </div>
-        <div class="col-6 align-middle">
-            <strong>Tgl. Mendaftar: </strong><br>{{Carbon\Carbon::parse($registrant->data->created_at)->format('d-m-Y, H:i:s') ?? 'DATA NOT FOUND'}}
+        <div class="col-4 align-middle">
+            <strong>Tgl. Daftar: </strong><br>{{Carbon\Carbon::parse($registrant->data->created_at)->format('d-m-Y, H:i:s') ?? 'DATA NOT FOUND'}}
         </div>
     </div>
     <!-- progress timeline    -->
@@ -52,6 +55,15 @@
                 <h5 class="display-5 text-info">
                     {{$now['tracker_content']}}
                 </h5>
+                @if( ($now['status_id'] == 0 || $now['status_id'] == 1) && $registrant->data->unit->registration_veriform_link)
+                    <div id="extra-content">
+                        Jika kamu memiliki akun <span class="text-danger">Gmail</span> (Google), Kamu dapat melakukan verifikasi pembayaran dan pengumpulan berkas untuk <strong> {{$registrant->data->unit->name}} Warga Surakarta </strong> secara <strong class="text-warning">ONLINE</strong> melalui Google form 
+                        dengan cara klik tombol di bawah ini
+                        <div class="row my-2 justify-content-center">
+                            <a href="{{$registrant->data->unit->registration_veriform_link}}" class="btn btn-outline-primary">Form Verifikasi</a>
+                        </div>
+                    </div>
+                @endif
                 @if($now['message_tracker'])
                     <div class="alert alert-warning my-1 text-dark" role="alert">
                        <strong>PERHATIAN!!</strong> Kamu seharusnya sudah mendapatkan pesan, Silakan cek status <strong>Pesan {{$now['title']}} </strong> di bawah ini untuk memastikan pesan terkirim.

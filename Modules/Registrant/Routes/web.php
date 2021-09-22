@@ -16,6 +16,7 @@ Route::group(['namespace' => '\Modules\Registrant\Http\Controllers\Frontend', 'a
      */
     $module_name = 'registrants';
     $controller_name = 'RegistrantsController';    
+    Route::get("verifikasi", ['as' => "$module_name.veriform", 'uses' => "$controller_name@veriform"]);
     Route::get("daftar", ['as' => "$module_name.index", 'uses' => "$controller_name@index"]);
     Route::get("lacak", ['as' => "$module_name.track", 'uses' => "$controller_name@track"]);
     Route::post("progress/{registrant_id}", ['as' => "$module_name.progress", 'uses' => "$controller_name@progress"]);
@@ -51,6 +52,7 @@ Route::group(['namespace' => '\Modules\Registrant\Http\Controllers\Backend', 'as
     Route::get("$module_name/index_data", ['as' => "$module_name.index_data", 'uses' => "$controller_name@index_data"]);
     Route::get("$module_name/trashed", ['as' => "$module_name.trashed", 'uses' => "$controller_name@trashed"]);
     Route::patch("$module_name/trashed/{id}", ['as' => "$module_name.restore", 'uses' => "$controller_name@restore"]);
+    Route::delete("$module_name/purge/{id}", ['as' => "$module_name.purge", 'uses' => "$controller_name@purge"]);
     Route::post("$module_name/generateId",['as' => "$module_name.generateId", 'uses' => "$controller_name@generateId"]);
     Route::resource("$module_name", "$controller_name");
 
@@ -62,6 +64,7 @@ Route::group(['namespace' => '\Modules\Registrant\Http\Controllers\Backend', 'as
      */
     $module_name = 'registrantstages';
     $controller_name = 'RegistrantStagesController';
+    Route::post("$module_name/chooseInstallments",['as' => "$module_name.chooseInstallments", 'uses' => "$controller_name@chooseInstallments"]);
     Route::resource("$module_name", "$controller_name")->only([
         'store', 'update', 'destroy'
     ])->middleware(['auth', 'throttle:60,1']);

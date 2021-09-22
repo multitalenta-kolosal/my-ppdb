@@ -65,12 +65,6 @@ class RegistrantStagesController extends Controller
 
         $response = $this->registrantStageService->store($request);
 
-        if($response){
-            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Added Successfully!')->important();
-        }else{
-            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
-        }
-
         return response()->json($response);
     }
 
@@ -95,12 +89,6 @@ class RegistrantStagesController extends Controller
 
         $response = $this->registrantStageService->update($request,$id);
 
-        if($response){
-            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Updated Successfully!')->important();
-        }else{
-            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
-        }
-
         return response()->json($response);
     }
 
@@ -123,13 +111,22 @@ class RegistrantStagesController extends Controller
         $module_action = 'destroy';
 
         $response = $this->registrantStageService->destroy($id);
-
-        if($response){
-            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Deleted Successfully!')->important();
-        }else{
-            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
-        }
         
+        return response()->json($response);
+    }
+
+    public function chooseInstallments(Request $request){
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'chooseInstallments';
+
+        $response = $this->registrantStageService->chooseInstallments($request);
+
         return response()->json($response);
     }
 }

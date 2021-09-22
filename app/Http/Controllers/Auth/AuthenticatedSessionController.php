@@ -33,7 +33,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        $redirectTo = request()->redirectTo;
+        $redirectTo = "/admin";
 
         if ($redirectTo) {
             return redirect($redirectTo);

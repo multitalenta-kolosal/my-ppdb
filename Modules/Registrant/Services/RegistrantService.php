@@ -7,14 +7,20 @@ use Modules\Message\Services\RegistrantMessageService;
 use Modules\Message\Services\MessageService;
 
 use Modules\Registrant\Repositories\RegistrantRepository;
+use Modules\Registrant\Repositories\RegistrantStageRepository;
+use Modules\Message\Repositories\RegistrantMessageRepository;
+use Modules\Finance\Repositories\InstallmentRepository;
 use Modules\Core\Repositories\UnitRepository;
 use Modules\Core\Repositories\PeriodRepository;
+use Modules\Core\Repositories\PathRepository;
+use Modules\Core\Repositories\TierRepository;
 
 use Exception;
 use Carbon\Carbon;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -31,6 +37,9 @@ class RegistrantService{
     protected $registrantRepository;
     protected $unitRepository;
     protected $periodRepository;
+    protected $pathRepository;
+    protected $tierRepository;
+    protected $installmentRepository;
 
     public function __construct(
         /**
@@ -44,9 +53,14 @@ class RegistrantService{
          * Repositories Parameter
          * 
          */
+        PathRepository $pathRepository,
         RegistrantRepository $registrantRepository,
+        RegistrantStageRepository $registrantStageRepository,
+        RegistrantMessageRepository $registrantMessageRepository,
         UnitRepository $unitRepository,
-        PeriodRepository $periodRepository
+        PeriodRepository $periodRepository,
+        TierRepository $tierRepository,
+        InstallmentRepository $installmentRepository
     ) {
         /**
          * Services Declaration
@@ -59,9 +73,14 @@ class RegistrantService{
          * Repositories Declaration
          * 
          */
+        $this->pathRepository = $pathRepository;
         $this->registrantRepository = $registrantRepository;
+        $this->registrantStageRepository = $registrantStageRepository;
+        $this->registrantMessageRepository = $registrantMessageRepository;
         $this->unitRepository = $unitRepository;
         $this->periodRepository = $periodRepository;
+        $this->tierRepository = $tierRepository;
+        $this->installmentRepository = $installmentRepository;
 
         $this->module_title = Str::plural(class_basename($this->registrantRepository->model()));
 
@@ -75,7 +94,11 @@ class RegistrantService{
                     ->all()
                     ->sortByDesc('created_at');
 
-        return $registrant;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $registrant,
+        );
     }
 
     public function create(){
@@ -116,7 +139,7 @@ class RegistrantService{
 
             $registrant_stage = $this->registrantStageService->store($request, $registrant);
 
-            $registrant->progress_id = $registrant_stage['data']->id;
+            $registrant->progress_id = $registrant_stage->data->id;
 
             $registrant = $this->registrantRepository->create($registrant->toArray());
 
@@ -124,23 +147,23 @@ class RegistrantService{
 
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) array(
                 'error'=> true,
-                'message'=> $response['message'],
+                'message'=> $e->getMessage(),
                 'data'=> $registrant,
             );
         }
 
         DB::commit();
 
-        $response = $this->messageService->send($registrant, 'pendaftaran-contoh', 'register',['name' => $registrant->name, 'unit' => $registrant->unit->name]);
+        $response = $this->messageService->send($registrant, 'register-message', 'register');
 
-        if($response['error']){
-            Log::critical('Send Message error: '.$response['message']);
+        if($response->error){
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Send Message error: '.$response->message);
             return (object) array(
                 'error'=> true,
-                'message'=> $response['message'],
+                'message'=> $response->message,
                 'data'=> $registrant,
             );
         }
@@ -163,8 +186,12 @@ class RegistrantService{
     public function show($id){
 
         Log::info(label_case($this->module_title.' '.__function__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
-
-        return $this->registrantRepository->findOrFail($id);
+ 
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $this->registrantRepository->findOrFail($id),
+        );
     }
 
     public function edit($id){
@@ -173,7 +200,11 @@ class RegistrantService{
 
         Log::info(label_case($this->module_title.' '.__function__)." | '".$registrant->name.'(ID:'.$registrant->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $registrant;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $registrant,
+        );
     }
 
     public function update(Request $request,$id){
@@ -195,16 +226,23 @@ class RegistrantService{
 
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
-            return null;
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage()); 
+            return (object) array(
+                'error'=> true,            
+                'message'=> $e->getMessage(),
+                'data'=>  null,
+            );
         }
 
         DB::commit();
 
         Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$registrant_check->name.'(ID:'.$registrant_check->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $this->registrantRepository->find($id);
-
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=>  $this->registrantRepository->find($id),
+        );  
     }
 
     public function destroy($id){
@@ -217,22 +255,67 @@ class RegistrantService{
             $deleted = $this->registrantRepository->delete($id);
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
-            return null;
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
+            return (object) array(
+                'error'=> true,            
+                'message'=> $e->getMessage(),
+                'data'=>  null,
+            );
         }
 
         DB::commit();
 
         Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$registrants->name.', ID:'.$registrants->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $registrants;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $registrants,
+        );  
+    }
+
+    public function purge($id){
+        DB::beginTransaction();
+
+        try{
+            $registrants = $this->registrantRepository->findTrash($id);
+    
+            $deleted = $this->registrantRepository->purge($id);
+
+            $deleted = $this->registrantStageRepository->delete($registrants->progress_id);
+
+            $deleted = $this->registrantMessageRepository->delete($registrants->registrant_message->id);
+
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
+            return (object) array(
+                'error'=> true,
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
+        }
+
+        DB::commit();
+
+        Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$registrants->name.', ID:'.$registrants->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $registrants,
+        );
     }
 
     public function trashed(){
 
         Log::info(label_case($this->module_title.' View'.__FUNCTION__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
-
-        return $this->registrantRepository->trashed();
+        
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $this->registrantRepository->trashed(),
+        ); 
     }
 
     public function restore($id){
@@ -243,15 +326,51 @@ class RegistrantService{
             $registrants= $this->registrantRepository->restore($id);
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
-            return null;
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
+            return (object) array(
+                'error'=> true,            
+                'message'=> $e->getMessage(),
+                'data'=>  null,
+            );
         }
 
         DB::commit();
 
         Log::info(label_case(__FUNCTION__)." ".$this->module_title.": ".$registrants->name.", ID:".$registrants->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return $registrants;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=>  $registrants,
+        );
+    }
+    public function prepareFilterOptions(){
+        
+        $unit = $this->unitRepository->query()->orderBy('order','asc')->pluck('name','id');
+
+        if(!$unit){
+            $unit = ['Silakan membuat unit'];
+        }
+
+        $type = $this->pathRepository->pluck('name','id');
+
+        $tier = $this->tierRepository->pluck('tier_name','id');
+
+        $installment = $this->installmentRepository->pluck('name','id');
+
+        $stages   =  array_merge(config('stages.progress'),config('stages.special-status'));
+
+        $status = Arr::pluck($stages,'pass-title','status_id');
+
+        $options = array(
+            'unit' => $unit,
+            'type' => $type,
+            'tier' => $tier,
+            'status' => $status,
+            'installment' => $installment,
+        );
+
+        return $options;
     }
 
     public function prepareOptions(){
@@ -262,17 +381,32 @@ class RegistrantService{
             $unit = ['Silakan membuat unit'];
         }
 
-        $type = [
-            'prestasi' => 'Prestasi',
-            'reguler' => 'Reguler',
-        ];
+        $type = [];
+
+        $type = $this->pathRepository->query()->pluck('name','id');
+
+        $tier = [];
+
+        $tier = $this->tierRepository->query()->pluck('tier_name','id');
 
         $options = array(
             'unit' => $unit,
             'type' => $type,
+            'tier' => $tier,
         );
 
         return $options;
+    }
+
+    public function getUnits(){
+        
+        $units = $this->unitRepository->query()->orderBy('order','asc')->get();
+
+        if(!$units){
+            $units = ['Silakan membuat unit'];
+        }
+
+        return $units;
     }
 
     public function generateId($unit_id){
@@ -340,7 +474,7 @@ class RegistrantService{
                 );            }
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) array(
                 'error'=> true,
                 'message'=> $e->getMessage(),
@@ -356,6 +490,46 @@ class RegistrantService{
             'error'=> false,            
             'message'=> '',
             'data'=> $registrant,
+        );
+    }
+
+    public function purgeAll($all = false){
+        DB::beginTransaction();
+
+        try{
+            if($all){
+                $trashedDatas = $this->registrantRepository->all();
+            }else{
+                $trashedDatas = $this->registrantRepository->trashed();
+            }
+
+            foreach($trashedDatas as $trashedData){
+                $purged = $this->registrantRepository->purge($trashedData->id);
+
+                $purged = $this->registrantStageRepository->delete($trashedData->progress_id);
+
+                $purged = $this->registrantMessageRepository->delete($trashedData->registrant_message->id);
+
+            }
+
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
+            return (object) array(
+                'error'=> true,
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
+        }
+
+        DB::commit();
+
+        Log::info(label_case($this->module_title.' AT '.Carbon::now().' '.__FUNCTION__)." | by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> null,
         );
     }
 }

@@ -13,7 +13,7 @@
       <div class="modal-body">
         <div class="card">
             <div class="row">
-            @foreach($unit->getList() as $unit)
+            @foreach($unit->getList()->data as $unit)
                     <div class="col p-2 my-2 text-center">
                         <h5>{{$unit->name}}</h5>
                         <div class="m-2">

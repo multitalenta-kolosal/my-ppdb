@@ -25,7 +25,7 @@ class GenerateMenus
                 'permission'    => ['view_posts', 'view_categories','view_comments','view_tags'],
             ]);
             // Articles Dropdown
-            $articles_menu = $menu->add('<i class="c-sidebar-nav-icon fas fa-newspaper"></i> Blog', [
+            $articles_menu = $menu->add('<i class="c-sidebar-nav-icon fas fa-newspaper"></i> '.trans('menu.blog.title'), [
                 'class' => 'c-sidebar-nav-dropdown',
             ])
             ->data([
@@ -44,7 +44,7 @@ class GenerateMenus
             ]);
 
             // Submenu: Posts
-            $articles_menu->add('<i class="c-sidebar-nav-icon fas fa-pencil-alt"></i> Posts', [
+            $articles_menu->add('<i class="c-sidebar-nav-icon fas fa-pencil-alt"></i> '.trans('menu.blog.posts'), [
                 'route' => 'backend.posts.index',
                 'class' => 'c-sidebar-nav-item',
             ])
@@ -57,7 +57,7 @@ class GenerateMenus
                 'class' => "c-sidebar-nav-link",
             ]);
             // Submenu: Categories
-            $articles_menu->add('<i class="c-sidebar-nav-icon fas fa-sitemap"></i> Categories', [
+            $articles_menu->add('<i class="c-sidebar-nav-icon fas fa-sitemap"></i> '.trans('menu.blog.categories'), [
                 'route' => 'backend.categories.index',
                 'class' => 'c-sidebar-nav-item',
             ])
@@ -70,7 +70,7 @@ class GenerateMenus
                 'class' => "c-sidebar-nav-link",
             ]);
 
-            $articles_menu->add('<i class="fas fa-comments c-sidebar-nav-icon"></i> Comments', [
+            $articles_menu->add('<i class="fas fa-comments c-sidebar-nav-icon"></i> '.trans('menu.blog.comments'), [
                 'route' => 'backend.comments.index',
                 'class' => 'c-sidebar-nav-item',
             ])
@@ -83,7 +83,7 @@ class GenerateMenus
                 'class' => 'c-sidebar-nav-link',
             ]);
 
-            $articles_menu->add('<i class="fas fa-tags c-sidebar-nav-icon"></i> Tags', [
+            $articles_menu->add('<i class="fas fa-tags c-sidebar-nav-icon"></i> '.trans('menu.blog.tags'), [
                 'route' => 'backend.tags.index',
                 'class' => "c-sidebar-nav-item",
             ])

@@ -26,17 +26,20 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger mr-4" id="reject_{{$data->id}}" ><i class="fas fa-user-slash mr-2"></i>Tolak</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="submit_data_{{$data->id}}" >Simpan</button>
+                    <button type="button" class="btn btn-success" id="submit_data_{{$data->id}}" >Simpan</button>
                 </div>
                     
             </div>
         </div>
     </div>
 </div>
-    
+
 <script type="text/javascript">
     $('[data-toggle="popover"]').popover();
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/busy-load/dist/app.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/busy-load/dist/app.min.css" rel="stylesheet">
 
 <script type="text/javascript">
     $(document).ready(function(){
@@ -50,11 +53,13 @@
             $('#accepted_pass{{$data->id}}_message').prop('checked',this.checked);
         });
     });
+
 </script>   
 
 <script type="text/javascript">
     $(document).ready(function(){
         const messageables = ['requirements_pass','test_pass','accepted_pas'];
+        window.edited = false;
 
         $('#reject_{{$data->id}}').on('click', function(e) {
             e.preventDefault();
@@ -123,7 +128,8 @@
                                                 title: 'Pendaftar ditolak',
                                                 footer: 'Mengirim pesan ke pengguna',
                                             })
-                                            return false;
+
+                                            updateEditedStatus(true);
                                         },
                                         error: function (xhr, ajaxOptions, thrownError) {
                                             Toast.fire({
@@ -131,6 +137,8 @@
                                                 title: '@lang("Error Verified")',
                                                 footer: 'Pesan tidak terkirim',
                                             });
+
+                                            updateEditedStatus(false);
                                         }
                                     });            
                                 }else{
@@ -150,6 +158,8 @@
                                         title: 'Pendaftar ditolak',
                                         footer: 'Pesan tidak dikirim',
                                     })
+
+                                    updateEditedStatus(true);
                                 }
                             });
                         }
@@ -171,6 +181,8 @@
                         icon: 'error',
                         title: '@lang("Error Verified")'
                     });
+
+                    updateEditedStatus(false);
                 }
             });
         });
@@ -183,16 +195,14 @@
                     "_method":"PATCH",
                     "_token": "{{ csrf_token() }}",
                     "registrant_id": $('#registrant_id_{{$data->id}}').val(),
-                    "va_pass": +$('#va_pass{{$data->id}}').prop('checked'),
+                    "va_pass": $.isNumeric(+$('#va_pass{{$data->id}}').prop('checked')) ? +$('#va_pass{{$data->id}}').prop('checked') : 0,
                     "entrance_fee_pass": +$('#entrance_fee_pass{{$data->id}}').prop('checked'),
                     "requirements_pass": +$('#requirements_pass{{$data->id}}').prop('checked'),
                     "test_pass": +$('#test_pass{{$data->id}}').prop('checked'),
-                    "dpp_pass": +$('#dpp_pass{{$data->id}}').prop('checked'),
-                    "dp_pass": +$('#dp_pass{{$data->id}}').prop('checked'),
-                    "spp_pass": +$('#spp_pass{{$data->id}}').prop('checked'),
+                    "installment_id": $('#installment_id{{$data->id}}').val(),
                     "accepted_pass": +$('#accepted_pass{{$data->id}}').prop('checked'),
                 };
-
+            
             $.ajax({
                 type: "POST",
                 url: '{{route("backend.registrantstages.update", $data->registrant_id)}}',
@@ -257,7 +267,6 @@
                                                     title: '@lang("Data Verified")',
                                                     footer: 'Mengirimkan pesan ke pengguna...',
                                                 })
-                                                return false;
                                             },
                                             error: function (xhr, ajaxOptions, thrownError) {
                                                 Toast.fire({
@@ -265,6 +274,8 @@
                                                     title: '@lang("Error Verified")',
                                                     footer: 'Pesan tidak terkirim',
                                                 });
+
+                                                updateEditedStatus(false);
                                             }
                                         });
                                     });            
@@ -309,17 +320,23 @@
                         var col = document.getElementById("col_"+key+"_{{$data->id}}")
                         $('#'+key+'{{$data->id}}_message').prop('checked',false)
                         if(col){
-                            if(key && (val == 1)){
-                                if(key == "accepted_pass"){
-                                    col.innerHTML = '<i class="far fa-2x fa-check-circle"></i>';
-                                }else{
-                                    col.innerHTML = '<i class="far fa-lg fa-check-circle"></i>';
-                                }
+                            if(key == "installment_id" && val > 0){
+                                col.innerHTML = '<i class="far fa-lg fa-check-circle"></i>';
                             }else{
-                                col.innerHTML = '';                                
+                                if(key && (val == 1)){
+                                    if(key == "accepted_pass"){
+                                        col.innerHTML = '<i class="far fa-2x fa-check-circle"></i>';
+                                    }else{
+                                        col.innerHTML = '<i class="far fa-lg fa-check-circle"></i>';
+                                    }
+                                }else{
+                                    col.innerHTML = '';                                
+                                }
                             }
                         }
                     });
+
+                    updateEditedStatus(true);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     const Toast = Swal.mixin({
@@ -337,12 +354,74 @@
                         icon: 'error',
                         title: '@lang("Error Verified")'
                     });
+
+                    updateEditedStatus(false);
                 }
             });
+            
         });
+
+        function updateEditedStatus(status){
+            window.edited = status;
+        }
+
     });
 
     $('#modal_{{$data->id}}').on('hidden.bs.modal', function (e) {
-        $('#{{$module_name}}-table').DataTable().draw(false);
-    })
+        if(window.edited){
+            $(".dtr-control").busyLoad("show", 
+            { 
+                fontawesome: "fa fa-cog fa-spin fa-3x fa-fw" ,
+                background: "rgba(255, 152, 0, 0.86)",
+                containerClass: "z-2",
+            });
+            $('#{{$module_name}}-table').DataTable().draw('page');
+            window.edited = false;
+        }
+
+    });
+
+    $('#button-installment-set-{{$data->id}}').on('click', function(){
+        $.ajax({
+            type: "POST",
+            url: "{{route('backend.registrantstages.chooseInstallments')}}",
+            data:{
+                "_method":"POST",
+                "_token": "{{ csrf_token() }}",
+                "id": "{{ $data->id }}"
+            },
+            beforeSend: function () {
+                        var loader = $('<option value="xloader">Loading...</option>');
+                        $('#type').append(loader);
+                    },
+            complete: function () {
+                $("#type option[value='xloader']").remove();
+            },
+            success: function(response) {
+                if(!response.error){
+                    var installment = response.data;
+
+                    var installment_exists = false;
+
+                    $('#installment_id{{$data->id}} option').each(function(){
+                        if (this.value == installment.id) {
+                            installment_exists = true;
+                            return false;
+                        }
+                    });
+
+                    if(installment_exists){
+                        $('#installment_id{{$data->id}}').val(installment.id);
+                    }else{
+                        Swal.fire("Warning", "Jenis Angsuran "+installment.name+" tidak diperkenankan untuk unit {{$data->unit->name}}", "warning");
+                    }
+                }else{
+                    Swal.fire("@lang('error')", response.message, "error");
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                Swal.fire("@lang('error')","error occured! please try again", "error");
+            },
+        });
+    });
 </script>

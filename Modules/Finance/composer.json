@@ -1,0 +1,23 @@
+{
+    "name": "mikaeldiok/finance",
+    "description": "",
+    "authors": [
+        {
+            "name": "Mikael Dio K",
+            "email": "mikaeldiok@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Finance\\": ""
+        }
+    }
+}

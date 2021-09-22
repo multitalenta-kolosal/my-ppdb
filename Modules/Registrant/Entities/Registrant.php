@@ -26,17 +26,43 @@ class Registrant extends BaseModel
     
     public function unit()
     {
-        return $this->belongsTo('Modules\Core\Entities\Unit','unit_id');
+        return $this->belongsTo('Modules\Core\Entities\Unit','unit_id')
+        ->withDefault([
+            'name' => ''
+        ]);;
+    }
+
+    
+    public function path()
+    {
+        return $this->belongsTo('Modules\Core\Entities\Path','type')
+        ->withDefault([
+            'name' => ''
+        ]);;
     }
 
     public function period()
     {
-        return $this->belongsTo('Modules\Core\Entities\Period','period_id');
+        return $this->belongsTo('Modules\Core\Entities\Period','period_id')
+        ->withDefault([
+            'period_name' => ''
+        ]);;
+    }
+
+    public function tier()
+    {
+        return $this->belongsTo('Modules\Core\Entities\Tier','tier_id')
+                ->withDefault([
+                    'tier_name' => ''
+                ]);
     }
 
     public function registrant_stage()
     {
-        return $this->hasOne('Modules\Registrant\Entities\RegistrantStage', 'id', 'progress_id');
+        return $this->hasOne('Modules\Registrant\Entities\RegistrantStage', 'id', 'progress_id')
+        ->withDefault([
+            'status_id' => ''
+        ]);;
     }
 
     public function registrant_message()

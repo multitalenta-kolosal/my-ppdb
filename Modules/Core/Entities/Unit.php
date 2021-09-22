@@ -23,6 +23,11 @@ class Unit extends BaseModel
         return $this->hasMany('Modules\Registrant\Entities\Registrant');
     }
 
+    public function tier()
+    {
+        return $this->hasMany('Modules\Core\Entities\Unit');
+    }
+
     protected static function newFactory()
     {
         return \Modules\Core\Database\factories\UnitFactory::new();

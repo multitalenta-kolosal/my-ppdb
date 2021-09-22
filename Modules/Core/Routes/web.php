@@ -13,6 +13,27 @@
 
 /*
 *
+* Frontend Routes
+*
+* --------------------------------------------------------------------
+*/
+Route::group(['namespace' => '\Modules\Core\Http\Controllers\Frontend', 'as' => 'frontend.', 'middleware' => 'web', 'prefix' => ''], function () {
+
+    /*
+     *
+     *  Cores Routes
+     *
+     * ---------------------------------------------------------------------
+     */
+    $module_name = 'units';
+    $controller_name = 'UnitsController';    
+    Route::get("getunitopt/{id}", 
+        ['as' => "$module_name.getunitopt", 'uses' => "$controller_name@getUnitOpt"])->middleware(['throttle:10,1']);;
+   
+});
+
+/*
+*
 * Backend Routes
 *
 * --------------------------------------------------------------------
@@ -38,6 +59,21 @@ Route::group(['namespace' => '\Modules\Core\Http\Controllers\Backend', 'as' => '
     Route::get("$module_name/index_data", ['as' => "$module_name.index_data", 'uses' => "$controller_name@index_data"]);
     Route::get("$module_name/trashed", ['as' => "$module_name.trashed", 'uses' => "$controller_name@trashed"]);
     Route::patch("$module_name/trashed/{id}", ['as' => "$module_name.restore", 'uses' => "$controller_name@restore"]);
+    Route::delete("$module_name/purge/{id}", ['as' => "$module_name.purge", 'uses' => "$controller_name@purge"]);
+    Route::resource("$module_name", "$controller_name");
+
+    /*
+     *
+     *  Tiers Routes
+     *
+     * ---------------------------------------------------------------------
+     */
+    $module_name = 'tiers';
+    $controller_name = 'TiersController';
+    Route::get("$module_name/trashed", ['as' => "$module_name.trashed", 'uses' => "$controller_name@trashed"]);
+    Route::patch("$module_name/trashed/{id}", ['as' => "$module_name.restore", 'uses' => "$controller_name@restore"]);
+    Route::delete("$module_name/purge/{id}", ['as' => "$module_name.purge", 'uses' => "$controller_name@purge"]);
+    Route::delete("$module_name/purgeAll", ['as' => "$module_name.purgeAll", 'uses' => "$controller_name@purgeAll"]);
     Route::resource("$module_name", "$controller_name");
 
     /*
@@ -52,6 +88,17 @@ Route::group(['namespace' => '\Modules\Core\Http\Controllers\Backend', 'as' => '
     Route::get("$module_name/index_data", ['as' => "$module_name.index_data", 'uses' => "$controller_name@index_data"]);
     Route::get("$module_name/trashed", ['as' => "$module_name.trashed", 'uses' => "$controller_name@trashed"]);
     Route::patch("$module_name/trashed/{id}", ['as' => "$module_name.restore", 'uses' => "$controller_name@restore"]);
+    Route::delete("$module_name/purge/{id}", ['as' => "$module_name.purge", 'uses' => "$controller_name@purge"]);
+    Route::resource("$module_name", "$controller_name");
+
+    /*
+     *
+     *  Paths Routes
+     *
+     * ---------------------------------------------------------------------
+     */
+    $module_name = 'paths';
+    $controller_name = 'PathsController';
     Route::resource("$module_name", "$controller_name");
 
 });

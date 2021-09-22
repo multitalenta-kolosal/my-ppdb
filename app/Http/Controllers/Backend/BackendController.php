@@ -39,8 +39,9 @@ class BackendController extends Controller
         $color_arr = Arr::add($color_arr,'SMK','#B23CFD');
 
         if(!Auth::user()->isSuperAdmin() && !Auth::user()->hasAllUnitAccess()){
-            $color_array = [Auth::user()->unit->name => $color_arr[Auth::user()->unit->name]];
-            $color = json_encode($color_array);
+            // $color_array = [Auth::user()->unit->name => $color_arr[Auth::user()->unit->name]];
+            $color_array = $color_arr;
+            $color = json_encode(array_values($color_array));
         }else{
             $color_array = $color_arr;
             $color = json_encode(array_values($color_array));

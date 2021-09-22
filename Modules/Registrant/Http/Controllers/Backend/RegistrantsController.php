@@ -26,7 +26,7 @@ class RegistrantsController extends Controller
     public function __construct(RegistrantService $registrantService)
     {
         // Page Title
-        $this->module_title = 'Registrants';
+        $this->module_title = trans('menu.registrants');
 
         // module name
         $this->module_name = 'registrants';
@@ -59,8 +59,16 @@ class RegistrantsController extends Controller
 
         $module_action = 'List';
 
+        $options = $this->registrantService->prepareFilterOptions();
+       
+        $unit             = $options['unit'];
+        $type             = $options['type'];
+        $tier             = $options['tier'];
+        $status           = $options['status'];
+        $installment      = $options['installment'];
+
         return $dataTable->render("registrant::backend.$module_path.index",
-            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action')
+            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', 'unit', 'type', 'tier', 'status','installment')
         );
     }
 
@@ -106,11 +114,10 @@ class RegistrantsController extends Controller
         $options = $this->registrantService->create();
        
         $unit = $options['unit'];
-        $type = $options['type'];
 
         return view(
             "registrant::backend.$module_name.create",
-            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','unit','type')
+            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','unit')
         );
     }
 
@@ -165,7 +172,7 @@ class RegistrantsController extends Controller
 
         $registrants = $this->registrantService->show($id);
 
-        $$module_name_singular = $registrants;
+        $$module_name_singular = $registrants->data;
 
         return view(
             "registrant::backend.$module_name.show",
@@ -197,12 +204,13 @@ class RegistrantsController extends Controller
        
         $unit = $options['unit'];
         $type = $options['type'];
+        $tier = $options['tier'];
 
-        $$module_name_singular = $registrants;
+        $$module_name_singular = $registrants->data;
 
         return view(
             "registrant::backend.$module_name.edit",
-            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular", 'unit', 'type')
+            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular", 'unit', 'type','tier')
         );
     }
 
@@ -227,9 +235,9 @@ class RegistrantsController extends Controller
 
         $registrants = $this->registrantService->update($request,$id);
 
-        $$module_name_singular = $registrants;
+        $$module_name_singular = $registrants->data;
 
-        if($$module_name_singular){
+        if(!$registrants->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Updated Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
@@ -258,9 +266,9 @@ class RegistrantsController extends Controller
 
         $registrants = $this->registrantService->destroy($id);
         
-        $$module_name_singular = $registrants;
+        $$module_name_singular = $registrants->data;
 
-        if($$module_name_singular){
+        if(!$registrants->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Deleted Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
@@ -268,6 +276,39 @@ class RegistrantsController extends Controller
 
         return redirect("admin/$module_name");
     }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function purge($id)
+    {
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'purge';
+
+        $registrants = $this->registrantService->purge($id);
+
+        $$module_name_singular = $registrants->data;
+
+        if(!$registrants->error){
+            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Deleted Successfully!')->important();
+        }else{
+            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
+        }
+
+        return redirect("admin/$module_name/trashed");
+    }
+
 
     /**
      * List of trashed ertries
@@ -288,7 +329,7 @@ class RegistrantsController extends Controller
 
         $registrants = $this->registrantService->trashed();
 
-        $$module_name = $registrants;
+        $$module_name = $registrants->data;
 
         return view(
             "registrant::backend.$module_name.trash",
@@ -317,9 +358,9 @@ class RegistrantsController extends Controller
 
         $registrants = $this->registrantService->restore($id);
 
-        $$module_name_singular = $registrants;
+        $$module_name_singular = $registrants->data;
 
-        if($$module_name_singular){
+        if(!$registrants->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Restored Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();

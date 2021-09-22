@@ -34,6 +34,13 @@ class UnitsDataTable extends DataTable
 
                 return view('backend.includes.action_column_admin', compact('module_name', 'data'));
             })
+            ->editColumn('paths',function ($data){
+                $module_name = $this->module_name;
+
+                $item = json_decode($data->paths, true);
+
+                return view('core::backend.components.number-view',compact('module_name','item'));
+            })
             ->editColumn('updated_at', function ($data) {
                 $module_name = $this->module_name;
 
@@ -52,7 +59,7 @@ class UnitsDataTable extends DataTable
 
                 return $formated_date;
             })
-            ->rawColumns(['name', 'requirements', 'action']);
+            ->rawColumns(['name', 'action']);
     }
 
     /**
@@ -63,7 +70,13 @@ class UnitsDataTable extends DataTable
      */
     public function query()
     {
-        $data = $this->unitRepository->query();
+        $user = auth()->user();
+        $data = $this->unitRepository->query()->orderBy('order','asc');
+
+        if(!$user->isSuperAdmin() && !$user->hasAllUnitAccess()){
+            $unit_id = $user->unit_id;
+            $data =  $this->unitRepository->getUnitsByUnitQuery($data, $unit_id);
+        }
 
         return $this->applyScopes($data);
     }
@@ -79,11 +92,12 @@ class UnitsDataTable extends DataTable
                 ->setTableId('units-table')
                 ->columns($this->getColumns())
                 ->minifiedAjax()
-                ->dom('Blfrtip')
+                ->dom(config('ppdb-datatables.ppdb-dom'))
                 ->buttons(
                     Button::make('export'),
                     Button::make('print'),
-                    Button::make('reset')
+                    Button::make('reset')->className('rounded-right'),
+                    Button::make('colvis')->text('Kolom')->className('m-2 rounded btn-info'),
                 )->parameters([
                     'paging' => true,
                     'searching' => true,
@@ -109,8 +123,15 @@ class UnitsDataTable extends DataTable
             Column::make('name'),
             Column::make('contact_number'),
             Column::make('contact_email'),
+            Column::make('paths'),
             Column::make('requirements'),
-            Column::make('entrance_test_url'),
+            Column::make('entrance_test_url')->hidden(),
+            Column::make('register_form_link')->hidden(),
+            Column::make('registration_veriform_link')->hidden(),
+            Column::make('tuition_veriform_link')->hidden(),
+            Column::make('dpp')->hidden(),
+            Column::make('dp')->hidden(),
+            Column::make('spp')->hidden(),
             Column::make('created_at'),
         ];
     }

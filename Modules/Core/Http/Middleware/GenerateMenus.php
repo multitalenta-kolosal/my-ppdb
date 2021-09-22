@@ -18,7 +18,7 @@ class GenerateMenus
     {
         \Menu::make('admin_sidebar', function ($menu) {
             //core dropdown
-            $core_menu = $menu->add('<i class="fas fa-database c-sidebar-nav-icon"></i> Core Data', [
+            $core_menu = $menu->add('<i class="fas fa-server c-sidebar-nav-icon"></i> '.trans('menu.core.title'), [
                 'class' => 'c-sidebar-nav-dropdown',
             ])
             ->data([
@@ -26,9 +26,10 @@ class GenerateMenus
                 'activematches' => [
                     'admin/units*',
                     'admin/periods*', 
+                    'admin/paths*', 
                     'admin/messages*',                    
                 ],
-                'permission' => ['view_units','view_periods','view_messages'],
+                'permission' => ['view_units','view_periods','view_messages','view_paths'],
             ]);
 
             $core_menu->link->attr([
@@ -38,7 +39,7 @@ class GenerateMenus
             ]);
 
             //template
-            $core_menu->add('<i class="fas fa-envelope c-sidebar-nav-icon"></i>Template', [
+            $core_menu->add('<i class="fas fa-envelope c-sidebar-nav-icon"></i> '.trans('menu.message.template'), [
                 'route' => 'backend.messages.index',
                 'class' => 'c-sidebar-nav-item',
             ])
@@ -51,8 +52,22 @@ class GenerateMenus
                 'class' => 'c-sidebar-nav-link',
             ]);
 
+             // paths
+             $core_menu->add('<i class="fas fa-map-signs c-sidebar-nav-icon"></i> '.trans('menu.core.paths'), [
+                'route' => 'backend.paths.index',
+                'class' => 'c-sidebar-nav-item',
+            ])
+            ->data([
+                'order' => 4,
+                'activematches' => ['admin/paths*'],
+                'permission' => ['view_paths'],
+            ])
+            ->link->attr([
+                'class' => 'c-sidebar-nav-link',
+            ]);
+            
              // periods
-             $core_menu->add('<i class="fas fa-calendar-day c-sidebar-nav-icon"></i> Periods', [
+             $core_menu->add('<i class="fas fa-calendar-day c-sidebar-nav-icon"></i> '.trans('menu.core.periods'), [
                 'route' => 'backend.periods.index',
                 'class' => 'c-sidebar-nav-item',
             ])
@@ -66,7 +81,7 @@ class GenerateMenus
             ]);
 
             // units
-            $core_menu->add('<i class="fas fa-school c-sidebar-nav-icon"></i> Units', [
+            $core_menu->add('<i class="fas fa-school c-sidebar-nav-icon"></i> '.trans('menu.core.units'), [
                 'route' => 'backend.units.index',
                 'class' => 'c-sidebar-nav-item',
             ])
@@ -79,6 +94,19 @@ class GenerateMenus
                 'class' => 'c-sidebar-nav-link',
             ]);
             
+            // tiers
+            $core_menu->add('<i class="fas fa-sitemap c-sidebar-nav-icon"></i> '.trans('menu.core.tiers'), [
+                'route' => 'backend.tiers.index',
+                'class' => 'c-sidebar-nav-item',
+            ])
+            ->data([
+                'order' => 5,
+                'activematches' => ['admin/tiers*'],
+                'permission' => ['view_tiers'],
+            ])
+            ->link->attr([
+                'class' => 'c-sidebar-nav-link',
+            ]);
            
         })->sortBy('order');
 

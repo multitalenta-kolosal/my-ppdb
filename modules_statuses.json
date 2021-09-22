@@ -4,5 +4,7 @@
     "Comment": true,
     "Registrant": true,
     "Core": true,
-    "Message": true
+    "Message": true,
+    "Payment": true,
+    "Finance": true
 }

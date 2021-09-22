@@ -26,6 +26,11 @@ class RegistrantStage extends BaseModel
         return $this->belongsTo('Modules\Registrant\Entities\Registrant','registrant_id','registrant_id');
     }
 
+    public function installment()
+    {
+        return $this->belongsTo('Modules\Finance\Entities\Installment');
+    }
+
     /**
      * Create a new factory instance for the model.
      *

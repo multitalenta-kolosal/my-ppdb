@@ -47,7 +47,11 @@ class RegistrantMessageService{
                     ->all()
                     ->sortByDesc('created_at');
 
-        return $registrantMessage;
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $registrantMessage,
+        );
     }
 
     public function store(Request $request, $registrant_data = null, $manualCreate = false){
@@ -70,8 +74,8 @@ class RegistrantMessageService{
             $registrantMessage = $this->registrantMessageRepository->create($regsitrantMessageData->toArray());
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
-            return $response = [
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
+            return (object) $response = [
                 'data'   => null,
                 'error' => true,
                 'message' => $e->getMessage(),
@@ -92,7 +96,7 @@ class RegistrantMessageService{
             'message' => '',
         ];
     
-        return $response;
+        return (object) $response;
     }
 
     public function update(Request $request,$registrantMessageObject = null, $id){
@@ -111,8 +115,8 @@ class RegistrantMessageService{
 
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
-            return $response = [
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
+            return (object) $response = [
                 'data'   => null,
                 'error' => true,
                 'message' => $e->getMessage(),
@@ -128,7 +132,7 @@ class RegistrantMessageService{
             'message' => '',
         ];
     
-        return $response;
+        return (object) $response;
 
     }
 
@@ -142,8 +146,8 @@ class RegistrantMessageService{
             $deleted = $this->registrantMessageRepository->delete($id);
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical($e->getMessage());
-            return $response = [
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
+            return (object) $response = [
                 'data'   => null,
                 'error' => true,
                 'message' => $e->getMessage(),
@@ -161,7 +165,7 @@ class RegistrantMessageService{
             'message' => '',
         ];
     
-        return $response;
+        return (object) $response;
     }
 
 }

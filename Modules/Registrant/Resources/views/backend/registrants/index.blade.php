@@ -23,17 +23,20 @@
             <!--/.col-->
             <div class="col-4">
                 <div class="float-right">
-                    <x-buttons.create route='{{ route("backend.$module_name.create") }}' title="{{__('Create')}} {{ ucwords(Str::singular($module_name)) }}"/>
-
+                    @can('add_'.$module_name)
+                        <x-buttons.create route='{{ route("backend.$module_name.create") }}' title="{{__('Create')}} {{ ucwords(Str::singular($module_name)) }}"/>
+                    @endcan
                     <div class="btn-group" role="group" aria-label="Toolbar button groups">
                         <div class="btn-group" role="group">
                             <button id="btnGroupToolbar" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-cog"></i>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="btnGroupToolbar">
-                                <a class="dropdown-item" href="{{ route("backend.$module_name.trashed") }}">
-                                    <i class="fas fa-eye-slash"></i> View trash
-                                </a>
+                                @can('delete_'.$module_name)
+                                    <a class="dropdown-item" href="{{ route("backend.$module_name.trashed") }}">
+                                        <i class="fas fa-eye-slash"></i> View trash
+                                    </a>
+                                @endcan
                             </div>
                         </div>
                     </div>
@@ -46,7 +49,7 @@
             <div class="col">
                 <div class="table-responsive">
                     <table class="table">
-                        {{ $dataTable->table() }}
+                        {{ $dataTable->table([], true) }}
                     </table>
                 </div>
             </div>
@@ -67,7 +70,11 @@
         </div>
     </div>
 </div>
+
+@include('registrant::backend.components.filter-modal')
+
 @stop
+
 
 @push ('after-styles')
 <link rel="stylesheet" href="{{ asset('vendor/datatable/datatables.min.css') }}">
@@ -77,4 +84,22 @@
 @push ('after-scripts')
 <!-- DataTables Core and Extensions -->
 {!! $dataTable->scripts()  !!}
+
+<script>
+    $(document).ready(function(){
+        $('.sorting').on( 'click',  function () { 
+            $('#{{$module_name}}-table').busyLoad("show", 
+            { 
+                fontawesome: "fa fa-cog fa-spin fa-3x fa-fw" ,
+                background: "rgba(255, 255, 255, 0.56)",
+                containerClass: "z-2",
+            });
+
+            $('#{{$module_name}}-table').on( 'order.dt',  function () { 
+                $('#{{$module_name}}-table').busyLoad("hide");
+            });
+        });
+    })
+</script>
+
 @endpush

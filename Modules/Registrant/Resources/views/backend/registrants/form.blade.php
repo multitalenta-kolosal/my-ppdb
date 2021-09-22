@@ -21,24 +21,29 @@
             $field_lable = __("registrant::$module_name.$field_name");
             $field_placeholder = __("Select an option");
             $required = "required";
-            $select_options = $type;
+            $select_options = $type ?? [];
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
+            @if($module_action == 'Edit')
+                <small id="nowPath" class="form-text text-muted">Jurusan pendaftar saat ini: <span class="text-primary">{{$registrant->path->name}}</span></small>      
+            @endif
         </div>
     </div>
-    <div class="col-4">
-        <div class="form-group float-left">
+    <div class="col-4 d-none" id="tier_options">
+        <div class="form-group">
             <?php
-            $field_name = 'internal';
+            $field_name = 'tier';
+            $field_data_id = 'tier_id';
             $field_lable = __("registrant::$module_name.$field_name");
+            $field_placeholder = __("Select an option");
             $required = "";
+            $select_options = $tier ?? [];
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            @if($module_action == 'Edit')
-                {{ html()->checkbox($field_name)->class('form-control float-left')->attributes(["$required"])->checked(old($field_name, $$module_name_singular->$field_name == true)) }}
-            @else
-                {{ html()->checkbox($field_name)->class('form-control float-left')->attributes(["$required"]) }}
+            {{ html()->select($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
+            @if($module_action == 'Edit')    
+                <small id="nowTier" class="form-text text-muted">Kelas/Jurusan pendaftar saat ini: <span class="text-primary">{{$registrant->tier->tier_name}}</span></small>      
             @endif
         </div>
     </div>
@@ -98,6 +103,18 @@
             $field_lable = __("registrant::$module_name.$field_name");
             $field_placeholder = $field_lable;
             $required = "required";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required", 'aria-label'=>'Image']) }}
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-group">
+            <?php
+            $field_name = 'phone2';
+            $field_lable = __("registrant::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required", 'aria-label'=>'Image']) }}
@@ -228,7 +245,7 @@ $(document).ready(function(){
     $('#button-generate-va').attr('disabled',);
 
     $("#button-generate-id").on("click", function (event) {
-        var unit_id = $("#{{$field_data_id}} option:selected").val().toString();
+        var unit_id = $("#unit_id option:selected").val().toString();
         var generateUrl = '{!! route("backend.registrants.generateId") !!}';
         var va_prefix = "{{setting('va_prefix')}}";
         $.ajax({
@@ -247,6 +264,13 @@ $(document).ready(function(){
             }
         });
     });
+
+    // $(document).ready(function() {
+    //     if($('#unit_id').val() != ""){
+    //         setTier();
+    //         $('#unit_id').trigger('change');
+    //     }
+    // });
 });
 </script>
 

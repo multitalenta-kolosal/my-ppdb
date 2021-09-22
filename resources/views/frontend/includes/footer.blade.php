@@ -1,7 +1,7 @@
 <!-- //@include ('frontend.includes.footer-comment-area') -->
 
-<footer class="footer section pt-6 pt-md-8 pt-lg-10 pb-3 bg-indigo text-white overflow-hidden">
-    <div class="pattern pattern-soft top bg-indigo"></div>
+<footer class="footer section pt-6 pt-md-8 pt-lg-10 pb-3 warga-purple text-white overflow-hidden">
+    <div class="pattern pattern-soft top warga-purple"></div>
     <div class="container">
         <div class="row">
             <div class="col-lg-4 mb-4 mb-lg-0">

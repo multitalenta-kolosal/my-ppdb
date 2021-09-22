@@ -83,6 +83,34 @@
     </div>
 </div>
 <div class="row">
+    <div class="col-6">
+        <div class="form-group">
+            <?php
+            $field_name = 'register_form_link';
+            $field_lable = __("core::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required", 'aria-label'=>'Image']) }}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <div class="form-group">
+            <?php
+            $field_name = 'entrance_fee';
+            $field_lable = __("core::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required", 'aria-label'=>'Image']) }}
+        </div>
+    </div>
+</div>
+<div class="row">
     <div class="col-12">
         <div class="form-group">
             <?php
@@ -92,7 +120,35 @@
             $required = "required";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->textarea($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
+            {{ html()->textarea($field_name)->rows(10)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <div class="form-group">
+            <?php
+            $field_name = 'registration_veriform_link';
+            $field_lable = __("core::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required", 'aria-label'=>'Image']) }}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <div class="form-group">
+            <?php
+            $field_name = 'tuition_veriform_link';
+            $field_lable = __("core::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required", 'aria-label'=>'Image']) }}
         </div>
     </div>
 </div>
@@ -165,7 +221,43 @@
         </div>
     </div>
 </div>
-<div></div>
+
+<div class="h3">Angsuran</div>
+<div class="row">
+    <div class="col-4">
+        <div class="form-group">
+            <?php
+            $field_name = 'installments';
+            $field_data_id = 'installment_ids';
+            $field_lable = __("registrant::$module_name.$field_name");
+            $field_placeholder = "--Silakan Pilih Angsuran (bisa lebih dari satu)--";
+            $required = "required";
+            $select_options = $installment_options;
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->multiselect($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
+        </div>
+    </div>
+</div>
+
+<div class="h3">Jalur Pendaftaran</div>
+<div class="row">
+    <?php
+        $field_name = 'path';
+        $field_lable = __("core::$module_name.$field_name");
+        $field_placeholder = $field_lable;
+        $field_value = $path_value ?? [];
+        $required = "";
+    ?>
+    @foreach($path_options as $key => $path)
+        <div class="col-sm-6 col-md-3 col-lg-2 m-2">
+            <div class="form-group">
+                    {{ html()->label($path)->class('float-center') }} {!! fielf_required($required) !!}
+                    {{ html()->checkbox($field_name.'_'.strtolower($path), array_key_exists($key, $field_value) ? true : false, $key)->class('inline m-1 display-1')->attributes(["$required"]) }}
+            </div>
+        </div>
+    @endforeach
+</div>
 
 
 <!-- Select2 Library -->
@@ -178,53 +270,6 @@
 @endpush
 
 @push ('after-scripts')
-<script type="text/javascript">
-$(document).ready(function() {
-    $('.select2-category').select2({
-        theme: "bootstrap",
-        placeholder: '@lang("Select an option")',
-        minimumInputLength: 2,
-        allowClear: true,
-        ajax: {
-            url: '{{route("backend.categories.index_list")}}',
-            dataType: 'json',
-            data: function (params) {
-                return {
-                    q: $.trim(params.term)
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
-    });
-
-    $('.select2-tags').select2({
-        theme: "bootstrap",
-        placeholder: '@lang("Select an option")',
-        minimumInputLength: 2,
-        allowClear: true,
-        ajax: {
-            url: '{{route("backend.tags.index_list")}}',
-            dataType: 'json',
-            data: function (params) {
-                return {
-                    q: $.trim(params.term)
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
-    });
-});
-</script>
 
 <!-- Date Time Picker & Moment Js-->
 <script type="text/javascript">
@@ -246,17 +291,8 @@ $(function() {
 });
 </script>
 
-<script type="text/javascript" src="{{ asset('vendor/ckeditor/ckeditor.js') }}"></script>
-<script type="text/javascript" src="{{ asset('vendor/file-manager/js/file-manager.js') }}"></script>
-
 <script type="text/javascript">
 
-CKEDITOR.replace('requirements', {filebrowserImageBrowseUrl: '/file-manager/ckeditor', language:'{{App::getLocale()}}', defaultLanguage: 'en'});
-
-// set file link
-function fmSetLink($url) {
-  document.getElementById('featured_image').value = $url;
-}
 
 </script>
 

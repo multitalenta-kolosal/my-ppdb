@@ -1,5 +1,5 @@
 <header class="header-global">
-    <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg headroom py-lg-3 px-lg-6 navbar-dark navbar-theme-indigo">
+    <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg headroom py-lg-3 px-lg-6 navbar-dark navbar-theme-indigo warga-purple">
         <div class="container">
             <a class="navbar-brand" href="/">
                 <img class="navbar-brand-dark common" src="{{asset('img/backend-logo.jpg')}}" height="35" alt="Logo light">
@@ -32,11 +32,16 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="{{ route('frontend.registrants.veriform') }}" class="nav-link">
+                            <span class="fas fa-user-check mr-1"></span> Verifikasi
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{ route('frontend.registrants.track') }}" class="nav-link">
                             <span class="fas fa-running mr-1"></span> Cek Status
                         </a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown d-none d-lg-block">
                         <a href="#" class="nav-link dropdown-toggle" aria-expanded="false" data-toggle="dropdown">
                             <span class="nav-link-inner-text mr-1">
                                 <span class="fas fa-user mr-1"></span>
@@ -46,6 +51,59 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg">
                             <div class="col-auto px-0" data-dropdown-content>
+                                <div class="list-group list-group-flush">
+                                    @auth
+                                    <a href="{{ route('frontend.users.profile', auth()->user()->id) }}"
+                                        class="list-group-item list-group-item-action d-flex align-items-center p-0 py-3 px-lg-4">
+                                        <span class="icon icon-sm icon-success"><i class="fas fa-user"></i></span>
+                                        <div class="ml-4">
+                                            <span class="text-dark d-block">
+                                                {{ Auth::user()->name }}
+                                            </span>
+                                            <span class="small">View profile details!</span>
+                                        </div>
+                                    </a>
+                                    <a href="{{ route('logout') }}"
+                                        class="list-group-item list-group-item-action d-flex align-items-center p-0 py-3 px-lg-4" onclick="event.preventDefault(); document.getElementById('account-logout-form').submit();">
+                                        <span class="icon icon-sm icon-secondary">
+                                            <i class="fas fa-sign-out-alt"></i>
+                                        </span>
+                                        <div class="ml-4">
+                                            <span class="text-dark d-block">
+                                                Logout
+                                            </span>
+                                            <span class="small">Logout from your account!</span>
+                                        </div>
+                                    </a>
+                                    <form id="account-logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                    @else
+                                    <a href="{{ route('login') }}"
+                                        class="list-group-item list-group-item-action d-flex align-items-center p-0 py-3 px-lg-4">
+                                        <span class="icon icon-sm icon-secondary"><i class="fas fa-key"></i></span>
+                                        <div class="ml-4">
+                                            <span class="text-dark d-block">
+                                                Login
+                                            </span>
+                                            <span class="small">Login to the application</span>
+                                        </div>
+                                    </a>
+                                    @endauth
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown show d-block d-lg-none">
+                        <a href="#" class="nav-link dropdown-toggle" aria-expanded="true" data-toggle="dropdown">
+                            <span class="nav-link-inner-text mr-1">
+                                <span class="fas fa-user mr-1"></span>
+                                Account
+                            </span>
+                            <i class="fas fa-angle-down nav-link-arrow"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg show">
+                            <div class="col-auto px-0">
                                 <div class="list-group list-group-flush">
                                     @auth
                                     <a href="{{ route('frontend.users.profile', auth()->user()->id) }}"

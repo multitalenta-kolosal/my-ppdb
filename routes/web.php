@@ -17,6 +17,11 @@ require __DIR__.'/auth.php';
 // Atom/ RSS Feed Routes
 Route::feeds();
 
+if (true) {
+    Route::any('/register', function() {
+        abort(404);
+    });
+}
 // Language Switch
 Route::get('language/{language}', 'LanguageController@switch')->name('language.switch');
 
@@ -104,6 +109,17 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'as' => 'backend.',
     Route::get("$module_name/create", ['as' => "$module_name.create", 'uses' => "$controller_name@create"]);
     Route::get("$module_name/download/{file_name}", ['as' => "$module_name.download", 'uses' => "$controller_name@download"]);
     Route::get("$module_name/delete/{file_name}", ['as' => "$module_name.delete", 'uses' => "$controller_name@delete"]);
+
+    /*
+    *
+    *  Purge Routes
+    *
+    * ---------------------------------------------------------------------
+    */
+    $module_name = 'purges';
+    $controller_name = 'PurgeController';
+    Route::get("$module_name/purgeAll/{name}", ['as' => "$module_name.purgeAll", 'uses' => "$controller_name@purgeAll"]);
+    Route::get("$module_name", ['as' => "$module_name.index", 'uses' => "$controller_name@index"]);
 
     /*
     *

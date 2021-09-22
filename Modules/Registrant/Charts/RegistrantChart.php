@@ -31,6 +31,10 @@ class RegistrantChart extends BaseChart
         $default_date = [];
         $units = Unit::orderBy('order','ASC')->pluck('name','id')->all();
         $registrant_collections =[];
+
+        //determine connections
+        $connection = config('database.default');
+        $driver = config("database.connections.{$connection}.driver");
         
         if($request->periods){
             $periods = $request->periods;
@@ -38,44 +42,78 @@ class RegistrantChart extends BaseChart
                 $default_date_raw = CarbonPeriod::create(Carbon::now()->subDays($periods), Carbon::now())->toArray();
                 
                 foreach($default_date_raw as $value){
-                    array_push($default_date,$value->format('Y-m-d'));
+                    array_push($default_date,$value->format('d M'));
                 }
 
                 $count_keys = $default_date;
                 $default_count = array_fill_keys($count_keys, 0);
 
                 if(!Auth::user()->isSuperAdmin() && !Auth::user()->hasAllUnitAccess()){
-                    $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subDays($periods))
+                    switch($driver){
+                        case 'mysql':
+                            $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subDays($periods))
                                         ->where('unit_id','=',Auth::user()->unit_id)
                                         ->groupBy('date')
                                         ->orderBy('date', 'ASC')
                                         ->get(array(
-                                            DB::raw('Date(created_at) as date'),
+                                            DB::raw('DATE_FORMAT(created_at, "%d %b") as date'),
                                             DB::raw('COUNT(*) as "views"')
                                         )
                                     );
-                }else{
-                    foreach($units as $key => $unit){
-                        $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subDays($periods))
-                                            ->where('unit_id','=', $key)
+                        break;
+                        case 'pgsql':
+                            $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subDays($periods))
+                                            ->where('unit_id','=',Auth::user()->unit_id)
                                             ->groupBy('date')
                                             ->orderBy('date', 'ASC')
                                             ->get(array(
-                                                DB::raw('Date(created_at) as date'),
+                                                DB::raw('TO_CHAR(created_at, '."'DD Mon'".') as date'),
                                                 DB::raw('COUNT(*) as "views"')
                                             )
                                         );
+                        break;
+                        default:
+                            throw new \Exception('Driver not supported.');
+                        break;
+                    }
+                }else{
+                    foreach($units as $key => $unit){
+                        switch($driver){
+                            case 'mysql':
+                                $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subDays($periods))
+                                                ->where('unit_id','=', $key)
+                                                ->groupBy('date')
+                                                ->orderBy('date', 'ASC')
+                                                ->get(array(
+                                                    DB::raw('DATE_FORMAT(created_at, "%d %b") as date'),
+                                                    DB::raw('COUNT(*) as "views"')
+                                                )
+                                            );
+                            break;
+                            case 'pgsql':
+                                $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subDays($periods))
+                                                ->where('unit_id','=', $key)
+                                                ->groupBy('date')
+                                                ->orderBy('date', 'ASC')
+                                                ->get(array(
+                                                    DB::raw('TO_CHAR(created_at, '."'DD Mon'".') as date'),
+                                                    DB::raw('COUNT(*) as "views"')
+                                                )
+                                            );
+                            break;
+                            default:
+                                throw new \Exception('Driver not supported.');
+                            break;
+                        }
                         $registrant_collections = Arr::add($registrant_collections, $unit, $registrant);
                     }
                 }
             }else{
-                \Log::debug(json_encode($periods));
                 if($periods == 'monthly'){
                     $periods = 6;
                 }else if($periods == 'year'){
                     $periods = 11;
                 }
-                \Log::debug(json_encode($periods));
 
                 $default_date_raw = CarbonPeriod::create(Carbon::now()->subMonth($periods), Carbon::now())->toArray();
                 

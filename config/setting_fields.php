@@ -51,6 +51,15 @@ return [
                 'class' => '', // any class for input
                 'value' => '8995', // default value if you want
             ],
+            [
+                'type'  => 'checkbox', // input fields type
+                'data'  => 'string', // data type, string, int, boolean
+                'name'  => 'send_email', // unique name for field
+                'label' => 'Also Send Email When Send Whatsapp Message?', // you know what label it is
+                'rules' => '', // validation rule of laravel
+                'class' => '', // any class for input
+                'value' => '1', // default value if you want
+            ],
         ],
 
     ],

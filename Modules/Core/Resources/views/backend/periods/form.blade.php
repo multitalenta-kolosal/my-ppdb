@@ -4,6 +4,7 @@
             <?php
             $field_name = 'active_state';
             $field_lable = __("core::$module_name.$field_name");
+            $helper = __("core::$module_name.$field_name"."_helper",['active_period' => ($nowActivePeriod != null) ? ($nowActivePeriod->period_name) : 'NULL']);
             $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
@@ -14,6 +15,9 @@
             @endif
         </div>
     </div>
+</div>
+<div class="row">
+    {{ html()->div($helper)->class('d-block mx-3 mb-3') }}
 </div>
 <div class="row">
     <div class="col">
@@ -47,7 +51,7 @@
             <?php
             $field_name = 'year_end';
             $field_lable = __("core::$module_name.$field_name");
-            $field_placeholder = \Carbon\Carbon::now()->format('Y');
+            $field_placeholder = \Carbon\Carbon::now()->addYears(1)->format('Y');
             $required = "required";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
@@ -62,24 +66,7 @@
             $field_name = 'opening_date';
             $field_lable = __("core::$module_name.$field_name");
             $field_placeholder = $field_lable;
-            $required = "required";
-            ?>
-            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            <div class="input-group date datetime" id="{{$field_name}}" data-target-input="nearest">
-                {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control datetimepicker-input')->attributes(["$required", 'data-target'=>"#$field_name"]) }}
-                <div class="input-group-append" data-target="#{{$field_name}}" data-toggle="datetimepicker">
-                    <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-4">
-        <div class="form-group">
-            <?php
-            $field_name = 'internal_date';
-            $field_lable = __("core::$module_name.$field_name");
-            $field_placeholder = $field_lable;
-            $required = "required";
+            $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             <div class="input-group date datetime" id="{{$field_name}}" data-target-input="nearest">
@@ -96,7 +83,24 @@
             $field_name = 'closing_date';
             $field_lable = __("core::$module_name.$field_name");
             $field_placeholder = $field_lable;
-            $required = "required";
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            <div class="input-group date datetime" id="{{$field_name}}" data-target-input="nearest">
+                {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control datetimepicker-input')->attributes(["$required", 'data-target'=>"#$field_name"]) }}
+                <div class="input-group-append" data-target="#{{$field_name}}" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="form-group">
+            <?php
+            $field_name = 'payment_limit_date';
+            $field_lable = __("core::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             <div class="input-group date datetime" id="{{$field_name}}" data-target-input="nearest">
@@ -109,6 +113,59 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-4">
+        <div class="form-group">
+            <?php
+            $field_name = 'wave_1';
+            $field_lable = __("core::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            <div class="input-group date datetime" id="{{$field_name}}" data-target-input="nearest">
+                {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control datetimepicker-input')->attributes(["$required", 'data-target'=>"#$field_name"]) }}
+                <div class="input-group-append" data-target="#{{$field_name}}" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="form-group">
+            <?php
+            $field_name = 'wave_2';
+            $field_lable = __("core::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            <div class="input-group date datetime" id="{{$field_name}}" data-target-input="nearest">
+                {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control datetimepicker-input')->attributes(["$required", 'data-target'=>"#$field_name"]) }}
+                <div class="input-group-append" data-target="#{{$field_name}}" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="form-group">
+            <?php
+            $field_name = 'wave_3';
+            $field_lable = __("core::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            <div class="input-group date datetime" id="{{$field_name}}" data-target-input="nearest">
+                {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control datetimepicker-input')->attributes(["$required", 'data-target'=>"#$field_name"]) }}
+                <div class="input-group-append" data-target="#{{$field_name}}" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-6">
         <div class="form-group">

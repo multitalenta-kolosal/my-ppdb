@@ -22,7 +22,7 @@ class RegistrantsController extends Controller
     public function __construct(RegistrantService $registrantService)
     {
         // Page Title
-        $this->module_title = 'Registrants';
+        $this->module_title = trans('menu.registrants');
 
         // module name
         $this->module_name = 'registrants';
@@ -63,6 +63,29 @@ class RegistrantsController extends Controller
         return view(
             "registrant::frontend.$module_path.index",
             compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','unit_options', 'type_options')
+        );
+    }
+/**
+     * Display a listing of the resource.
+     *
+     * @return View
+     */
+    public function veriform()
+    {
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'List';
+
+        $units = $this->registrantService->getUnits();
+
+        return view(
+            "registrant::frontend.$module_path.veriform",
+            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','units')
         );
     }
 
@@ -191,9 +214,9 @@ class RegistrantsController extends Controller
 
         $registrants = $this->registrantService->update($request,$id);
 
-        $$module_name_singular = $registrants;
+        $$module_name_singular = $registrants->data;
 
-        if($$module_name_singular){
+        if($registrants->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Updated Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();

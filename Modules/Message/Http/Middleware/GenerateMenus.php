@@ -28,7 +28,7 @@ class GenerateMenus
            
 
             // Registrant Message
-            $menu->add('<i class="fas fa-mail-bulk c-sidebar-nav-icon"></i> Message Tracker', [
+            $menu->add('<i class="fas fa-mail-bulk c-sidebar-nav-icon"></i> '.trans('menu.message.title'), [
                 'route' => 'backend.registrantmessages.index',
                 'class' => 'c-sidebar-nav-item',
             ])

@@ -56,7 +56,11 @@
 <div class="row">
     <?php
     $total = 0;
-    $quota = json_decode($batch_period->quota);
+    if($batch_period){
+        $quota = json_decode($batch_period->quota);
+    }else{
+        $quota = null;
+    }
     foreach($unit_counts as $unit){
         $total += $unit->amount;
     }
@@ -65,7 +69,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="text-value-lg">{{$total}}</div>
-                <div>kabeh</div>
+                <div>Semua</div>
                 <div class="progress progress-xs my-2">
                     <div class="progress-bar bg-dark" role="progressbar" style="width: 12.5%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                 </div><small class="text-muted">Widget helper text</small>
@@ -73,10 +77,14 @@
         </div>
     </div>
     @foreach($unit_counts as $unit)
-        <?php
+        <?php 
         $unit_name = $unit->unit;
         $unit_quota = 'quota_'.$unit_name;
         $amount =$unit->amount;
+
+        if($quota->$unit_quota<1){
+            $quota->$unit_quota = 1;
+        }
 
         $bar_percentage = round( ( $amount / $quota->$unit_quota) * 100, 2);
         ?>
@@ -129,24 +137,8 @@
                 { 
                     type: 'line', 
                     fill: false,
-                }
-            ]),
-    });
-
-    const registrant_chart_bar = new Chartisan({
-        el: '#registrant_chart_bar',
-        url: "@chart('registrant_chart')"+"?periods="+$('#periods').val(),
-        hooks: new ChartisanHooks()
-            .title('Pendaftar')
-            .colors({!! $color !!})
-            .borderColors({!! $color !!})
-            .responsive(true)
-            .tooltip(true)
-            .stepSize(2,'y')
-            .datasets([
-                { 
-                    type: 'bar', 
-                    fill: false,
+                    borderWidth: 2,
+                    bezierCurve: false,
                 }
             ]),
     });

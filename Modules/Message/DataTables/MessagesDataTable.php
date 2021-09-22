@@ -75,11 +75,12 @@ class MessagesDataTable extends DataTable
                 ->setTableId('messages-table')
                 ->columns($this->getColumns())
                 ->minifiedAjax()
-                ->dom('Blfrtip')
+                ->dom(config('ppdb-datatables.ppdb-dom'))
                 ->buttons(
                     Button::make('export'),
                     Button::make('print'),
-                    Button::make('reset')
+                    Button::make('reset')->className('rounded-right'),
+                    Button::make('colvis')->text('Kolom')->className('m-2 rounded btn-info'),
                 )->parameters([
                     'paging' => true,
                     'searching' => true,

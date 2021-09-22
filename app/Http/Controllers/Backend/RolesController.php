@@ -18,7 +18,7 @@ class RolesController extends Controller
     public function __construct()
     {
         // Page Title
-        $this->module_title = 'Roles';
+        $this->module_title = trans('menu.access_control.roles');
 
         // module name
         $this->module_name = 'roles';

@@ -133,6 +133,7 @@ return [
         'changePassword'    => 'Ubah Password',
         'delete'            => 'Hapus',
         'restore'           => 'Restore',
+        'purge'             => 'Hapus Permanen',
         'save'              => 'Simpan',
         'show'              => 'Lihat',
         'update'            => 'Ubah',

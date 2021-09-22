@@ -13,7 +13,7 @@
                     <div class="col-xl-5 col-lg-6 col-md-8 px-5">
                         <h1 class="text-white">@lang('Welcome')</h1>
                         <p class="text-lead text-white">
-                            @lang("Use these awesome forms to login or create new account.")
+                            Silakan masuk ke akun anda
                         </p>
                     </div>
                 </div>
@@ -30,9 +30,6 @@
         <div class="row justify-content-center">
             <div class="col-lg-6 col-md-8">
                 <div class="card bg-secondary border border-soft">
-
-                    @include('auth.social_login_buttons')
-
                     <div class="card-body px-lg-5 py-lg-5">
                         <div class="text-center text-muted mb-4">
                             <small>Sign in with credentials</small>
