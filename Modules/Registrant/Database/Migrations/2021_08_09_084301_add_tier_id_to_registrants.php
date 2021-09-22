@@ -14,7 +14,7 @@ class AddTierIdToRegistrants extends Migration
     public function up()
     {
         Schema::table('registrants', function (Blueprint $table) {
-            $table->integer('tier_id')->nullable()->default(NULL);
+            $table->bigInteger('tier_id')->nullable()->default(NULL);
         });
     }
 

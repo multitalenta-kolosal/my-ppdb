@@ -28,7 +28,7 @@ class AddVeriformLinkToUnits extends Migration
     public function down()
     {
         Schema::table('units', function (Blueprint $table) {
-            $table->string('register_form_link')->nullable();
+            $table->dropColumn('register_form_link');
             $table->dropColumn('registration_veriform_link');
             $table->dropColumn('tuition_veriform_link');
         });

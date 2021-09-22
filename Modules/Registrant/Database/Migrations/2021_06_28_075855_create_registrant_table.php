@@ -18,12 +18,12 @@ class CreateRegistrantTable extends Migration
             $table->string('registrant_id')->unique()->nullable()->default(NULL);
             $table->string('va_number')->nullable()->default(NULL);
             $table->string('name')->nullable()->default(NULL);
-            $table->string('type')->nullable()->default(NULL);
+            $table->bigInteger('type')->nullable()->default(NULL);
             $table->boolean('internal')->nullable()->default(0);
-            $table->string('year')->nullable()->default(NULL);
+            $table->bigInteger('year')->nullable()->default(NULL);
             $table->string('phone')->nullable()->default(NULL);
             $table->string('email')->nullable()->default(NULL);
-            $table->string('unit')->nullable()->default(NULL);
+            $table->bigInteger('unit')->nullable()->default(NULL);
             $table->string('former_school')->nullable()->default(NULL);
             $table->string('status')->nullable()->default(NULL);
             $table->timestamps();

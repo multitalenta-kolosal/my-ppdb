@@ -15,7 +15,7 @@ class CreateTiersTable extends Migration
     {
         Schema::create('tiers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('unit_id')->nullable();
+            $table->bigInteger('unit_id')->nullable();
             $table->string('tier_name')->nullable()->default(NULL);
             $table->string('tier_code')->nullable()->default(NULL);
             $table->string('contact_number')->nullable()->default(NULL);

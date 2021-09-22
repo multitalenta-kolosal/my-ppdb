@@ -14,7 +14,7 @@ class AddInstallmentIdToRegistrantStages extends Migration
     public function up()
     {
         Schema::table('registrant_stages', function (Blueprint $table) {
-            $table->integer('installment_id')->nullable()->default(NULL);
+            $table->bigInteger('installment_id')->nullable()->default(NULL);
         });
     }
 
@@ -26,7 +26,7 @@ class AddInstallmentIdToRegistrantStages extends Migration
     public function down()
     {
         Schema::table('registrant_stages', function (Blueprint $table) {
-            $table->integer('installment_id')->nullable()->default(NULL);
+            $table->dropColumn('installment_id');
         });
     }
 }

@@ -28,7 +28,7 @@ class AddApiKeyToUnits extends Migration
     {
         Schema::table('units', function (Blueprint $table) {
             $table->dropColumn('api_key');
-            $table->integer('order');
+            $table->dropColumn('order');
         });
     }
 }

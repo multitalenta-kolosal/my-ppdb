@@ -301,6 +301,15 @@ class MessageService{
             $curl = curl_init();
             
             $apikey = $registrant->unit->api_key;
+
+            if(!$apikey){
+                return (object) $response = [
+                    'data'          => null,
+                    'registrant'    => $registrant,
+                    'error'         => false,
+                    'message'       => '',
+                ];
+            }
             $destination =  $this->getCleanNumber($registrant->phone);
             $message_text = $message;
             $message_custom_code = $message_code."_".$registrant->registrant_id."_".$tracker_code;

@@ -14,7 +14,7 @@ class AddInstallmentIdToRegistrants extends Migration
     public function up()
     {
         Schema::table('registrants', function (Blueprint $table) {
-            $table->integer('installment_id')->nullable();
+            $table->bigInteger('installment_id')->nullable();
         });
     }
 

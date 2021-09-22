@@ -26,9 +26,9 @@ class PeriodDatabaseSeeder extends Seeder
         // Add the master administrator, user id of 1
         $periods = [
             [
-                'period_name'              => Carbon::now()->year."/".Carbon::now()->year+1,
+                'period_name'              => Carbon::now()->year."/".Carbon::now()->addYear()->year,
                 'year_start'               => Carbon::now()->year,
-                'year_end'                 => Carbon::now()->year+1,
+                'year_end'                 => Carbon::now()->addYear()->year,
                 'active_state'             => 1,
                 'created_at'               => Carbon::now(),
                 'updated_at'               => Carbon::now(),
