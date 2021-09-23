@@ -17,8 +17,12 @@
                     <div class="col p-2 my-2 text-center">
                         <h5>{{$unit->name}}</h5>
                         <div class="m-2">
-                            <i class="fab fa-lg fa-whatsapp text-success"></i><br>
-                            {{$unit->contact_number}}
+                           <a type="button" href="https://wa.me/{{$unit->contact_number ?? ''}}" id ="{{$unit->id}}" class="btn btn-success">
+                            <i class="fab fa-lg fa-whatsapp text-white"></i>
+                            <span class="text-white">
+                              {{$unit->contact_number}}
+                            </span>
+                          </a>
                         </div>
                         <div class="m-2">
                             <i class="fas fa-lg fa-envelope text-danger"></i><br>
