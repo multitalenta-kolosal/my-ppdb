@@ -81,7 +81,11 @@ class RegistrantsDataTable extends DataTable
 
                 $value_array = array_values($selected);
 
-                return "(".$value_array[0]['status_id'].") ".$value_array[0]['pass-title'];
+                if($value_array){
+                    return "(".$value_array[0]['status_id'].") ".$value_array[0]['pass-title'];
+                }else{
+                    return "Status Loading...";
+                }
             })
             ->rawColumns(['name', 'status', 'action']);
     }
