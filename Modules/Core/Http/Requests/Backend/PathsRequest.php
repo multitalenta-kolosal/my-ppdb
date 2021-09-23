@@ -25,7 +25,6 @@ class PathsRequest extends FormRequest
     {
         return [
             'name'                         => 'required|max:191',
-            'additional_requirements'      => '',
         ];
     }
 }
