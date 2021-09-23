@@ -291,8 +291,10 @@ class MessageService{
                     $replaces = $this->parseMessageReplaces($registrant, $template);
                 }
 
-                foreach($replaces as $key => $value){
-                    $message =  Str::replace('$'.$key, $value, $message);
+                if($replaces){
+                    foreach($replaces as $key => $value){
+                        $message =  Str::replace('$'.$key, $value, $message);
+                    }
                 }
             }
 
@@ -464,15 +466,17 @@ class MessageService{
         $parsed = [];
 
         if($model_name == 'Registrant'){
-            foreach($replacements as $key => $value){
-                $connector = '->';
-                if (Str::contains($value, $connector)) {
-                    $relation = Str::before($value, $connector);
-                    $relation_value = Str::after($value, $connector);
-
-                    $parsed = Arr::add($parsed, $key, html_entity_decode($model->$relation->$relation_value));
-                }else{
-                    $parsed = Arr::add($parsed, $key, html_entity_decode($model->$value));
+            if($replacements){
+                foreach($replacements as $key => $value){
+                    $connector = '->';
+                    if (Str::contains($value, $connector)) {
+                        $relation = Str::before($value, $connector);
+                        $relation_value = Str::after($value, $connector);
+    
+                        $parsed = Arr::add($parsed, $key, html_entity_decode($model->$relation->$relation_value));
+                    }else{
+                        $parsed = Arr::add($parsed, $key, html_entity_decode($model->$value));
+                    }
                 }
             }
         }

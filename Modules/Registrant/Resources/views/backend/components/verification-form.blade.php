@@ -123,7 +123,7 @@
                     {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
                 </div>
                 <div class="col-3 align-self-center">
-                    {{ $data->unit->$field_info ?? 'NO DATA YET' }}
+                    {{ $data->unit->$field_info ?? 'Tidak Ada Link Tes' }}
                 </div>
                 <div class="col-2">
                     {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}

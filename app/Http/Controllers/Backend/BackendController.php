@@ -40,7 +40,7 @@ class BackendController extends Controller
 
         if(!Auth::user()->isSuperAdmin() && !Auth::user()->hasAllUnitAccess()){
             // $color_array = [Auth::user()->unit->name => $color_arr[Auth::user()->unit->name]];
-            $color_array = $color_arr;
+            $color_array = Arr::add('#696766');;
             $color = json_encode(array_values($color_array));
         }else{
             $color_array = $color_arr;
