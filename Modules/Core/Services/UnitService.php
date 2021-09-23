@@ -56,7 +56,7 @@ class UnitService{
 
         Log::info(label_case($this->module_title.' '.__FUNCTION__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        $unit =$this->unitRepository->query()->orderBy('order','asc')->all();
+        $unit =$this->unitRepository->query()->orderBy('order','asc')->get();
         
         return (object) array(
             'error'=> false,            
@@ -67,7 +67,7 @@ class UnitService{
 
     public function getList(){
 
-        $unit =$this->unitRepository->query()->orderBy('order','asc')->all();
+        $unit =$this->unitRepository->query()->orderBy('order','asc')->get();
 
         return (object) array(
             'error'=> false,            
