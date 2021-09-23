@@ -3,6 +3,7 @@
 namespace Modules\Core\DataTables;
 
 use Carbon\Carbon;
+use Illuminate\Support\HtmlString;
 use Modules\Core\Repositories\PathRepository;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -41,6 +42,11 @@ class PathsDataTable extends DataTable
 
                 return view('core::backend.components.number-view',compact('module_name','item'));
             })
+            ->editColumn('additional_requirements',function ($data){
+                $module_name = $this->module_name;
+
+                return new HtmlString(nl2br($data->additional_requirements, false));
+            })
             ->editColumn('updated_at', function ($data) {
                 $module_name = $this->module_name;
 
@@ -59,7 +65,7 @@ class PathsDataTable extends DataTable
 
                 return $formated_date;
             })
-            ->rawColumns(['name', 'action']);
+            ->rawColumns(['name', 'action','additional_requirements']);
     }
 
     /**

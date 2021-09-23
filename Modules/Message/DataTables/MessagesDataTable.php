@@ -3,6 +3,7 @@
 namespace Modules\Message\DataTables;
 
 use Carbon\Carbon;
+use Illuminate\Support\HtmlString;
 use Modules\Message\Repositories\MessageRepository;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -33,6 +34,11 @@ class MessagesDataTable extends DataTable
                 $module_name = $this->module_name;
 
                 return view('backend.includes.action_column_admin', compact('module_name', 'data'));
+            })
+            ->editColumn('message',function ($data){
+                $module_name = $this->module_name;
+
+                return new HtmlString(nl2br($data->message, false));
             })
             ->editColumn('updated_at', function ($data) {
                 $module_name = $this->module_name;

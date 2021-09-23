@@ -27,7 +27,6 @@ class UnitsRequest extends FormRequest
             'name'              => 'required|max:191',
             'contact_number'    => 'nullable|numeric',
             'contact_email'     => 'nullable|email',
-            'requirements'      => 'nullable|max:255',
         ];
     }
 }
