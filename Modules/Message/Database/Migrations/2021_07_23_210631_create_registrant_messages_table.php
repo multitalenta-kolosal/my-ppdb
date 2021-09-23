@@ -15,7 +15,7 @@ class CreateRegistrantMessagesTable extends Migration
     {
         Schema::create('registrant_messages', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('registrant_id')->nullable();
+            $table->string('registrant_id')->nullable();
             $table->smallInteger('register_pass_message_sent')->nullable()->default(0);
             $table->smallInteger('requirements_pass_message_sent')->nullable()->default(0);
             $table->smallInteger('test_pass_message_sent')->nullable()->default(0);
