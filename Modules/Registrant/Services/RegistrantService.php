@@ -506,9 +506,13 @@ class RegistrantService{
             foreach($trashedDatas as $trashedData){
                 $purged = $this->registrantRepository->purge($trashedData->id);
 
-                $purged = $this->registrantStageRepository->delete($trashedData->progress_id);
+                if($this->registrantStageRepository->find($trashedData->progress_id)){
+                    $purged = $this->registrantStageRepository->delete($trashedData->progress_id);
+                }
 
-                $purged = $this->registrantMessageRepository->delete($trashedData->registrant_message->id);
+                if($this->registrantMessageRepository->find($trashedData->registrant_message->id)){
+                    $purged = $this->registrantMessageRepository->delete($trashedData->registrant_message->id);
+                }
 
             }
 
