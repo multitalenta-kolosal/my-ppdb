@@ -125,7 +125,10 @@ class RegistrantChart extends BaseChart
                 $default_count = array_fill_keys($count_keys, 0);
 
                 if(!Auth::user()->isSuperAdmin() && !Auth::user()->hasAllUnitAccess()){
-                    $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subMonth($periods))
+
+                    switch($driver){
+                        case 'mysql':
+                            $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subMonth($periods))
                                         ->where('unit_id','=',Auth::user()->unit_id)
                                         ->groupBy('date')
                                         ->orderBy('date', 'ASC')
@@ -134,17 +137,52 @@ class RegistrantChart extends BaseChart
                                             DB::raw('COUNT(*) as "views"')
                                         )
                                     );
-                }else{
-                    foreach($units as $key => $unit){
-                        $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subMonth($periods))
-                                            ->where('unit_id','=', $key)
+                        break;
+                        case 'pgsql':
+                            $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subDays($periods))
+                                            ->where('unit_id','=',Auth::user()->unit_id)
                                             ->groupBy('date')
                                             ->orderBy('date', 'ASC')
                                             ->get(array(
-                                                DB::raw('DATE_FORMAT(created_at, "%b") as date'),
+                                                DB::raw('TO_CHAR(created_at, '."'Mon'".') as date'),
                                                 DB::raw('COUNT(*) as "views"')
                                             )
                                         );
+                        break;
+                        default:
+                            throw new \Exception('Driver not supported.');
+                        break;
+                    }
+                }else{
+                    foreach($units as $key => $unit){
+                        
+                        switch($driver){
+                            case 'mysql':
+                                $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subMonth($periods))
+                                                ->where('unit_id','=', $key)
+                                                ->groupBy('date')
+                                                ->orderBy('date', 'ASC')
+                                                ->get(array(
+                                                    DB::raw('DATE_FORMAT(created_at, "%b") as date'),
+                                                    DB::raw('COUNT(*) as "views"')
+                                                )
+                                            );
+                            break;
+                            case 'pgsql':
+                                $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subDays($periods))
+                                                ->where('unit_id','=', $key)
+                                                ->groupBy('date')
+                                                ->orderBy('date', 'ASC')
+                                                ->get(array(
+                                                    DB::raw('TO_CHAR(created_at, '."'Mon'".') as date'),
+                                                    DB::raw('COUNT(*) as "views"')
+                                                )
+                                            );
+                            break;
+                            default:
+                                throw new \Exception('Driver not supported.');
+                            break;
+                        }
                         $registrant_collections = Arr::add($registrant_collections, $unit, $registrant);
                     }
                 }
