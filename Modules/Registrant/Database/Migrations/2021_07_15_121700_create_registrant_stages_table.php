@@ -16,7 +16,7 @@ class CreateRegistrantStagesTable extends Migration
         Schema::create('registrant_stages', function (Blueprint $table) {
 
             $table->bigIncrements('id')->unsigned();            
-            $table->bigInteger('registrant_id')->nullable();
+            $table->string('registrant_id')->nullable();
             $table->integer('status_id')->nullable()->default(0);
             $table->boolean('va_pass')->nullable()->default(0);
             $table->boolean('entrance_fee_pass')->nullable()->default(0);            

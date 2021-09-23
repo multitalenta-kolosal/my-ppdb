@@ -169,7 +169,7 @@ class RegistrantsController extends Controller
                         Terima kasih sudah mendaftar!
                 </h4>
                 <h5>
-                    Silakan tunggu pesan WA untuk masuk ke HP mu
+                    Silakan tunggu pesan di Email atau Whatsapp untuk masuk ke HP mu
                 </h5>
                     Jika setelah 30 menit belum mendapat pesan bisa menghubungi (WA) '
                     .$registrants->data->unit->contact_number.
