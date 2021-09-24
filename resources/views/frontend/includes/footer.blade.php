@@ -17,7 +17,9 @@
                     Pages
                 </h6>
                 <ul class="links-vertical">
-                    <li><a target="_blank" href="{{ route('frontend.registrants.index') }}">Pendaftaran</a></li>
+                    <li><a class="text-warning" target="_blank" href="{{ route('frontend.registrants.index') }}">Pendaftaran</a></li>
+                    <li><a class="text-warning" target="_blank" href="{{ route('frontend.registrants.veriform') }}">Verifikasi</a></li>
+                    <li><a class="text-warning" target="_blank" href="{{ route('frontend.registrants.track') }}">Cek Status</a></li>
                 </ul>
             </div>
             <div class="col-6 col-sm-3 col-lg-2 mb-4 mb-lg-0 text-center">
@@ -27,14 +29,14 @@
                 <ul class="links-vertical">
                     @guest
                     <li>
-                        <a href="{{ route('login') }}">Login</a>
+                        <a class="btn btn-success" href="{{ route('login') }}">Login</a>
                     </li>
                     @else
                     <li>
-                        <a href="#">{{ Auth::user()->name }}</a>
+                        <a class="text-success" href="#">{{ Auth::user()->name }}</a>
                     </li>
                     <li>
-                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <a class="btn btn-danger"  href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             Logout
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -49,7 +51,15 @@
             </div>
         </div>
 
-        <hr class="my-4 my-lg-5">
+        <div class="row">
+            <div class="col mt-4 py-4 mb-md-0">
+                <div class="d-flex text-center justify-content-center align-items-center">
+                    <h1 class="warga-gold-text embossed display-1">#wargacakapdigital</h1>
+                </div>
+            </div>
+        </div>
+
+        <hr class="mb-4 mt-2 my-lg-3">
 
         <div class="row">
             <div class="col pb-4 mb-md-0">
