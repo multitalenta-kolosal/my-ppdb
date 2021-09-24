@@ -25,7 +25,6 @@
                             <i class="fab fa-lg fa-whatsapp text-white"></i>
                             <span class="text-white">
                               {{'+'.$clean_number}}
-                              {{$clean_number}}
                             </span>
                           </a>
                         </div>
