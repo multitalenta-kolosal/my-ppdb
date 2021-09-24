@@ -12,7 +12,7 @@
                     Cek Status
                 </h1>
                 <p class="lead">
-                    Ingin melihat progres anda atau bingung apa yang harus dilakukan? Lihat status anda dengan menggunakan data <span class= "text-info">ID Pendaftaran</span>
+                    Ingin melihat progress anda atau bingung apa yang harus dilakukan? Lihat status anda dengan menggunakan data <span class= "text-info">ID Pendaftaran</span>
                     dan <span class= "text-info">Nomor Telepon</span>
                 </p>
 

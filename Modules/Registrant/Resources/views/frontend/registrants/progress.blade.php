@@ -6,7 +6,7 @@
 
 <div>
     <h2 class="display-3 mb-3 text-center">
-        Progres Calon Peserta
+        Progress Calon Peserta
     </h2>
     <div class="row py-1 my-3 text-center justify-content-center align-middle">
         <div class="col-sm-6 col-md-6">

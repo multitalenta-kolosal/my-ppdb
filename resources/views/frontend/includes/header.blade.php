@@ -14,9 +14,8 @@
                             </a>
                         </div>
                         <div class="col-6 collapse-close">
-                            <a href="#navbar_global" role="button" class="fas fa-times" data-toggle="collapse"
-                                data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false"
-                                aria-label="Toggle navigation"></a>
+                            <a role="button" class="fas fa-times" id="navbar_close">
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -174,3 +173,15 @@
 </header>
 
 @include('frontend.includes.contact-modal')
+
+@push('after-scripts')
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#navbar_close').on('click', function(e) {
+                console.log("working");
+                $("#navbar_global").collapse('hide');
+                event.stopPropagation();
+            });
+        });
+    </script>
+@endpush

@@ -14,13 +14,18 @@
         <div class="card">
             <div class="row">
             @foreach($unit->getList()->data as $unit)
+                    <?php
+                      $crude_number = $unit->contact_number;
+                      $clean_number = \Str::replaceFirst('0','62',$crude_number);
+                    ?>
                     <div class="col p-2 my-2 text-center">
                         <h5>{{$unit->name}}</h5>
                         <div class="m-2">
-                           <a type="button" href="https://wa.me/{{$unit->contact_number ?? ''}}" id ="{{$unit->id}}" class="btn btn-success">
+                           <a type="button" href="https://wa.me/{{$clean_number}}" id ="{{$unit->id}}" class="btn btn-success">
                             <i class="fab fa-lg fa-whatsapp text-white"></i>
                             <span class="text-white">
-                              {{$unit->contact_number}}
+                              {{'+'.$clean_number}}
+                              {{$clean_number}}
                             </span>
                           </a>
                         </div>
