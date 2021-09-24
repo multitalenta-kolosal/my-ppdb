@@ -43,7 +43,7 @@
             <div class="col-12 text-center">
                 <h2 class="mb-4 mb-lg-5">Website Unit</h2>
                 <p class="lead text-info">
-                    Kunjungi Website Unit Pendidikan Kami untuk Mendapatkan Informasi terbaru!
+                    Kunjungi Website Unit Pendidikan Kami untuk Mendapatkan Informasi Terbaru!
                 </p>
             </div>
         </div>
