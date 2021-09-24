@@ -37,5 +37,69 @@
     </div>
 </section>
 
+<section class="section section-ld bg-body" id="info_unit">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="mb-4 mb-lg-5">Website Unit</h2>
+                <p class="lead text-info">
+                    Kunjungi Website Unit Pendidikan Kami untuk Mendapatkan Informasi terbaru!
+                </p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-3 col-md-4 col-sm-6 text-center m-3">
+                <div class="card p-4 shadow">
+                    <a href="https://kbtk.warga.sch.id">
+                        <h2 class="mb-4 mb-lg-5 text-warning">KB/TK</h2>
+                    </a>
+                    <a class="btn btn-warning"href="https://kbtk.warga.sch.id">
+                        Klik disini
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 text-center m-3">
+                <div class="card p-4 shadow">
+                    <a href="https://sdwarga.sch.id">
+                        <h2 class="mb-4 mb-lg-5 text-success">SD</h2>
+                    </a>
+                    <a class="btn btn-success" href="https://sdwarga.sch.id">
+                        Klik disini
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 text-center m-3">
+                <div class="card p-4 shadow">
+                    <a href="https://smpwarga.sch.id">
+                        <h2 class="mb-4 mb-lg-5 text-primary">SMP</h2>
+                    </a>
+                    <a class="btn btn-primary" href="https://smpwarga.sch.id">
+                        Klik disini
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 text-center m-3">
+                <div class="card p-4 shadow">
+                    <a href="https://smawarga.sch.id">
+                        <h2 class="mb-4 mb-lg-5 text-danger">SMA</h2>
+                    </a>
+                    <a class="btn btn-danger" href="https://smawarga.sch.id">
+                        Klik disini
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 text-center m-3">
+                <div class="card p-4 shadow">
+                    <a href="https://smkwarga-slo.sch.id">
+                        <h2 class="mb-4 mb-lg-5 text-purple">SMK</h2>
+                    </a>
+                    <a class="btn btn-purple" href="https://smkwarga-slo.sch.id">
+                        Klik disini
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 @endsection
 

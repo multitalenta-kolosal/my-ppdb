@@ -1,3 +1,15 @@
 .warga-purple{
     background-color: #52184B !important;
 }
+
+.warga-gold{
+    background-color: #FBB502 !important;
+}
+
+.warga-gold-text{
+    color: #FBB502 !important;
+}
+
+.embossed{
+    text-shadow: 1px 4px 4px #222;
+  }
