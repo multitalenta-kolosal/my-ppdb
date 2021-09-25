@@ -76,7 +76,7 @@ class PathService{
             $pathObject = $this->pathRepository->make($data);
 
             if(!$pathObject->additional_requirements){
-                $pathObject->additional_requirements = "Tidak Ada\n";
+                $pathObject->additional_requirements = "--\n";
             }
     
             $path = $this->pathRepository->create($pathObject->toArray());
@@ -137,7 +137,7 @@ class PathService{
             $path = $this->pathRepository->make($data);
 
             if(!$path->additional_requirements){
-                $path->additional_requirements = "Tidak Ada\n";
+                $path->additional_requirements = "--\n";
             }
 
             if(!$path->have_major){
