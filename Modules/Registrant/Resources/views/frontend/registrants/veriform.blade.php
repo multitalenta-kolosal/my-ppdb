@@ -29,7 +29,7 @@
                             <div class="row card border-purple rounded shadow m-2">
                                 <div class="col-5 m-3">
                                     <h3>{{$unit->name}}</h3>
-                                    @if($unit->register_form_link)
+                                    @if($unit->registration_veriform_link)
                                         <a href="{{$unit->register_form_link}}" class="btn btn-primary"><i class="fas fa-user-check"></i> Form Verifikasi</a>
                                     @else
                                         <button class="btn btn-gray" disabled><i class="fas fa-user-check"></i> Form Verifikasi</button>
