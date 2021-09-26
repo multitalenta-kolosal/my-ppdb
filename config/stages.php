@@ -19,7 +19,7 @@ return [
             'tracker_action'    => 'Menunggu Pembayaran Pendaftaran',
             'tracker_content'   => 'Silakan Mengikuti Tata Pembayaran yang Ada.',
             'status_id'         => '0',
-            'validation'        => 'va_pass',
+            'validation'        => 'registrant_id',
             'message_tracker'   => 'register_pass_message_sent',
         ],
         [
@@ -59,12 +59,12 @@ return [
             'message_tracker'   => 'test_pass_message_sent',
         ],
         [
-            'title'             => 'Angsuran Biaya Pendidikan',
+            'title'             => 'Pemilihan Angsuran Biaya Pendidikan',
             'pass-title'        => 'Angsuran Dipilih',
-            'tracker_action'    => 'Pembayaran sedang Dikonfirmasi',
-            'tracker_content'   => 'Silakan Menunggu Konfirmasi dari Admin Sekolah',
+            'tracker_action'    => 'Angsuran Biaya Pendidikan',
+            'tracker_content'   => 'Silakan membayar angsuran sesuai dengan pilihan kamu',
             'status_id'         => '5',
-            'validation'        => '',
+            'validation'        => 'installment_id',
             'message_tracker'   => null,
         ],
         [

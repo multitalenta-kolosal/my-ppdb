@@ -472,8 +472,15 @@ class MessageService{
                     if (Str::contains($value, $connector)) {
                         $relation = Str::before($value, $connector);
                         $relation_value = Str::after($value, $connector);
+
+                        if(Str::contains($relation_value, $connector)){
+                            $relation_value2 = Str::after($value, $connector);
+
+                            $parsed = Arr::add($parsed, $key, html_entity_decode($model->$relation->$relation_value->$relation_value2));
+                        }else{
+                            $parsed = Arr::add($parsed, $key, html_entity_decode($model->$relation->$relation_value));
+                        }
     
-                        $parsed = Arr::add($parsed, $key, html_entity_decode($model->$relation->$relation_value));
                     }else{
                         $parsed = Arr::add($parsed, $key, html_entity_decode($model->$value));
                     }

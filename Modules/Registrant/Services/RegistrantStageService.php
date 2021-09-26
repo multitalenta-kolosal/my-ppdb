@@ -43,6 +43,7 @@ class RegistrantStageService{
 
         $this->module_title = Str::plural(class_basename($this->registrantStageRepository->model()));
 
+        $this->stages = config('stages.progress');
     }
 
     public function list(){
@@ -114,9 +115,26 @@ class RegistrantStageService{
             $notified = $data["notified"] ?? false;
 
             $registrantStage = $this->registrantStageRepository->make($data);
-            
             $registrant_stage_check = $this->registrantStageRepository->findBy('registrant_id',$registrantStage->registrant_id);
-            
+
+            foreach($this->stages as $stage){
+                $validation = $stage['validation'];
+                $validation_date = $validation.'_checked_date';
+                if($registrantStage->$validation){
+                    \Log::debug('date filing');
+                    //if the validation is true then fill the date
+                    \Log::debug($registrantStage->$validation);
+                    \Log::debug($validation_date);
+                    \Log::debug($registrant_stage_check->$validation_date);
+                    if(!$registrant_stage_check->$validation_date){
+                        \Log::debug('fill date for:'.$validation);
+                        $registrantStage->$validation_date = Carbon::now();
+                    }
+                }else{
+                    $registrantStage->$validation_date = NULL;
+                }
+            }
+                        
             if(array_key_exists("status_id",$data)){
                 if($data['status_id'] > -1){
                     $registrantStage->status_id = $$data['status_id'];
