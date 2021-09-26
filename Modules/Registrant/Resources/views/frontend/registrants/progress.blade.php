@@ -43,8 +43,8 @@
 </div>
 <div class="card shadow bg-white border-light p-1 text-center">
     <div class="card-body col-auto py-3 p-lg-3">      
-        <div class="row py-2">
-            <div class="col shadow-sm border rounded align-middle text-info">
+        <div class="row py-2 justify-content-center">
+            <div class="col-10 shadow-sm border rounded align-middle text-info">
                 <h4 class="display-4 py-2 text-success">
                     {{$now['tracker_action']}}
                 </h4>
@@ -62,6 +62,11 @@
                         <div class="row my-2 justify-content-center">
                             <a href="{{$registrant->data->unit->registration_veriform_link}}" class="btn btn-outline-primary">Form Verifikasi</a>
                         </div>
+                    </div>
+                @endif
+                @if($now['status_id'] == 5)
+                    <div id="extra-content">
+                        Cicilan yang sudah dipilih adalah cicilan <span class="text-primary"><strong>{{$registrant->data->registrant_stage->installment->name}}</strong></span>
                     </div>
                 @endif
                 @if($now['message_tracker'])
@@ -162,6 +167,47 @@
                 Pesan ini tidak terkirim! Silakan hubungi admin unit (WA/telp) di {{$registrant->data->unit->phone}}
             </div>
         @endif
+
+    </div>
+</div>
+
+<div class="card shadow bg-white border-light mt-2 text-center">
+    <h4 class="display-5 my-2 text-center">
+        Riwayat Proses Penerimaan
+    </h5>
+    <div class="card-body col-auto py-3 p-lg-3">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Proses</th>
+                    <th scope="col">Diverifikasi Pada</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($stages as $stage)
+                    @if ($loop->first) @continue @endif
+                    <?php
+                        $validation = $stage['validation'];
+                        $validation_date = $validation.'_checked_date';
+                        if($registrant->data->registrant_stage->$validation_date && $registrant->data->registrant_stage->$validation){
+                            $carbon_validation_date = \Carbon\Carbon::parse($registrant->data->registrant_stage->$validation_date);
+                            $formatted_validation_date = $carbon_validation_date->format('d M Y, H:i');
+                        }else{
+                            $formatted_validation_date = '--';
+                        }
+                    ?>
+                    <tr>
+                        <td>{{$stage['title']}}</td>
+                        <td>
+                            {{$formatted_validation_date}}
+                            @if($registrant->data->registrant_stage->$validation)
+                                <i class="far fa-check-circle text-success"></i>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table> 
 
     </div>
 </div>
