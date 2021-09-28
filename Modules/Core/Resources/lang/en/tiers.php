@@ -12,6 +12,8 @@ return [
     'dp'                        => 'DP',
     'spp'                       => 'SPP',
     'unit'                      => 'Unit',
-    'order'                     => 'Order'
+    'order'                     => 'Order',
+    'additional_lines_payment'  => 'Additional Lines for Payment stage',
+    'additional_lines_test'     => 'Additional Lines for Test stage',
 
 ];

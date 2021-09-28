@@ -35,6 +35,9 @@ class RegistrantMessagesDataTable extends DataTable
 
                 return "action";
             })
+            ->editColumn('registrant.name', function ($data) {
+                return $data->registrant->name ?? '<span class="text-danger">PENDAFTAR TELAH DIHAPUS</span>';
+            })
             ->editColumn('register_pass_message_sent', function ($data) {
                 return $this->convertMessageConfirmation($data->register_pass_message_sent);
             })
@@ -56,6 +59,7 @@ class RegistrantMessagesDataTable extends DataTable
             })
             ->rawColumns([
                 'code',
+                'registrant.name',
                 'message', 
                 'action',
                 'register_pass_message_sent',

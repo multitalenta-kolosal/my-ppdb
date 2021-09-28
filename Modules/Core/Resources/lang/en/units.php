@@ -19,4 +19,6 @@ return [
     'registration_veriform_link'=> 'Register Verification',
     'tuition_veriform_link'     => 'Tuition Payments Verification',
     'installments'              => 'Installment',
+    'additional_lines_payment'  => 'Additional Lines for Payment stage',
+    'additional_lines_test'     => 'Additional Lines for Test stage',
 ];
