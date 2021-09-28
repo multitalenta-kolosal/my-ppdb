@@ -80,7 +80,7 @@
                 <h5 class="display-5 text-info">
                     {{$now['tracker_content']}}
                 </h5>
-                @if( ($now['status_id'] == 0 || $now['status_id'] == 1) || $now['status_id'] == 2) && $registrant->data->unit->registration_veriform_link)
+                @if( ($now['status_id'] == 0 || $now['status_id'] == 1  || $now['status_id'] == 2) && $registrant->data->unit->registration_veriform_link)
                     <div id="extra-content">
                         Jika kamu memiliki akun <span class="text-danger">Gmail</span> (Google), Kamu dapat melakukan verifikasi pembayaran dan pengumpulan berkas untuk <strong> {{$registrant->data->unit->name}} Warga Surakarta </strong> secara <strong class="text-warning">ONLINE</strong> melalui Google form 
                         dengan cara klik tombol di bawah ini
