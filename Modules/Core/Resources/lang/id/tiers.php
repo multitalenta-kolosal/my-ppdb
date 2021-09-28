@@ -12,5 +12,7 @@ return [
     'dp'                        => 'DP',
     'spp'                       => 'SPP',
     'unit'                      => 'Nama Unit',
-    'order'                     => 'Urutan jenjang'
+    'order'                     => 'Urutan jenjang',
+    'additional_lines_payment'  => 'Kalimat perpesanan tambahan langkah pembayaran',
+    'additional_lines_test'     => 'Kalimat perpesanan tambahan langkah tes masuk',
 ];

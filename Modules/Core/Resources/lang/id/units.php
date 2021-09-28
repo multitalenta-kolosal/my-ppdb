@@ -19,4 +19,6 @@ return [
     'registration_veriform_link'=> 'Link Verifikasi dan Pengiriman Berkas',
     'tuition_veriform_link'     => 'Link Verifikasi Pembayaran Biaya Pendidikan',
     'installments'              => 'Angsuran',
+    'additional_lines_payment'  => 'Kalimat perpesanan tambahan langkah pembayaran',
+    'additional_lines_test'     => 'Kalimat perpesanan tambahan langkah tes masuk',
 ];

@@ -2,4 +2,7 @@
 
 redaksi tentang tes dan penerimaan dikonfirmasi lagi.
 
-yuk cek lagi tentang message substituer
+cek substituer smk productio
+
+add new pembayaran line for SMK
+
