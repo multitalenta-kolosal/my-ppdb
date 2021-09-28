@@ -79,6 +79,15 @@ $(document).ready(function(){
     $("#spinner").hide();
     $("#button-track").on("click", function (event) {
 
+        if(!$('#registrant_id').val()){
+            Swal.fire("@lang('Error')", "Silakan isikan data ID Pendaftaranmu", "error");
+            return;
+        }
+        if(!$('#phone').val()){
+            Swal.fire("@lang('Error')", "Silakan isi nomor telepon yang kamu gunakan untuk mendaftar", "error");
+            return;
+        }
+
         $('#render-view').html('');
         var registrant_id = $('#registrant_id').val();
         var generateUrl = '{{ route("frontend.$module_name.progress", 'registrant_id') }}';
@@ -93,7 +102,7 @@ $(document).ready(function(){
             success: function (data) {
                 $("#spinner").show();
                 if(data.error){
-                    Swal.fire("@lang('error')", "@lang('Error')", "error");
+                    Swal.fire('Whoopss...', data.message, "error");
                     $("#spinner").hide();
                 }else{
                     setTimeout(function () {
@@ -106,7 +115,7 @@ $(document).ready(function(){
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                Swal.fire("@lang('error')", "@lang('Error')", "error");
+                Swal.fire("@lang('error')", ajaxOptions, "error");
             }
         });
     });

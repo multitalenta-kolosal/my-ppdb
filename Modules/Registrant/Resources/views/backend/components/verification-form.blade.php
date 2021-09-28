@@ -45,7 +45,7 @@
             ?>
             <div class="row">
                 <div class="col-5 text-right align-self-center">
-                    {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                    <strong class="text-primary d-sm-block">1.</strong>{{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
                 </div>
                 <div class="col-3 align-self-center">
                     {{ number_format($data->period->$field_info ?? 0 , 2, ',', '.')}}
@@ -77,7 +77,7 @@
             ?>
             <div class="row">
                 <div class="col-5 text-right align-self-center">
-                    {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                    <strong class="text-primary d-sm-block">2.</strong> {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
                 </div>
                 <div class="col-3 align-self-center">
                     <button type="button" class="btn btn-sm btn-info" 
@@ -120,7 +120,7 @@
             ?>
             <div class="row">
                 <div class="col-5 text-right align-self-center">
-                    {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                    <strong class="text-primary d-sm-block">3.</strong> {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
                 </div>
                 <div class="col-3 align-self-center">
                     {{ $data->unit->$field_info ?? 'Tidak Ada Link Tes' }}
@@ -154,7 +154,7 @@
             ?>
             <div class="row">
                 <div class="col-5 text-right align-self-center">
-                    {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                    <strong class="text-primary d-sm-block ">4.</strong> {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
                     <small id="emailHelp" class="form-text text-muted">Batas akhir pembayaran angsuran untuk periode ini adalah <span class="text-info">{{$data->period->payment_limit_date == null ? "--": date("d-M-Y", strtotime($data->period->payment_limit_date))}}</span></small>      
                 </div>
                 <div class="col-5 align-self-center">
@@ -190,7 +190,7 @@
             ?>
             <div class="row">
                 <div class="col-5 text-right align-self-center">
-                    {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                    <strong class="text-primary d-sm-block">5.</strong> {{ html()->div($field_lable, $field_name) }} {!! fielf_required($required) !!}
                 </div>
                 <div class="col-3 align-self-center">
                     
@@ -198,8 +198,6 @@
                 <div class="col-2">
                     {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
                     
-                    {{ html()->label('kirim pesan', $field_name.$data->id.'_message') }}
-                    {{ html()->checkbox($field_name.$data->id.'_message',false,'Kirim pesan')->class('my-auto form-check-label') }}
                 </div>
                 <div class="col-2 align-self-center text-success" id="col_{{$field_name}}_{{$data->id}}">
                     @if($data->registrant_stage)
