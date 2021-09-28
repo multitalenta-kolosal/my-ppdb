@@ -61,6 +61,7 @@
         const messageables = ['requirements_pass','test_pass','accepted_pas'];
         window.edited = false;
 
+        // rejecting
         $('#reject_{{$data->id}}').on('click', function(e) {
             e.preventDefault();
             var sender = [];
@@ -187,6 +188,7 @@
             });
         });
 
+        // verifying
         $('#submit_data_{{$data->id}}').on('click', function(e) {
             e.preventDefault();
             var sender = [];

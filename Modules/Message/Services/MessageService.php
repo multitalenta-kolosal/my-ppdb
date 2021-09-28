@@ -506,7 +506,7 @@ class MessageService{
             $relation_substitute = 'tier';
         }
 
-        if($model->$relation_substitute->$relation_value){
+        if($model->$relation_substitute->$relation_value && $model->$relation->have_major){
             if(in_array($relation_value,$currency_value)){
                 return Arr::add($parsed, $key, number_format($model->$relation_substitute->$relation_value , 2, ',', '.'));
             }else{
