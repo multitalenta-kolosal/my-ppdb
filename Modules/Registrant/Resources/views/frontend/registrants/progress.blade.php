@@ -147,15 +147,12 @@
                 @if($now['status_id'] == 6)
                     @if($registrant->data->registrant_stage->installment->tenor > 1) 
                         <div id="extra-content">
-                            Cicilan yang sudah dipilih adalah cicilan <span class="text-primary"><strong>{{$registrant->data->registrant_stage->installment->name}}</strong></span>
+                            Skema pembayaran yang dipilih adalah dengan cara mengangsur biaya pendidikan dengan <span class="text-primary"><strong>{{$registrant->data->registrant_stage->installment->name}}</strong></span> pembayaran
                         </div>
                         <div id="extra-content">
                             Terima kasih, karena kamu sudah melakukan pembayaran tahap pertama
                         </div>
                     @else
-                        <div id="extra-content">
-                            Skema Pembayaran yang sudah dipilih adalah <span class="text-primary"><strong>Pembayaran Penuh</strong></span>
-                        </div>
                         <div id="extra-content">
                             Terima kasih, karena kamu sudah melakukan pelunasan DP, DPP dan SPP Bulan Juli 2022
                         </div>
