@@ -89,7 +89,7 @@
                         </div>
                     </div>
                 @endif
-                @if($now['status_id'] == 4 && $now['status_id'] == 5)
+                @if($now['status_id'] == 4 || $now['status_id'] == 5)
                 <table class="table table-hover">
                     <thead>
                         <tr>
