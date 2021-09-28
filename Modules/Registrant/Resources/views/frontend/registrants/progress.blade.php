@@ -89,7 +89,7 @@
                         </div>
                     </div>
                 @endif
-                @if($now['status_id'] == 4)
+                @if($now['status_id'] == 4 && $now['status_id'] == 5)
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -143,20 +143,6 @@
                         </tr>
                     </tbody>
                 </table> 
-                @endif
-                @if($now['status_id'] == 5)
-                    @if($registrant->data->registrant_stage->installment->tenor > 1)
-                    <div id="extra-content">
-                        Cicilan yang sudah dipilih adalah cicilan <span class="text-primary"><strong>{{$registrant->data->registrant_stage->installment->name}}</strong></span>
-                    </div>
-                    <div id="extra-content">
-                        Silakan lakukan pembayaran di <span class="text-primary"><strong>Pembayaran Penuh</strong></span>
-                    </div>
-                    @else
-                    <div id="extra-content">
-                        Skema Pembayaran yang sudah dipilih adalah <span class="text-primary"><strong>Pembayaran Penuh</strong></span>
-                    </div>
-                    @endif
                 @endif
                 @if($now['status_id'] == 6)
                     @if($registrant->data->registrant_stage->installment->tenor > 1) 
@@ -283,7 +269,7 @@
 
 <div class="card shadow bg-white border-light mt-2 text-center">
     <h4 class="display-5 my-2 text-center">
-        Riwayat Proses Penerimaan
+        Riwayat Proses Penerimaan Peserta Didik
     </h5>
     <div class="card-body col-auto py-3 p-lg-3">
         <table class="table table-hover">
