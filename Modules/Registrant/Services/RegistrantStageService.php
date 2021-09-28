@@ -121,13 +121,8 @@ class RegistrantStageService{
                 $validation = $stage['validation'];
                 $validation_date = $validation.'_checked_date';
                 if($registrantStage->$validation){
-                    \Log::debug('date filing');
                     //if the validation is true then fill the date
-                    \Log::debug($registrantStage->$validation);
-                    \Log::debug($validation_date);
-                    \Log::debug($registrant_stage_check->$validation_date);
                     if(!$registrant_stage_check->$validation_date){
-                        \Log::debug('fill date for:'.$validation);
                         $registrantStage->$validation_date = Carbon::now();
                     }
                 }else{

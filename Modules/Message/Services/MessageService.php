@@ -297,7 +297,9 @@ class MessageService{
                     }
                 }
             }
-
+            
+            \Log::info(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Generated Message: '.$message);
+            
             $this->sendEmail($registrant, $message);
           
             $curl = curl_init();
@@ -473,12 +475,18 @@ class MessageService{
                         $relation = Str::before($value, $connector);
                         $relation_value = Str::after($value, $connector);
 
-                        if(Str::contains($relation_value, $connector)){
-                            $relation_value2 = Str::after($value, $connector);
-
-                            $parsed = Arr::add($parsed, $key, html_entity_decode($model->$relation->$relation_value->$relation_value2));
+                        //manual handling for tier based dp, dpp, and spp
+                        if($relation = 'unit'){
+                            $parsed = $this->handleMessageTier($parsed, $key, $model, $relation, $relation_value);
                         }else{
-                            $parsed = Arr::add($parsed, $key, html_entity_decode($model->$relation->$relation_value));
+                            //second relations checking
+                            if(Str::contains($relation_value, $connector)){
+                                $relation_value2 = Str::after($value, $connector);
+
+                                $parsed = Arr::add($parsed, $key, html_entity_decode($model->$relation->$relation_value->$relation_value2));
+                            }else{
+                                $parsed = Arr::add($parsed, $key, html_entity_decode($model->$relation->$relation_value));
+                            }
                         }
     
                     }else{
@@ -489,5 +497,27 @@ class MessageService{
         }
 
         return $parsed;
+    }
+
+    public function handleMessageTier($parsed, $key, $model, $relation, $relation_value){
+        $currency_value = ['dpp','dp','spp'];
+
+        if($relation == 'unit'){
+            $relation_substitute = 'tier';
+        }
+
+        if($model->$relation_substitute->$relation_value){
+            if(in_array($relation_value,$currency_value)){
+                return Arr::add($parsed, $key, number_format($model->$relation_substitute->$relation_value , 2, ',', '.'));
+            }else{
+                return Arr::add($parsed, $key, html_entity_decode($model->$relation_substitute->$relation_value));
+            }
+        }else{
+            if(in_array($relation_value,$currency_value)){
+                return Arr::add($parsed, $key, number_format($model->$relation->$relation_value , 2, ',', '.'));
+            }else{
+                return Arr::add($parsed, $key, html_entity_decode($model->$relation->$relation_value));
+            }
+        }
     }
 }

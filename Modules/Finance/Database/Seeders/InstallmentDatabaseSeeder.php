@@ -33,14 +33,6 @@ class InstallmentDatabaseSeeder extends Seeder
                 'updated_at'               => Carbon::now(),
             ],
             [
-                'name'                     => "1 Kali",
-                'order'                    => 1,
-                'tenor'                    => 1,
-                'description'              => "Pembayaran 1 Kali",
-                'created_at'               => Carbon::now(),
-                'updated_at'               => Carbon::now(),
-            ],
-            [
                 'name'                     => "2 Kali",
                 'order'                    => 2,
                 'tenor'                    => 2,
