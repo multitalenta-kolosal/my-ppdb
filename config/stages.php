@@ -50,7 +50,7 @@ return [
             'message_tracker'   => 'requirements_pass_message_sent',
         ],
         [
-            'title'             => 'Status Penerimaan',
+            'title'             => 'Pengumuman Status Penerimaan',
             'pass-title'        => 'Lulus Tes',
             'tracker_action'    => 'SELAMAT KAMU SUDAH DITERIMA!',
             'tracker_content'   => 'Setelah ini, silakan melakukan pembayaran SPP, DP, DPP ke Virtual Account kamu diatas.',
@@ -59,7 +59,7 @@ return [
             'message_tracker'   => 'test_pass_message_sent',
         ],
         [
-            'title'             => 'Pemilihan Angsuran Biaya Pendidikan',
+            'title'             => 'Pemilihan Skema Pembayaran Biaya Pendidikan',
             'pass-title'        => 'Angsuran Dipilih',
             'tracker_action'    => 'SELAMAT KAMU SUDAH DITERIMA!',
             'tracker_content'   => 'Setelah ini, silakan melakukan pembayaran SPP, DP, DPP ke Virtual Account kamu diatas.',
