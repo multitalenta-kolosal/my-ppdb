@@ -26,7 +26,7 @@
     </div>
     <div class="row py-1 my-3 shadow border rounded text-center">
         <div class="col align-middle">
-            <strong class="display-4 text-danger">Virtual Account: {{$registrant->data->va_number ?? 'Sedang diproses...'}}</strong>
+            <span class="display-4">Virtual Account:</span><strong class="display-4 text-danger"> {{$registrant->data->registrant_stage->va_pass ? $registrant->data->va_number : 'Sedang diproses...'}}</strong>
         </div>
     </div>
     <!-- progress timeline    -->
