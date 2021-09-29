@@ -21,7 +21,7 @@ class RegistrantRepository extends BaseRepository implements RegistrantRepositor
     }
 
     public function getRegistrantsByUnitQuery($query, $unit_id){
-        return $query->where('unit_id', $unit_id)->withTrashed();
+        return $query->where('unit_id', $unit_id);
     }
 
     public function getCount($unit_id = null){

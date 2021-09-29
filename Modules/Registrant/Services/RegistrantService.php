@@ -145,6 +145,8 @@ class RegistrantService{
 
             $registrant_message = $this->registrantMessageService->store($request, $registrant);
 
+            // \Storage::disk('ftp')->put('file_'.$registrant->registrant_id.'_.txt', 'hai namaku:'.$registrant->name);
+
         }catch (Exception $e){
             DB::rollBack();
             Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
