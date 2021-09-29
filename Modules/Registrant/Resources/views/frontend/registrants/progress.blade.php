@@ -43,18 +43,16 @@
 
             @if(!in_array($stage['status_id'],$skipped_status))
 
-                {{\Log::debug('last status: '.$last_status);}}
                 <li id="progress_{{$stage['status_id']}}" class="progress-step {{ ($stage['status_id'] == $registrant->data->registrant_stage->status_id) ? 'is-active' : ($registrant->data->registrant_stage->$validation ? 'is-complete' : '') }}">
                     <div class="progress-marker"></div>
                     @if($stage['status_id'] == $registrant->data->registrant_stage->status_id)
                         <div class="progress-text progress-text--dotted progress-text--dotted-3">
                         </div>
                         <?php
-                            \Log::debug('inserting the stage status to last: '.$stage['status_id']);
+                            
                             $last_status=$stage['status_id'];
                         ?>
                     @elseif(in_array($now['status_id'],$skipped_status))
-                        {{\Log::debug('now minus one: '.($now['status_id']-1));}}
                         @if($stage['status_id'] == ($now['status_id']-1) )
                             <div class="progress-text progress-text--dotted progress-text--dotted-3">
                             </div>

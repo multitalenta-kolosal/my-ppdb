@@ -13,7 +13,10 @@
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->select($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required",$disabled]) }}
-            {{ html()->select($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control d-none')->attributes(["$required"]) }}
+            @if($module_action == 'Edit')
+                <!-- for submit selection when editing -->
+                {{ html()->select($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control d-none')->attributes(["$required"]) }}
+            @endif
         </div>
     </div>
     <div class="col-md-4">
