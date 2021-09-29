@@ -1,6 +1,6 @@
 
 <div class="row">
-    <div class="col-4">
+    <div class="col-md-4">
         <div class="form-group">
             <?php
             $field_name = 'unit';
@@ -8,13 +8,15 @@
             $field_lable = __("registrant::$module_name.$field_name");
             $field_placeholder = __("Select an option");
             $required = "required";
+            $disabled = $module_action == 'Edit' ? 'disabled' : '';
             $select_options = $unit;
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->select($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
+            {{ html()->select($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required",$disabled]) }}
+            {{ html()->select($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control d-none')->attributes(["$required"]) }}
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-md-4">
         <div class="form-group">
             <?php
             $field_name = 'type';
@@ -30,7 +32,7 @@
             @endif
         </div>
     </div>
-    <div class="col-4 d-none" id="tier_options">
+    <div class="col-md-4 d-none" id="tier_options">
         <div class="form-group">
             <?php
             $field_name = 'tier';
@@ -63,7 +65,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-6">
+    <div class="col-md-6">
         <div class="form-group">
             <?php
             $field_name = 'registrant_id';
@@ -82,7 +84,7 @@
             </div>            
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-md-6">
         <div class="form-group">
             <?php
             $field_name = 'va_number';
@@ -96,7 +98,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-6">
+    <div class="col-md-6">
         <div class="form-group">
             <?php
             $field_name = 'phone';
@@ -108,7 +110,7 @@
             {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required", 'aria-label'=>'Image']) }}
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-md-6">
         <div class="form-group">
             <?php
             $field_name = 'phone2';
@@ -122,7 +124,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-6">
+    <div class="col-md-6">
         <div class="form-group">
             <?php
             $field_name = 'email';
@@ -136,7 +138,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-6">
+    <div class="col-md-6">
         <div class="form-group">
             <?php
             $field_name = 'former_school';
