@@ -18,7 +18,7 @@
             <strong>Jalur: </strong><br>{{$registrant->data->path->name ?? 'Jalur Tidak Ditemukan'}}
         </div>
         <div class="col-4 align-middle">
-            <strong>ID: </strong><br>{{$registrant->data->registrant_id ?? 'DATA NOT FOUND'}}
+            <strong>Nomor: </strong><br>{{$registrant->data->registrant_id ?? 'DATA NOT FOUND'}}
         </div>
         <div class="col-4 align-middle">
             <strong>Tgl. Daftar: </strong><br>{{Carbon\Carbon::parse($registrant->data->created_at)->format('d M Y') ?? 'DATA NOT FOUND'}}
