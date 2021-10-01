@@ -130,6 +130,7 @@ class RegistrantChart extends BaseChart
                         case 'mysql':
                             $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subMonth($periods))
                                         ->where('unit_id','=',Auth::user()->unit_id)
+                                        ->where('deleted_at',NULL)
                                         ->groupBy('date')
                                         ->orderBy('date', 'ASC')
                                         ->get(array(
@@ -141,6 +142,7 @@ class RegistrantChart extends BaseChart
                         case 'pgsql':
                             $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subDays($periods))
                                             ->where('unit_id','=',Auth::user()->unit_id)
+                                            ->where('deleted_at',NULL)
                                             ->groupBy('date')
                                             ->orderBy('date', 'ASC')
                                             ->get(array(
@@ -160,6 +162,7 @@ class RegistrantChart extends BaseChart
                             case 'mysql':
                                 $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subMonth($periods))
                                                 ->where('unit_id','=', $key)
+                                                ->where('deleted_at',NULL)
                                                 ->groupBy('date')
                                                 ->orderBy('date', 'ASC')
                                                 ->get(array(
@@ -171,6 +174,7 @@ class RegistrantChart extends BaseChart
                             case 'pgsql':
                                 $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subDays($periods))
                                                 ->where('unit_id','=', $key)
+                                                ->where('deleted_at',NULL)
                                                 ->groupBy('date')
                                                 ->orderBy('date', 'ASC')
                                                 ->get(array(

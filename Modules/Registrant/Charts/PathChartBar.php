@@ -39,11 +39,13 @@ class PathChartBar extends BaseChart
             $path_count = DB::table('registrants')
                             ->select('type', DB::raw('count(*) as total'))
                             ->where('unit_id',Auth::user()->unit_id)
+                            ->where('deleted_at',NULL)
                             ->groupBy('type')
                             ->get();
         }else{
             $path_count = DB::table('registrants')
                             ->select('type', DB::raw('count(*) as total'))
+                            ->where('deleted_at',NULL)
                             ->groupBy('type')
                             ->get();
         }
