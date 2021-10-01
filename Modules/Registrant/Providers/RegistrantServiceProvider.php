@@ -33,7 +33,7 @@ class RegistrantServiceProvider extends ServiceProvider
         
         $charts->register([
             \Modules\Registrant\Charts\RegistrantChart::class,
-            \Modules\Registrant\Charts\RegistrantChartBar::class
+            \Modules\Registrant\Charts\PathChartBar::class
         ]);
 
         // adding global middleware
