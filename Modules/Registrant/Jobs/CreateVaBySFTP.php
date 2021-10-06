@@ -43,8 +43,7 @@ class CreateVaBySFTP implements ShouldQueue
     {
         $disk = \Storage::build([
             'driver' => 'sftp',
-            'host' => env('SFTP_HOST'),
-            'port' => '2226',
+            'host' => env('SFTP_HOST'),,
             'username' => env('SFTP_USERNAME'),
             'password' => env('SFTP_PASSWORD'),
             'root' => 'Upload/Users/UBP'
