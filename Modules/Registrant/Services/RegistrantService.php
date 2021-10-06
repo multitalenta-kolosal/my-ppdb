@@ -149,11 +149,11 @@ class RegistrantService{
             
             if(setting('create_va_sftp')){
                 if(env('SFTP_HOST')){
-                    $sftp_push = \Storage::disk('sftp')->put('89955_'.$registrant->va_number.'.txt', $this->composeTxtContent($registrant));
-                    \Log::info(label_case('CreateVaBySFTP AT '.Carbon::now().' | Function: Store to MFT | Msg: '.json_encode($sftp_push)));
+                    // $sftp_push = \Storage::disk('sftp')->put('89955_'.$registrant->va_number.'.txt', $this->composeTxtContent($registrant));
+                    // \Log::info(label_case('CreateVaBySFTP AT '.Carbon::now().' | Function: Store to MFT | Msg: '.json_encode($sftp_push)));
 
-                    // $sendToSFTP = new CreateVaBySFTP($registrant);
-                    // dispatch($sendToSFTP);
+                    $sendToSFTP = new CreateVaBySFTP($registrant);
+                    dispatch($sendToSFTP);
                 }
             }
 
