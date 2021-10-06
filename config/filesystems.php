@@ -81,7 +81,6 @@ return [
         'sftp' => [
             'driver' => 'sftp',
             'host' => env('SFTP_HOST'),
-            'port' => '2226',
             'username' => env('SFTP_USERNAME'),
             'password' => env('SFTP_PASSWORD'),
             'root' => 'Upload/Users/UBP'
