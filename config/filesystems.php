@@ -78,11 +78,20 @@ return [
             'url'    => env('AWS_URL'),
         ],
 
+        'sftp' => [
+            'driver' => 'sftp',
+            'host' => env('SFTP_HOST'),
+            'port' => '2226',
+            'username' => env('SFTP_USERNAME'),
+            'password' => env('SFTP_PASSWORD'),
+            'root' => 'Upload/Users/UBP'
+        ],
+
         'ftp' => [
             'driver' => 'ftp',
-            'host' => env('FTP_HOST'),
-            'username' => env('FTP_USERNAME'),
-            'password' => env('FTP_PASSWORD'),
+            'host' => 'ftp.warga.sch.id',
+            'username' => 'ftp_test@warga.sch.id',
+            'password' => 'ypw@2021',
             'root' => ''
         ],
     ],

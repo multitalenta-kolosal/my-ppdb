@@ -60,6 +60,15 @@ return [
                 'class' => '', // any class for input
                 'value' => '1', // default value if you want
             ],
+            [
+                'type'  => 'checkbox', // input fields type
+                'data'  => 'string', // data type, string, int, boolean
+                'name'  => 'create_va_sftp', // unique name for field
+                'label' => 'Create VA using SFTP Mandiri?', // you know what label it is
+                'rules' => '', // validation rule of laravel
+                'class' => '', // any class for input
+                'value' => '1', // default value if you want
+            ],
         ],
 
     ],
