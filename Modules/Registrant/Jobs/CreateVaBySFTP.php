@@ -41,7 +41,16 @@ class CreateVaBySFTP implements ShouldQueue
      */
     public function handle(RegistrantStageRepository $registrantStageRepository)
     {
-        $sftp_push = \Storage::disk('sftp')->put('89955_'.$this->registrant->va_number.'.txt', $this->composeTxtContent($this->registrant));
+        $disk = \Storage::build([
+            'driver' => 'sftp',
+            'host' => env('SFTP_HOST'),
+            'port' => '2226',
+            'username' => env('SFTP_USERNAME'),
+            'password' => env('SFTP_PASSWORD'),
+            'root' => 'Upload/Users/UBP'
+        ]);
+
+        $sftp_push = $disk->put('89955_'.$this->registrant->va_number.'.txt', $this->composeTxtContent($this->registrant));
         
         if($sftp_push){
             DB::beginTransaction();
