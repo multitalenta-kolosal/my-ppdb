@@ -185,7 +185,7 @@ class RegistrantsController extends Controller
                     Silakan coba lagi
                 </h5>
                     Jika mengalami masalah silakan menghubungi (WA) 
-                    admin unit
+                    '.$registrants->data->unit->contact_number.' 
                     Untuk info lebih lanjut.'
             )->important();
         }
