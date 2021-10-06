@@ -151,6 +151,9 @@ class RegistrantService{
                 if(env('SFTP_HOST')){
                     // $sftp_push = \Storage::disk('sftp')->put('89955_'.$registrant->va_number.'.txt', $this->composeTxtContent($registrant));
                     // \Log::info(label_case('CreateVaBySFTP AT '.Carbon::now().' | Function: Store to MFT | Msg: '.json_encode($sftp_push)));
+                    \Log::debug(env('SFTP_HOST'));
+                    \Log::debug(env('SFTP_USERNAME'));
+                    \Log::debug(env('SFTP_PASSWORD'));
                     
                     $sendToSFTP = new CreateVaBySFTP($registrant);
                     dispatch($sendToSFTP);
