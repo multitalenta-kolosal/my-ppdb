@@ -6,5 +6,6 @@
     "Core": true,
     "Message": true,
     "Payment": true,
-    "Finance": true
+    "Finance": true,
+    "Referal": true
 }

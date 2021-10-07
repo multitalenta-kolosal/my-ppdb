@@ -56,11 +56,11 @@ class CreateVaBySFTP implements ShouldQueue
 
                     $registrant_stage = $registrantStageRepository->update($registrantStage->toArray(),$registrantstage_check->id);
     
-                    \Log::info(label_case('CreateVaBySFTP AT '.Carbon::now().' | Function: Store to MFT | Msg: '.json_encode($sftp_push)));
+                    \Log::info(label_case('CreateVaBySFTP AT '.Carbon::now().' | Function: Store to MFT for: '.$registrantStage->registrant_id.' | Msg: '.json_encode($sftp_push)));
                 }
             }catch(Exception $e){
                 DB::rollBack();
-                Log::critical(label_case('CreateVaBySFTP AT '.Carbon::now().' | Function: Store to MFT | Msg: '.$e->getMessage()));
+                Log::critical(label_case('CreateVaBySFTP AT '.Carbon::now().' | Function: Store to MFT for: '.$registrantStage->registrant_id.' | Msg: '.$e->getMessage()));
             }
 
             DB::commit();
