@@ -2,10 +2,6 @@
 
 return [
     [
-        "name" => "Select Bank",
-        "code" => ""
-    ],
-    [
         "name" => "BANK BRI",
         "code" => "002"
     ],
@@ -66,15 +62,15 @@ return [
         "code" => "030"
     ],
     [
-        "name" => "CITIBANK N.A.",
+        "name" => "CITIBANK N A ",
         "code" => "031"
     ],
     [
-        "name" => "JP. MORGAN CHASE BANK, N.A.",
+        "name" => "JP  MORGAN CHASE BANK, N A ",
         "code" => "032"
     ],
     [
-        "name" => "BANK OF AMERICA, N.A",
+        "name" => "BANK OF AMERICA, N A",
         "code" => "033"
     ],
     [
@@ -82,7 +78,7 @@ return [
         "code" => "034"
     ],
     [
-        "name" => "BANK MULTICOR TBK.",
+        "name" => "BANK MULTICOR TBK ",
         "code" => "036"
     ],
     [
@@ -94,11 +90,11 @@ return [
         "code" => "039"
     ],
     [
-        "name" => "THE BANGKOK BANK COMP. LTD",
+        "name" => "THE BANGKOK BANK COMP  LTD",
         "code" => "040"
     ],
     [
-        "name" => "THE HONGKONG & SHANGHAI B.C.",
+        "name" => "THE HONGKONG & SHANGHAI B C ",
         "code" => "041"
     ],
     [
@@ -134,7 +130,7 @@ return [
         "code" => "053"
     ],
     [
-        "name" => "BANK CAPITAL INDONESIA, TBK.",
+        "name" => "BANK CAPITAL INDONESIA, TBK ",
         "code" => "054"
     ],
     [
@@ -158,7 +154,7 @@ return [
         "code" => "061"
     ],
     [
-        "name" => "DEUTSCHE BANK AG.",
+        "name" => "DEUTSCHE BANK AG ",
         "code" => "067"
     ],
     [
@@ -190,7 +186,7 @@ return [
         "code" => "093"
     ],
     [
-        "name" => "BANK CENTURY, TBK.",
+        "name" => "BANK CENTURY, TBK ",
         "code" => "095"
     ],
     [
@@ -358,7 +354,7 @@ return [
         "code" => "200"
     ],
     [
-        "name" => "BANK HIMPUNAN SAUDARA 1906, TBK .",
+        "name" => "BANK HIMPUNAN SAUDARA 1906, TBK  ",
         "code" => "212"
     ],
     [

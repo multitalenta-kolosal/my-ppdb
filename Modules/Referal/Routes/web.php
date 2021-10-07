@@ -11,6 +11,49 @@
 |
 */
 
-Route::prefix('referal')->group(function() {
-    Route::get('/', 'ReferalController@index');
+/*
+*
+* Frontend Routes
+*
+* --------------------------------------------------------------------
+*/
+Route::group(['namespace' => '\Modules\Referal\Http\Controllers\Frontend', 'as' => 'frontend.', 'middleware' => 'web', 'prefix' => ''], function () {
+
+    /*
+     *
+     *  Referals Routes
+     *
+     * ---------------------------------------------------------------------
+     */
+});
+
+/*
+*
+* Backend Routes
+*
+* --------------------------------------------------------------------
+*/
+Route::group(['namespace' => '\Modules\Referal\Http\Controllers\Backend', 'as' => 'backend.', 'middleware' => ['web', 'auth', 'can:view_backend'], 'prefix' => 'admin'], function () {
+    /*
+    * These routes need view-backend permission
+    * (good if you want to allow more than one group in the backend,
+    * then limit the backend features by different roles or permissions)
+    *
+    * Note: Administrator has all permissions so you do not have to specify the administrator role everywhere.
+    */
+
+    /*
+     *
+     *  Referees Routes
+     *
+     * ---------------------------------------------------------------------
+     */
+    $module_name = 'referees';
+    $controller_name = 'RefereesController';
+    Route::get("$module_name/trashed", ['as' => "$module_name.trashed", 'uses' => "$controller_name@trashed"]);
+    Route::patch("$module_name/trashed/{id}", ['as' => "$module_name.restore", 'uses' => "$controller_name@restore"]);
+    Route::delete("$module_name/purge/{id}", ['as' => "$module_name.purge", 'uses' => "$controller_name@purge"]);
+    Route::resource("$module_name", "$controller_name");
+
+
 });

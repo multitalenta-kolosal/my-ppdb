@@ -10,6 +10,11 @@ return [
         'installments'      => 'Angsuran',
     ],
 
+    'referal' => [
+        'title'             => 'Referal',
+        'referees'           => 'Referee',
+    ],
+    
     'core' => [
         'title'             => 'Data Inti',
         'paths'             => 'Jalur Pendaftaran',
