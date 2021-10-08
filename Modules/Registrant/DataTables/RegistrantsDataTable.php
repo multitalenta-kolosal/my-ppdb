@@ -259,6 +259,7 @@ class RegistrantsDataTable extends DataTable
 
             Column::make('created_at'),
             Column::make('updated_at')->hidden(),
+            Column::make('ref_code')->title('Referee')->hidden(),
             Column::make('register_ip')->title('IP')->hidden(),
 
             Column::computed('registrant_stage.status_id')->data('registrant_stage.status_id')->name('registrant_stage.status_id')

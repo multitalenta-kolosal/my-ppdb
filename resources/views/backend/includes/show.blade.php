@@ -24,7 +24,7 @@
         <tr>
             <td>
                 <strong>
-                    {{ label_case($column->Field) }}
+                    {{ label_case($column->Field ?? $column->field) }}
                 </strong>
             </td>
             <td>

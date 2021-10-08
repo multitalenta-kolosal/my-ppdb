@@ -1,42 +1,41 @@
 <?php
 
-namespace Modules\Registrant\Http\Controllers\Frontend;
+namespace Modules\Referal\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Flash;
-use GeneaLabs\LaravelMultiStepProgressbar\ProgressbarItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Log;
-use Modules\Registrant\Services\RegistrantService;
-use Modules\Registrant\Http\Requests\Frontend\RegistrantsRequest;
+use Modules\Referal\Services\RefereeService;
+use Modules\Referal\Http\Requests\Frontend\RefereesRequest;
 use Spatie\Activitylog\Models\Activity;
 use Yajra\DataTables\DataTables;
 
-class RegistrantsController extends Controller
+class RefereesController extends Controller
 {
-    protected $registrantService;
+    protected $refereeService;
 
-    public function __construct(RegistrantService $registrantService)
+    public function __construct(RefereeService $refereeService)
     {
         // Page Title
-        $this->module_title = trans('menu.registrants');
+        $this->module_title = trans('menu.referees');
 
         // module name
-        $this->module_name = 'registrants';
+        $this->module_name = 'referees';
 
         // directory path of the module
-        $this->module_path = 'registrants';
+        $this->module_path = 'referees';
 
         // module icon
-        $this->module_icon = 'fas fa-feather-alt';
+        $this->module_icon = 'fas fa-user-friends';
 
         // module model name, path
-        $this->module_model = "Modules\Registrant\Entities\Registrant";
+        $this->module_model = "Modules\Referal\Entities\Referee";
 
-        $this->registrantService = $registrantService;
+        $this->refereeService = $refereeService;
     }
 
     /**
@@ -44,7 +43,7 @@ class RegistrantsController extends Controller
      *
      * @return View
      */
-    public function index($ref=null)
+    public function index()
     {
         $module_title = $this->module_title;
         $module_name = $this->module_name;
@@ -55,14 +54,13 @@ class RegistrantsController extends Controller
 
         $module_action = 'List';
 
-        $options = $this->registrantService->prepareOptions();
+        $options = $this->refereeService->prepareOptions();
 
-        $unit_options = $options['unit'];
-        $type_options = $options['type'];
+        $banks = $options['banks'];
 
         return view(
-            "registrant::frontend.$module_path.index",
-            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','unit_options', 'type_options')
+            "referal::frontend.$module_path.index",
+            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','banks')
         );
     }
 /**
@@ -81,10 +79,10 @@ class RegistrantsController extends Controller
 
         $module_action = 'List';
 
-        $units = $this->registrantService->getUnits();
+        $units = $this->refereeService->getUnits();
 
         return view(
-            "registrant::frontend.$module_path.veriform",
+            "referal::frontend.$module_path.veriform",
             compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','units')
         );
     }
@@ -94,7 +92,7 @@ class RegistrantsController extends Controller
      *
      * @return View
      */
-    public function track()
+    public function reftrack()
     {
         $module_title = $this->module_title;
         $module_name = $this->module_name;
@@ -103,10 +101,10 @@ class RegistrantsController extends Controller
         $module_model = $this->module_model;
         $module_name_singular = Str::singular($module_name);
 
-        $module_action = 'Tracker';
+        $module_action = 'Reftracker';
 
         return view(
-            "registrant::frontend.$module_path.track",
+            "referal::frontend.$module_path.reftrack",
             compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular')
         );
     }
@@ -117,7 +115,7 @@ class RegistrantsController extends Controller
      * @return View
      */
 
-    public function progress(Request $request)
+    public function refarea(Request $request)
     {
         $module_title = $this->module_title;
         $module_name = $this->module_name;
@@ -126,17 +124,17 @@ class RegistrantsController extends Controller
         $module_model = $this->module_model;
         $module_name_singular = Str::singular($module_name);
 
-        $module_action = 'List';
+        $module_action = 'refarea';
 
-        $registrant = $this->registrantService->track($request);
+        $referee = $this->refereeService->track($request);
         
-        if($registrant->error){
-            return response()->json($registrant);
+        if($referee->error){
+            return response()->json($referee);
         }
 
         return view(
-            "registrant::frontend.$module_path.progress",
-            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','registrant')
+            "referal::frontend.$module_path.refarea",
+            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','referee')
         );
     }
 
@@ -147,7 +145,7 @@ class RegistrantsController extends Controller
      *
      * @return Response
      */
-    public function store(RegistrantsRequest $request)
+    public function store(RefereesRequest $request)
     {
         $module_title = $this->module_title;
         $module_name = $this->module_name;
@@ -158,22 +156,19 @@ class RegistrantsController extends Controller
 
         $module_action = 'Store';
 
-        $registrants = $this->registrantService->store($request);
+        $referees = $this->refereeService->store($request);
 
-        $$module_name_singular = $registrants;
+        $$module_name_singular = $referees;
 
         if(!$$module_name_singular->error){
             Flash::success('
                 <h4>
                     <i class="fas fa-check"></i> 
-                        Terima kasih sudah mendaftar!
+                        Anda Sudah terdaftar Sebagai Referee Yayasan Pendidikan Warga
                 </h4>
                 <h5>
-                    Silakan tunggu pesan di Email atau Whatsapp untuk masuk ke HP mu
-                </h5>
-                    Jika setelah 30 menit belum mendapat pesan bisa menghubungi (WA) '
-                    .$registrants->data->unit->contact_number.
-                    ' Untuk info lebih lanjut.'
+                        Untuk Selanjutnya Silakan Masuk ke Area Referee lewat tombol diatas untuk Mengakses Link Referal Anda
+                </h5>'
                 )->important();
         }else{
             Flash::error('
@@ -183,14 +178,11 @@ class RegistrantsController extends Controller
                 </h4>
                 <h5>
                     Silakan coba lagi
-                </h5>
-                    Jika mengalami masalah silakan menghubungi (WA) 
-                    '.$registrants->data->unit->contact_number.' 
-                    Untuk info lebih lanjut.'
+                </h5>'
             )->important();
         }
 
-        return redirect("/");
+        return redirect("/ypwreferal");
     }
 
     /**
@@ -201,7 +193,7 @@ class RegistrantsController extends Controller
      *
      * @return Response
      */
-    public function update(RegistrantsRequest $request, $id)
+    public function update(RefereesRequest $request, $id)
     {
         $module_title = $this->module_title;
         $module_name = $this->module_name;
@@ -212,11 +204,11 @@ class RegistrantsController extends Controller
 
         $module_action = 'Update';
 
-        $registrants = $this->registrantService->update($request,$id);
+        $referees = $this->refereeService->update($request,$id);
 
-        $$module_name_singular = $registrants->data;
+        $$module_name_singular = $referees->data;
 
-        if($registrants->error){
+        if($referees->error){
             Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Updated Successfully!')->important();
         }else{
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();

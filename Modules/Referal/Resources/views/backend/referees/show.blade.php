@@ -36,52 +36,75 @@
         </div>
         <!--/.row-->
 
-        <hr>
-
         <div class="row mt-4">
-            <div class="col-12 col-sm-6">
-
-                @include('backend.includes.show')
-
+            <div class="col-12 col-sm-8">
+                <hr>
+                <h4 class="text-primary">Ringkasan Referal</h4>
+                <hr>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">Total Referal</th>
+                            <th scope="col">Total Terverifikasi</th>
+                            <th scope="col">Reward Referee</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <strong class="text-danger">{{$$module_name_singular->registrants->count()}}</strong> CPDB
+                            </td>
+                            <td>
+                                <strong class="text-danger">{{$$module_name_singular->verified_registrants->count()}}</strong> CPDB
+                            </td>
+                            <td>
+                                <strong class="h5">Rp. {{number_format($$module_name_singular->verified_registrants->count() * setting('reward_referee'), 2, ',', '.')}}</strong>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
+                <h4 class="text-primary">Pendaftar dari Referee</h4>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nama</th>
+                            <th scope="col">ID Pendaftaran</th>
+                            <th scope="col">Unit</th>
+                            <th scope="col">Verified</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($$module_name_singular->registrants as $registrant)
+                            <tr>
+                                <td>
+                                    {{$registrant->name}}
+                                </td>
+                                <td>
+                                    {{$registrant->registrant_id}}
+                                </td>
+                                <td>
+                                    {{$registrant->unit->name}}
+                                </td>
+                                <td>
+                                    @if($registrant->registrant_stage->accepted_pass)
+                                        <i class="far fa-lg fa-check-circle text-success"></i>
+                                    @else
+                                        <i class="fas fa-lg fa-spinner fa-pulse text-primary"></i>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table> 
             </div>
-            <div class="col-12 col-sm-6">
+            <div class="col-12 col-sm-4">
+            <hr>
+            @include('backend.includes.show')
 
-                <div class="text-center">
-                    <a href="{{route("frontend.$module_name.show", [encode_id($$module_name_singular->id), $$module_name_singular->slug])}}" class="btn btn-success" target="_blank"><i class="fas fa-link"></i> Public View</a>
-                </div>
-                <hr>
-
-                <h4>Category</h4>
-                <ul>
-                    <li>
-                        <a href="{{route('backend.categories.show', $$module_name_singular->category_id)}}">{{$$module_name_singular->category_name}}</a>
-                    </li>
-                </ul>
-                <hr>
-
-                <h4>Tags</h4>
-                <ul>
-                    @foreach($$module_name_singular->tags as $row)
-                    <li>
-                        <a href="{{route('backend.tags.show', $row->id)}}">{{$row->name}}</a>
-                    </li>
-                    @endforeach
-                </ul>
-                <hr>
-
-                <h4>Comments</h4>
-                <ul>
-                    @foreach($$module_name_singular->comments as $row)
-                    <li>
-                        <a href="{{route('backend.comments.show', $row->id)}}">{{$row->name}}</a> by {{$row->user_name}}
-                    </li>
-                    @endforeach
-                </ul>
-                <hr>
-
+            <hr>
                 @include('referal::backend.includes.activitylog')
-                <hr>
-
+            <hr>
             </div>
         </div>
     </div>

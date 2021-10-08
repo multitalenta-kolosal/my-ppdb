@@ -15,6 +15,7 @@ return [
     'former_school'             => 'Sekolah Asal',
     'tier'                      => 'Kelas / Jurusan',
     'status'                    => 'Status',
+    'ref_code'                  => 'Kode Referal',
 
     'verification'=>
     [

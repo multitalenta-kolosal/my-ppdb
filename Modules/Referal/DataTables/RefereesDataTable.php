@@ -32,7 +32,7 @@ class RefereesDataTable extends DataTable
             ->addColumn('action', function ($data) {
                 $module_name = $this->module_name;
 
-                return view('backend.includes.action_column_admin', compact('module_name', 'data'));
+                return view('referal::backend.includes.action_column', compact('module_name', 'data'));
             })
             ->editColumn('updated_at', function ($data) {
                 $module_name = $this->module_name;
@@ -111,6 +111,7 @@ class RefereesDataTable extends DataTable
                   ->addClass('text-center'),
             Column::make('name'),
             Column::make('ref_code'),
+            Column::make('email'),
             Column::make('phone'),
             Column::make('bank_code')->hidden(),
             Column::make('bank_name'),

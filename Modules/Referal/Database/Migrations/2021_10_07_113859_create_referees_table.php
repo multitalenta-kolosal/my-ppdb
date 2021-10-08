@@ -16,6 +16,7 @@ class CreateRefereesTable extends Migration
         Schema::create('referees', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('email');
             $table->string('phone');
             $table->string('bank_code');
             $table->string('bank_name');

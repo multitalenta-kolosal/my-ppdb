@@ -3,6 +3,7 @@
 return [
 
     'name'                      => 'Name',
+    'email'                     => 'Email',
     'phone'                     => 'Phone',
     'bank_account'              => 'Bank Account',
     'bank_name'                 => 'Bank Name',

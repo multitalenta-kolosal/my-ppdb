@@ -130,8 +130,15 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'pesan kustom',
+            'email' => [
+            'required' => 'Alamat Email Dibutuhkan!',
+            'max' => 'Alamat Email Terlalu panjang!',
+            'unique' => 'Alamat Email sudah dipakai'
+        ],
+        'phone' => [
+            'required' => 'Nomor HP Dibutuhkan!',
+            'max' => 'Nomor HP Terlalu panjang!',
+            'unique' => 'Nomor HP sudah dipakai'
         ],
     ],
 
@@ -146,6 +153,10 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'required'  => 'Data :attribute Dibutuhkan!',
+        'max'       => 'Data :attribute Terlalu panjang!',
+        'unique'    => 'Data :attribute ini sudah dipakai',
+    ],
 
 ];

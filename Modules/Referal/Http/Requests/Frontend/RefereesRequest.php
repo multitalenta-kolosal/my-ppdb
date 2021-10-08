@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Referal\Http\Requests\Backend;
+namespace Modules\Referal\Http\Requests\Frontend;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,8 +25,8 @@ class RefereesRequest extends FormRequest
     {
         return [
             'name'              => 'required|max:191',
-            'email'             => 'email|unique:referees', 
-            'phone'             => 'numeric|unique:referees',
+            'email'             => 'unique:referees|email', 
+            'phone'             => 'unique:referees|numeric',
         ];
     }
 

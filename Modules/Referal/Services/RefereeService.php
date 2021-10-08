@@ -146,11 +146,6 @@ class RefereeService{
         try{            
             $referee = $this->refereeRepository->make($data);
 
-            $bank = preg_split('/-/',$data[bank_name]);
-
-            $referee->bank_code = $bank[0];
-            $referee->bank_name = $bank[1];
-
             $updated = $this->refereeRepository->update($referee->toArray(),$id);
 
             $updated_referee = $this->refereeRepository->findOrFail($id);
@@ -276,23 +271,69 @@ class RefereeService{
     public function prepareOptions(){
         
         $banks= [];
+        $bank_names= [];
 
         $raw_banks = config('banks');
 
-
         foreach($raw_banks as $raw_bank){
             $banks = Arr::add($banks, $raw_bank['code'].'-'.$raw_bank['name'], $raw_bank['code'].' - '.$raw_bank['name'] );
+            $bank_names = Arr::add($bank_names, $raw_bank['name'], $raw_bank['name'] );
         }
 
         $options = array(
             'banks' => $banks,
+            'bank_names' => $bank_names
         );
 
         return $options;
     }
 
     public function generateRefCode(){
-        $randomString = Str::random(7);
+        do {
+            $randomString = Str::random(8);            
+            $referalExists = $this->refereeRepository->findby('ref_code',$randomString);
+        }
+        while ($referalExists);
+
         return $randomString;
+    }
+
+
+    public function track(Request $request){
+        $data = $request->all();
+        
+        DB::beginTransaction();
+
+        try {
+            $referee = $this->refereeRepository->findWhere([
+                'email' => $data['email'],
+                'phone' => $data['phone'],
+            ])->first();
+
+            if(!$referee){
+                return (object) array(
+                    'error'=> true,
+                    'message'=> 'Referee Tidak Ditemukan',
+                    'data'=> null,
+                );            }
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
+            return (object) array(
+                'error'=> true,
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
+        }
+
+        DB::commit();
+
+        Log::info(label_case($this->module_title.' '.__function__)." | '".$referee->name.'(ID:'.$referee->id.") IP: ".request()->getClientIp()."'' ");
+            
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $referee,
+        );
     }
 }

@@ -170,9 +170,19 @@ class RefereesController extends Controller
 
         $$module_name_singular = $referees->data;
 
+        //determine connections
+        $connection = config('database.default');
+        $driver = config("database.connections.{$connection}.driver");
+
+        $activities = Activity::where('subject_type', '=', $module_model)
+            ->where('log_name', '=', $module_name)
+            ->where('subject_id', '=', $id)
+            ->latest()
+            ->paginate();
+
         return view(
             "referal::backend.$module_name.show",
-            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular")
+            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular",'activities','driver')
         );
     }
 
@@ -198,13 +208,13 @@ class RefereesController extends Controller
 
         $options = $this->refereeService->prepareOptions();
 
-        $banks = $options['banks'];
+        $bank_names = $options['bank_names'];
 
         $$module_name_singular = $referees->data;
 
         return view(
             "referal::backend.$module_name.edit",
-            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular",'banks')
+            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular",'bank_names')
         );
     }
 

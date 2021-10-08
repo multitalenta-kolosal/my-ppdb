@@ -72,6 +72,24 @@ return [
         ],
 
     ],
+    'referal' => [
+        'title' => 'Referal',
+        'desc'  => 'Referal settings for app',
+        'icon'  => 'fas fa-user-friends',
+
+        'elements' => [
+            [
+                'type'  => 'text', // input fields type
+                'data'  => 'string', // data type, string, int, boolean
+                'name'  => 'reward_referee', // unique name for field
+                'label' => 'Reward per Verified untuk Referee (Rp)', // you know what label it is
+                'rules' => 'required|nullable|max:191', // validation rule of laravel
+                'class' => '', // any class for input
+                'value' => '50000', // default value if you want
+            ],
+        ],
+
+    ],
     'email' => [
         'title' => 'Email',
         'desc'  => 'Email settings for app',
