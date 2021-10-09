@@ -110,7 +110,6 @@ class RefereeService{
             Log::info(label_case($this->module_title.' '.__function__)." | '".$referee->name.'(ID:'.$referee->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
         }else{
             Log::info(label_case($this->module_title.' '.__function__)." | '".$referee->name.'(ID:'.$referee->id.") ' by User: Guest)'");
-            event(new RegistrantEnlist($registrant));
         }
 
         return (object) array(
