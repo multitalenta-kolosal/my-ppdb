@@ -34,8 +34,8 @@ Route::group(['namespace' => '\Modules\Referal\Http\Controllers\Frontend', 'as' 
     $module_name = 'referees';
     $controller_name = 'RefereesController';    
     Route::get("ypwreferal", ['as' => "$module_name.index", 'uses' => "$controller_name@index"]);
-    Route::get("reftrack", ['as' => "$module_name.reftrack", 'uses' => "$controller_name@reftrack"]);
-    Route::post("refarea/{ref_code}", ['as' => "$module_name.refarea", 'uses' => "$controller_name@refarea"]);
+    // Route::get("reftrack", ['as' => "$module_name.reftrack", 'uses' => "$controller_name@reftrack"]);
+    Route::post("refarea", ['as' => "$module_name.refarea", 'uses' => "$controller_name@refarea"]);
     Route::resource("$module_name", "$controller_name")->only([
         'store', 'update'
     ])->middleware(['throttle:10,1']);

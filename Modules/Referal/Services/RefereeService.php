@@ -319,9 +319,10 @@ class RefereeService{
             if(!$referee){
                 return (object) array(
                     'error'=> true,
-                    'message'=> 'Referee Tidak Ditemukan',
+                    'message'=> 'Data Referee tidak kami temukan, Silakan periksa ulang data yang anda masukkan',
                     'data'=> null,
-                );            }
+                );            
+            }
         }catch (Exception $e){
             DB::rollBack();
             Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());

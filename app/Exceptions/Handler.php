@@ -50,6 +50,12 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        if($exception instanceof \Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException){
+            if(!\Route::currentRouteName()){
+                return redirect()->back();
+            }
+        }
+            
         return parent::render($request, $exception);
     }
 }

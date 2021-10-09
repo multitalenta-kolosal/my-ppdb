@@ -129,7 +129,8 @@ class RefereesController extends Controller
         $referee = $this->refereeService->track($request);
         
         if($referee->error){
-            return response()->json($referee);
+            Flash::error("<i class='fas fa-times-circle'></i> ".$referee->message)->important();
+            return redirect()->back();
         }
 
         return view(

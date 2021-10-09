@@ -85,7 +85,7 @@
                                             <span class="text-dark d-block">
                                                 Login
                                             </span>
-                                            <span class="small">Login to the application</span>
+                                            <span class="small">Login to admin</span>
                                         </div>
                                     </a>
                                     @endauth
@@ -138,7 +138,7 @@
                                             <span class="text-dark d-block">
                                                 Login
                                             </span>
-                                            <span class="small">Login to the application</span>
+                                            <span class="small">Login to admin</span>
                                         </div>
                                     </a>
                                     @endauth
