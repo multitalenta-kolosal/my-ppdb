@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary mt-2">
-                                        @lang('Submit')
+                                        @lang('Masuk')
                                     </button>
                                 </div>
                             </form>

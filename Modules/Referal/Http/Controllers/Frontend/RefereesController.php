@@ -167,9 +167,9 @@ class RefereesController extends Controller
                     <i class="fas fa-check"></i> 
                         Anda Sudah terdaftar Sebagai Referee Yayasan Pendidikan Warga
                 </h4>
-                <h5>
-                        Untuk Selanjutnya Silakan Masuk ke Area Referee lewat tombol diatas untuk Mengakses Link Referal Anda
-                </h5>'
+                <p>
+                        Untuk Selanjutnya Silakan Masuk ke Area Referee untuk Mengakses Link Referal Anda
+                </p>'
                 )->important();
         }else{
             Flash::error('
@@ -178,7 +178,7 @@ class RefereesController extends Controller
                         Pendaftaran Gagal!
                 </h4>
                 <h5>
-                    Silakan coba lagi
+                        Coba periksa kembali data anda dan silakan coba lagi
                 </h5>'
             )->important();
         }
