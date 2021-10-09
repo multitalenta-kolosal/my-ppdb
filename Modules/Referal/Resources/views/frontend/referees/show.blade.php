@@ -26,36 +26,38 @@
         </table>
         <hr>
         <h4 class="text-primary">Pendaftar dari Referee</h4>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">Nama</th>
-                    <th scope="col">ID Pendaftaran</th>
-                    <th scope="col">Unit</th>
-                    <th scope="col">Verified</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($$module_name_singular->data->registrants as $registrant)
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
                     <tr>
-                        <td>
-                            {{$registrant->name}}
-                        </td>
-                        <td>
-                            {{$registrant->registrant_id}}
-                        </td>
-                        <td>
-                            {{$registrant->unit->name}}
-                        </td>
-                        <td>
-                            @if($registrant->registrant_stage->accepted_pass)
-                                <i class="far fa-lg fa-check-circle text-success"></i>
-                            @else
-                                <i class="fas fa-lg fa-spinner fa-pulse text-primary"></i>
-                            @endif
-                        </td>
+                        <th scope="col">Nama</th>
+                        <th scope="col">ID Pendaftaran</th>
+                        <th scope="col">Unit</th>
+                        <th scope="col">Verified</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table> 
+                </thead>
+                <tbody>
+                    @foreach($$module_name_singular->data->registrants as $registrant)
+                        <tr>
+                            <td>
+                                {{$registrant->name}}
+                            </td>
+                            <td>
+                                {{$registrant->registrant_id}}
+                            </td>
+                            <td>
+                                {{$registrant->unit->name}}
+                            </td>
+                            <td>
+                                @if($registrant->registrant_stage->accepted_pass)
+                                    <i class="far fa-lg fa-check-circle text-success"></i>
+                                @else
+                                    <i class="fas fa-lg fa-spinner fa-pulse text-primary"></i>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table> 
+        </div>
     </div>
