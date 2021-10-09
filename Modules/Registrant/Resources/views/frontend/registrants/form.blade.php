@@ -138,7 +138,7 @@
 @push ('after-scripts')
 <script>
     $(document).ready(function() {
-        if({{ app('request')->filled('ref') }}){
+        if({{ app('request')->filled('ref') == '' ? 'false' : 'true'}}){
             $('#success-ref').html("Referal telah aktif!");
             $('#success-ref').addClass("text-success");
         }
