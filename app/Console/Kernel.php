@@ -25,8 +25,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        // $schedule->command('reconciliation:fetchlatest')
+        //         ->hourly()
+        //         ->timezone('Asia/Jakarta')
+        //         ->between('3:00', '7:00');
+        $schedule->command('reconciliation:fetchlatest')
+                ->everyMinute();
     }
 
     /**
