@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
+use Modules\Registrant\Services\RegistrantStageService;
 use Modules\Registrant\Repositories\RegistrantStageRepository;
 
 use Modules\Registrant\Entities\Registrant;
@@ -39,7 +40,7 @@ class CreateVaBySFTP implements ShouldQueue
      *
      * @return void
      */
-    public function handle(RegistrantStageRepository $registrantStageRepository)
+    public function handle(RegistrantStageRepository $registrantStageRepository,RegistrantStageService $registrantStageService)
     {
 
         $sftp_push = \Storage::disk('sftp')->put('89955_'.$this->registrant->va_number.'.txt', $this->composeTxtContent($this->registrant));
@@ -53,6 +54,7 @@ class CreateVaBySFTP implements ShouldQueue
                 if($registrantstage_check){
                     $registrantStage = $registrantStageRepository->makeModel();
                     $registrantStage->va_pass = true;
+                    $registrantStage->status_id = $registrantStageService->getSetStatus($registrantStage);
 
                     $registrant_stage = $registrantStageRepository->update($registrantStage->toArray(),$registrantstage_check->id);
     
@@ -64,6 +66,8 @@ class CreateVaBySFTP implements ShouldQueue
             }
 
             DB::commit();
+        }else{
+            Log::critical(label_case('CreateVaBySFTP AT '.Carbon::now().' | Function: Store to MFT for: '.$registrantStage->registrant_id.' ERROR | Msg: Cannot Create'));
         }
             
     }
