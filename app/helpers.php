@@ -82,8 +82,19 @@ if (!function_exists('show_column_value')) {
      */
     function show_column_value($valueObject, $column, $return_format = '')
     {
-        $column_name = $column->Field;
-        $column_type = $column->Type;
+        $connection = config('database.default');
+        $driver = config("database.connections.{$connection}.driver");
+        
+        switch($driver){
+            case 'mysql':
+                    $column_name = $column->Field;
+                    $column_type = $column->Type;
+                break;
+            case 'pgsql':    
+                    $column_name = $column->field;
+                    $column_type = $column->type;
+                break;
+        }   
 
         $value = $valueObject->$column_name;
 

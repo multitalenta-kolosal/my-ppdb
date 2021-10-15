@@ -96,8 +96,6 @@
             {{ html()->email($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}
         </div>
     </div>
-</div>
-<div class="row">
     <div class="col-md-6 col-sm-6">
         <div class="form-group">
             <?php
@@ -108,6 +106,21 @@
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <?php
+            $field_name = 'ref_code';
+            $field_lable = __("registrant::$module_name.$field_name");
+            $field_placeholder = $field_lable." Jika Ada";
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->text($field_name, app('request')->input('ref') ?? '')->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}
+            <span id="success-ref"></span>
         </div>
     </div>
 </div>
@@ -125,6 +138,11 @@
 @push ('after-scripts')
 <script>
     $(document).ready(function() {
+        if({{ app('request')->filled('ref') == '' ? 'false' : 'true'}}){
+            $('#success-ref').html("Referal telah aktif!");
+            $('#success-ref').addClass("text-success");
+        }
+
         $('#unit_id').on('change', function(){
             $('#type').empty();
             var unit_id = $('#unit_id').val();

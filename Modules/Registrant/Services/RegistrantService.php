@@ -15,6 +15,8 @@ use Modules\Core\Repositories\PeriodRepository;
 use Modules\Core\Repositories\PathRepository;
 use Modules\Core\Repositories\TierRepository;
 
+use Modules\Registrant\Jobs\CreateVaBySFTP;
+
 use Exception;
 use Carbon\Carbon;
 use Auth;
@@ -144,8 +146,16 @@ class RegistrantService{
             $registrant = $this->registrantRepository->create($registrant->toArray());
 
             $registrant_message = $this->registrantMessageService->store($request, $registrant);
+            
+            if(setting('create_va_sftp')){
+                if(env('SFTP_HOST')){
+                    // $sftp_push = \Storage::disk('sftp')->put('89955_'.$registrant->va_number.'.txt', $this->composeTxtContent($registrant));
+                    // \Log::info(label_case('CreateVaBySFTP AT '.Carbon::now().' | Function: Store to MFT | Msg: '.json_encode($sftp_push)));
 
-            // \Storage::disk('ftp')->put('file_'.$registrant->registrant_id.'_.txt', 'hai namaku:'.$registrant->name);
+                    $sendToSFTP = new CreateVaBySFTP($registrant);
+                    dispatch($sendToSFTP);
+                }
+            }
 
         }catch (Exception $e){
             DB::rollBack();
@@ -537,5 +547,58 @@ class RegistrantService{
             'message'=> '',
             'data'=> null,
         );
+    }
+
+    public function composeTxtContent($registrant){
+
+        $va = $registrant->va_number;
+        $name = $registrant->name;
+        $unit_name = $registrant->unit->name;
+        $open_date = Carbon::now()->format('Ymd');
+        $close_date = Carbon::now()->addDays(2)->format('Ymd'); //change to year
+        $bill = $this->getBillRecapAnnualized($registrant);
+
+        $composed= 
+        'NO VA|Bill Key 2|Bill Key 3|Currency|NAMA|UNIT|KET|Bill Info 4|Bill Info 5|Bill Info 6|Bill Info 7|Bill Info 8|Bill Info 9|Bill Info 10|Bill Info 11|Bill Info 12|Bill Info 13|Bill Info 14|Bill Info 15|Bill Info 16|Bill Info 17|Bill Info 18|Bill Info 19|Bill Info 20|Bill Info 21|Bill Info 22|Bill Info 23|Bill Info 24|Bill Info 25|Periode Open|Periode Close|Tagihan 1|Tagihan 2|Tagihan 3|Tagihan 4|Tagihan 5|Tagihan 6|Tagihan 7|Tagihan 8|Tagihan 9|Tagihan 10|Tagihan 11|Tagihan 12|Tagihan 13|Tagihan 14|Tagihan 15|Tagihan 16|Tagihan 17|Tagihan 18|Tagihan 19|Tagihan 20|Tagihan 21|Tagihan 22|Tagihan 23|Tagihan 24|Tagihan 25|'.
+        "\n".$va.'|||IDR|'.$name.'|'.$unit_name.' WARGA|SPP|||||||||||||||||||||||'.$open_date.'|'.$close_date.'|01\\TOTAL\\TOTAL\\'.$bill."|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|~";
+         
+        return $composed;
+    }
+
+    public function getBillRecapAnnualized($registrant){
+        switch($registrant->unit->name){
+            case 'KB/TK':
+                    return '8650000';
+                break;
+            case 'SD':
+                    return '7786500';
+                break;
+            case 'SMP':
+                    return '10550000';
+                break;
+            case 'SMA':
+                    return '12600000';
+                break;
+            case 'SMK':
+                    if($registrant->unit->have_major){
+                        switch($registrant->unit->tier->name){
+                            case 'Teknik Pemesinan':
+                                    return '13150000';
+                                break;
+                            case 'Teknik Elektronika Industri':
+                                    return '8150000';
+                                break;
+                            case 'Teknik Kendaraan Ringan':
+                                    return '13150000';
+                                break;
+                        }
+                    }else{
+                        return '10';
+                    }
+                break;
+            default:
+                    return '10';
+                break;
+        }
     }
 }

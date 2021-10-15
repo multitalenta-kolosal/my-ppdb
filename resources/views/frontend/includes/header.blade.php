@@ -21,11 +21,6 @@
                 </div>
                 <ul class="navbar-nav navbar-nav-hover justify-content-center">
                     <li class="nav-item">
-                        <a href="/" class="nav-link">
-                            <span class="fas fa-home mr-2"></span> Home
-                        </a>
-                    </li> 
-                    <li class="nav-item">
                         <a href="{{ route('frontend.registrants.index') }}" class="nav-link">
                             <span class="fas fa-file-signature mr-1"></span> Pendaftaran
                         </a>
@@ -40,6 +35,11 @@
                             <span class="fas fa-running mr-1"></span> Cek Status
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ route('frontend.referees.index') }}" class="nav-link">
+                            <span class="fas fa-user-astronaut mr-2"></span> Referal
+                        </a>
+                    </li> 
                     <li class="nav-item dropdown d-none d-lg-block">
                         <a href="#" class="nav-link dropdown-toggle" aria-expanded="false" data-toggle="dropdown">
                             <span class="nav-link-inner-text mr-1">
@@ -85,7 +85,7 @@
                                             <span class="text-dark d-block">
                                                 Login
                                             </span>
-                                            <span class="small">Login to the application</span>
+                                            <span class="small">Login to admin</span>
                                         </div>
                                     </a>
                                     @endauth
@@ -138,7 +138,7 @@
                                             <span class="text-dark d-block">
                                                 Login
                                             </span>
-                                            <span class="small">Login to the application</span>
+                                            <span class="small">Login to admin</span>
                                         </div>
                                     </a>
                                     @endauth

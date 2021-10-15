@@ -77,7 +77,23 @@ class BaseModel extends Model implements HasMedia
      */
     public function getTableColumns()
     {
-        $table_info_columns = DB::select(DB::raw('SHOW COLUMNS FROM '.$this->getTable()));
+        //determine connections
+        $connection = config('database.default');
+        $driver = config("database.connections.{$connection}.driver");
+        
+        switch($driver){
+            case 'mysql':
+                    $table_info_columns = DB::select(DB::raw('SHOW COLUMNS FROM '.$this->getTable()));
+                break;
+            case 'pgsql':       
+                    $table_info_columns = DB::select(DB::raw(
+                        "SELECT data_type as Type, column_name as Field
+                            FROM information_schema.columns
+                        Where table_schema = 'public'    
+                        AND table_name   = '".$this->getTable()."'"
+                    ));
+                break;
+        }   
 
         return $table_info_columns;
     }

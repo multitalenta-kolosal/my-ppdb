@@ -44,7 +44,7 @@ class RegistrantsController extends Controller
      *
      * @return View
      */
-    public function index()
+    public function index($ref=null)
     {
         $module_title = $this->module_title;
         $module_name = $this->module_name;
@@ -185,7 +185,7 @@ class RegistrantsController extends Controller
                     Silakan coba lagi
                 </h5>
                     Jika mengalami masalah silakan menghubungi (WA) 
-                    admin unit
+                    '.$registrants->data->unit->contact_number.' 
                     Untuk info lebih lanjut.'
             )->important();
         }

@@ -10,6 +10,11 @@ return [
         'installments'      => 'Installments',
     ],
 
+    'referal' => [
+        'title'             => 'Referal',
+        'referees'           => 'Referee',
+    ],
+
     'core' => [
         'title'             => 'Core Data',
         'paths'             => 'Paths',

@@ -15,6 +15,7 @@ return [
     'former_school'             => 'Former School',
     'tier'                      => 'Tier / Major',
     'status'                    => 'Status',
+    'ref_code'                  => 'Referal Code',
 
     'verification'=>
     [

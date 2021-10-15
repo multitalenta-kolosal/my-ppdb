@@ -84,7 +84,7 @@ class NotifyUnitRegistrantEnlist extends Notification
             'icon'          => 'fas fa-feather-alt',
             'text'          => $text,
             'model'         => $registrant,
-            'information'   => 'Pendaftar atas nama: <strong>'.$registrant->name.'</strong>', 
+            'information'   => 'Pendaftar atas nama: <strong>'.$registrant->name.' ('.$registrant->registrant_id.')</strong>', 
             'unit_id'       => $registrant->unit_id,
             'url_backend'   => '',
             'url_frontend'  => '',

@@ -433,7 +433,7 @@ class MessageService{
                 );
 
             }else{
-                Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: registrant not found');
+                Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: registrant '.$custom_data[1].' not found');
                 return (object) $response = [
                     'data'   => null,
                     'error' => true,

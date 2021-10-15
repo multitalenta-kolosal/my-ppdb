@@ -130,8 +130,15 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'email' => [
+            'required' => 'Email Needed!',
+            'max' => 'Email is too long!',
+            'unique' => 'Email already used'
+        ],
+        'phone' => [
+            'required' => 'Phone Needed!',
+            'max' => 'Phone is too long!',
+            'unique' => 'Phone already used'
         ],
     ],
 

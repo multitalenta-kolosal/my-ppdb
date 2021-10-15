@@ -84,7 +84,7 @@ class NotifyYayasanRegistrantCreated extends Notification
             'icon'          => 'fas fa-feather-alt',
             'text'          => $text,
             'model'         => $registrant,
-            'information'   => 'Silakan tambahkan VA: '.$registrant->va_number, 
+            'information'   => 'Nama: '.$registrant->name.' | Silakan tambahkan VA: <strong>'.$registrant->va_number.'</strong>', 
             'unit_id'       => $registrant->unit_id,
             'url_backend'   => '',
             'url_frontend'  => '',
