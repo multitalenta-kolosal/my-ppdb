@@ -78,7 +78,7 @@ class CreateVaBySFTP implements ShouldQueue
         $name = $registrant->name;
         $unit_name = $registrant->unit->name;
         $open_date = Carbon::now()->format('Ymd');
-        $close_date = Carbon::now()->addDays(2)->format('Ymd'); //change to year
+        $close_date = Carbon::now()->addYears(2)->format('Ymd'); //change to year
         $bill = $this->getBillRecapAnnualized($registrant);
 
         $composed= 
