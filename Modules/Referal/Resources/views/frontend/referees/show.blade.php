@@ -19,36 +19,44 @@
                         <strong class="text-danger">{{$$module_name_singular->data->verified_registrants->count()}}</strong> CPDB
                     </td>
                     <td>
-                        <strong class="h5">Rp. {{number_format($$module_name_singular->data->verified_registrants->count() * setting('reward_referee'), 2, ',', '.')}}</strong>
+                        <strong class="h5">Rp. {{number_format($$module_name_singular->data->count_reward(), 2, ',', '.')}}</strong>
                     </td>
                 </tr>
             </tbody>
         </table>
         <hr>
         <h4 class="text-primary">Pendaftar dari Referee</h4>
-        <div class="table-responsive">
-            <table class="table table-hover">
+        <div class="table-responsive p-2">
+            <table class="table table-hover table-bordered" >
                 <thead>
-                    <tr>
-                        <th scope="col">Nama</th>
-                        <th scope="col">ID Pendaftaran</th>
-                        <th scope="col">Unit</th>
-                        <th scope="col">Verified</th>
+                    <tr >
+                        <th scope="col" style="border-color:black;" >Nama</th>
+                        <th scope="col" style="border-color:black;" >ID Pendaftaran</th>
+                        <th scope="col" style="border-color:black;" >Unit</th>
+                        <th scope="col" style="border-color:black;" >Reward</th>
+                        <th scope="col" style="border-color:black;" >Verified</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($$module_name_singular->data->registrants as $registrant)
-                        <tr>
-                            <td>
+                        <tr >
+                            <td style="border-color:black;" >
                                 {{$registrant->name}}
                             </td>
-                            <td>
+                            <td style="border-color:black;" >
                                 {{$registrant->registrant_id}}
                             </td>
-                            <td>
+                            <td style="border-color:black;" >
                                 {{$registrant->unit->name}}
+                            </td >
+                            <td style="border-color:black;" >
+                                @if($registrant->unit->referal_reward)
+                                    Rp. {{number_format($registrant->unit->referal_reward, 2, ',', '.')}}
+                                @else
+                                    <span class="text-danger">*Nilai Reward belum ditentukan</span>
+                                @endif
                             </td>
-                            <td>
+                            <td style="border-color:black;" >
                                 @if($registrant->registrant_stage->accepted_pass)
                                     <i class="far fa-lg fa-check-circle text-success"></i>
                                 @else

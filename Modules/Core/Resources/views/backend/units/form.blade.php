@@ -41,6 +41,25 @@
     </div>
 </div>
 <div class="row">
+    <div class="col-3">
+        <div class="form-group">
+            <?php
+            $field_name = 'referal_reward';
+            $field_lable = __("core::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Rp.</span>
+                </div>
+                {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required", 'aria-label'=>'Image', 'aria-describedby'=>'button-image']) }}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
     <div class="col-4">
         <div class="form-group">
             <?php

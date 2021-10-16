@@ -32,6 +32,18 @@ class Referee extends BaseModel
                     ->join('registrant_stages', 'registrant_stages.id', '=', 'registrants.progress_id')
                     ->where('registrant_stages.accepted_pass',true);
     }
+
+    public function count_reward(){
+        $reward = 0;
+
+        $verified_registrants = $this->verified_registrants;
+        
+        foreach($verified_registrants as $verified){
+            $reward += $verified->unit->referal_reward;
+        }
+
+        return $reward;
+    }
     
     protected static function newFactory()
     {

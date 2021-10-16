@@ -58,7 +58,7 @@
                                 <strong class="text-danger">{{$$module_name_singular->verified_registrants->count()}}</strong> CPDB
                             </td>
                             <td>
-                                <strong class="h5">Rp. {{number_format($$module_name_singular->verified_registrants->count() * setting('reward_referee'), 2, ',', '.')}}</strong>
+                                <strong class="h5">Rp. {{number_format($$module_name_singular->count_reward(), 2, ',', '.')}}</strong>
                             </td>
                         </tr>
                     </tbody>
@@ -71,6 +71,7 @@
                             <th scope="col">Nama</th>
                             <th scope="col">ID Pendaftaran</th>
                             <th scope="col">Unit</th>
+                            <th scope="col">Reward</th>
                             <th scope="col">Verified</th>
                         </tr>
                     </thead>
@@ -85,6 +86,13 @@
                                 </td>
                                 <td>
                                     {{$registrant->unit->name}}
+                                </td> 
+                                <td>
+                                    @if($registrant->unit->referal_reward)
+                                        Rp. {{number_format($registrant->unit->referal_reward, 2, ',', '.')}}
+                                    @else
+                                        <span class="text-danger">*Nilai Reward belum ditentukan</span>
+                                    @endif
                                 </td>
                                 <td>
                                     @if($registrant->registrant_stage->accepted_pass)
