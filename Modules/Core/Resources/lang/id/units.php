@@ -21,4 +21,5 @@ return [
     'installments'              => 'Angsuran',
     'additional_lines_payment'  => 'Kalimat perpesanan tambahan langkah pembayaran',
     'additional_lines_test'     => 'Kalimat perpesanan tambahan langkah tes masuk',
+    'referal_reward'            => 'Referal Reward',
 ];
