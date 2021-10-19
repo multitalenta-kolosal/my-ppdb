@@ -45,10 +45,10 @@ class CreateVaBySFTP implements ShouldQueue
 
         $sftp_push = \Storage::disk('sftp')->put('89955_'.$this->registrant->va_number.'.txt', $this->composeTxtContent($this->registrant));
         
-        if($sftp_push){
-            DB::beginTransaction();
+        DB::beginTransaction();
 
-            try{
+        try{
+            if($sftp_push){
                 $registrantstage_check = $registrantStageRepository->findBy('registrant_id',$this->registrant->registrant_id);
 
                 if($registrantstage_check){
@@ -59,16 +59,16 @@ class CreateVaBySFTP implements ShouldQueue
                     $registrant_stage = $registrantStageRepository->update($registrantStage->toArray(),$registrantstage_check->id);
     
                     \Log::info(label_case('CreateVaBySFTP AT '.Carbon::now().' | Function: Store to MFT for: '.$registrantStage->registrant_id.' | Msg: '.json_encode($sftp_push)));
-                }
-            }catch(Exception $e){
-                DB::rollBack();
-                Log::critical(label_case('CreateVaBySFTP AT '.Carbon::now().' | Function: Store to MFT for: '.$registrantStage->registrant_id.' | Msg: '.$e->getMessage()));
+                }  
+            }else{
+                Log::critical(label_case('CreateVaBySFTP AT '.Carbon::now().' | Function: Store to MFT for: '.$registrantStage->registrant_id.' ERROR | Msg: Cannot Create'));
             }
-
-            DB::commit();
-        }else{
-            Log::critical(label_case('CreateVaBySFTP AT '.Carbon::now().' | Function: Store to MFT for: '.$registrantStage->registrant_id.' ERROR | Msg: Cannot Create'));
+        }catch(Exception $e){
+            DB::rollBack();
+            Log::critical(label_case('CreateVaBySFTP AT '.Carbon::now().' | Function: Store to MFT for: '.$registrantStage->registrant_id.' | Msg: '.$e->getMessage().' reg_id: '.$registrantStage->registrant_id));
         }
+
+        DB::commit();
             
     }
 
@@ -89,7 +89,9 @@ class CreateVaBySFTP implements ShouldQueue
     }
 
     public function getBillRecapAnnualized($registrant){
-        switch($registrant->unit->name){
+        $unit_name = $registrant->unit->name;
+
+        switch($unit_name){
             case 'KB/TK':
                     return '8650000';
                 break;
@@ -104,7 +106,8 @@ class CreateVaBySFTP implements ShouldQueue
                 break;
             case 'SMK':
                     if($registrant->unit->have_major){
-                        switch($registrant->unit->tier->name){
+                        $tier_name = $registrant->tier->tier_name;
+                        switch($tier_name){
                             case 'Teknik Pemesinan':
                                     return '13150000';
                                 break;
@@ -113,6 +116,9 @@ class CreateVaBySFTP implements ShouldQueue
                                 break;
                             case 'Teknik Kendaraan Ringan':
                                     return '13150000';
+                                break;
+                            default:
+                                    return '10';
                                 break;
                         }
                     }else{
