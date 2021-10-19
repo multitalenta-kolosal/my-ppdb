@@ -580,7 +580,9 @@ class RegistrantService{
     }
 
     public function getBillRecapAnnualized($registrant){
-        switch($registrant->unit->name){
+        $unit_name = $registrant->unit->name;
+
+        switch($unit_name){
             case 'KB/TK':
                     return '8650000';
                 break;
@@ -595,7 +597,8 @@ class RegistrantService{
                 break;
             case 'SMK':
                     if($registrant->unit->have_major){
-                        switch($registrant->unit->tier->name){
+                        $tier_name = $registrant->tier->tier_name;
+                        switch($tier_name){
                             case 'Teknik Pemesinan':
                                     return '13150000';
                                 break;
@@ -604,6 +607,9 @@ class RegistrantService{
                                 break;
                             case 'Teknik Kendaraan Ringan':
                                     return '13150000';
+                                break;
+                            default:
+                                    return '10';
                                 break;
                         }
                     }else{
