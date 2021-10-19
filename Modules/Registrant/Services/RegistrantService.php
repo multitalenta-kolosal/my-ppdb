@@ -455,8 +455,22 @@ class RegistrantService{
     }
 
     public function generateUnitIncrement($unit_id){
+        DB::beginTransaction();
 
-        $max_increment = $this->registrantRepository->getBiggestUnitIncrement($unit_id);
+        try {
+            $max_increment = $this->registrantRepository->getBiggestUnitIncrement($unit_id);
+
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
+            return (object) array(
+                'error'=> true,
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
+        }
+
+        DB::commit();
 
         if($max_increment){
             $increment = $max_increment+1;
