@@ -98,6 +98,7 @@
                                 const Toast = Swal.mixin({
                                     toast: true,
                                     position: 'top-end',
+                                    showCloseButton: true,
                                     showConfirmButton: false,
                                     timer: 3000,
                                     timerProgressBar: true,
@@ -146,6 +147,7 @@
                                     const Toast = Swal.mixin({
                                         toast: true,
                                         position: 'top-end',
+                                        showCloseButton: true,
                                         showConfirmButton: false,
                                         timer: 3000,
                                         timerProgressBar: true,
@@ -170,6 +172,7 @@
                     const Toast = Swal.mixin({
                             toast: true,
                             position: 'top-end',
+                            showCloseButton: true,
                             showConfirmButton: false,
                             timer: 3000,
                             timerProgressBar: true,
@@ -234,6 +237,7 @@
                                 const Toast = Swal.mixin({
                                     toast: true,
                                     position: 'top-end',
+                                    showCloseButton: true,
                                     showConfirmButton: false,
                                     timer: 3000,
                                     timerProgressBar: true,
@@ -285,6 +289,7 @@
                                     const Toast = Swal.mixin({
                                         toast: true,
                                         position: 'top-end',
+                                        showCloseButton: true,
                                         showConfirmButton: false,
                                         timer: 3000,
                                         timerProgressBar: true,
@@ -304,6 +309,7 @@
                         const Toast = Swal.mixin({
                             toast: true,
                             position: 'top-end',
+                            showCloseButton: true,
                             showConfirmButton: false,
                             timer: 3000,
                             timerProgressBar: true,
@@ -344,6 +350,7 @@
                     const Toast = Swal.mixin({
                             toast: true,
                             position: 'top-end',
+                            showCloseButton: true,
                             showConfirmButton: false,
                             timer: 3000,
                             timerProgressBar: true,

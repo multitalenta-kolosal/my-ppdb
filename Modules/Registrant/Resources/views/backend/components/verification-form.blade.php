@@ -19,6 +19,8 @@
                 <div class="col-2">
                     @can('add_va')
                         {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
+                    @else
+                        {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked", "disabled"]) }}
                     @endcan
                 </div>
                 <div class="col-2 align-self-center text-success"  id="col_{{$field_name}}_{{$data->id}}">
