@@ -58,14 +58,14 @@ class CreateVaBySFTP implements ShouldQueue
 
                     $registrant_stage = $registrantStageRepository->update($registrantStage->toArray(),$registrantstage_check->id);
     
-                    \Log::info(label_case('CreateVaBySFTP AT '.Carbon::now().' | Function: Store to MFT for: '.$registrantStage->registrant_id.' | Msg: '.json_encode($sftp_push)));
+                    \Log::info(label_case('CreateVaBySFTP AT '.Carbon::now().' | Function: Store to MFT for: '.$registrantstage_check->registrant_id.' | Msg: '.json_encode($sftp_push)));
                 }  
             }else{
-                Log::critical(label_case('CreateVaBySFTP AT '.Carbon::now().' | Function: Store to MFT for: '.$registrantStage->registrant_id.' ERROR | Msg: Cannot Create'));
+                Log::critical(label_case('CreateVaBySFTP AT '.Carbon::now().' | Function: Store to MFT for: '.$registrantstage_check->registrant_id.' ERROR | Msg: Cannot Create'));
             }
         }catch(Exception $e){
             DB::rollBack();
-            Log::critical(label_case('CreateVaBySFTP AT '.Carbon::now().' | Function: Store to MFT for: '.$registrantStage->registrant_id.' | Msg: '.$e->getMessage().' reg_id: '.$registrantStage->registrant_id));
+            Log::critical(label_case('CreateVaBySFTP AT '.Carbon::now().' | Function: Store to MFT for: '.$registrantstage_check->registrant_id.' | Msg: '.$e->getMessage().' reg_id: '.$registrantStage->registrant_id));
         }
 
         DB::commit();
