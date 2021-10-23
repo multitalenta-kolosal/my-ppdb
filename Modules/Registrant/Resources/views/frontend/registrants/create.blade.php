@@ -30,7 +30,7 @@
             Swal.fire({
                 title: 'Sedang Diproses...',
                 html: 'Jangan tutup atau refresh halaman ini.',
-                allowOutsideClick: false
+                allowOutsideClick: false,
                 didOpen: () => {
                     Swal.showLoading();
                 },
