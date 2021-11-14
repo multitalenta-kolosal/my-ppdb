@@ -30,6 +30,10 @@ return [
         "code" => "014"
     ],
     [
+        "name" => "BANK BCA SYARIAH",
+        "code" => "536"
+    ],
+    [
         "name" => "BANK BII",
         "code" => "016"
     ],
