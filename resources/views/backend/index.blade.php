@@ -92,7 +92,7 @@
                     <div>{{$unit_name}}</div>
                     <div class="progress progress-xs my-2">
                         <div class="progress-bar" role="progressbar" style="width: {{$bar_percentage}}%; background-color: {{$color_array[$unit->unit] ?? ''}}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div><small class="text-danger">{{$bar_percentage}}% dari target</small>
+                    </div><small class="{{$bar_percentage < 100 ? 'text-danger' : 'text-success'}}">{{$bar_percentage}}% dari target</small>
                 </div>
             </div>
         </div>
