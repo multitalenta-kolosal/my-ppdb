@@ -33,17 +33,22 @@ class BackendController extends Controller
     {
         $color_arr = [];
 
-        if(!Auth::user()->isSuperAdmin() && !Auth::user()->hasAllUnitAccess()){
-            // $color_array = [Auth::user()->unit->name => $color_arr[Auth::user()->unit->name]];
-            $color_array = Arr::add($color_arr,'single_unit','#225987');
-            $color = json_encode(array_values($color_array));
+        if(Auth::user()){
+            if(!Auth::user()->isSuperAdmin() && !Auth::user()->hasAllUnitAccess()){
+                // $color_array = [Auth::user()->unit->name => $color_arr[Auth::user()->unit->name]];
+                $color_array = Arr::add($color_arr,'single_unit','#225987');
+                $color = json_encode(array_values($color_array));
+            }else{
+                $color_arr = Arr::add($color_arr,'KB/TK','#FFA900');
+                $color_arr = Arr::add($color_arr,'SD','#00B74A');
+                $color_arr = Arr::add($color_arr,'SMP','#F93154');
+                $color_arr = Arr::add($color_arr,'SMA','#1266F1');
+                $color_arr = Arr::add($color_arr,'SMK','#B23CFD');
+                $color_array = $color_arr;
+                $color = json_encode(array_values($color_array));
+            }
         }else{
-            $color_arr = Arr::add($color_arr,'KB/TK','#FFA900');
-            $color_arr = Arr::add($color_arr,'SD','#00B74A');
-            $color_arr = Arr::add($color_arr,'SMP','#F93154');
-            $color_arr = Arr::add($color_arr,'SMA','#1266F1');
-            $color_arr = Arr::add($color_arr,'SMK','#B23CFD');
-            $color_array = $color_arr;
+            $color_array = Arr::add($color_arr,'single_unit','#225987');
             $color = json_encode(array_values($color_array));
         }
 
