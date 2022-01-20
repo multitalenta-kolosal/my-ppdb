@@ -73,7 +73,7 @@
                         <div class="col-sm-10">
                         {{ html()
                             ->select('unit_id', $units)
-                            ->placeholder('Pilih Unit')
+                            ->placeholder('Pilih Sekolah')
                             ->class('form-control select2') }}
                         </div>
                     </div><!--form-group-->

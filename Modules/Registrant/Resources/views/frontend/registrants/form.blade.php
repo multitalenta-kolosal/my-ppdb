@@ -187,7 +187,7 @@
                     }
                 });
             }else{
-                var defaultOption = $('<option value="">--Silakan Pilih Unit Dahulu--</option>');
+                var defaultOption = $('<option value="">--Silakan Pilih Sekolah Dahulu--</option>');
                 $('#type').append(defaultOption);
             }
         });

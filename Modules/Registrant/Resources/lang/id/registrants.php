@@ -11,7 +11,7 @@ return [
     'phone'                     => 'Nomor Telepon (Whatsapp)',
     'phone2'                    => 'Nomor Telepon 2',
     'email'                     => 'Email',
-    'unit'                      => 'Mendaftar ke Unit',
+    'unit'                      => 'Mendaftar Ke Sekolah',
     'former_school'             => 'Sekolah Asal',
     'tier'                      => 'Kelas / Jurusan',
     'status'                    => 'Status',
