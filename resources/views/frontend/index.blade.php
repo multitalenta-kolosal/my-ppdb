@@ -71,9 +71,9 @@
             <div class="col-lg-3 col-md-4 col-sm-6 text-center m-3">
                 <div class="card p-4 shadow">
                     <a href="https://smpwarga.sch.id">
-                        <h2 class="mb-4 mb-lg-5 text-primary">SMP</h2>
+                        <h2 class="mb-4 mb-lg-5 text-danger">SMP</h2>
                     </a>
-                    <a class="btn btn-primary" href="https://smpwarga.sch.id">
+                    <a class="btn btn-danger" href="https://smpwarga.sch.id">
                         Klik disini
                     </a>
                 </div>
@@ -81,9 +81,9 @@
             <div class="col-lg-3 col-md-4 col-sm-6 text-center m-3">
                 <div class="card p-4 shadow">
                     <a href="https://smawarga.sch.id">
-                        <h2 class="mb-4 mb-lg-5 text-danger">SMA</h2>
+                        <h2 class="mb-4 mb-lg-5 text-primary">SMA</h2>
                     </a>
-                    <a class="btn btn-danger" href="https://smawarga.sch.id">
+                    <a class="btn btn-primary" href="https://smawarga.sch.id">
                         Klik disini
                     </a>
                 </div>
