@@ -116,10 +116,28 @@ class RegistrantService{
 
         $data = $request->all();
 
+        $registrant = $this->registrantRepository->make($data);
+
+        $checkduplicate = $this->registrantRepository->findWhere([
+            'name' => $data['name'],
+            'unit_id' => $data['unit_id'],
+            'period_id' => $this->periodRepository->findActivePeriodId(),
+            'email' => $data['email'],
+            'type' => $data['type'],
+            'phone' => $data['phone'],
+        ])->first();
+
+        if($checkduplicate){
+            return (object) array(
+                'error'=> false,
+                'message'=> "Data Pendaftaran Anda sudah terdaftar",
+                'data'=> $registrant,
+            );
+        }
+
         DB::beginTransaction();
 
         try {
-            $registrant = $this->registrantRepository->make($data);
 
             $unit_id = $registrant->unit_id;
 
