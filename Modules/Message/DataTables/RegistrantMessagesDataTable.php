@@ -2,6 +2,8 @@
 
 namespace Modules\Message\DataTables;
 
+use Modules\Core\Repositories\PeriodRepository;
+
 use Carbon\Carbon;
 use Log;
 use Modules\Message\Repositories\RegistrantMessageRepository;
@@ -19,10 +21,14 @@ class RegistrantMessagesDataTable extends DataTable
      * @param mixed $query Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
-    public function __construct(RegistrantMessageRepository $registrantMessageRepository)
+    public function __construct(
+        RegistrantMessageRepository $registrantMessageRepository,
+        PeriodRepository $periodRepository
+    )
     {
         $this->module_name = 'registrantmessages';
 
+        $this->periodRepository = $periodRepository;
         $this->registrantMessageRepository = $registrantMessageRepository;
     }
 
@@ -80,9 +86,15 @@ class RegistrantMessagesDataTable extends DataTable
         $user = auth()->user();
         if(!$user->isSuperAdmin() && !$user->hasAllUnitAccess()){
             $unit_id = $user->unit_id;
-            $data = $this->registrantMessageRepository->getRegistrantMessagesByUnitQuery($unit_id)->with('registrant');
+            $data = $this->registrantMessageRepository->getRegistrantMessagesByUnitQuery($unit_id)
+                ->with('registrant')
+                ->where('registrants.period_id', $this->periodRepository->findActivePeriodId());
         }else{
-            $data = $this->registrantMessageRepository->query()->with('registrant');
+            $data = $this->registrantMessageRepository->query()
+                ->with('registrant')
+                ->select('registrant_messages.*')
+                ->join('registrants', 'registrants.registrant_id', 'registrant_messages.registrant_id')
+                ->where('registrants.period_id', $this->periodRepository->findActivePeriodId());
         }
 
         return $this->applyScopes($data);

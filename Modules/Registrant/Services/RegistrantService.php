@@ -93,7 +93,7 @@ class RegistrantService{
         Log::info(label_case($this->module_title.' '.__FUNCTION__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         $registrant =$this->registrantRepository
-                    ->all()
+                    ->findby('period_id',$this->periodRepository->findActivePeriodId())
                     ->sortByDesc('created_at');
 
         return (object) array(
