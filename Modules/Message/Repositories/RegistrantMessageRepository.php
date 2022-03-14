@@ -16,7 +16,7 @@ class RegistrantMessageRepository extends BaseRepository implements RegistrantMe
 
     public function getRegistrantMessagesByUnitQuery($unit_id){
         return RegistrantMessage::select('registrant_messages.*')
-            ->join('registrants', 'registrants.registrant_id', '=', 'registrant_messages.registrant_id')
+            ->join('registrants', 'registrants.registrant_id', 'registrant_messages.registrant_id')
             ->where('registrants.unit_id', $unit_id);
     }
 }

@@ -5,6 +5,7 @@ namespace Modules\Registrant\DataTables;
 use Carbon\Carbon;
 
 use Modules\Registrant\Repositories\RegistrantRepository;
+use Modules\Core\Repositories\PeriodRepository;
 use Modules\Finance\Repositories\InstallmentRepository;
 
 use Yajra\DataTables\Html\Button;
@@ -25,12 +26,14 @@ class RegistrantsDataTable extends DataTable
      */
     public function __construct(
         RegistrantRepository $registrantRepository,
+        PeriodRepository $periodRepository,
         InstallmentRepository $installmentRepository    
     )
     {
         $this->module_name = 'registrants';
 
         $this->registrantRepository = $registrantRepository;
+        $this->periodRepository = $periodRepository;
         $this->installmentRepository = $installmentRepository;
         
         $this->stages = array_merge(config('stages.progress'),config('stages.special-status'));
@@ -102,6 +105,7 @@ class RegistrantsDataTable extends DataTable
      
         $data = $this->registrantRepository->query()
                 ->select('registrants.*')
+                ->where('period_id', $this->periodRepository->findActivePeriodId())
                 ->with(['unit','tier','registrant_stage','path','period']);
 
         if(!$user->isSuperAdmin() && !$user->hasAllUnitAccess()){
