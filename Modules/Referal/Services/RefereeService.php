@@ -296,7 +296,7 @@ class RefereeService{
 
     public function generateRefCode(){
         do {
-            $randomString = Str::random(8);            
+            $randomString = Str::random(5);            
             $referalExists = $this->refereeRepository->findby('ref_code',$randomString);
         }
         while ($referalExists);

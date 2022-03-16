@@ -222,7 +222,7 @@ class RegistrantsController extends Controller
      *
      * @return Response
      */
-    public function update(RegistrantsRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $module_title = $this->module_title;
         $module_name = $this->module_name;
