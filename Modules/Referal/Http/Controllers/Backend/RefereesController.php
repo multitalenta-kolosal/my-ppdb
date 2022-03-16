@@ -226,7 +226,7 @@ class RefereesController extends Controller
      *
      * @return Response
      */
-    public function update(RefereesRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $module_title = $this->module_title;
         $module_name = $this->module_name;
