@@ -27,21 +27,25 @@ class RegistrantRepository extends BaseRepository implements RegistrantRepositor
     public function getCount($unit_id = null){
         if($unit_id){
             return Registrant::join('units', 'units.id', '=', 'registrants.unit_id')
+                        ->join('registrant_stages', 'registrant_stages.registrant_id', '=', 'registrants.registrant_id')
                         ->where('unit_id','=', $unit_id)
                         ->groupBy('unit','units.order')
                         ->orderBy('units.order')
                         ->get(array(
                             DB::raw('units.name as unit'),
-                            DB::raw('COUNT(*) as "amount"')
+                            DB::raw('COUNT(*) as "amount"'),
+                            DB::raw('COUNT(CASE accepted_pass WHEN true THEN 1 ELSE NULL END) as "accepted_amount"')
                         )
                     );  
         }else{
             return Registrant::join('units', 'units.id', '=', 'registrants.unit_id')
+                        ->join('registrant_stages', 'registrant_stages.registrant_id', '=', 'registrants.registrant_id')
                         ->groupBy('unit','units.order')
                         ->orderBy('units.order')
                         ->get(array(
                             DB::raw('units.name as unit'),
-                            DB::raw('COUNT(*) as "amount"')
+                            DB::raw('COUNT(*) as "amount"'),
+                            DB::raw('COUNT(CASE accepted_pass WHEN true THEN 1 ELSE NULL END) as "accepted_amount"')
                         )
                     );        
         }
