@@ -48,6 +48,7 @@
 <div class="row">
     <?php
     $total = 0;
+    $total_acc = 0;
     if($batch_period){
         $quota = json_decode($batch_period->quota);
     }else{
@@ -55,16 +56,16 @@
     }
     foreach($unit_counts as $unit){
         $total += $unit->amount;
+        $total_acc += $unit->accepted_amount;
     }
     ?>
     <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 d-none d-sm-none d-md-block">
         <div class="card">
             <div class="card-body">
-                <div class="text-value-lg">{{$total}}</div>
-                <div>Total CPDB</div>
-                <div class="progress progress-xs my-2">
-                    <div class="progress-bar bg-dark" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                </div><small class="text-muted">Total CPDB dari seluruh Unit Pendidikan</small>
+                <div>Total CPDB: <span class="text-value-lg">{{$total}}</span></div>
+                <div><small class="text-muted">Total CPDB dari seluruh Unit Pendidikan</small></div>
+                <div>Total CPDB diterima: <span class="text-value-lg">{{$total_acc}}</span></div>
+                <div><small class="text-muted">Total CPDB yang  sudah diterima</small></div>
             </div>
         </div>
     </div>
@@ -73,6 +74,7 @@
         $unit_name = $unit->unit;
         $unit_quota = 'quota_'.$unit_name;
         $amount =$unit->amount;
+        $amount_acc =$unit->accepted_amount;
 
         if($quota != ""){
             if($quota->$unit_quota<1){
@@ -93,6 +95,8 @@
                     <div class="progress progress-xs my-2">
                         <div class="progress-bar" role="progressbar" style="width: {{$bar_percentage}}%; background-color: {{$color_array[$unit->unit] ?? ''}}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div><small class="{{$bar_percentage < 100 ? 'text-danger' : 'text-success'}}">{{$bar_percentage}}% dari target</small>
+                    <div class="text-value-sm">Diterima: {{$amount_acc}} <span class="text-value-sm">dari {{$amount}} pendaftar</span></div>
+
                 </div>
             </div>
         </div>
@@ -103,6 +107,7 @@
 <div class="row d-sm-block d-md-none">
     <?php
     $total = 0;
+    $total_acc = 0;
     if($batch_period){
         $quota = json_decode($batch_period->quota);
     }else{
@@ -110,13 +115,20 @@
     }
     foreach($unit_counts as $unit){
         $total += $unit->amount;
+        $total_acc += $unit->accepted_amount;
     }
     ?>
     <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 d-sm-block d-md-none">
         <div class="card">
-            <div class="card-body">
-                <div class="text-value-lg">{{$total}}</div>
-                <div>Total CPDB</div>
+            <div class="row">
+                <div class="col-5 ml-4 my-3">
+                    <div class="text-value-lg">{{$total}}</div>
+                    <div>Total CPDB</div>
+                </div>
+                <div class="col-5 mr-4 my-3">
+                    <div class="text-value-lg">{{$total_acc}}</div>
+                    <div>Total CPDB Diterima</div>
+                </div>
             </div>
             <hr>
             <div class="row">
@@ -125,6 +137,7 @@
                     $unit_name = $unit->unit;
                     $unit_quota = 'quota_'.$unit_name;
                     $amount =$unit->amount;
+                    $amount_acc =$unit->accepted_amount;
 
                     if($quota != ""){
                         if($quota->$unit_quota<1){
@@ -137,11 +150,12 @@
                     }
 
                     ?>
-                    <div class="col-4 d-sm-block d-md-none">
-                        <div class="card-body" style="color: {{$color_array[$unit->unit] ?? ''}}">
-                            <div class="text-value-lg">{{$amount}} /<span class="text-value">{{$quota->$unit_quota ?? '--'}}</span></div>
-                            <div>{{$unit_name}}</div>
-                        </div>
+                    <div class="col-md-9 my-2 mx-4">
+                        <div class="text-value-lg"> <span class="h4">{{$unit_name}}: </span> {{$amount}} /<span class="text-value-sm">{{$quota->$unit_quota ?? '--'}}</span></div>
+                        <div class="progress progress-xs my-2">
+                            <div class="progress-bar" role="progressbar" style="width: {{$bar_percentage}}%; background-color: {{$color_array[$unit->unit] ?? ''}}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div><small class="{{$bar_percentage < 100 ? 'text-danger' : 'text-success'}}">{{$bar_percentage}}% dari target</small>
+                        <div class="text-value-sm">Diterima: {{$amount_acc}} <span class="text-value-sm">dari {{$amount}} pendaftar</span></div>
                     </div>
                 @endforeach
             </div>
