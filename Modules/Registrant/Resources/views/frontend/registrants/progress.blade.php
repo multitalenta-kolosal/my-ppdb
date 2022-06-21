@@ -143,12 +143,24 @@
                 </table> 
                 @endif
                 @if($now['status_id'] == 6)
-                    @if($registrant->data->registrant_stage->installment->tenor > 1) 
+                    @php
+                        $isTenorSet = isset($registrant->data->registrant_stage->installment->tenor);
+                        if($isTenorSet){
+                            $tenor = $registrant->data->registrant_stage->installment->tenor;
+                        }else{
+                            $tenor = 0;
+                        }
+                    @endphp
+                    @if($tenor > 1) 
                         <div id="extra-content">
                             Skema pembayaran yang dipilih adalah dengan cara mengangsur biaya pendidikan dengan <span class="text-primary"><strong>{{$registrant->data->registrant_stage->installment->name}}</strong></span> pembayaran
                         </div>
                         <div id="extra-content">
                             Terima kasih, karena kamu sudah melakukan pembayaran tahap pertama
+                        </div>
+                    @elseif($tenor == 0)
+                        <div id="extra-content">
+                            Untuk info pembayaran silakan menghubungi pihak sekolah
                         </div>
                     @else
                         <div id="extra-content">
