@@ -141,7 +141,7 @@ class RegistrantsDataTable extends DataTable
 
         if($this->request()->get('tier')){
             $data->whereHas('tier', function($query){
-                $query->where('tier_name', 'LIKE', "%".$this->request()->get('tier')."%");
+                $query->where('id', 'LIKE', "%".$this->request()->get('tier')."%");
             });
         }
 
