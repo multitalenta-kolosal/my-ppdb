@@ -82,8 +82,10 @@
             }
 
             $bar_percentage = round( ( $amount / $quota->$unit_quota) * 100, 2);
+            $accepted_percentage = round( ( $amount_acc / $amount) * 100, 2);
         }else{
             $bar_percentage = '--';
+            $accepted_percentage= '--';
         }
 
         ?>
@@ -95,7 +97,7 @@
                     <div class="progress progress-xs my-2">
                         <div class="progress-bar" role="progressbar" style="width: {{$bar_percentage}}%; background-color: {{$color_array[$unit->unit] ?? ''}}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div><small class="{{$bar_percentage < 100 ? 'text-danger' : 'text-success'}}">{{$bar_percentage}}% dari target</small>
-                    <div class="text-value-sm">Diterima: {{$amount_acc}} <span class="text-value-sm">dari {{$amount}} pendaftar</span></div>
+                    <div class="text-value-sm">Diterima: {{$amount_acc}} <span class="text-value-sm">dari {{$amount}} pendaftar (<span class="{{$amount_acc < $amount ? '' : 'text-success'}}">{{$accepted_percentage}}%</span>)</span></div>
 
                 </div>
             </div>
