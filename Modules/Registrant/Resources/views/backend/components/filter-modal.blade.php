@@ -26,24 +26,44 @@
 @push ('after-scripts')
 
 <script type="text/javascript">
+  var notification_count = 0;
     $('#filterSubmit').on('click', function (e) {
+      $('.js-datatable-filter-form :input').each(function () {
+          if( $(this).val() != ""){
+            notification_count+=1;
+          }
+        });
+
+        console.log(notification_count);
+        if(notification_count > 0){
+          $('#filter-count').html("Tabel Disaring Menggunakan "+notification_count+" Filter");
+          $('#clear-filter').show();
+        }else{
+          $('#filter-count').html("");
+          $('#clear-filter').hide();
+        }
+        
+        notification_count = 0;
+        
         window.LaravelDataTables["registrants-table"].draw();
     });
 
     $('#registrants-table').on('preXhr.dt', function ( e, settings, data ) {
-        $('.js-datatable-filter-form :input').each(function () {
-            data[$(this).prop('name')] = $(this).val();
-        });
+      $('.js-datatable-filter-form :input').each(function () {
+          data[$(this).prop('name')] = $(this).val();
+      });
     });
 
-    $('#filterModal').on('hidden.bs.modal', function (e) {
+    $('#clear-filter').on('click', function (e) {
         $('.js-datatable-filter-form :input').each(function () {
-            $(this).val("");
+          $(this).val("");
         });
 
-        $('.js-datatable-filter-form .select2-hidden-accessible').each(function () {
-            $(this).val('').trigger('change');
-        });
-    })
+        window.LaravelDataTables["registrants-table"].draw();
+
+        $('#filter-count').html("");
+        $('#clear-filter').hide();
+    });
+
 </script>
 @endpush
