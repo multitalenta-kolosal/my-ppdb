@@ -48,6 +48,10 @@
         <div class="row mt-4">
             <div class="col">
                 <div class="table-responsive">
+                    <div id="filter-information">
+                        <span class="text-danger" id="filter-count" name="filter-count"></span>
+                        <a href="#" class="text-prmary ml-2" id="clear-filter" name="clear-filter" style="display: none;"><u><i class="fas fa-times"></i> clear filter</u></a>
+                    </div>
                     <table class="table">
                         {{ $dataTable->table([], true) }}
                     </table>

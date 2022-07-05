@@ -10,6 +10,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
     $('.select2').select2({
+        allowClear: true,
         theme: "bootstrap",
         placeholder: "-- Select an option --",
     });
