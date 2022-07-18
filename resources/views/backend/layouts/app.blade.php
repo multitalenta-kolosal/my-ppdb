@@ -44,7 +44,7 @@
         <!-- / Header Block -->
 
         <div class="c-body">
-            <main class="c-main">
+            <main class="c-main bg-warga-main">
                 <div class="container-fluid">
 
                     <div class="animated fadeIn">
