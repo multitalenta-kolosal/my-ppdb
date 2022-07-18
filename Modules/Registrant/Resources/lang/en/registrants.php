@@ -27,7 +27,7 @@ return [
         'dpp_pass'                  => 'DPP payment',
         'dp_pass'                   => 'DP payment',
         'spp_pass'                  => 'SPP payment',
-        'accepted_pass'             => 'Accepted'
+        'accepted_pass'             => 'Heregistration'
     ],
 
     'datatable'=>
