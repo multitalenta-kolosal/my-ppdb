@@ -27,7 +27,7 @@ return [
         'dpp_pass'                  => 'Pembayaran DPP',
         'dp_pass'                   => 'Pembayaran DP',
         'spp_pass'                  => 'Pembayaran SPP',
-        'accepted_pass'             => 'Diterima'
+        'accepted_pass'             => 'Heregsitrasi'
     ],
 
     'datatable'=>

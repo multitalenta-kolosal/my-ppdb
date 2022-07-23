@@ -47,3 +47,37 @@
     position: relative;
     z-index: 9 !important;
   }
+
+.warga-purple{
+  background-color: #7e2473 !important;
+}
+
+.bg-warga-header{
+  background-image: linear-gradient( 174.2deg,  rgba(255,244,228,1) 7.1%, rgba(240,246,238,1) 67.4% );
+}
+
+
+.bg-warga-subheader{
+  background-color: rgba(255,185,0,1) !important;
+}
+
+.bg-warga-sidebar{
+  background-color: #390039 !important;
+}
+
+.bg-warga-main{
+  background-image: linear-gradient( 109.6deg,  rgba(209,0,116,1) 11.2%, rgba(110,44,107,1) 91.1% );
+
+}
+
+.warga-gold{
+    background-color: #FBB502 !important;
+}
+
+.warga-gold-text{
+    color: #FBB502 !important;
+}
+
+.embossed{
+    text-shadow: 1px 4px 4px #222;
+  }

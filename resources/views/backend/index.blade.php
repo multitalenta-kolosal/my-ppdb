@@ -64,8 +64,8 @@
             <div class="card-body">
                 <div>Total CPDB: <span class="text-value-lg">{{$total}}</span></div>
                 <div><small class="text-muted">Total CPDB dari seluruh Unit Pendidikan</small></div>
-                <div>Total CPDB diterima: <span class="text-value-lg">{{$total_acc}}</span></div>
-                <div><small class="text-muted">Total CPDB yang  sudah diterima</small></div>
+                <div>Total CPDB heregistrasi: <span class="text-value-lg">{{$total_acc}}</span></div>
+                <div><small class="text-muted">Total CPDB yang  sudah heregistrasi</small></div>
             </div>
         </div>
     </div>
@@ -82,22 +82,37 @@
             }
 
             $bar_percentage = round( ( $amount / $quota->$unit_quota) * 100, 2);
-            $accepted_percentage = round( ( $amount_acc / $amount) * 100, 2);
+            $accepted_per_amount_percentage = round( ( $amount_acc / $amount) * 100, 2);
+            $accepted_per_target_percentage = round( ( $amount_acc / $quota->$unit_quota) * 100, 2);
+
         }else{
             $bar_percentage = '--';
-            $accepted_percentage= '--';
+            $accepted_per_amount_percentage= '--';
+            $accepted_per_target_percentage= '--';
         }
 
         ?>
         <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 d-none d-sm-none d-md-block">
             <div class="card">
                 <div class="card-body">
-                    <div class="text-value-lg">{{$amount}} /<span class="text-value-sm">{{$quota->$unit_quota ?? '--'}}</span></div>
+                    <div class="text-value-lg"> <span class="{{$amount > $quota->$unit_quota ? 'text-success' : ''}}">{{$amount}}</span> /<span class="text-value-sm">{{$quota->$unit_quota ?? '--'}} target</span></div>
                     <div>{{$unit_name}}</div>
                     <div class="progress progress-xs my-2">
                         <div class="progress-bar" role="progressbar" style="width: {{$bar_percentage}}%; background-color: {{$color_array[$unit->unit] ?? ''}}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div><small class="{{$bar_percentage < 100 ? 'text-danger' : 'text-success'}}">{{$bar_percentage}}% dari target</small>
-                    <div class="text-value-sm">Diterima: {{$amount_acc}} <span class="text-value-sm">dari {{$amount}} pendaftar (<span class="{{$amount_acc < $amount ? '' : 'text-success'}}">{{$accepted_percentage}}%</span>)</span></div>
+                    <hr>
+                    <div class="">Heregistrasi:
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="text-value-lg"><span class="{{$amount > $quota->$unit_quota ? 'text-success' : ''}}">{{$amount_acc}}</span> /<span class="text-value-sm"> {{$quota->$unit_quota ?? '--'}} target</span></div>
+                                <small class="{{$accepted_per_target_percentage < 100 ? 'text-danger' : 'text-success'}}">( {{$accepted_per_target_percentage}}% ) dari target</small>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-value-lg">{{$amount_acc}} /<span class="text-value-sm"> {{$amount}} pendaftar </span></div>
+                                <small class="{{$accepted_per_amount_percentage < 100 ? 'text-danger' : 'text-success'}}">( {{$accepted_per_amount_percentage}}% ) dari pendaftar</small>
+                            </div>
+                        </div> 
+                    </div>
 
                 </div>
             </div>
@@ -129,7 +144,7 @@
                 </div>
                 <div class="col-5 mr-4 my-3">
                     <div class="text-value-lg">{{$total_acc}}</div>
-                    <div>Total CPDB Diterima</div>
+                    <div>Total CPDB Heregistrasi</div>
                 </div>
             </div>
             <hr>
@@ -141,23 +156,39 @@
                     $amount =$unit->amount;
                     $amount_acc =$unit->accepted_amount;
 
+                    
                     if($quota != ""){
                         if($quota->$unit_quota<1){
                             $quota->$unit_quota = 1;
                         }
 
                         $bar_percentage = round( ( $amount / $quota->$unit_quota) * 100, 2);
+                        $accepted_per_amount_percentage = round( ( $amount_acc / $amount) * 100, 2);
+                        $accepted_per_target_percentage = round( ( $amount_acc / $quota->$unit_quota) * 100, 2);
+
                     }else{
                         $bar_percentage = '--';
+                        $accepted_per_amount_percentage= '--';
+                        $accepted_per_target_percentage= '--';
                     }
 
                     ?>
                     <div class="col-md-9 my-2 mx-4">
-                        <div class="text-value-lg"> <span class="h4">{{$unit_name}}: </span> {{$amount}} /<span class="text-value-sm">{{$quota->$unit_quota ?? '--'}}</span></div>
+                        <div class="text-value-lg"> <span class="h4">{{$unit_name}}: </span> <span class="{{$amount > $quota->$unit_quota ? 'text-success' : ''}}">{{$amount}}</span> /<span class="text-value-sm">{{$quota->$unit_quota ?? '--'}} target</span></div>
                         <div class="progress progress-xs my-2">
                             <div class="progress-bar" role="progressbar" style="width: {{$bar_percentage}}%; background-color: {{$color_array[$unit->unit] ?? ''}}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                         </div><small class="{{$bar_percentage < 100 ? 'text-danger' : 'text-success'}}">{{$bar_percentage}}% dari target</small>
-                        <div class="text-value-sm">Diterima: {{$amount_acc}} <span class="text-value-sm">dari {{$amount}} pendaftar</span></div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="text-value-lg"><span class="{{$amount > $quota->$unit_quota ? 'text-success' : ''}}">{{$amount_acc}}</span> /<span class="text-value-sm"> {{$quota->$unit_quota ?? '--'}} target</span></div>
+                                <small class="{{$accepted_per_target_percentage < 100 ? 'text-danger' : 'text-success'}}">( {{$accepted_per_target_percentage}}% ) dari target</small>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-value-lg"><span class="{{$amount > $quota->$unit_quota ? 'text-success' : ''}}">{{$amount_acc}}</span> /<span class="text-value-sm"> {{$amount}} pendaftar </span></div>
+                                <small class="{{$accepted_per_amount_percentage < 100 ? 'text-danger' : 'text-success'}}">( {{$accepted_per_amount_percentage}}% ) dari pendaftar</small>
+                            </div>
+                        </div>
+                        <hr>                     
                     </div>
                 @endforeach
             </div>

@@ -1,4 +1,4 @@
-<header class="c-header c-header-light c-header-fixed c-header-with-subheader">
+<header class="c-header c-header-light c-header-fixed c-header-with-subheader bg-warga-header">
     <button class="c-header-toggler c-class-toggler d-lg-none mr-auto" type="button" data-target="#sidebar" data-class="c-sidebar-show"><span class="c-header-toggler-icon"></span></button>
         <!-- small -->
         <a class="c-header-brand d-sm-none" href="{{route("backend.dashboard")}}"><img class="c-header-brand p-1" src="{{asset("img/logo-square.jpg")}}" style="max-height:50px;min-height:40px;" alt="{{ app_name() }}"></a>
@@ -99,7 +99,7 @@
             </div>
         </li>
     </ul>
-    <div class="c-subheader justify-content-between px-3">
+    <div class="c-subheader justify-content-between px-3 bg-warga-subheader">
         <ol class="breadcrumb border-0 m-0">
             @yield('breadcrumbs')
         </ol>

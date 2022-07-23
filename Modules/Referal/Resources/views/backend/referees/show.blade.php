@@ -39,7 +39,7 @@
         <div class="row mt-4">
             <div class="col-12 col-sm-8">
                 <hr>
-                <h4 class="text-primary">Ringkasan Referal</h4>
+                <h4 class="text-primary">Ringkasan Referal</h4> <a class="btn btn-primary" href="{{route('backend.referees.printreport',$$module_name_singular->id)}}">download report</a>
                 <hr>
                 <table class="table table-sm">
                     <thead>

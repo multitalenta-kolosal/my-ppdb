@@ -369,4 +369,27 @@ class RefereesController extends Controller
         return redirect("admin/$module_name");
     }
 
+    public function printReport($id){
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'Restore';
+
+        $response = $this->refereeService->printReport($id);
+
+        $referee = $response->referee;
+
+        if(!$referee->error){
+            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Data Exported!')->important();
+        }else{
+            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
+        }
+        
+        return $response->data->stream('referee_'.now().'_'.$referee->ref_code.'.pdf');
+    }
+
 }

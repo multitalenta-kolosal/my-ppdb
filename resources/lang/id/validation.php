@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'accepted'        => ':attribute Harus diterima.',
+    'accepted'        => ':attribute Harus heregistrasi.',
     'active_url'      => ':attribute bukan URL yang valid.',
     'after'           => ':attribute harus tanggal sesudah tanggal :date.',
     'after_or_equal'  => ':attribute harus tanggal yang sama atau sesudah tanggal :date.',

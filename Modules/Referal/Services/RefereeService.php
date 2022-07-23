@@ -9,6 +9,7 @@ use Modules\Core\Repositories\UnitRepository;
 use Exception;
 use Carbon\Carbon;
 use Auth;
+use PDF;
 
 use App\Exceptions\GeneralException;
 
@@ -341,6 +342,38 @@ class RefereeService{
             'error'=> false,            
             'message'=> '',
             'data'=> $referee,
+        );
+    }
+
+    public function printReport($id){
+        
+        DB::beginTransaction();
+
+        try {
+
+            $referee = $this->refereeRepository->findOrFail($id);
+
+            $pdf = PDF::loadView('referal::backend.referees.report', compact('referee'));
+            
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
+            return (object) array(
+                'error'=> true,
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
+        }
+
+        DB::commit();
+
+        Log::info("Generate Report for Referee");
+            
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $pdf,
+            'referee'=> $referee,
         );
     }
 }
