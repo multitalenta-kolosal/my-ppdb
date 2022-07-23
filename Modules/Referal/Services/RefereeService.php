@@ -376,4 +376,35 @@ class RefereeService{
             'referee'=> $referee,
         );
     }
+
+    public function printReportAll(){
+        
+        DB::beginTransaction();
+
+        try {
+
+            $referees = $this->refereeRepository->all();
+
+            $pdf = PDF::loadView('referal::backend.referees.report_all', compact('referees'));
+            
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
+            return (object) array(
+                'error'=> true,
+                'message'=> $e->getMessage(),
+                'data'=> null,
+            );
+        }
+
+        DB::commit();
+
+        Log::info("Generate Report for Referee");
+            
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $pdf,
+        );
+    }
 }
