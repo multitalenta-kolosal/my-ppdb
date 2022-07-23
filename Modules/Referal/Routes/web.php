@@ -64,6 +64,7 @@ Route::group(['namespace' => '\Modules\Referal\Http\Controllers\Backend', 'as' =
      */
     $module_name = 'referees';
     $controller_name = 'RefereesController';
+    Route::get("$module_name/printreport/{id}", ['as' => "$module_name.printreport", 'uses' => "$controller_name@printReport"]);
     Route::get("$module_name/trashed", ['as' => "$module_name.trashed", 'uses' => "$controller_name@trashed"]);
     Route::patch("$module_name/trashed/{id}", ['as' => "$module_name.restore", 'uses' => "$controller_name@restore"]);
     Route::delete("$module_name/purge/{id}", ['as' => "$module_name.purge", 'uses' => "$controller_name@purge"]);
