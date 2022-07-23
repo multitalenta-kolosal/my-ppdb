@@ -46,6 +46,7 @@
         </div>
         <!--/.row-->
 
+        <a class="btn btn-primary" href="{{route('backend.referees.printreportall')}}">Download Ringkasan Referal Final</a>
         <div class="row mt-4">
             <div class="col">
                 <div class="table-responsive">
