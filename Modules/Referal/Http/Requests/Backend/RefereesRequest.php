@@ -27,6 +27,7 @@ class RefereesRequest extends FormRequest
             'name'              => 'required|max:191',
             'email'             => 'email|unique:referees', 
             'phone'             => 'numeric|unique:referees',
+            'bank_account'      => 'numeric',
         ];
     }
 
@@ -42,6 +43,9 @@ class RefereesRequest extends FormRequest
                 'required' => 'Nomor HP Dibutuhkan!',
                 'max' => 'Nomor HP Terlalu panjang!',
                 'unique' => 'Nomor HP sudah terdaftar'
+            ],
+            'phone' => [
+                'numeric' => 'Nomor rekening harus berupa angka!',
             ],
         ];
     }
