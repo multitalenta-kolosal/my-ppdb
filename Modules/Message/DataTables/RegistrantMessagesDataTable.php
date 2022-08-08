@@ -88,13 +88,13 @@ class RegistrantMessagesDataTable extends DataTable
             $unit_id = $user->unit_id;
             $data = $this->registrantMessageRepository->getRegistrantMessagesByUnitQuery($unit_id)
                 ->with('registrant')
-                ->where('registrants.period_id', $this->periodRepository->findActivePeriodId());
+                ->where('registrants.period_id', session('period'));
         }else{
             $data = $this->registrantMessageRepository->query()
                 ->with('registrant')
                 ->select('registrant_messages.*')
                 ->join('registrants', 'registrants.registrant_id', 'registrant_messages.registrant_id')
-                ->where('registrants.period_id', $this->periodRepository->findActivePeriodId());
+                ->where('registrants.period_id', session('period'));
         }
 
         return $this->applyScopes($data);

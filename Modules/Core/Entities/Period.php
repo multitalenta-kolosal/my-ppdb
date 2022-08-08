@@ -20,7 +20,16 @@ class Period extends BaseModel
     
     public function registrants()
     {
-        return $this->hasMany('Modules\Registrant\Entities\Registrant');
+        return $this->hasMany('Modules\Registrant\Entities\Registrant')->ThisPeriod(session('period'));
+    }
+
+    public static function findActivePeriodId()
+    {
+        $period = Period::where('active_state',true)->first();
+        if($period)
+            return $period->id;
+        else
+            return null;
     }
     
     protected static function newFactory()

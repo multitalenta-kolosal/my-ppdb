@@ -23,7 +23,7 @@ class RegistrantStage extends BaseModel
 
     public function registrant()
     {
-        return $this->belongsTo('Modules\Registrant\Entities\Registrant','registrant_id','registrant_id');
+        return $this->belongsTo('Modules\Registrant\Entities\Registrant','registrant_id','registrant_id')->ThisPeriod(session('period'));
     }
 
     public function installment()

@@ -14,8 +14,4 @@ class RegistrantStageRepository extends BaseRepository implements RegistrantStag
         return RegistrantStage::class;
     }
 
-    public function getBiggestUnitIncrement($unit_id)
-    {
-        return RegistrantStage::where('unit_id', $unit_id)->withTrashed()->max('unit_increment');
-    }
 }

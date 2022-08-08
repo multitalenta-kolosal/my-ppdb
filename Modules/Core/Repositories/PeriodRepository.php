@@ -24,6 +24,15 @@ class PeriodRepository extends BaseRepository implements PeriodRepositoryInterfa
             return null;
     }
 
+    public function getSessionPeriod()
+    {
+        $period = Period::find(session('period'))->first();
+        if($period)
+            return $period;
+        else
+            return null;
+    }
+
     public function activatePeriod($id)
     {
         $period = Period::findOrFail($id);
@@ -58,10 +67,6 @@ class PeriodRepository extends BaseRepository implements PeriodRepositoryInterfa
 
     public function findActivePeriodId()
     {
-        $period = Period::where('active_state',true)->first();
-        if($period)
-            return $period->id;
-        else
-            return null;
+        return Period::findActivePeriodId();
     }
 }

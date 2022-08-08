@@ -20,7 +20,7 @@ class Installment extends BaseModel
     
     public function registrants()
     {
-        return $this->hasMany('Modules\Registrant\Entities\Registrant');
+        return $this->hasMany('Modules\Registrant\Entities\Registrant')->ThisPeriod(session('period'));
     }
 
     public function registrant_stages()

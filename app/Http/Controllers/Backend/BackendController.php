@@ -52,7 +52,7 @@ class BackendController extends Controller
             $color = json_encode(array_values($color_array));
         }
 
-        $batch_period = $this->periodRepository->getActivePeriod();
+        $batch_period = $this->periodRepository->getSessionPeriod();
         $unit_counts = $this->registrantRepository->getCount();
 
         return view('backend.index',compact('color','unit_counts','color_array','batch_period'));
