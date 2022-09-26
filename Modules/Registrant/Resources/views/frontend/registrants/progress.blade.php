@@ -96,6 +96,23 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @if($registrant->data->unit->school_fee)
+                        <tr>
+                            <td>
+                                Uang Masuk
+                            </td>
+                            <td>
+                                <?php                                        
+                                    if($registrant->data->unit->have_major && $registrant->data->tier->dpp){
+                                        $value = $registrant->data->tier->dpp;
+                                    }else{
+                                        $value = $registrant->data->unit->dpp;
+                                    }
+                                ?>
+                                Rp. {{number_format($value , 2, ',', '.')}}
+                            </td>
+                        </tr>
+                        @else
                         <tr>
                             <td>
                                 DPP
@@ -125,6 +142,7 @@
                                 Rp. {{number_format($value , 2, ',', '.')}}
                             </td>
                         </tr>
+                        @endif
                             <td>
                                 SPP
                             </td>

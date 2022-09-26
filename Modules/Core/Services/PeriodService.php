@@ -113,6 +113,8 @@ class PeriodService{
         if($period->active_state){
             $syncPeriod = $this->syncWithActivePeriod($period->id);
         }
+        
+        session(['period' => $this->periodRepository->findActivePeriodId()]);
 
         Log::info(label_case($this->module_title.' '.__function__)." | '".$period->name.'(ID:'.$period->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
@@ -192,6 +194,8 @@ class PeriodService{
         }
 
         DB::commit();
+        
+        session(['period' => $this->periodRepository->findActivePeriodId()]);
 
         Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$period_check->name.'(ID:'.$period_check->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 

@@ -3,6 +3,7 @@
 namespace Modules\Registrant\Entities;
 
 use App\Models\BaseModel;
+use Modules\Core\Entities\Period;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -68,6 +69,14 @@ class Registrant extends BaseModel
     public function registrant_message()
     {
         return $this->hasOne('Modules\Message\Entities\RegistrantMessage', 'registrant_id', 'registrant_id');
+    }
+
+    public function scopeThisPeriod($query, $value = null){
+        if($value){
+            return $query->where('period_id', $value);
+        }else{
+            return $query->where('period_id', Period::findActivePeriodId());
+        }
     }
 
     /**

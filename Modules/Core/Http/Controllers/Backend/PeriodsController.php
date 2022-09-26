@@ -360,4 +360,12 @@ class PeriodsController extends Controller
         return redirect("admin/$module_name");
     }
 
+    public function changeSessionPeriod(Request $request){
+        $data = $request->all();
+
+        session(['period' => $data['period_name']]);
+        
+        return back()->with('message','Periode berhasil diganti !');
+    }
+
 }

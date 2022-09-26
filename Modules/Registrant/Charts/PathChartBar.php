@@ -38,6 +38,7 @@ class PathChartBar extends BaseChart
         if(!Auth::user()->isSuperAdmin() && !Auth::user()->hasAllUnitAccess()){
             $path_count = DB::table('registrants')
                             ->select('type', DB::raw('count(*) as total'))
+                            ->where('period_id',session('period'))
                             ->where('unit_id',Auth::user()->unit_id)
                             ->where('deleted_at',NULL)
                             ->groupBy('type')
@@ -45,6 +46,7 @@ class PathChartBar extends BaseChart
         }else{
             $path_count = DB::table('registrants')
                             ->select('type', DB::raw('count(*) as total'))
+                            ->where('period_id',session('period'))
                             ->where('deleted_at',NULL)
                             ->groupBy('type')
                             ->get();

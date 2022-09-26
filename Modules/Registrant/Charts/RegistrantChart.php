@@ -53,6 +53,7 @@ class RegistrantChart extends BaseChart
                         case 'mysql':
                             $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subDays($periods))
                                         ->where('unit_id','=',Auth::user()->unit_id)
+                                        ->ThisPeriod(session('period'))
                                         ->groupBy('date')
                                         ->orderBy('date', 'ASC')
                                         ->get(array(
@@ -64,6 +65,7 @@ class RegistrantChart extends BaseChart
                         case 'pgsql':
                             $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subDays($periods))
                                             ->where('unit_id','=',Auth::user()->unit_id)
+                                            ->ThisPeriod(session('period'))
                                             ->groupBy('date')
                                             ->orderBy('date', 'ASC')
                                             ->get(array(
@@ -82,6 +84,7 @@ class RegistrantChart extends BaseChart
                             case 'mysql':
                                 $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subDays($periods))
                                                 ->where('unit_id','=', $key)
+                                                ->ThisPeriod(session('period'))
                                                 ->groupBy('date')
                                                 ->orderBy('date', 'ASC')
                                                 ->get(array(
@@ -93,6 +96,7 @@ class RegistrantChart extends BaseChart
                             case 'pgsql':
                                 $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subDays($periods))
                                                 ->where('unit_id','=', $key)
+                                                ->ThisPeriod(session('period'))
                                                 ->groupBy('date')
                                                 ->orderBy('date', 'ASC')
                                                 ->get(array(
@@ -130,6 +134,7 @@ class RegistrantChart extends BaseChart
                         case 'mysql':
                             $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subMonth($periods))
                                         ->where('unit_id','=',Auth::user()->unit_id)
+                                        ->ThisPeriod(session('period'))
                                         ->where('deleted_at',NULL)
                                         ->groupBy('date')
                                         ->orderBy('date', 'ASC')
@@ -142,6 +147,7 @@ class RegistrantChart extends BaseChart
                         case 'pgsql':
                             $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subDays($periods))
                                             ->where('unit_id','=',Auth::user()->unit_id)
+                                            ->ThisPeriod(session('period'))
                                             ->where('deleted_at',NULL)
                                             ->groupBy('date')
                                             ->orderBy('date', 'ASC')
@@ -162,6 +168,7 @@ class RegistrantChart extends BaseChart
                             case 'mysql':
                                 $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subMonth($periods))
                                                 ->where('unit_id','=', $key)
+                                                ->ThisPeriod(session('period'))
                                                 ->where('deleted_at',NULL)
                                                 ->groupBy('date')
                                                 ->orderBy('date', 'ASC')
@@ -174,6 +181,7 @@ class RegistrantChart extends BaseChart
                             case 'pgsql':
                                 $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subDays($periods))
                                                 ->where('unit_id','=', $key)
+                                                ->ThisPeriod(session('period'))
                                                 ->where('deleted_at',NULL)
                                                 ->groupBy('date')
                                                 ->orderBy('date', 'ASC')

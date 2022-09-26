@@ -12,6 +12,7 @@ return [
     'dpp'                       => 'DPP',
     'dp'                        => 'DP',
     'spp'                       => 'SPP',
+    'school_fee'                => 'Uang Masuk',
     'unit_code'                 => 'Kode Unit (angka, misal: 11,22, etc..)',
     'api_key'                   => 'API Key',
     'order'                     => 'Urutan jenjang',
