@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Arr;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Feed\FeedItem;
 
@@ -87,5 +88,18 @@ class Registrant extends BaseModel
     protected static function newFactory()
     {
         return \Modules\Registrant\Database\Factories\RegistrantFactory::new();
+    }
+
+    public function compose_tuition_fee($registrant){
+
+        $school_fee_group = ["KB/TK", "SD"];
+
+        if(in_array($registrant->unit->name, $school_fee_group)){
+            $composed_string= "1. Uang Masuk Rp. ". number_format($registrant->unit->school_fee , 2, ',', '.')."\n2. SPP bulan Juli 2022 Rp. ". number_format($registrant->unit->spp , 2, ',', '.');
+        }else{
+            $composed_string= "1. Dana Pendidikan Rp. ". number_format($registrant->unit->dp , 2, ',', '.')."\n2. Dana Penunjang Pendidikan Rp. ". number_format($registrant->unit->dpp , 2, ',', '.')."\n3. SPP bulan Juli 2022 Rp. ". number_format($registrant->unit->spp , 2, ',', '.');
+        }
+
+        return $composed_string;
     }
 }

@@ -488,9 +488,13 @@ class MessageService{
                                 $parsed = Arr::add($parsed, $key, html_entity_decode($model->$relation->$relation_value));
                             }
                         }
-    
                     }else{
-                        $parsed = Arr::add($parsed, $key, html_entity_decode($model->$value));
+                        if(Str::contains($value, "()")){
+                            $clean_string_function = str_replace("()", "", $value);
+                            $parsed = Arr::add($parsed, $key, html_entity_decode($model->$clean_string_function($model)));
+                        }else{
+                            $parsed = Arr::add($parsed, $key, html_entity_decode($model->$value));
+                        }
                     }
                 }
             }
