@@ -23,10 +23,6 @@ $period_list = \Modules\Core\Entities\Period::pluck('period_name','id')->all();
 @push('after-scripts')
 <script>
     $(document).ready(function (){
-        $("#period_name").select2({
-            allowClear: false
-        });
-
         $("#period_name").on('change', function(){    
             $.get("{{route('backend.periods.changeSessionPeriod')}}", {"period_name": this.value});
             location.reload();
