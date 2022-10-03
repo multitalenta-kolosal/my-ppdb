@@ -419,10 +419,15 @@ class RegistrantService{
 
         $tier = $this->tierRepository->query()->pluck('tier_name','id');
 
+        $period = null;
+
+        $period = $this->periodRepository->findOrFail($this->periodRepository->findActivePeriodId());
+
         $options = array(
             'unit' => $unit,
             'type' => $type,
             'tier' => $tier,
+            'period' => $period,
         );
 
         return $options;

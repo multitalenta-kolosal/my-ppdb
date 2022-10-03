@@ -29,8 +29,9 @@ class FrontendController extends Controller
 
         $unit_options = $options['unit'];
         $type_options = $options['type'];
+        $period = $options['period'];
 
-        return view('frontend.index', compact('body_class','unit_options','type_options'));
+        return view('frontend.index', compact('body_class','unit_options','type_options','period'));
     }
 
     /**
