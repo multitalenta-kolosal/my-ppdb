@@ -102,4 +102,18 @@ class Registrant extends BaseModel
 
         return $composed_string;
     }
+
+
+    public function compose_verify_offline($registrant){
+
+        $school_offline_group = ["SD"];
+
+        if(in_array($registrant->unit->name, $school_offline_group)){
+            $composed_string= "Setelah melakukan pembayaran biaya pendaftaran, segera hubungi admin kami di chat ini untuk informasi mengenai verifikasi kelengkapan berkas ";
+        }else{
+            $composed_string= "Setelah melakukan pembayaran biaya pendaftaran, kamu bisa upload/unggah bukti pembayaran dan kelengkapan berkas secara online melalui ".$registrant->unit->registration_veriform_link;
+        }
+
+        return $composed_string;
+    }
 }
