@@ -2,7 +2,7 @@
 
 return [
 
-    'name'                      => 'Nama Pendaftar',
+    'name'                      => 'Nama Calon Peserta Didik',
     'registrant_id'             => 'ID Pendaftar',
     'va_number'                 => 'Virtual Account',
     'type'                      => 'Jalur Pendaftaran',
@@ -32,7 +32,7 @@ return [
 
     'datatable'=>
     [
-        'name'                      => 'Nama Calon Peserta Didik',
+        'name'                      => 'Nama',
         'registrant_id'             => 'ID',
         'va_number'                 => 'Nomor VA',
         'type'                      => 'Jalur',
