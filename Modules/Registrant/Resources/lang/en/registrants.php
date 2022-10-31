@@ -32,7 +32,7 @@ return [
 
     'datatable'=>
     [
-        'name'                      => 'Name',
+        'name'                      => 'Registrant Name',
         'registrant_id'             => 'ID',
         'va_number'                 => 'VA Number',
         'type'                      => 'Path',

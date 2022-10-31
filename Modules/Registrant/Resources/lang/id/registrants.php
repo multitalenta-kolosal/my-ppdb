@@ -32,7 +32,7 @@ return [
 
     'datatable'=>
     [
-        'name'                      => 'Nama',
+        'name'                      => 'Nama Calon Peserta Didik',
         'registrant_id'             => 'ID',
         'va_number'                 => 'Nomor VA',
         'type'                      => 'Jalur',
