@@ -23,8 +23,20 @@ $period_list = \Modules\Core\Entities\Period::pluck('period_name','id')->all();
 @push('after-scripts')
 <script>
     $(document).ready(function (){
-        $("#period_name").on('change', function(){    
-            $.get("{{route('backend.periods.changeSessionPeriod')}}", {"now_period": this.value});
+        $("#period_name").on('change', function(){  
+            $.ajax({
+                method: "GET",
+                url: "{{route('backend.periods.changeSessionPeriod')}}",
+                data:{
+                    "_token": "{{ csrf_token() }}",
+                    "now_period": this.value,
+                },
+                success: function (data) {
+                    
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                }
+            });  
             location.reload();
         });
     });
