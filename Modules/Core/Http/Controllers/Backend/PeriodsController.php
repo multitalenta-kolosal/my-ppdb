@@ -368,7 +368,7 @@ class PeriodsController extends Controller
 
         $user->update(['now_period' => $data['now_period']]);
 
-        return back()->with('message','Periode berhasil diganti !');
+        return response()->json([]);
     }
 
 }
