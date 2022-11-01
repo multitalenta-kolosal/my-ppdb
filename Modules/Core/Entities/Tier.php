@@ -20,7 +20,7 @@ class Tier extends BaseModel
     
     public function registrants()
     {
-        return $this->hasMany('Modules\Registrant\Entities\Registrant')->ThisPeriod(session('period'));
+        return $this->hasMany('Modules\Registrant\Entities\Registrant')->ThisPeriod(my_period());
     }
 
     public function unit()

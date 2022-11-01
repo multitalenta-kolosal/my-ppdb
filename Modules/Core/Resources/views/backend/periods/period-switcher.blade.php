@@ -13,7 +13,7 @@ $period_list = \Modules\Core\Entities\Period::pluck('period_name','id')->all();
                 $required = "required";
                 $select_options = $period_list;
                 ?>
-                {{ html()->select($field_data_id, $select_options,session('period'))->placeholder($field_placeholder)->class('form-control select2 pr-5')->attributes(["$required"]) }}
+                {{ html()->select($field_data_id, $select_options,my_period())->placeholder($field_placeholder)->class('form-control select2 pr-5')->attributes(["$required"]) }}
             </div>
         </div> 
     </div>
@@ -24,7 +24,7 @@ $period_list = \Modules\Core\Entities\Period::pluck('period_name','id')->all();
 <script>
     $(document).ready(function (){
         $("#period_name").on('change', function(){    
-            $.get("{{route('backend.periods.changeSessionPeriod')}}", {"period_name": this.value});
+            $.get("{{route('backend.periods.changeSessionPeriod')}}", {"now_period": this.value});
             location.reload();
         });
     });

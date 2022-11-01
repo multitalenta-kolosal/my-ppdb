@@ -21,7 +21,7 @@ class RegistrantRepository extends BaseRepository implements RegistrantRepositor
     }
 
     public function getRegistrantsByUnitQuery($query, $unit_id){
-        return $query->where('unit_id', $unit_id)->ThisPeriod(session('period'));
+        return $query->where('unit_id', $unit_id)->ThisPeriod(my_period());
     }
 
     public function getCount($unit_id = null){
@@ -29,7 +29,7 @@ class RegistrantRepository extends BaseRepository implements RegistrantRepositor
             return Registrant::join('units', 'units.id', '=', 'registrants.unit_id')
                         ->join('registrant_stages', 'registrant_stages.registrant_id', '=', 'registrants.registrant_id')
                         ->where('unit_id','=', $unit_id)
-                        ->ThisPeriod(session('period'))
+                        ->ThisPeriod(my_period())
                         ->groupBy('unit','units.order')
                         ->orderBy('units.order')
                         ->get(array(
@@ -40,7 +40,7 @@ class RegistrantRepository extends BaseRepository implements RegistrantRepositor
                     );  
         }else{
             return Registrant::join('units', 'units.id', '=', 'registrants.unit_id')
-                        ->ThisPeriod(session('period'))
+                        ->ThisPeriod(my_period())
                         ->join('registrant_stages', 'registrant_stages.registrant_id', '=', 'registrants.registrant_id')
                         ->groupBy('unit','units.order')
                         ->orderBy('units.order')

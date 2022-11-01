@@ -23,7 +23,7 @@ class RegistrantMessage extends BaseModel
 
     public function registrant()
     {
-        return $this->belongsTo('Modules\Registrant\Entities\Registrant','registrant_id','registrant_id')->ThisPeriod(session('period'));
+        return $this->belongsTo('Modules\Registrant\Entities\Registrant','registrant_id','registrant_id')->ThisPeriod(my_period());
     }
 
     /**

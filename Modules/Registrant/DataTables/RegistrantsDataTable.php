@@ -105,7 +105,7 @@ class RegistrantsDataTable extends DataTable
      
         $data = $this->registrantRepository->query()
                 ->select('registrants.*')
-                ->ThisPeriod(session('period'))
+                ->ThisPeriod(my_period())
                 ->with(['unit','tier','registrant_stage','path','period']);
 
         if(!$user->isSuperAdmin() && !$user->hasAllUnitAccess()){

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Modules\Core\Entities\Period;
 
 use Modules\Core\Services\UnitService;
 /*
@@ -489,6 +490,29 @@ if (!function_exists('generate_rgb_code')) {
         $str = substr($str, 0, -1);
 
         return $str;
+    }
+}
+
+/*
+ *
+ * Return this user now period
+ *
+ * ------------------------------------------------------------------------
+ */
+if (!function_exists('my_period')) {
+
+    /**
+     * Return My Period
+     */
+    function my_period()
+    {
+        $myPeriod = auth()->user()->now_period;
+
+        if(!$myPeriod){
+            $myPeriod = Period::findActivePeriodId();
+        }
+        
+        return $myPeriod;
     }
 }
 
