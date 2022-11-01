@@ -26,8 +26,8 @@ class PeriodRepository extends BaseRepository implements PeriodRepositoryInterfa
 
     public function getSessionPeriod()
     {
-        $period = Period::findOrFail(session('period'));
-        if(!$period)
+        $period = Period::find(session('period'));
+        if($period)
             return $period;
         else
             return $this->getActivePeriod();
