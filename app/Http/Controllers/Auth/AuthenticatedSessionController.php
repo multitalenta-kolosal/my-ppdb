@@ -8,6 +8,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Modules\Core\Entities\Period;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -53,6 +54,11 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request)
     {
+
+        $user = User::findOrFail(Auth::user()->id);
+
+        $user->update(['now_period' => null]);
+
         Auth::logout();
 
         $request->session()->invalidate();

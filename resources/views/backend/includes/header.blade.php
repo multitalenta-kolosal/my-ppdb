@@ -17,7 +17,7 @@
             @include('core::backend.periods.period-switcher')
         </li>
         @php
-            $isdanger = \Modules\Core\Entities\Period::findActivePeriodId() != session('period') ? "Perhatian!!! Anda berada di periode yang sudah tidak aktif" : "";
+            $isdanger = \Modules\Core\Entities\Period::findActivePeriodId() != my_period() ? "Perhatian!!! Anda berada di periode yang sudah tidak aktif" : "";
         @endphp
         <li class="c-header-nav-item px-3">
             <span class="text-danger">{{$isdanger}}</span>

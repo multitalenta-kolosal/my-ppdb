@@ -4,6 +4,7 @@ namespace Modules\Core\Http\Controllers\Backend;
 
 use App\Authorizable;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Auth;
 use Carbon\Carbon;
 use Flash;
@@ -363,8 +364,10 @@ class PeriodsController extends Controller
     public function changeSessionPeriod(Request $request){
         $data = $request->all();
 
-        session(['period' => $data['period_name']]);
-        
+        $user = User::findOrFail(auth()->user()->id);
+
+        $user->update(['now_period' => $data['now_period']]);
+
         return back()->with('message','Periode berhasil diganti !');
     }
 

@@ -22,7 +22,7 @@ class Referee extends BaseModel
     public function registrants()
     {
         return $this->hasMany('Modules\Registrant\Entities\Registrant','ref_code','ref_code')
-                    ->ThisPeriod(session('period'))
+                    ->ThisPeriod(my_period())
                     ->join('registrant_stages', 'registrant_stages.id', '=', 'registrants.progress_id')
                     ->orderBy('registrant_stages.accepted_pass','desc');
     }
@@ -30,7 +30,7 @@ class Referee extends BaseModel
     public function verified_registrants()
     {
         return $this->hasMany('Modules\Registrant\Entities\Registrant','ref_code','ref_code')
-                    ->ThisPeriod(session('period'))
+                    ->ThisPeriod(my_period())
                     ->join('registrant_stages', 'registrant_stages.id', '=', 'registrants.progress_id')
                     ->where('registrant_stages.accepted_pass',true);
     }
