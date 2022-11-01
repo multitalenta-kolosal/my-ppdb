@@ -10,7 +10,7 @@
         <li class="c-header-nav-item px-3">
             <a class="c-header-nav-link" href="{{ route('frontend.index') }}" target="_blank">
                 <i class="c-icon cil-external-link"></i>&nbsp;
-                {{ app_name() }}
+                Halaman Depan
             </a>
         </li>
         <li class="c-header-nav-item px-3">
