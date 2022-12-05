@@ -249,6 +249,7 @@
                             @foreach($insights->units as $unit)
                                 <th scope="col">{{$unit->name}}</th>
                             @endforeach
+                            <th scope="col">Total</th>
                             </tr>
                         </thead>
                         <tbody>

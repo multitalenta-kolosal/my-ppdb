@@ -137,10 +137,9 @@ class RegistrantInsight{
         foreach($units_raw as $unit_raw){
             $units += [$unit_raw => 0];
         }
-        \Log::debug("ikii ". json_encode($units));
         
-        $groups = $this->registrantRepository->query()->join('registrant_stages', 'registrants.progress_id','=','registrant_stages.id')
-        ->select('registrants.id','registrants.name','registrants.created_at','accepted_pass')
+        $groups = $this->registrantRepository->query()->join('units', 'registrants.unit_id','=','units.id')->join('registrant_stages', 'registrants.progress_id','=','registrant_stages.id')
+        ->select('units.id as unit_no', 'registrants.id','registrants.name','units.name as unit_name','accepted_pass','registrants.created_at')
         ->where('period_id',my_period())
         ->where('accepted_pass', 1)
         ->get()
@@ -161,7 +160,43 @@ class RegistrantInsight{
             $trueUnitCounter = array_replace($units, $unitCounter);
             $registrantCounter += [$keyM => $trueUnitCounter];
         }
-        \Log::debug($registrantCounter);
+        $emptyMonths = $this->generateEmptyMonth();
+
+        $trueResult = array_replace($emptyMonths, $registrantCounter);
+
+        return $trueResult;
+    }
+
+    private function generateEmptyMonth(){
+
+        $units_raw = $this->unitRepository->pluck('name');
+        
+        $units = [];
+        foreach($units_raw as $unit_raw){
+            $units += [$unit_raw => 0];
+        }
+        
+        $groups = $this->registrantRepository->query()->join('units', 'registrants.unit_id','=','units.id')
+        ->select('units.id as unit_no', 'registrants.id','registrants.name','units.name as unit_name','registrants.created_at')
+        ->where('period_id',my_period())
+        ->get()
+        ->groupBy([
+            function($date) {
+                return Carbon::parse($date->created_at)->format('F');
+                },
+            'unit_name'])
+        ->sortBy('unit_no');
+
+        $registrantCounter = [];
+
+        foreach($groups as $keyM => $valueM){
+            $unitCounter = [];
+            foreach($valueM as $keyUnit => $valueUnit){
+                $unitCounter += [$keyUnit => 0];
+            }
+            $trueUnitCounter = array_replace($units, $unitCounter);
+            $registrantCounter += [$keyM => $trueUnitCounter];
+        }
         return $registrantCounter;
     }
 }
