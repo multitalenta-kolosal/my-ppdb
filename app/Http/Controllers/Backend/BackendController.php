@@ -8,6 +8,7 @@ use Auth;
 
 use Modules\Registrant\Repositories\RegistrantRepository;
 use Modules\Core\Repositories\PeriodRepository;
+use Modules\Registrant\Charts\RegistrantInsight;
 
 class BackendController extends Controller
 {
@@ -17,11 +18,13 @@ class BackendController extends Controller
 
     public function __construct(
         PeriodRepository $periodRepository,
-        RegistrantRepository $registrantRepository
+        RegistrantRepository $registrantRepository,
+        RegistrantInsight $registrantInsight
     )
     {
         $this->periodRepository = $periodRepository;
         $this->registrantRepository = $registrantRepository;
+        $this->registrantInsight = $registrantInsight;
     }
     
     /**
@@ -52,9 +55,11 @@ class BackendController extends Controller
             $color = json_encode(array_values($color_array));
         }
 
+        $insights = $this->registrantInsight->build();
+
         $batch_period = $this->periodRepository->getSessionPeriod();
         $unit_counts = $this->registrantRepository->getCount();
 
-        return view('backend.index',compact('color','unit_counts','color_array','batch_period'));
+        return view('backend.index',compact('color','unit_counts','color_array','batch_period','insights'));
     }
 }

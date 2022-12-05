@@ -28,12 +28,8 @@ class Registrant extends BaseModel
     
     public function unit()
     {
-        return $this->belongsTo('Modules\Core\Entities\Unit','unit_id')
-        ->withDefault([
-            'name' => ''
-        ]);;
+        return $this->belongsTo('Modules\Core\Entities\Unit','unit_id');
     }
-
     
     public function path()
     {
