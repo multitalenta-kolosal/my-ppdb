@@ -98,11 +98,11 @@ class RegistrantInsight{
 
     public function collectRegistrant(){
 
-        $units_raw = $this->unitRepository->pluck('name');
+        $units_raw = $this->unitRepository->query()->orderBy('id', 'asc')->get();
         
         $units = [];
         foreach($units_raw as $unit_raw){
-            $units += [$unit_raw => 0];
+            $units += [$unit_raw->name => 0];
         }
         
         $groups = $this->registrantRepository->query()->join('units', 'registrants.unit_id','=','units.id')
@@ -126,12 +126,13 @@ class RegistrantInsight{
             $trueUnitCounter = array_replace($units, $unitCounter);
             $registrantCounter += [$keyM => $trueUnitCounter];
         }
+
         return $registrantCounter;
     }
 
     public function collectHeregistrant(){
 
-        $units_raw = $this->unitRepository->pluck('name');
+        $units_raw = $this->unitRepository->query()->orderBy('id', 'asc')->get();
         
         $units = [];
         foreach($units_raw as $unit_raw){
