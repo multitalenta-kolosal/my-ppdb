@@ -136,7 +136,7 @@ class RegistrantInsight{
         
         $units = [];
         foreach($units_raw as $unit_raw){
-            $units += [$unit_raw => 0];
+            $units += [$unit_raw->name => 0];
         }
         
         $groups = $this->registrantRepository->query()->join('units', 'registrants.unit_id','=','units.id')->join('registrant_stages', 'registrants.progress_id','=','registrant_stages.id')

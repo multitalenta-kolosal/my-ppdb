@@ -207,7 +207,7 @@
                         <caption>Jumlah Pendaftar</caption>
                         <thead>
                             <tr>
-                            <th scope="col">#</th>
+                            <th scope="col">Bulan</th>
                             @foreach($insights->units as $unit)
                                 <th scope="col">{{$unit->name}}</th>
                             @endforeach
@@ -245,7 +245,7 @@
                         <caption>Jumlah Heregistrasi</caption>
                         <thead>
                             <tr>
-                            <th scope="col">#</th>
+                            <th scope="col">Bulan</th>
                             @foreach($insights->units as $unit)
                                 <th scope="col">{{$unit->name}}</th>
                             @endforeach
