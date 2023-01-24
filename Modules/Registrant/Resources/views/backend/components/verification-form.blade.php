@@ -23,10 +23,15 @@
                         {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked", "hidden"]) }}
                     @endcan
                 </div>
-                <div class="col-2 align-self-center text-success"  id="col_{{$field_name}}_{{$data->id}}">
+                <div class="col-2 align-self-center"  id="col_{{$field_name}}_{{$data->id}}">
                     @if($data->registrant_stage)
                         @if($data->registrant_stage->$field_name)
-                            <i class="far fa-lg fa-check-circle"></i>
+                            <i class="far fa-lg fa-check-circle text-success"></i>
+                            <br>
+                            @php
+                                $field_name_checked_date = $field_name."_checked_date";
+                            @endphp
+                            <span class="font-italic">{{ \Carbon\Carbon::parse($data->registrant_stage->$field_name_checked_date)->format('d/m/Y')}}</span>
                         @endif
                     @endif
                 </div>
@@ -55,10 +60,15 @@
                 <div class="col-2">
                     {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
                 </div>
-                <div class="col-2 align-self-center text-success" id="col_{{$field_name}}_{{$data->id}}">
+                <div class="col-2 align-self-center"  id="col_{{$field_name}}_{{$data->id}}">
                     @if($data->registrant_stage)
                         @if($data->registrant_stage->$field_name)
-                            <i class="far fa-lg fa-check-circle"></i>
+                            <i class="far fa-lg fa-check-circle text-success"></i>
+                            <br>
+                            @php
+                                $field_name_checked_date = $field_name."_checked_date";
+                            @endphp
+                            <span class="font-italic">{{ \Carbon\Carbon::parse($data->registrant_stage->$field_name_checked_date)->format('d/m/Y')}}</span>
                         @endif
                     @endif
                 </div>
@@ -98,10 +108,15 @@
                     {{ html()->label('kirim pesan', $field_name.$data->id.'_message') }}
                     {{ html()->checkbox($field_name.$data->id.'_message',false,'Kirim pesan')->class('my-auto form-check-label') }}             
                 </div>
-                <div class="col-2 align-self-center text-success" id="col_{{$field_name}}_{{$data->id}}">
+                <div class="col-2 align-self-center"  id="col_{{$field_name}}_{{$data->id}}">
                     @if($data->registrant_stage)
                         @if($data->registrant_stage->$field_name)
-                            <i class="far fa-lg fa-check-circle"></i>
+                            <i class="far fa-lg fa-check-circle text-success"></i>
+                            <br>
+                            @php
+                                $field_name_checked_date = $field_name."_checked_date";
+                            @endphp
+                            <span class="font-italic">{{ \Carbon\Carbon::parse($data->registrant_stage->$field_name_checked_date)->format('d/m/Y')}}</span>
                         @endif
                     @endif
                 </div>
@@ -132,12 +147,17 @@
 
                     {{ html()->label('kirim pesan', $field_name.$data->id.'_message') }}
                     {{ html()->checkbox($field_name.$data->id.'_message',false,'Kirim pesan')->class('my-auto form-check-label') }}                </div>
-                <div class="col-2 align-self-center text-success" id="col_{{$field_name}}_{{$data->id}}">
-                        @if($data->registrant_stage)
-                            @if($data->registrant_stage->$field_name)
-                                <i class="far fa-lg fa-check-circle"></i>
-                            @endif
+                <div class="col-2 align-self-center"  id="col_{{$field_name}}_{{$data->id}}">
+                    @if($data->registrant_stage)
+                        @if($data->registrant_stage->$field_name)
+                            <i class="far fa-lg fa-check-circle text-success"></i>
+                            <br>
+                            @php
+                                $field_name_checked_date = $field_name."_checked_date";
+                            @endphp
+                            <span class="font-italic">{{ \Carbon\Carbon::parse($data->registrant_stage->$field_name_checked_date)->format('d/m/Y')}}</span>
                         @endif
+                    @endif
                 </div>
             </div>
         </div>
@@ -168,10 +188,15 @@
                     </div>
                     <small id="emailHelp" class="form-text text-muted">tombol "autoselect" akan otomatis memilih angsuran sesuai dengan ketentuan</small>      
                 </div>
-                <div class="col-2 align-self-center text-success" id="col_{{$field_data_id}}_{{$data->id}}">
+                <div class="col-2 align-self-center"  id="col_{{$field_name}}_{{$data->id}}">
                     @if($data->registrant_stage)
-                        @if($data->registrant_stage->$field_data_id)
-                            <i class="far fa-lg fa-check-circle"></i>
+                        @if($data->registrant_stage->$field_name)
+                            <i class="far fa-lg fa-check-circle text-success"></i>
+                            <br>
+                            @php
+                                $field_name_checked_date = $field_name."_checked_date";
+                            @endphp
+                            <span class="font-italic">{{ \Carbon\Carbon::parse($data->registrant_stage->$field_name_checked_date)->format('d/m/Y')}}</span>
                         @endif
                     @endif
                 </div>
@@ -201,10 +226,15 @@
                     {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
                     
                 </div>
-                <div class="col-2 align-self-center text-success" id="col_{{$field_name}}_{{$data->id}}">
+                <div class="col-2 align-self-center"  id="col_{{$field_name}}_{{$data->id}}">
                     @if($data->registrant_stage)
                         @if($data->registrant_stage->$field_name)
-                            <i class="far fa-2x fa-check-circle"></i>
+                            <i class="far fa-lg fa-check-circle text-success"></i>
+                            <br>
+                            @php
+                                $field_name_checked_date = $field_name."_checked_date";
+                            @endphp
+                            <span class="font-italic">{{ \Carbon\Carbon::parse($data->registrant_stage->$field_name_checked_date)->format('d/m/Y')}}</span>
                         @endif
                     @endif
                 </div>

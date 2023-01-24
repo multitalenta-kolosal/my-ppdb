@@ -24,6 +24,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
+                <span id="warning-date-updated" class="font-weight-bold text-primary" style="display: none;">Tutup dan buka kembali kotak ini untuk melihat tanggal</span>
                     <button type="button" class="btn btn-danger mr-4" id="reject_{{$data->id}}" ><i class="fas fa-user-slash mr-2"></i>Tolak</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-success" id="submit_data_{{$data->id}}" >Simpan</button>
@@ -43,6 +44,8 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+
+        $('#warning-date-updated').hide();
         $('#requirements_pass{{$data->id}}').on('change', function(){
             $('#requirements_pass{{$data->id}}_message').prop('checked',this.checked);
         });
@@ -273,6 +276,7 @@
                                                     title: '@lang("Data Verified")',
                                                     footer: 'Mengirimkan pesan ke pengguna...',
                                                 })
+                                                $('#warning-date-updated').show();
                                             },
                                             error: function (xhr, ajaxOptions, thrownError) {
                                                 Toast.fire({
@@ -303,6 +307,7 @@
                                         title: '@lang("Data Verified")',
                                         footer: 'Pesan tidak dikirim',
                                     })
+                                    $('#warning-date-updated').show();
                                 }
                             });
                     }else{      
@@ -322,6 +327,7 @@
                             icon: 'success',
                             title: '@lang("Data Verified")'
                         })
+                        $('#warning-date-updated').show();
                     }
 
                     $.each(data,function(key, val) { 
@@ -329,13 +335,13 @@
                         $('#'+key+'{{$data->id}}_message').prop('checked',false)
                         if(col){
                             if(key == "installment_id" && val > 0){
-                                col.innerHTML = '<i class="far fa-lg fa-check-circle"></i>';
+                                col.innerHTML = '<i class="far fa-lg fa-check-circle text-success"></i><br><span class="font-italic">checking date..</span>';
                             }else{
                                 if(key && (val == 1)){
                                     if(key == "accepted_pass"){
-                                        col.innerHTML = '<i class="far fa-2x fa-check-circle"></i>';
+                                        col.innerHTML = '<i class="far fa-2x fa-check-circle text-success"></i><br><span class="font-italic">checking date..</span>';
                                     }else{
-                                        col.innerHTML = '<i class="far fa-lg fa-check-circle"></i>';
+                                        col.innerHTML = '<i class="far fa-lg fa-check-circle text-success"></i><br><span class="font-italic">checking date..</span>';
                                     }
                                 }else{
                                     col.innerHTML = '';                                
@@ -377,6 +383,8 @@
     });
 
     $('#modal_{{$data->id}}').on('hidden.bs.modal', function (e) {
+
+        $('#warning-date-updated').hide();
         if(window.edited){
             $(".dtr-control").busyLoad("show", 
             { 
