@@ -261,6 +261,13 @@ class RegistrantsDataTable extends DataTable
             Column::make('former_school')->title('Asal Sekolah')->hidden()
                     ->title(__("registrant::$this->module_name.datatable.former_school")),
 
+            Column::make('registrant_stage.va_pass_checked_date')->title('Tgl Verif VA')->hidden(),
+            Column::make('registrant_stage.entrance_fee_pass_checked_date')->title('Tgl Verif Biaya Pendaftaran')->hidden(),
+            Column::make('registrant_stage.requirements_pass_checked_date')->title('Tgl Verif Berkas')->hidden(),
+            Column::make('registrant_stage.test_pass_checked_date')->title('Tgl Verif Tes Masuk')->hidden(),
+            Column::make('registrant_stage.installment_id_checked_date')->title('Tgl Verif Konfirmasi Angsuran')->hidden(),
+            Column::make('registrant_stage.accepted_pass_checked_date')->title('Tgl Verif Heregistrasi')->hidden(),
+
             Column::make('created_at'),
             Column::make('updated_at')->hidden(),
             Column::make('ref_code')->title('Referee')->hidden(),
