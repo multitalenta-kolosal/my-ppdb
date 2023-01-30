@@ -54,10 +54,18 @@
     }else{
         $quota = null;
     }
+    $total_target = 0;
+    foreach($quota as $quota_amount){
+        $total_target += $quota_amount;
+    }
     foreach($unit_counts as $unit){
         $total += $unit->amount;
         $total_acc += $unit->accepted_amount;
     }
+
+    $total_percentage_per_target = round( ( $total / $total_target) * 100, 2);
+    $total_acc_per_target = round( ( $total_acc / $total_target) * 100, 2);
+
     ?>
     <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 d-none d-sm-none d-md-block">
         <div class="card">
@@ -66,6 +74,19 @@
                 <div><small class="text-muted">Total CPDB dari seluruh Unit Pendidikan</small></div>
                 <div>Total CPDB heregistrasi: <span class="text-value-lg">{{$total_acc}}</span></div>
                 <div><small class="text-muted">Total CPDB yang  sudah heregistrasi</small></div>
+                <hr>
+                <div class="">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="text-value-lg"><span class="{{$total >= $total_target ? 'text-success' : ''}}">{{$total}}</span> /<span class="text-value-sm"> {{$total_target ?? '--'}} target</span></div>
+                            <small class="{{$total_percentage_per_target < 100 ? 'text-danger' : 'text-success'}}">( {{$total_percentage_per_target}}% ) dari target</small>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-value-lg">{{$total_acc}} /<span class="text-value-sm"> {{$total_target}} Target </span></div>
+                            <small class="{{$total_acc_per_target < 100 ? 'text-danger' : 'text-success'}}">( {{$total_acc_per_target}}% ) dari target</small>
+                        </div>
+                    </div> 
+                </div>
             </div>
         </div>
     </div>
@@ -139,11 +160,13 @@
         <div class="card">
             <div class="row">
                 <div class="col-5 ml-4 my-3">
-                    <div class="text-value-lg">{{$total}}</div>
+                    <div class="text-value-lg"><span class="{{$total >= $total_target ? 'text-success' : ''}}">{{$total}}</span> /<span class="text-value-sm"> {{$total_target ?? '--'}} target</span></div>
+                    <small class="{{$total_percentage_per_target < 100 ? 'text-danger' : 'text-success'}}">( {{$total_percentage_per_target}}% ) dari target</small>
                     <div>Total CPDB</div>
                 </div>
                 <div class="col-5 mr-4 my-3">
-                    <div class="text-value-lg">{{$total_acc}}</div>
+                    <div class="text-value-lg">{{$total_acc}} /<span class="text-value-sm"> {{$total_target}} Target </span></div>
+                    <small class="{{$total_acc_per_target < 100 ? 'text-danger' : 'text-success'}}">( {{$total_acc_per_target}}% ) dari target</small>
                     <div>Total CPDB Heregistrasi</div>
                 </div>
             </div>
