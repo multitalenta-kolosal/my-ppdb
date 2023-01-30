@@ -15,7 +15,7 @@
 <div class="row"> 
     <div class="col-md-6">
         <!-- Unit -->
-        @can('inter-unit')
+        @can('inter_unit')
             <div class="row"> 
                 <div class="col">
                     <div class="form-group">
