@@ -187,7 +187,7 @@ class RegistrantsDataTable extends DataTable
      */
     public function html()
     {
-        $created_at = 12;
+        $created_at = 1;
         return $this->builder()
                 ->setTableId('registrants-table')
                 ->columns($this->getColumns())
@@ -227,6 +227,8 @@ class RegistrantsDataTable extends DataTable
                   ->exportable(false)
                   ->printable(false)
                   ->addClass('text-center'),
+
+            Column::make('id')->title('data-id')->hidden(),
 
             Column::make('registrant_id')
                     ->title(__("registrant::$this->module_name.datatable.registrant_id")),
