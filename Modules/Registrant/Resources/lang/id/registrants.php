@@ -9,7 +9,7 @@ return [
     'internal'                  => 'Jalur Internal?',
     'year'                      => 'Tahun',
     'phone'                     => 'Nomor Telepon Orang Tua (Whatsapp)',
-    'phone2'                    => 'Nomor Telepon Anak',
+    'phone2'                    => 'Nomor Telepon Anak (Whatsapp)',
     'email'                     => 'Email',
     'unit'                      => 'Mendaftar Ke Sekolah',
     'former_school'             => 'Sekolah Asal',
