@@ -68,6 +68,7 @@
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}
+            <small>Nomor telepon digunakan untuk penyampaian informasi melalui whatsapp</small>
         </div>
     </div>
     <div class="col-md-6 col-sm-6">
@@ -80,6 +81,7 @@
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}
+            <small>Nomor telepon anak akan digunakan apabila nomor orang tua tidak dapat dijangkau saat kami akan menyampaikan informasi</small>
         </div>
     </div>
 </div>
