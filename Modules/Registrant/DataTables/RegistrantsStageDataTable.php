@@ -137,9 +137,9 @@ class RegistrantsStageDataTable extends DataTable
                 if($model->phone)
                 {
                     return '<div>Ortu:</div>'.
-                            '<a href="https://wa.me/'.$model->phone.'" target="blank">'.($model->phone ?? '-' ).'</a>'.
+                            '<a href="https://wa.me/'.$model->formatted_phone_parent.'" target="blank">'.($model->phone ?? '-' ).'</a>'.
                             '<div>Anak:</div>'.
-                            '<a href="https://wa.me/'.$model->phone2.'" target="blank">'.($model->phone2 ?? '-' ).'</a>';
+                            '<a href="https://wa.me/'.$model->formatted_phone_child.'" target="blank">'.($model->phone2 ?? '-' ).'</a>';
                 }
             })
             ->rawColumns(['name', 'status', 'action','phone','phone2','registrant_stage.va_pass','registrant_stage.entrance_fee_pass', 'registrant_stage.requirements_pass','registrant_stage.test_pass','registrant_stage.accepted_pass']);
