@@ -93,7 +93,7 @@ class RegistrantsDataTable extends DataTable
             ->editColumn('phone', function ($model) {
                 if($model->phone)
                 {
-                    return '<a href="https://wa.me/'.$model->phone.'" target="blank">'.$model->phone.'</a>';
+                    return '<a href="https://wa.me/'.$model->formatted_phone_parent.'" target="blank">'.$model->phone.'</a>';
                 }else{
                     return '-';
                 }
@@ -101,7 +101,7 @@ class RegistrantsDataTable extends DataTable
             ->editColumn('phone2', function ($model) {
                 if($model->phone2)
                 {
-                    return '<a href="https://wa.me/'.$model->phone2.'" target="blank">'.$model->phone2.'</a>';
+                    return '<a href="https://wa.me/'.$model->formatted_phone_child.'" target="blank">'.$model->phone2.'</a>';
                 }else{
                     return '-';
                 }

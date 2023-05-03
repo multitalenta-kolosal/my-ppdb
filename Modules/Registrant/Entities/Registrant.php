@@ -112,4 +112,26 @@ class Registrant extends BaseModel
 
         return $composed_string;
     }
+
+    public function getFormattedPhoneParentAttribute()
+    {
+        $phone = $this->phone;
+        if (substr($phone, 0, 1) === '0') {
+            $phone = '62' . substr($phone, 1);
+        }else if (substr($phone, 0, 1) === '+') {
+            $phone = substr($phone, 1);
+        }
+        return $phone;
+    }
+
+    public function getFormattedPhoneChildAttribute()
+    {
+        $phone = $this->phone2;
+        if (substr($phone, 0, 1) === '0') {
+            $phone = '62' . substr($phone, 1);
+        }else if (substr($phone, 0, 1) === '+') {
+            $phone = substr($phone, 1);
+        }
+        return $phone;
+    }
 }
