@@ -3,6 +3,7 @@
 return [
     'dashboard'             => 'Dashboard',
     'registrants'           => 'Registrants',
+    'registrants_stage'     => 'Registrants Stage',
     'message_trackers'      => 'Message Trackers',
 
     'finance' => [

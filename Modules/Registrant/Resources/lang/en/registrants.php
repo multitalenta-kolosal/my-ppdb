@@ -16,6 +16,7 @@ return [
     'tier'                      => 'Tier / Major',
     'status'                    => 'Status',
     'ref_code'                  => 'Referal Code',
+    'notes'                     => 'Notes',
 
     'verification'=>
     [
@@ -37,12 +38,13 @@ return [
         'va_number'                 => 'VA Number',
         'type'                      => 'Path',
         'year'                      => 'Year',
-        'phone'                     => 'Phone',
-        'phone2'                    => 'Phone 2',
+        'phone'                     => 'Telp. Ortu',
+        'phone2'                    => 'Telp. Anak',
         'email'                     => 'Email',
         'unit'                      => 'Unit',
         'former_school'             => 'FOrmer School',
         'tier'                      => 'Class/Major',
         'status'                    => 'Status',
+        'notes'                     => 'Notes'
     ],
 ];

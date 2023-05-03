@@ -16,7 +16,7 @@ use Yajra\DataTables\Services\DataTable;
 
 use Illuminate\Support\Arr;
 
-class RegistrantsDataTable extends DataTable
+class RegistrantsStageDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -47,9 +47,7 @@ class RegistrantsDataTable extends DataTable
             ->addColumn('action', function ($data) {
                 $module_name = $this->module_name;
 
-                $installment = $this->installmentRepository->query()->whereIn('id',json_decode($data->unit->installment_ids ?? "[]",true))->orderBy('order','asc')->pluck('name','id');
-
-                return view('registrant::backend.includes.action_column', compact('module_name', 'data','installment'));
+                return view('backend.includes.action_note', compact('data','module_name'));
             })
             ->editColumn('name', function ($model) {
                 if( ($model->registrant_stage->status_id ?? null) == -1)
@@ -90,25 +88,63 @@ class RegistrantsDataTable extends DataTable
                     return "Status Loading...";
                 }
             })
+            ->editColumn('registrant_stage.va_pass', function ($data) {
+                if($data->registrant_stage->va_pass){
+                    $icon = '<i class="far fa-lg fa-check-circle text-success"></i>';
+                }else{
+                    $icon = '<i class="far fa-times-circle text-danger"></i>';
+                }
+
+                return $icon;
+            })
+            ->editColumn('registrant_stage.entrance_fee_pass', function ($data) {
+                if($data->registrant_stage->entrance_fee_pass){
+                    $icon = '<i class="far fa-lg fa-check-circle text-success"></i>';
+                }else{
+                    $icon = '<i class="far fa-times-circle text-danger"></i>';
+                }
+
+                return $icon;
+            })
+            ->editColumn('registrant_stage.requirements_pass', function ($data) {
+                if($data->registrant_stage->requirements_pass){
+                    $icon = '<i class="far fa-lg fa-check-circle text-success"></i>';
+                }else{
+                    $icon = '<i class="far fa-times-circle text-danger"></i>';
+                }
+
+                return $icon;
+            })
+            ->editColumn('registrant_stage.test_pass', function ($data) {
+                if($data->registrant_stage->test_pass){
+                    $icon = '<i class="far fa-lg fa-check-circle text-success"></i>';
+                }else{
+                    $icon = '<i class="far fa-times-circle text-danger"></i>';
+                }
+
+                return $icon;
+            })
+            ->editColumn('registrant_stage.accepted_pass', function ($data) {
+                if($data->registrant_stage->accepted_pass){
+                    $icon = '<i class="far fa-lg fa-check-circle text-success"></i>';
+                }else{
+                    $icon = '<i class="far fa-times-circle text-danger"></i>';
+                }
+
+                return $icon;
+            })
             ->editColumn('phone', function ($model) {
                 if($model->phone)
                 {
-                    return '<a href="https://wa.me/'.$model->phone.'" target="blank">'.$model->phone.'</a>';
-                }else{
-                    return '-';
+                    return '<div>Ortu:</div>'.
+                            '<a href="https://wa.me/'.$model->phone.'" target="blank">'.($model->phone ?? '-' ).'</a>'.
+                            '<div>Anak:</div>'.
+                            '<a href="https://wa.me/'.$model->phone2.'" target="blank">'.($model->phone2 ?? '-' ).'</a>';
                 }
             })
-            ->editColumn('phone2', function ($model) {
-                if($model->phone2)
-                {
-                    return '<a href="https://wa.me/'.$model->phone2.'" target="blank">'.$model->phone2.'</a>';
-                }else{
-                    return '-';
-                }
-            })
-            ->rawColumns(['name', 'status', 'action','phone','phone2']);
+            ->rawColumns(['name', 'status', 'action','phone','phone2','registrant_stage.va_pass','registrant_stage.entrance_fee_pass', 'registrant_stage.requirements_pass','registrant_stage.test_pass','registrant_stage.accepted_pass']);
     }
-
+    
     /**
      * Get query source of dataTable.
      *
@@ -239,11 +275,6 @@ class RegistrantsDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->addClass('text-center'),
-
             Column::make('id')->title('data-id')->hidden(),
 
             Column::make('registrant_id')
@@ -259,10 +290,7 @@ class RegistrantsDataTable extends DataTable
                     ->title(__("registrant::$this->module_name.datatable.type")),
 
             Column::make('phone')
-                    ->title(__("registrant::$this->module_name.datatable.phone")),
-
-            Column::make('phone2')
-                    ->title(__("registrant::$this->module_name.datatable.phone2")),
+                    ->title("Kontak"),
 
             Column::make('period.period_name')->data('period.period_name')->name('period.period_name')->title('Tahun')->hidden()
                     ->title(__("registrant::$this->module_name.datatable.year")),
@@ -278,21 +306,31 @@ class RegistrantsDataTable extends DataTable
 
             Column::make('former_school')->title('Asal Sekolah')->hidden()
                     ->title(__("registrant::$this->module_name.datatable.former_school")),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->addClass('text-center'),
+            Column::make('registrant_stage.va_pass')->title('VA'),
+            Column::make('registrant_stage.entrance_fee_pass')->title('Uang Daftar'),
+            Column::make('registrant_stage.requirements_pass')->title('Berkas'),
+            Column::make('registrant_stage.test_pass')->title('Tes'),
+            // Column::make('registrant_stage.installment_id')->title('Konfirmasi Angsuran'),
+            Column::make('registrant_stage.accepted_pass')->title('Hereg'),
 
             Column::make('registrant_stage.va_pass_checked_date')->title('Tgl Verif VA')->hidden(),
             Column::make('registrant_stage.entrance_fee_pass_checked_date')->title('Tgl Verif Biaya Pendaftaran')->hidden(),
             Column::make('registrant_stage.requirements_pass_checked_date')->title('Tgl Verif Berkas')->hidden(),
             Column::make('registrant_stage.test_pass_checked_date')->title('Tgl Verif Tes Masuk')->hidden(),
-            Column::make('registrant_stage.installment_id_checked_date')->title('Tgl Verif Konfirmasi Angsuran')->hidden(),
+            // Column::make('registrant_stage.installment_id_checked_date')->title('Tgl Verif Konfirmasi Angsuran')->hidden(),
             Column::make('registrant_stage.accepted_pass_checked_date')->title('Tgl Verif Heregistrasi')->hidden(),
 
-            Column::make('created_at'),
+            Column::make('created_at')->hidden(),
             Column::make('updated_at')->hidden(),
             Column::make('ref_code')->title('Referee')->hidden(),
             Column::make('register_ip')->title('IP')->hidden(),
 
             Column::computed('registrant_stage.status_id')->data('registrant_stage.status_id')->name('registrant_stage.status_id')
-            ->title(__("registrant::$this->module_name.datatable.status")),
+            ->title(__("registrant::$this->module_name.datatable.status"))->hidden(),
         ];
     }
 
