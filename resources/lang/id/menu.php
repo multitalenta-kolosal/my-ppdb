@@ -3,6 +3,7 @@
 return [
     'dashboard'             => 'Beranda',
     'registrants'           => 'Pendaftar',
+    'registrants_stage'     => 'Status Pendaftar',
     'message_trackers'      => 'Lacak Pesan',
 
     'finance' => [

@@ -49,13 +49,16 @@ Route::group(['namespace' => '\Modules\Registrant\Http\Controllers\Backend', 'as
     $module_name = 'registrants';
     $controller_name = 'RegistrantsController';
     Route::get("$module_name/index_list", ['as' => "$module_name.index_list", 'uses' => "$controller_name@index_list"]);
+    Route::get("$module_name/stage-index", ['as' => "$module_name.stage-index", 'uses' => "$controller_name@stageIndex"]);
     Route::get("$module_name/index_data", ['as' => "$module_name.index_data", 'uses' => "$controller_name@index_data"]);
     Route::get("$module_name/trashed", ['as' => "$module_name.trashed", 'uses' => "$controller_name@trashed"]);
     Route::patch("$module_name/trashed/{id}", ['as' => "$module_name.restore", 'uses' => "$controller_name@restore"]);
     Route::delete("$module_name/purge/{id}", ['as' => "$module_name.purge", 'uses' => "$controller_name@purge"]);
     Route::post("$module_name/generateId",['as' => "$module_name.generateId", 'uses' => "$controller_name@generateId"]);
+    //Transactional
     Route::resource("$module_name", "$controller_name");
-
+    Route::get("$module_name/edit-note/{id}", ['as' => "$module_name.edit-note", 'uses' => "$controller_name@editNote"]);
+    Route::patch("$module_name/update-note", ['as' => "$module_name.update-note", 'uses' => "$controller_name@updateNote"]);
      /*
      *
      *  Registrant Stages Routes

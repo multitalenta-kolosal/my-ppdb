@@ -99,7 +99,7 @@ class RegistrantMessageService{
         return (object) $response;
     }
 
-    public function update(Request $request,$registrantMessageObject = null, $id){
+    public function update(Request $request,$registrantMessageObject, $id){
 
         $data = $request->all();
 

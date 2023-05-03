@@ -16,6 +16,7 @@ return [
     'tier'                      => 'Kelas / Jurusan',
     'status'                    => 'Status',
     'ref_code'                  => 'Kode Referal',
+    'notes'                     => 'Notes',
 
     'verification'=>
     [
@@ -37,12 +38,13 @@ return [
         'va_number'                 => 'Nomor VA',
         'type'                      => 'Jalur',
         'year'                      => 'Tahun',
-        'phone'                     => 'Telepon',
-        'phone2'                    => 'Telepon 2',
+        'phone'                     => 'Telp. Ortu',
+        'phone2'                    => 'Telp. Anak',
         'email'                     => 'Email',
         'unit'                      => 'Unit',
         'former_school'             => 'Sekolah Asal',
         'tier'                      => 'Kelas/Jurusan',
         'status'                    => 'Status',
+        'notes'                     => 'Notes',
     ],
 ];

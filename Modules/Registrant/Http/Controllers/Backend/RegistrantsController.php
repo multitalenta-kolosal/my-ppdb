@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use Log;
 use Modules\Registrant\Services\RegistrantService;
 use Modules\Registrant\DataTables\RegistrantsDataTable;
+use Modules\Registrant\DataTables\RegistrantsStageDataTable;
 use Modules\Registrant\Http\Requests\Backend\RegistrantsRequest;
 use Spatie\Activitylog\Models\Activity;
 use Yajra\DataTables\DataTables;
@@ -68,6 +69,35 @@ class RegistrantsController extends Controller
         $installment      = $options['installment'];
 
         return $dataTable->render("registrant::backend.$module_path.index",
+            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', 'unit', 'type', 'tier', 'status','installment')
+        );
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function stageIndex(RegistrantsStageDataTable $dataTable)
+    {
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = "fas fa-running";
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'List';
+
+        $options = $this->registrantService->prepareFilterOptions();
+       
+        $unit             = $options['unit'];
+        $type             = $options['type'];
+        $tier             = $options['tier'];
+        $status           = $options['status'];
+        $installment      = $options['installment'];
+
+        return $dataTable->render("registrant::backend.$module_path.stage-index",
             compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', 'unit', 'type', 'tier', 'status','installment')
         );
     }
@@ -181,6 +211,40 @@ class RegistrantsController extends Controller
     }
 
     /**
+     * Show the form for note the specified resource.
+     *
+     * @param int $id
+     *
+     * @return Response
+     */
+    public function editNote($id)
+    {
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'Edit';
+
+        $registrants = $this->registrantService->edit($id);
+
+        $options = $this->registrantService->prepareOptions();
+       
+        $unit = $options['unit'];
+        $type = $options['type'];
+        $tier = $options['tier'];
+
+        $$module_name_singular = $registrants->data;
+
+        return view(
+            "registrant::backend.$module_name.edit-note",
+            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular", 'unit', 'type','tier')
+        );
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param int $id
@@ -244,6 +308,38 @@ class RegistrantsController extends Controller
         }
 
         return redirect("admin/$module_name");
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Request $request
+     * @param int     $id
+     *
+     * @return Response
+     */
+    public function updateNote(Request $request, $id)
+    {
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'Update';
+
+        $registrants = $this->registrantService->update($request,$id);
+
+        $$module_name_singular = $registrants->data;
+
+        if(!$registrants->error){
+            Flash::success('<i class="fas fa-check"></i> '.label_case($module_name_singular).' Updated Successfully!')->important();
+        }else{
+            Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
+        }
+
+        return redirect("admin/stage-index");
     }
 
     /**
