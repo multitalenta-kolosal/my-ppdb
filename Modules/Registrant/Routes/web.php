@@ -58,7 +58,7 @@ Route::group(['namespace' => '\Modules\Registrant\Http\Controllers\Backend', 'as
     //Transactional
     Route::resource("$module_name", "$controller_name");
     Route::get("$module_name/edit-note/{id}", ['as' => "$module_name.edit-note", 'uses' => "$controller_name@editNote"]);
-    Route::patch("$module_name/update-note", ['as' => "$module_name.update-note", 'uses' => "$controller_name@updateNote"]);
+    Route::patch("$module_name/update-note/{registrant}", ['as' => "$module_name.update-note", 'uses' => "$controller_name@updateNote"]);
      /*
      *
      *  Registrant Stages Routes
