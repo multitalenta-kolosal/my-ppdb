@@ -339,7 +339,7 @@ class RegistrantsController extends Controller
             Flash::error("<i class='fas fa-times-circle'></i> Error When ".$module_action." '".Str::singular($module_title)."'")->important();
         }
 
-        return redirect("admin/stage-index");
+        return redirect("admin/$module_name/stage-index");
     }
 
     /**
