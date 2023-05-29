@@ -26,6 +26,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 
 use Modules\Registrant\Events\Backend\RegistrantCreated;
 use Modules\Registrant\Events\Frontend\RegistrantEnlist;
@@ -103,6 +104,41 @@ class RegistrantService{
         );
     }
 
+
+    public function getSchoolList($name){
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+            CURLOPT_URL => "https://api-sekolah-indonesia.vercel.app/sekolah/s?sekolah=$name",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json",
+            ),
+        ]);
+        
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        curl_close($curl);
+        
+        if ($err) {
+            return null;
+        } else {
+            $data_whole = json_decode($response);
+            $datas = $data_whole->dataSekolah;
+            $array_data = array();
+            foreach ($datas as $data) {
+                $array[$data->sekolah] = $data->sekolah;
+            }
+            \Log::debug(json_encode($array_data));
+            return $array_data;
+        }
+    }
+    
+
     public function create(){
 
         Log::info(label_case($this->module_title.' '.__function__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
@@ -156,6 +192,9 @@ class RegistrantService{
             $registrant->unit_increment = $this->generateUnitIncrement($unit_id);
             $registrant->period_id = $this->periodRepository->findActivePeriodId();
             $registrant->register_ip = request()->getClientIP();
+
+            $register_info_array = explode(",",setting('register_info'));
+            $registrant->info = $register_info_array[$registrant->info];
 
             $registrant_stage = $this->registrantStageService->store($request, $registrant);
 

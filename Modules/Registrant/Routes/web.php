@@ -16,6 +16,7 @@ Route::group(['namespace' => '\Modules\Registrant\Http\Controllers\Frontend', 'a
      */
     $module_name = 'registrants';
     $controller_name = 'RegistrantsController';    
+    Route::get("$module_name/list_school/{name}", ['as' => "$module_name.list_school", 'uses' => "$controller_name@list_school"]);
     Route::get("verifikasi", ['as' => "$module_name.veriform", 'uses' => "$controller_name@veriform"]);
     Route::get("daftar", ['as' => "$module_name.index", 'uses' => "$controller_name@index"]);
     Route::get("lacak", ['as' => "$module_name.track", 'uses' => "$controller_name@track"]);
@@ -48,6 +49,7 @@ Route::group(['namespace' => '\Modules\Registrant\Http\Controllers\Backend', 'as
      */
     $module_name = 'registrants';
     $controller_name = 'RegistrantsController';
+    Route::get("$module_name/list_school/{name}", ['as' => "$module_name.list_school", 'uses' => "$controller_name@list_school"]);
     Route::get("$module_name/index_list", ['as' => "$module_name.index_list", 'uses' => "$controller_name@index_list"]);
     Route::get("$module_name/stage-index", ['as' => "$module_name.stage-index", 'uses' => "$controller_name@stageIndex"]);
     Route::get("$module_name/index_data", ['as' => "$module_name.index_data", 'uses' => "$controller_name@index_data"]);

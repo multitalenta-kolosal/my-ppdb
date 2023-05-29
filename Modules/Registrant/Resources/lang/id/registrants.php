@@ -17,6 +17,7 @@ return [
     'status'                    => 'Status',
     'ref_code'                  => 'Kode Referal',
     'notes'                     => 'Notes',
+    'info'                     => 'Mendapat info dari?',
 
     'verification'=>
     [
@@ -46,5 +47,6 @@ return [
         'tier'                      => 'Kelas/Jurusan',
         'status'                    => 'Status',
         'notes'                     => 'Notes',
+        'info'                      => 'Info',
     ],
 ];

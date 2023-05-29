@@ -11,7 +11,7 @@
             $select_options = $unit_options;
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->select($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control select2 border-purple')->attributes(["$required"]) }}
+            {{ html()->select($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required"]) }}
         </div>
     </div>
     <div class="col-6">
@@ -24,7 +24,7 @@
             $select_options = [];
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control select2 border-purple')->attributes(["$required"]) }}
+            {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required"]) }}
         </div>
     </div>
 </div>
@@ -102,16 +102,32 @@
         <div class="form-group">
             <?php
             $field_name = 'former_school';
+            $field_data_id = 'former_school';
             $field_lable = __("registrant::$module_name.$field_name");
             $field_placeholder = $field_lable;
             $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}
+            <!-- {{ html()->select($field_name, null)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }} -->
+            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}    
         </div>
     </div>
 </div>
 <div class="row">
+    <div class="col-6">
+        <div class="form-group">
+            <?php
+            $field_name = 'info';
+            $field_data_id = 'info';
+            $field_lable = __("registrant::$module_name.$field_name");
+            $field_placeholder = __("Select an option");
+            $required = "";
+            $select_options = explode(",",setting('register_info'));
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->select($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required"]) }}
+        </div>
+    </div>
     <div class="col-md-6">
         <div class="form-group">
             <?php
@@ -132,6 +148,7 @@
 
 <!-- Select2 Library -->
 <x-library.datetime-picker />
+<x-library.select2 />
 
 @push('after-styles')
 <!-- File Manager -->
@@ -191,6 +208,35 @@
             }else{
                 var defaultOption = $('<option value="">--Silakan Pilih Sekolah Dahulu--</option>');
                 $('#type').append(defaultOption);
+            }
+        });
+
+        $('#former_school').select2({
+            theme: "bootstrap",
+            placeholder: '@lang("Select an option")',
+            minimumInputLength: 2,
+            allowClear: true,
+            ajax: {
+                url : 'https://api-sekolah-indonesia.vercel.app/sekolah/s',
+                dataType: 'json',
+                data: function (params) {
+                    return {
+                        sekolah: $.trim(params.term),
+                        perPage: 100
+                    };
+                },
+                processResults: function (data) {
+                    console.log(data);
+                    return {
+                        results: data.dataSekolah.map(function(sekolah) {
+                            return {
+                                id: sekolah.sekolah,
+                                text: sekolah.sekolah+", "+sekolah.kabupaten_kota,
+                            };
+                        })
+                    };
+                },
+                cache: true
             }
         });
     });

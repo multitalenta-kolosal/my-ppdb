@@ -38,7 +38,7 @@ class GenerateMenus
             //Installments
             $finance_menu->add('<i class="fas fa-percentage c-sidebar-nav-icon"></i> '.trans('menu.finance.installments'), [
                 'route' => 'backend.installments.index',
-                'class' => 'c-sidebar-nav-item',
+                'class' => 'c-sidebar-nav-item ml-3',
             ])
             ->data([
                 'order' => 3,

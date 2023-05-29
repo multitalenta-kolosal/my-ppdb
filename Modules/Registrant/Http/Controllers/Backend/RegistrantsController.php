@@ -126,6 +126,27 @@ class RegistrantsController extends Controller
     }
 
     /**
+     * Select Options for Select 2 Request/ Response.
+     *
+     * @return Response
+     */
+    public function list_school($name)
+    {
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'List';
+
+        $school = $this->registrantService->getSchoolList($name);
+
+        return response()->json($school);
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return Response
