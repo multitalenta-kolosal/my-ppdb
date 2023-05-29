@@ -132,7 +132,7 @@ class RegistrantChart extends BaseChart
 
                     switch($driver){
                         case 'mysql':
-                            $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subMonth($periods))
+                            $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subMonth($periods)->startOfMonth())
                                         ->where('unit_id','=',Auth::user()->unit_id)
                                         ->ThisPeriod(my_period())
                                         ->where('deleted_at',NULL)
@@ -145,7 +145,7 @@ class RegistrantChart extends BaseChart
                                     );
                         break;
                         case 'pgsql':
-                            $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subMonth($periods))
+                            $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subMonth($periods)->startOfMonth())
                                             ->where('unit_id','=',Auth::user()->unit_id)
                                             ->ThisPeriod(my_period())
                                             ->where('deleted_at',NULL)
@@ -166,7 +166,7 @@ class RegistrantChart extends BaseChart
                         
                         switch($driver){
                             case 'mysql':
-                                $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subMonth($periods))
+                                $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subMonth($periods)->startOfMonth())
                                                 ->where('unit_id','=', $key)
                                                 ->ThisPeriod(my_period())
                                                 ->where('deleted_at',NULL)
@@ -179,7 +179,7 @@ class RegistrantChart extends BaseChart
                                             );
                             break;
                             case 'pgsql':
-                                $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subMonth($periods))
+                                $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subMonth($periods)->startOfMonth())
                                                 ->where('unit_id','=', $key)
                                                 ->ThisPeriod(my_period())
                                                 ->where('deleted_at',NULL)
