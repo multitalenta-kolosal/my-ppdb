@@ -58,7 +58,7 @@ class GenerateMenus
             //Pendaftar
             $reg_menu->add('<i class="fas fa-users c-sidebar-nav-icon"></i> List '.trans('menu.registrants'), [
                 'route' => 'backend.registrants.index',
-                'class' => 'c-sidebar-nav-item',
+                'class' => 'c-sidebar-nav-item ml-3',
             ])
             ->data([
                 'order' => 3,
@@ -72,7 +72,7 @@ class GenerateMenus
             //stage
             $reg_menu->add('<i class="fas fa-running c-sidebar-nav-icon"></i> '.trans('menu.registrants_stage'), [
                     'route' => 'backend.registrants.stage-index',
-                    'class' => 'c-sidebar-nav-item',
+                    'class' => 'c-sidebar-nav-item ml-3',
                 ])
                 ->data([
                     'order' => 4,

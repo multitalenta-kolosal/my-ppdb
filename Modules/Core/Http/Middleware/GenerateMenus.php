@@ -41,7 +41,7 @@ class GenerateMenus
             //template
             $core_menu->add('<i class="fas fa-envelope c-sidebar-nav-icon"></i> '.trans('menu.message.template'), [
                 'route' => 'backend.messages.index',
-                'class' => 'c-sidebar-nav-item',
+                'class' => 'c-sidebar-nav-item ml-3',
             ])
             ->data([
                 'order' => 3,
@@ -55,7 +55,7 @@ class GenerateMenus
              // paths
              $core_menu->add('<i class="fas fa-map-signs c-sidebar-nav-icon"></i> '.trans('menu.core.paths'), [
                 'route' => 'backend.paths.index',
-                'class' => 'c-sidebar-nav-item',
+                'class' => 'c-sidebar-nav-item ml-3',
             ])
             ->data([
                 'order' => 4,
@@ -69,7 +69,7 @@ class GenerateMenus
              // periods
              $core_menu->add('<i class="fas fa-calendar-day c-sidebar-nav-icon"></i> '.trans('menu.core.periods'), [
                 'route' => 'backend.periods.index',
-                'class' => 'c-sidebar-nav-item',
+                'class' => 'c-sidebar-nav-item ml-3',
             ])
             ->data([
                 'order' => 4,
@@ -83,7 +83,7 @@ class GenerateMenus
             // units
             $core_menu->add('<i class="fas fa-school c-sidebar-nav-icon"></i> '.trans('menu.core.units'), [
                 'route' => 'backend.units.index',
-                'class' => 'c-sidebar-nav-item',
+                'class' => 'c-sidebar-nav-item ml-3',
             ])
             ->data([
                 'order' => 5,
@@ -97,7 +97,7 @@ class GenerateMenus
             // tiers
             $core_menu->add('<i class="fas fa-sitemap c-sidebar-nav-icon"></i> '.trans('menu.core.tiers'), [
                 'route' => 'backend.tiers.index',
-                'class' => 'c-sidebar-nav-item',
+                'class' => 'c-sidebar-nav-item ml-3',
             ])
             ->data([
                 'order' => 5,

@@ -184,13 +184,13 @@
 @push ('after-scripts')
 <script type="text/javascript">
 $(document).ready(function() {
-    $('.select2-category').select2({
+    $('#former-school').select2({
         theme: "bootstrap",
         placeholder: '@lang("Select an option")',
         minimumInputLength: 2,
         allowClear: true,
         ajax: {
-            url: '{{route("backend.categories.index_list")}}',
+            url: '{{route("backend.registrants.list_school")}}',
             dataType: 'json',
             data: function (params) {
                 return {

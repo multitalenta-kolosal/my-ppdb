@@ -38,7 +38,7 @@ class GenerateMenus
             //Referees
             $referal_menu->add('<i class="fas fa-user-astronaut c-sidebar-nav-icon"></i> '.trans('menu.referal.referees'), [
                 'route' => 'backend.referees.index',
-                'class' => 'c-sidebar-nav-item',
+                'class' => 'c-sidebar-nav-item ml-3',
             ])
             ->data([
                 'order' => 3,

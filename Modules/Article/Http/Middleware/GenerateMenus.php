@@ -46,7 +46,7 @@ class GenerateMenus
             // Submenu: Posts
             $articles_menu->add('<i class="c-sidebar-nav-icon fas fa-pencil-alt"></i> '.trans('menu.blog.posts'), [
                 'route' => 'backend.posts.index',
-                'class' => 'c-sidebar-nav-item',
+                'class' => 'c-sidebar-nav-item ml-3',
             ])
             ->data([
                 'order'         => 82,
@@ -59,7 +59,7 @@ class GenerateMenus
             // Submenu: Categories
             $articles_menu->add('<i class="c-sidebar-nav-icon fas fa-sitemap"></i> '.trans('menu.blog.categories'), [
                 'route' => 'backend.categories.index',
-                'class' => 'c-sidebar-nav-item',
+                'class' => 'c-sidebar-nav-item ml-3',
             ])
             ->data([
                 'order'         => 83,
@@ -72,7 +72,7 @@ class GenerateMenus
 
             $articles_menu->add('<i class="fas fa-comments c-sidebar-nav-icon"></i> '.trans('menu.blog.comments'), [
                 'route' => 'backend.comments.index',
-                'class' => 'c-sidebar-nav-item',
+                'class' => 'c-sidebar-nav-item ml-3',
             ])
             ->data([
                 'order' => 85,
@@ -85,7 +85,7 @@ class GenerateMenus
 
             $articles_menu->add('<i class="fas fa-tags c-sidebar-nav-icon"></i> '.trans('menu.blog.tags'), [
                 'route' => 'backend.tags.index',
-                'class' => "c-sidebar-nav-item",
+                'class' => "c-sidebar-nav-item ml-3",
             ])
             ->data([
                 'order' => 84,

@@ -17,6 +17,7 @@ return [
     'status'                    => 'Status',
     'ref_code'                  => 'Referal Code',
     'notes'                     => 'Notes',
+    'info'                     => 'Got info from?',
 
     'verification'=>
     [
@@ -45,6 +46,7 @@ return [
         'former_school'             => 'FOrmer School',
         'tier'                      => 'Class/Major',
         'status'                    => 'Status',
-        'notes'                     => 'Notes'
+        'notes'                     => 'Notes',
+        'info'                      => 'Info',
     ],
 ];

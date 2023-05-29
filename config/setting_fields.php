@@ -69,6 +69,17 @@ return [
                 'class' => '', // any class for input
                 'value' => '1', // default value if you want
             ],
+            [
+                'type'  => 'textarea', // input fields type
+                'data'  => 'string', // data type, string, int, boolean
+                'name'  => 'register_info', // unique name for field
+                'label' => 'Info Pendaftaran', // you know what label it is
+                'rules' => '', // validation rule of laravel
+                'class' => '', // any class for input
+                'value' => 'Brosur (Tim Sosialiasi PPDB),Sekolah (Guru BP/BK),Keluarga,Alumni,Instagram,Pelatihan,Baliho,Lainnya', // default value if you want
+                'help'     => 'Pisahkan dengan koma (,)', // Help text for the input field.
+                'display'  => 'raw', // Help text for the input field.
+            ],
         ],
 
     ],
