@@ -70,6 +70,7 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'as' => 'backend.',
      */
     Route::get('/', 'BackendController@index')->name('home');
     Route::get('dashboard', 'BackendController@index')->name('dashboard');
+    Route::get('analytics', 'BackendController@analytics_index')->name('analytics');
 
     /*
      *

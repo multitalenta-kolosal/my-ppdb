@@ -264,8 +264,8 @@ class RegistrantsDataTable extends DataTable
             Column::make('phone2')
                     ->title(__("registrant::$this->module_name.datatable.phone2")),
                    
-            Column::make('info')
-                    ->title(__("registrant::$this->module_name.datatable.info")),
+            // Column::make('info')
+            //         ->title(__("registrant::$this->module_name.datatable.info")),
 
             Column::make('period.period_name')->data('period.period_name')->name('period.period_name')->title('Tahun')->hidden()
                     ->title(__("registrant::$this->module_name.datatable.year")),
