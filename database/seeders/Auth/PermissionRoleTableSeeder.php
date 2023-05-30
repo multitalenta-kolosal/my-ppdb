@@ -33,6 +33,7 @@ class PermissionRoleTableSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'view_logs']);
         Permission::firstOrCreate(['name' => 'inter_unit']);
         Permission::firstOrCreate(['name' => 'add_va']);
+        Permission::firstOrCreate(['name' => 'view_analytics']);
 
         $permissions = Permission::defaultPermissions();
 

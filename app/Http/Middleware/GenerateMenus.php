@@ -31,6 +31,19 @@ class GenerateMenus
                 'class' => 'c-sidebar-nav-link',
             ]);
 
+            $menu->add('<i class="cil-chart c-sidebar-nav-icon"></i> '.trans('Analytics'), [
+                'route' => 'backend.analytics',
+                'class' => 'c-sidebar-nav-item',
+            ])
+            ->data([
+                'order'         => 2,
+                'activematches' => 'admin/analytics*',
+                'permission'    => ['view_analytics'],
+            ])
+            ->link->attr([
+                'class' => 'c-sidebar-nav-link',
+            ]);
+
             $menu->add('Data', [
                 'class' => 'c-sidebar-nav-title',
             ])

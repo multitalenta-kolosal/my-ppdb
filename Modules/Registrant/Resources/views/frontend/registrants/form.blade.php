@@ -114,7 +114,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-6">
+    <!-- <div class="col-6">
         <div class="form-group">
             <?php
             $field_name = 'info';
@@ -127,7 +127,7 @@
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->select($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required"]) }}
         </div>
-    </div>
+    </div> -->
     <div class="col-md-6">
         <div class="form-group">
             <?php
