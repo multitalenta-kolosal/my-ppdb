@@ -162,7 +162,7 @@
             $field_name = 'notes';
             $field_lable = __("registrant::$module_name.$field_name");
             $field_placeholder = $field_lable;
-            $required = "required";
+            $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->textarea($field_name)->rows(10)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
