@@ -184,28 +184,6 @@
 @push ('after-scripts')
 <script type="text/javascript">
 $(document).ready(function() {
-    $('#former-school').select2({
-        theme: "bootstrap",
-        placeholder: '@lang("Select an option")',
-        minimumInputLength: 2,
-        allowClear: true,
-        ajax: {
-            url: '{{route("backend.registrants.list_school")}}',
-            dataType: 'json',
-            data: function (params) {
-                return {
-                    q: $.trim(params.term)
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
-    });
-
     $('.select2-tags').select2({
         theme: "bootstrap",
         placeholder: '@lang("Select an option")',
