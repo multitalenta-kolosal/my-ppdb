@@ -21,7 +21,7 @@ class BackendController extends Controller
         PeriodRepository $periodRepository,
         RegistrantRepository $registrantRepository,
         RegistrantInsight $registrantInsight,
-        RegistrantStageInsight $registrantStageInsight,
+        RegistrantStageInsight $registrantStageInsight
     )
     {
         $this->periodRepository = $periodRepository;
