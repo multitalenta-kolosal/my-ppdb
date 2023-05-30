@@ -193,8 +193,8 @@ class RegistrantService{
             $registrant->period_id = $this->periodRepository->findActivePeriodId();
             $registrant->register_ip = request()->getClientIP();
 
-            $register_info_array = explode(",",setting('register_info'));
-            $registrant->info = $register_info_array[$registrant->info];
+            // $register_info_array = explode(",",setting('register_info'));
+            // $registrant->info = $register_info_array[$registrant->info];
 
             $registrant_stage = $this->registrantStageService->store($request, $registrant);
 
