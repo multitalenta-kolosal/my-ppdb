@@ -140,13 +140,13 @@ class RegistrantInsight{
         }
         
         $groups = $this->registrantRepository->query()->join('units', 'registrants.unit_id','=','units.id')->join('registrant_stages', 'registrants.progress_id','=','registrant_stages.id')
-        ->select('units.id as unit_no', 'registrants.id','registrants.name','units.name as unit_name','accepted_pass','registrants.created_at')
+        ->select('units.id as unit_no', 'registrants.id','registrants.name','units.name as unit_name','accepted_pass','registrants.created_at','registrant_stages.accepted_pass_checked_date')
         ->where('period_id',my_period())
         ->where('accepted_pass', 1)
         ->get()
         ->groupBy([
             function($date) {
-                return Carbon::parse($date->created_at)->format('F');
+                return Carbon::parse($date->accepted_pass_checked_date)->format('F');
                 },
             'unit_name'])
         ->sortBy('unit_no');
