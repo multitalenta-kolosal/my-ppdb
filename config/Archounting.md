@@ -1,10 +1,10 @@
 # Archounting
 
 IMPORTANT:
-Error when if we setting the DP
 DISCOUNT_TO_DP is used when changing important discount things
 
-!!! its close, try to make the discount only applied as a subtractor to total not to item and then change the receivable. after that change the sales advance to the tax
+//Trial balance could lead to general ledger from former financial year
+
 
 Document Class having relation with:
 DocumentTotal : every Total and subtotal(?)
