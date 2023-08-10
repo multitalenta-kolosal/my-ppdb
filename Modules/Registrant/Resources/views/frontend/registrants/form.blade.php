@@ -49,11 +49,12 @@
             <?php
             $field_name = 'name';
             $field_lable = __("registrant::$module_name.$field_name");
-            $field_placeholder = $field_lable;
+            $field_placeholder = $field_lable." (Sesuai dengan akta kelahiran)";
             $required = "required";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required"]) }}
+            <small>Pastikan nama sesuai dengan akta kelahiran</small>
         </div>
     </div>
 </div>
@@ -81,7 +82,7 @@
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}
-            <small>Nomor telepon anak akan digunakan apabila nomor orang tua tidak dapat dijangkau saat kami akan menyampaikan informasi</small>
+            <small>Nomor telepon anak akan digunakan apabila nomor orang tua tidak dapat dijangkau saat kami akan menyampaikan informasi. Jika anak belum mempunyai nomor bisa diisi nomor orangtua.</small>
         </div>
     </div>
 </div>
@@ -96,6 +97,20 @@
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->email($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}
+            <small>Email yang aktif di handphone</small>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-6">
+        <div class="form-group">
+            <?php
+            $field_name = 'email_2';
+            $field_lable = __("registrant::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "required";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->email($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}
+            <small>Jika anak belom memiliki email diisi sama dengan email orang tua</small>
         </div>
     </div>
     <div class="col-md-6 col-sm-6">
@@ -105,11 +120,11 @@
             $field_data_id = 'former_school';
             $field_lable = __("registrant::$module_name.$field_name");
             $field_placeholder = $field_lable;
-            $required = "";
+            $required = "required";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            <!-- {{ html()->select($field_name, null)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }} -->
-            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}    
+            {{ html()->select($field_name, null)->placeholder($field_placeholder)->class('select2 form-control')->attributes(["$required"]) }}
+            <!-- {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}     -->
         </div>
     </div>
 </div>
@@ -152,6 +167,13 @@
 
 @push('after-styles')
 <!-- File Manager -->
+<style>
+    .select2-selection{
+        border: 1px solid #8965e0 !important;
+        height: calc(1.5rem + 1.4rem) !important;
+        border-radius: 0.5rem !important;
+    }
+</style>
 @endpush
 
 @push ('after-scripts')

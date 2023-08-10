@@ -273,6 +273,9 @@ class RegistrantsDataTable extends DataTable
             Column::make('email')->hidden()
                     ->title(__("registrant::$this->module_name.datatable.email")),
 
+            Column::make('email_2')->hidden()
+            ->title(__("registrant::$this->module_name.datatable.email_2")),
+
             Column::make('unit.name')->data('unit.name')->name('unit.name')
                     ->title(__("registrant::$this->module_name.datatable.unit")),
 

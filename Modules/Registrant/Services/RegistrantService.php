@@ -450,6 +450,10 @@ class RegistrantService{
             $unit = ['Silakan membuat unit'];
         }
 
+        foreach($unit as $key => $unit_item){
+            $unit[$key] = $unit_item." warga";
+        }
+
         $type = [];
 
         $type = $this->pathRepository->query()->pluck('name','id');
