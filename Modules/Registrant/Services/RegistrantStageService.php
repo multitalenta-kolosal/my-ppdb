@@ -220,7 +220,12 @@ class RegistrantStageService{
     public function getSetStatus($registrantStage){
         $progresses =  config('stages.progress');
         $status = 0;
+        $skipped = [5];
         foreach($progresses as $progress){
+            if(in_array($progress['status_id'], $skipped)){
+                continue;
+            }
+            
             $validation = $progress['validation'];
             if($registrantStage->$validation){
                 $status = $progress['status_id'];
