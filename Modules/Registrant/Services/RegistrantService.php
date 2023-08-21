@@ -227,7 +227,9 @@ class RegistrantService{
                     dispatch($sendToSFTP);
                 }
             }else{
+                \Log::debug(env('APP_ENV'));
                 if( (env('APP_ENV') == 'staging') || (env('APP_ENV') == 'local') ){
+                    \Log::debug("masu");
                     $registrantStage = $registrant->registrant_stage;
                     $registrantStage->va_pass = true;
                     $registrantStage->status_id = $this->registrantStageService->getSetStatus($registrantStage);
