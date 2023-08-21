@@ -24,14 +24,14 @@ return [
     'verification'=>
     [
         'va_pass'                   => 'Virtual Account',
-        'entrance_fee_pass'         => 'Pendaftaran Lunas',
-        'requirements_pass'         => 'Berkas Diterima',
-        'test_pass'                 => 'Lulus Tes',
+        'entrance_fee_pass'         => 'Pembayaran Biaya pendaftaran',
+        'requirements_pass'         => 'Pengumpulan Berkas',
+        'test_pass'                 => 'Tes Seleksi',
         'installment'               => 'Angsuran Dipilih (SPM)',
         'dpp_pass'                  => 'Pembayaran DPP',
         'dp_pass'                   => 'Pembayaran DP',
         'spp_pass'                  => 'Pembayaran SPP',
-        'accepted_pass'             => 'Heregistrasi'
+        'accepted_pass'             => 'Pembayaran Heregistrasi'
     ],
 
     'datatable'=>

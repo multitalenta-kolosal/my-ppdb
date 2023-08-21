@@ -94,7 +94,7 @@ return [
                 'label' => 'Info Pendaftaran', // you know what label it is
                 'rules' => '', // validation rule of laravel
                 'class' => '', // any class for input
-                'value' => 'Brosur (Tim Sosialiasi PPDB),Sekolah (Guru BP/BK),Keluarga,Alumni,Instagram,Pelatihan,Baliho,Lainnya', // default value if you want
+                'value' => 'Brosur (Tim Sosialiasi PPDB),Sekolah (Guru BP/BK),Keluarga,Alumni Sekolah Warga,Instagram,Facebook,Browsing,Baliho,Lainnya', // default value if you want
                 'help'     => 'Pisahkan dengan koma (,)', // Help text for the input field.
                 'display'  => 'raw', // Help text for the input field.
             ],
