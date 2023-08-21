@@ -207,7 +207,7 @@ class RegistrantService{
             $registrant_stage = $this->registrantStageService->store($request, $registrant);
            
             if(isset($registrant->scheme_tenor)){
-                $registrant_stage->data->installment_id = $registrant->scheme_tenor;
+                // $registrant_stage->data->installment_id = $registrant->scheme_tenor;
                 $registrant_stage->data->installment_id_checked_date = now();
                 $registrant_stage->data->save();
             }
