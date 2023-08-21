@@ -11,6 +11,7 @@ return [
     'dpp'                       => 'DPP',
     'dp'                        => 'DP',
     'spp'                       => 'SPP',
+    'school_fee'                => 'SPM',
     'unit'                      => 'Unit',
     'order'                     => 'Order',
     'additional_lines_payment'  => 'Additional Lines for Payment stage',

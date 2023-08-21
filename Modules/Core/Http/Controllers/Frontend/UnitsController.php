@@ -58,4 +58,28 @@ class UnitsController extends Controller
         
         return response()->json($paths);
     }
+
+    /**
+     * Get Path By Unit.
+     *
+     * @param Request $request
+     * @param int     $id
+     *
+     * @return Response
+     */
+    public function getUnitfee($unit_id,$tier_id)
+    {
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'get Fee';
+
+        $fees = $this->unitService->getUnitfee($unit_id,$tier_id);
+        
+        return response()->json($fees);
+    }
 }

@@ -196,6 +196,7 @@
 
         // verifying
         $('#submit_data_{{$data->id}}').on('click', function(e) {
+            console.log($('#installment_id{{$data->id}}').val());
             e.preventDefault();
             var sender = [];
             var success_update = false;
@@ -382,6 +383,45 @@
 
     });
 
+
+    $('#modal_{{$data->id}}').on('show.bs.modal', function (e) {
+        //for scheme_tenor
+        $('#installment_id{{$data->id}}').empty();
+        var unit_id = "{{$data->unit_id}}";
+        tier_id = "{{$data->tier_id ?? 0}}";
+        if(unit_id){
+            $.ajax({
+                type: "GET",
+                url: '/getunitfee/' + unit_id + '/' + tier_id,
+                beforeSend: function () {
+                    var loader = $('<option value="xloader">Loading...</option>');
+                    $('#installment_id{{$data->id}}').append(loader);
+                },
+                complete: function () {
+                    $("#installment_id{{$data->id}} option[value='xloader']").remove();
+                },
+                success: function (response) {
+                    var defaultOption = $('<option value="">-- Pilih --</option>');
+                    $('#installment_id{{$data->id}}').append(defaultOption);
+                    
+                    $.each(response.fees,function(key, val) {
+                        var newOption = $('<option value="'+key+'">'+val+'</option>');
+                        $('#installment_id{{$data->id}}').append(newOption);
+                    });
+
+                    $('#installment_id{{$data->id}}').val("{{$data->scheme_tenor}}");
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    Swal.fire("Silakan coba lagi beberapa saat", "@lang('error')", "error");
+                }
+            });
+        }else{
+            var defaultOption = $('<option value="">--Silakan Pilih Sekolah Dahulu--</option>');
+            $('#installment_id{{$data->id}}').append(defaultOption);
+        }
+
+    });
+
     $('#modal_{{$data->id}}').on('hidden.bs.modal', function (e) {
 
         $('#warning-date-updated').hide();
@@ -396,49 +436,5 @@
             window.edited = false;
         }
 
-    });
-
-    $('#button-installment-set-{{$data->id}}').on('click', function(){
-        $.ajax({
-            type: "POST",
-            url: "{{route('backend.registrantstages.chooseInstallments')}}",
-            data:{
-                "_method":"POST",
-                "_token": "{{ csrf_token() }}",
-                "id": "{{ $data->id }}"
-            },
-            beforeSend: function () {
-                        var loader = $('<option value="xloader">Loading...</option>');
-                        $('#type').append(loader);
-                    },
-            complete: function () {
-                $("#type option[value='xloader']").remove();
-            },
-            success: function(response) {
-                if(!response.error){
-                    var installment = response.data;
-
-                    var installment_exists = false;
-
-                    $('#installment_id{{$data->id}} option').each(function(){
-                        if (this.value == installment.id) {
-                            installment_exists = true;
-                            return false;
-                        }
-                    });
-
-                    if(installment_exists){
-                        $('#installment_id{{$data->id}}').val(installment.id);
-                    }else{
-                        Swal.fire("Warning", "Jenis Angsuran "+installment.name+" tidak diperkenankan untuk unit {{$data->unit->name}}", "warning");
-                    }
-                }else{
-                    Swal.fire("@lang('error')", response.message, "error");
-                }
-            },
-            error: function(xhr, ajaxOptions, thrownError) {
-                Swal.fire("@lang('error')","error occured! please try again", "error");
-            },
-        });
     });
 </script>

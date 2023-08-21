@@ -504,7 +504,7 @@ class MessageService{
     }
 
     public function handleMessageTier($parsed, $key, $model, $relation, $relation_value){
-        $currency_value = ['dpp','dp','spp'];
+        $currency_value = ['dpp','dp','spp','school_fee'];
 
         if($relation == 'unit'){
             $relation_substitute = 'tier';

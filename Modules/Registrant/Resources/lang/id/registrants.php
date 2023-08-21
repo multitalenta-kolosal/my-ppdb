@@ -19,14 +19,15 @@ return [
     'ref_code'                  => 'Kode Referal',
     'notes'                     => 'Notes',
     'info'                     => 'Mendapat info dari?',
+    'installment'               => 'Skema Pembayaran',
 
     'verification'=>
     [
         'va_pass'                   => 'Virtual Account',
-        'entrance_fee_pass'         => 'Pembayaran Pendaftaran',
-        'requirements_pass'         => 'Kelengkapan Berkas',
-        'test_pass'                 => 'Status Tes Masuk',
-        'installment'               => 'Pembayaran / Angsuran (DPP + DP)',
+        'entrance_fee_pass'         => 'Pendaftaran Lunas',
+        'requirements_pass'         => 'Berkas Diterima',
+        'test_pass'                 => 'Lulus Tes',
+        'installment'               => 'Angsuran Dipilih (SPM)',
         'dpp_pass'                  => 'Pembayaran DPP',
         'dp_pass'                   => 'Pembayaran DP',
         'spp_pass'                  => 'Pembayaran SPP',

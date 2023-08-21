@@ -60,7 +60,7 @@ return [
         ],
         [
             'title'             => 'Pemilihan Skema Pembayaran Biaya Pendidikan',
-            'pass-title'        => 'Angsuran Dipilih',
+            'pass-title'        => 'Angsuran Dipilih (SPM)',
             'tracker_action'    => 'SELAMAT KAMU SUDAH DITERIMA!',
             'tracker_content'   => 'Setelah ini, silakan melakukan pembayaran biaya pendidikan berikut ini ke Virtual Account kamu diatas.',
             'status_id'         => '5',
@@ -68,8 +68,8 @@ return [
             'message_tracker'   => null,
         ],
         [
-            'title'             => 'Penerimaan Pembayaran',
-            'pass-title'        => 'Penerimaan Pembayaran',
+            'title'             => 'Heregistrasi',
+            'pass-title'        => 'Heregistrasi',
             'tracker_action'    => 'TERIMA KASIH!',
             'tracker_content'   => 'Pembayaran kamu sudah kami terima',
             'status_id'         => '6',

@@ -518,6 +518,39 @@ if (!function_exists('my_period')) {
 
 /*
  *
+ * Return this user now period
+ *
+ * ------------------------------------------------------------------------
+ */
+if (!function_exists('payment_interval')) {
+
+    /**
+     * Return My Period
+     */
+    function payment_interval()
+    {
+
+        $payment_interval = setting('payment_interval');
+        
+        return explode(',', $payment_interval);
+    }
+}
+
+if (!function_exists('payment_modifier')) {
+
+    /**
+     * Return My Period
+     */
+    function payment_modifier()
+    {
+
+        $payment_modifier = setting('payment_modifier');
+        
+        return explode(',', $payment_modifier);
+    }
+}
+/*
+ *
  * Return Date with weekday
  *
  * ------------------------------------------------------------------------

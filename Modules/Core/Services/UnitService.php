@@ -357,6 +357,75 @@ class UnitService{
         );
     }
 
+    //set option according to unit
+    public function getUnitFee($unit_id,$tier_id){
+        $unit = $this->unitRepository->findOrFail($unit_id);
+        $um = 0;
+        $fees = $fees_amount = [];
+
+        if($unit->have_major){
+
+            if($tier_id == 0){
+                return (object) array(
+                    'error'     => false,            
+                    'message'   => '',
+                    'fees'      => [0 => "-- Silakan memilih jurusan terlebih dahulu --"],
+                );
+            }
+
+            $tier = $this->tierRepository->findOrFail($tier_id);
+
+            if(empty($tier->school_fee)){
+                $um = $tier->dp + $tier->dpp;
+            }else{
+                $um = $tier->school_fee;
+            }
+
+            if($um == 0){
+                if(empty($unit->school_fee)){
+                    $um = $unit->dp +$unit->dpp;
+                }else{
+                    $um = $unit->school_fee;
+                }
+            }
+        }else{
+            if(empty($unit->school_fee)){
+                $um = $unit->dp +$unit->dpp;
+            }else{
+                $um = $unit->school_fee;
+            }
+        }
+
+
+        $payment_intervals = payment_interval();
+        $payment_modifiers = payment_modifier();
+
+        foreach($payment_intervals as $index => $payment_interval ){
+            $modified_amount = ($um/$payment_interval) * $payment_modifiers[$index];
+            $fees[$payment_interval] = $payment_interval." x Rp ".number_format(round($modified_amount,0), 2, ',', '.');
+            $fees_amount[$payment_interval] = $modified_amount;
+        }
+
+        return (object) array(
+            'error'            => false,            
+            'message'          => '',
+            'fees'             => $fees,
+            'fees_amount'      => $fees_amount,
+        );
+    }
+
+    public function proccessUnitFeeByTenor($unit_id,$tier_id,$tenor){
+        $fees_object = $this->getUnitFee($unit_id,$tier_id);
+
+        $fees = $fees_object->fees;
+        $fees_amount = $fees_object->fees_amount;
+
+        $scheme_string = $fees[$tenor];
+        $scheme_amount = round($fees_amount[$tenor],0);
+
+        return [$tenor, $scheme_string, $scheme_amount];
+    }
+
     public function purge($id){
         DB::beginTransaction();
 

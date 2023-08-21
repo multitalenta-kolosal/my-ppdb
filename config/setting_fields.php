@@ -52,6 +52,24 @@ return [
                 'value' => '8995', // default value if you want
             ],
             [
+                'type'  => 'text', // input fields type
+                'data'  => 'string', // data type, string, int, boolean
+                'name'  => 'payment_interval', // unique name for field
+                'label' => 'Payment interval', // you know what label it is
+                'rules' => 'required|nullable|max:191', // validation rule of laravel
+                'class' => '', // any class for input
+                'value' => '1,3,6', // default value if you want
+            ],
+            [
+                'type'  => 'text', // input fields type
+                'data'  => 'string', // data type, string, int, boolean
+                'name'  => 'payment_modifier', // unique name for field
+                'label' => 'Payment modifier', // you know what label it is
+                'rules' => 'required|nullable|max:191', // validation rule of laravel
+                'class' => '', // any class for input
+                'value' => '1,1.1,1.2', // default value if you want
+            ],
+            [
                 'type'  => 'checkbox', // input fields type
                 'data'  => 'string', // data type, string, int, boolean
                 'name'  => 'send_email', // unique name for field

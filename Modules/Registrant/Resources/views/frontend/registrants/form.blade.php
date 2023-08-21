@@ -127,22 +127,36 @@
             <!-- {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}     -->
         </div>
     </div>
+    <div class="col-6">
+        <div class="form-group">
+            <?php
+            $field_name = 'installment';
+            $field_data_id = 'scheme_tenor';
+            $field_lable = __("registrant::$module_name.$field_name");
+            $field_placeholder = "-- Silakan memilih unit terlebih dahulu --";
+            $required = "required";
+            $select_options = [];
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->select($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required"]) }}
+        </div>
+    </div>
 </div>
 <div class="row">
-    <!-- <div class="col-6">
+    <div class="col-6">
         <div class="form-group">
             <?php
             $field_name = 'info';
             $field_data_id = 'info';
             $field_lable = __("registrant::$module_name.$field_name");
             $field_placeholder = __("Select an option");
-            $required = "";
+            $required = "required";
             $select_options = explode(",",setting('register_info'));
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->select($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required"]) }}
         </div>
-    </div> -->
+    </div>
     <div class="col-md-6">
         <div class="form-group">
             <?php
@@ -236,31 +250,124 @@
         $('#former_school').select2({
             theme: "bootstrap",
             placeholder: '@lang("Select an option")',
-            minimumInputLength: 2,
+            minimumInputLength: 3,
             allowClear: true,
+            tags: true,
             ajax: {
-                url : 'https://api-sekolah-indonesia.vercel.app/sekolah/s',
+                url : 'https://api-sekolah-indonesia.adaptable.app',
                 dataType: 'json',
+                headers: {
+                    accept: "application/json",
+                },
                 data: function (params) {
                     return {
-                        sekolah: $.trim(params.term),
+                        keyword: $.trim(params.term),
                         perPage: 100
                     };
                 },
                 processResults: function (data) {
                     console.log(data);
                     return {
-                        results: data.dataSekolah.map(function(sekolah) {
+                        results: data.map(function(sekolah) {
                             return {
-                                id: sekolah.sekolah,
-                                text: sekolah.sekolah+", "+sekolah.kabupaten_kota,
+                                id: sekolah.nama_sekolah+", "+sekolah.kabupaten,
+                                text: sekolah.nama_sekolah+", "+sekolah.kabupaten,
                             };
                         })
                     };
                 },
-                cache: true
+                cache: true,
+            },
+            createTag: function (params) {
+                var term = $.trim(params.term);
+
+                if (term === '') {
+                return null;
+                }
+
+                return {
+                    id: term,
+                    text: term,
+                    newTag: true // add additional parameters
+                }
             }
         });
+
+
+        $('#unit_id').on('change', function(){
+            $('#scheme_tenor').empty();
+            var unit_id = $('#unit_id').val();
+            tier_id = 0;
+            if(unit_id){
+                $.ajax({
+                    type: "GET",
+                    url: '/getunitfee/' + unit_id + '/' + tier_id,
+                    beforeSend: function () {
+                        var loader = $('<option value="xloader">Loading...</option>');
+                        $('#scheme_tenor').append(loader);
+                    },
+                    complete: function () {
+                        $("#scheme_tenor option[value='xloader']").remove();
+                    },
+                    success: function (response) {
+                        var defaultOption = $('<option value="">-- Pilih --</option>');
+                        $('#scheme_tenor').append(defaultOption);
+                        
+                        $.each(response.fees,function(key, val) {
+                            var newOption = $('<option value="'+key+'">'+val+'</option>');
+                            $('#scheme_tenor').append(newOption);
+                        });
+
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        Swal.fire("Silakan coba lagi beberapa saat", "@lang('error')", "error");
+                    }
+                });
+            }else{
+                var defaultOption = $('<option value="">--Silakan Pilih Sekolah Dahulu--</option>');
+                $('#scheme_tenor').append(defaultOption);
+            }
+        });
+
+
+        $('#tier_id').on('change', function(){
+            $('#scheme_tenor').empty();
+            var unit_id = $('#unit_id').val();
+            var tier_id = $('#tier_id').val();
+            if(unit_id){
+                if(unit_id){
+                    $.ajax({
+                        type: "GET",
+                        url: '/getunitfee/' + unit_id + '/' + tier_id,
+                        beforeSend: function () {
+                            var loader = $('<option value="xloader">Loading...</option>');
+                            $('#scheme_tenor').append(loader);
+                        },
+                        complete: function () {
+                            $("#scheme_tenor option[value='xloader']").remove();
+                        },
+                        success: function (response) {
+                            var defaultOption = $('<option value="">-- Pilih --</option>');
+                            $('#scheme_tenor').append(defaultOption);
+                            
+                            $.each(response.fees,function(key, val) {
+                                var newOption = $('<option value="'+key+'">'+val+'</option>');
+                                $('#scheme_tenor').append(newOption);
+                            });
+
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            Swal.fire("Silakan coba lagi beberapa saat", "@lang('error')", "error");
+                        }
+                    });
+                }
+            }else{
+                var defaultOption = $('<option value="">--Silakan Pilih Sekolah Dahulu--</option>');
+                $('#scheme_tenor').append(defaultOption);
+            }
+        });
+
     });
+
 </script>
 @endpush

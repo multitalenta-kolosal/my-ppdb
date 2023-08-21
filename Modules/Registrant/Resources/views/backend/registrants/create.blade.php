@@ -75,60 +75,6 @@
 
 
 @push ('after-scripts')
-<script type="text/javascript">
-
-$(document).ready(function() {
-        if($('#unit_id').val() != ""){
-            setTier();
-        }
-
-        $('#unit_id').on('change', function(){
-            setTier();
-        });
-    });
-
-    function setTier(){
-        $('#type').empty();
-        var unit_id = $('#unit_id').val();
-        if(unit_id){
-            $.ajax({
-                type: "GET",
-                url: '{{route("frontend.units.getunitopt",'')}}'+'/'+unit_id,
-                success: function (response) {
-                    var defaultOption = $('<option value="">-- Pilih --</option>');
-                    $('#type').append(defaultOption);
-                    
-                    $.each(response.path,function(key, val) {
-                        var newOption = $('<option value="'+key+'">'+val+'</option>');
-                        $('#type').append(newOption);
-                    });
-
-                    if(response.tier){
-                        $('#tier_id').empty();
-                        $('#tier_options').removeClass('d-none');
-
-                        var defaultOption = $('<option value="">-- Pilih --</option>');
-                        $('#tier_id').append(defaultOption);
-                        $.each(response.tier,function(key, val) {
-                            var newOption = $('<option value="'+key+'">'+val+'</option>');
-                            $('#tier_id').append(newOption);
-                        });
-                    }else{
-                        $('#tier_id').empty();
-                        $('#tier_options').addClass('d-none');
-                    }
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    Swal.fire("@lang('delete error')", "@lang('error')", "error");
-                }
-            });
-        }else{
-            var defaultOption = $('<option value="">--Silakan Pilih Sekolah Dahulu--</option>');
-            $('#type').append(defaultOption);
-        }
-
-    }
-</script>
 
 
 @endpush
