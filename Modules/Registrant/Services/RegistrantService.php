@@ -226,6 +226,14 @@ class RegistrantService{
                     $sendToSFTP = new CreateVaBySFTP($registrant);
                     dispatch($sendToSFTP);
                 }
+            }else{
+                if( (env('APP_ENV') == 'staging') || (env('APP_ENV') == 'local') ){
+                    $registrantStage = $registrant->registrant_stage;
+                    $registrantStage->va_pass = true;
+                    $registrantStage->status_id = $this->registrantStageService->getSetStatus($registrantStage);
+                    
+                    $registrantStage->save();
+                }
             }
 
         }catch (Exception $e){
