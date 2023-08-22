@@ -20,6 +20,8 @@ return [
     'notes'                     => 'Notes',
     'info'                     => 'Mendapat info dari?',
     'installment'               => 'Skema Pembayaran',
+    'has_scholarship'           => 'Mendapat Beasiswa?',
+    'scholarship_amount'        => 'Jumlah Beasiswa (Rp)',
 
     'verification'=>
     [

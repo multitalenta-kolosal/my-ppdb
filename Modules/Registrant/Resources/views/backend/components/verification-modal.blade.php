@@ -196,7 +196,6 @@
 
         // verifying
         $('#submit_data_{{$data->id}}').on('click', function(e) {
-            console.log($('#installment_id{{$data->id}}').val());
             e.preventDefault();
             var sender = [];
             var success_update = false;
