@@ -265,6 +265,32 @@ class RegistrantsController extends Controller
         );
     }
 
+    public function editTag($id)
+    {
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'Edit';
+
+        $registrants = $this->registrantService->edit($id);
+
+        $options = $this->registrantService->prepareOptions();
+       
+        $unit = $options['unit'];
+        $type = $options['type'];
+        $tier = $options['tier'];
+
+        $$module_name_singular = $registrants->data;
+
+        return view(
+            "registrant::backend.$module_name.edit-tag",
+            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular", 'unit', 'type','tier')
+        );
+    }
     /**
      * Show the form for editing the specified resource.
      *

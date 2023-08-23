@@ -51,6 +51,12 @@ class RegistrantsDataTable extends DataTable
 
                 return view('registrant::backend.includes.action_column', compact('module_name', 'data','installment'));
             })
+            ->editColumn('registrant_id', function ($model) {
+                $colors = config('tag-color.code');
+               
+                return '<i class="fas fa-sm fa-circle" style="color:'.$colors[$model->tag_color ?? 0].';"></i> '.$model->registrant_id;
+                
+            })
             ->editColumn('name', function ($model) {
                 if( ($model->registrant_stage->status_id ?? null) == -1)
                 {
@@ -106,7 +112,7 @@ class RegistrantsDataTable extends DataTable
                     return '-';
                 }
             })
-            ->rawColumns(['name', 'status', 'action','phone','phone2']);
+            ->rawColumns(['name','registrant_id', 'status', 'action','phone','phone2']);
     }
 
     /**
@@ -189,6 +195,10 @@ class RegistrantsDataTable extends DataTable
             $data->whereHas('registrant_stage', function($query){
                 $query->where('installment_id', $this->request()->get('installment'));          
             });
+        }
+        
+        if($this->request()->get('tag_color')){
+            $data->where('tag_color', 'LIKE', "%".$this->request()->get('tag_color')."%");
         }
 
         //END APPLY FILTERING

@@ -14,7 +14,7 @@ class AddTagCodeToRegistrants extends Migration
     public function up()
     {
         Schema::table('registrants', function (Blueprint $table) {
-            $table->string('tag_color')->nullable();
+            $table->string('tag_color')->nullable()->default(0);
             $table->boolean('has_scholarship')->nullable()->default(0);
             $table->double('scholarship_amount')->nullable()->default(0);
         });

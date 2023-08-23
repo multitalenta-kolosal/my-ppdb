@@ -22,6 +22,7 @@ return [
     'installment'               => 'Skema Pembayaran',
     'has_scholarship'           => 'Mendapat Beasiswa?',
     'scholarship_amount'        => 'Jumlah Beasiswa (Rp)',
+    'tag_color'                 => 'Tag',
 
     'verification'=>
     [
@@ -53,5 +54,6 @@ return [
         'status'                    => 'Status',
         'notes'                     => 'Notes',
         'info'                      => 'Info',
+        'tag_color'                 => 'Tag',
     ],
 ];

@@ -290,7 +290,6 @@ class RegistrantService{
     public function edit($id){
 
         $registrant = $this->registrantRepository->findOrFail($id);
-
         Log::info(label_case($this->module_title.' '.__function__)." | '".$registrant->name.'(ID:'.$registrant->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return (object) array(
