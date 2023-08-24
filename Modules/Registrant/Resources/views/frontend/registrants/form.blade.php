@@ -151,7 +151,12 @@
             $field_lable = __("registrant::$module_name.$field_name");
             $field_placeholder = __("Select an option");
             $required = "required";
-            $select_options = explode(",",setting('register_info'));
+            $register_infos = explode(",",setting('register_info'));
+
+            $select_options = [];
+            foreach($register_infos as $register_info){
+                $select_options[$register_info] = $register_info;
+            }
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->select($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required"]) }}

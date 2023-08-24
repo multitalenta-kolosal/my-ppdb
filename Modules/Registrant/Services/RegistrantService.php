@@ -197,10 +197,6 @@ class RegistrantService{
             $registrant->period_id = $this->periodRepository->findActivePeriodId();
             $registrant->register_ip = request()->getClientIP();
 
-            //registrant info from where?
-            $register_info_array = explode(",",setting('register_info'));
-            $registrant->info = $register_info_array[$registrant->info];
-
             //payment scheme
             [$registrant->scheme_tenor, $registrant->scheme_string, $registrant->scheme_amount]  = $this->unitService->proccessUnitFeeByTenor($unit_id,$registrant->tier_id,$registrant->scheme_tenor);
 
@@ -227,9 +223,7 @@ class RegistrantService{
                     dispatch($sendToSFTP);
                 }
             }else{
-                \Log::debug(env('APP_ENV'));
                 if( (env('APP_ENV') == 'staging') || (env('APP_ENV') == 'local') ){
-                    \Log::debug("masu");
                     $registrantStage = $registrant->registrant_stage;
                     $registrantStage->va_pass = true;
                     $registrantStage->status_id = $this->registrantStageService->getSetStatus($registrantStage);
@@ -291,11 +285,13 @@ class RegistrantService{
 
         $registrant = $this->registrantRepository->findOrFail($id);
         Log::info(label_case($this->module_title.' '.__function__)." | '".$registrant->name.'(ID:'.$registrant->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+        $createOptions = $this->prepareOptions();
 
         return (object) array(
             'error'=> false,            
             'message'=> '',
             'data'=> $registrant,
+            'createOptions' => $createOptions,
         );
     }
 
