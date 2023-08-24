@@ -249,7 +249,7 @@ class RegistrantsStageDataTable extends DataTable
      */
     public function html()
     {
-        $created_at = 1;
+        $created_at = 0;
         return $this->builder()
                 ->setTableId('registrants-table')
                 ->columns($this->getColumns())
