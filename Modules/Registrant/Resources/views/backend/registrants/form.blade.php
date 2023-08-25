@@ -217,7 +217,7 @@
             $select_options = [];
 
             ?>
-            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}<i class="fas fa-lg fa-circle" style="color:{{$tags[$registrant->tag_color]}}"></i>
             <select name="{{$field_name}}" class="form-control">
                 @foreach($tags as $key=>$tag)
                     <option value="{{$key}}" style="color:{{$tag}}" ><i class="fas fa-lg fa-circle"></i>{{strtoupper($tagsName[$key])}}</option>
