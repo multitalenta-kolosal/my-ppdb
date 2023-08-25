@@ -255,48 +255,77 @@
         $('#former_school').select2({
             theme: "bootstrap",
             placeholder: '@lang("Select an option")',
-            minimumInputLength: 3,
+            minimumInputLength: 2,
             allowClear: true,
-            tags: true,
             ajax: {
-                url : 'https://api-sekolah-indonesia.adaptable.app',
+                url : 'https://api-sekolah-indonesia.vercel.app/sekolah/s',
                 dataType: 'json',
-                headers: {
-                    accept: "application/json",
-                },
                 data: function (params) {
                     return {
-                        keyword: $.trim(params.term),
+                        sekolah: $.trim(params.term),
                         perPage: 100
                     };
                 },
                 processResults: function (data) {
                     console.log(data);
                     return {
-                        results: data.map(function(sekolah) {
+                        results: data.dataSekolah.map(function(sekolah) {
                             return {
-                                id: sekolah.nama_sekolah+", "+sekolah.kabupaten,
-                                text: sekolah.nama_sekolah+", "+sekolah.kabupaten,
+                                id: sekolah.sekolah,
+                                text: sekolah.sekolah+", "+sekolah.kabupaten_kota,
                             };
                         })
                     };
                 },
-                cache: true,
-            },
-            createTag: function (params) {
-                var term = $.trim(params.term);
-
-                if (term === '') {
-                return null;
-                }
-
-                return {
-                    id: term,
-                    text: term,
-                    newTag: true // add additional parameters
-                }
+                cache: true
             }
         });
+        
+        // $('#former_school').select2({
+        //     theme: "bootstrap",
+        //     placeholder: '@lang("Select an option")',
+        //     minimumInputLength: 3,
+        //     allowClear: true,
+        //     tags: true,
+        //     ajax: {
+        //         url : 'https://api-sekolah-indonesia.adaptable.app',
+        //         dataType: 'json',
+        //         headers: {
+        //             accept: "application/json",
+        //         },
+        //         data: function (params) {
+        //             return {
+        //                 keyword: $.trim(params.term),
+        //                 perPage: 100
+        //             };
+        //         },
+        //         processResults: function (data) {
+        //             console.log(data);
+        //             return {
+        //                 results: data.map(function(sekolah) {
+        //                     return {
+        //                         id: sekolah.nama_sekolah+", "+sekolah.kabupaten,
+        //                         text: sekolah.nama_sekolah+", "+sekolah.kabupaten,
+        //                     };
+        //                 })
+        //             };
+        //         },
+        //         cache: true,
+        //     },
+        //     createTag: function (params) {
+        //         var term = $.trim(params.term);
+
+        //         if (term === '') {
+        //         return null;
+        //         }
+
+        //         return {
+        //             id: term,
+        //             text: term,
+        //             newTag: true // add additional parameters
+        //         }
+        //     }
+        // });
 
 
         $('#unit_id').on('change', function(){
