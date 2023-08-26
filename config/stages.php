@@ -71,7 +71,7 @@ return [
             'title'             => 'Pembayaran Heregistrasi',
             'pass-title'        => 'Pembayaran Heregistrasi',
             'tracker_action'    => 'TERIMA KASIH!',
-            'tracker_content'   => 'Pembayaran kamu sudah kami terima',
+            'tracker_content'   => 'Pembayaran heregistrasi sudah kami terima',
             'status_id'         => '6',
             'validation'        => 'accepted_pass',
             'message_tracker'   => null,

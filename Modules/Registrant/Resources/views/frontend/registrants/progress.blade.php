@@ -30,7 +30,7 @@
         </div>
     </div>
     <!-- progress timeline    -->
-    <ul class="progress-tracker progress-tracker mb-0 ">
+    <!-- <ul class="progress-tracker progress-tracker mb-0 ">
             <?php
                 $last_status = 0;
             ?>
@@ -61,143 +61,190 @@
                 </li>
             @endif
         @endforeach
-    </ul>
+    </ul> -->
     <!-- END of progress timeline    -->
 </div>
-<div class="card shadow bg-white border-light p-1 text-center">
-    <div class="card-body col-auto py-3 p-lg-3">      
-        <div class="row py-2 justify-content-center">
-            <div class="col-10 shadow-sm border rounded align-middle text-info">
-                <h4 class="display-4 py-2 text-success">
-                    {{$now['tracker_action']}}
-                </h4>
-            </div>
-        </div>     
-        <div class="row py-2">
-            <div class="col py-2 border-light">
-                <h5 class="display-5 text-info">
-                    {{$now['tracker_content']}}
-                </h5>
-                @if( ($now['status_id'] == 0 || $now['status_id'] == 1  || $now['status_id'] == 2) && $registrant->data->unit->registration_veriform_link)
-                    <div id="extra-content">
-                        Jika kamu memiliki akun <span class="text-danger">Gmail</span> (Google), Kamu dapat melakukan verifikasi pembayaran dan pengumpulan berkas untuk <strong> {{$registrant->data->unit->name}} Warga Surakarta </strong> secara <strong class="text-warning">ONLINE</strong> melalui Google form 
-                        dengan cara klik tombol di bawah ini
-                        <div class="row my-2 justify-content-center">
-                            <a href="{{$registrant->data->unit->registration_veriform_link}}" class="btn btn-outline-primary">Form Verifikasi</a>
+<hr>
+<ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+    <?php
+        $counter = 1;
+        $stage['status_id'] == $registrant->data->registrant_stage->status_id
+    ?>
+    @foreach($stages as $stage)
+        <?php
+            $myStatus = 0;
+            if($stage['status_id'] == $registrant->data->registrant_stage->status_id){
+                $myStatus = 1;
+            }elseif(in_array($now['status_id'],$skipped_status)){
+                if($stage['status_id'] == ($now['status_id']-1) ){
+                    $myStatus = 1;
+                }
+            };
+        ?>
+        @if(!in_array($stage['status_id'],$skipped_status))
+            <li class="nav-item" role="presentation">
+                <a class="nav-link {{$myStatus == 1 ? 'active' : ''}} {{$now['status_id'] < $stage['status_id'] ? 'disabled' : ''}}" id="status{{$stage['status_id']}}-tab" data-toggle="tab" href="#status{{$stage['status_id']}}-panel" role="tab" aria-controls="status{{$stage['status_id']}}-panel" aria-selected="{{$myStatus == 1 ? 'true' : 'false'}}">Tahap {{$counter}}</a>
+            </li>
+
+            <?php
+                $counter++;
+            ?>
+        @endif
+    @endforeach
+</ul>
+
+<!-- Tab content section -->
+<div class="tab-content" id="myTabContent">
+    <?php
+        $counter = 1;
+        $stage['status_id'] == $registrant->data->registrant_stage->status_id
+    ?>
+    @foreach($stages as $stage)
+        <?php
+            $myStatus = 0;
+            if($stage['status_id'] == $registrant->data->registrant_stage->status_id){
+                $myStatus = 1;
+            }elseif(in_array($now['status_id'],$skipped_status)){
+                if($stage['status_id'] == ($now['status_id']-1) ){
+                    $myStatus = 1;
+                }
+            };
+        ?>
+        @if(!in_array($stage['status_id'],$skipped_status))
+            @if($now['status_id'] >= $stage['status_id'])
+                <div class="tab-pane fade {{$myStatus == 1 ? 'show active' : ''}}" id="status{{$stage['status_id']}}-panel" role="tabpanel" aria-labelledby="status{{$stage['status_id']}}-tab">
+                    <div class="card shadow bg-white border-light p-1 text-center">
+                        <div class="card-body col-auto py-3 p-lg-3">      
+                            <div class="row py-2 justify-content-center">
+                                <div class="col-10 shadow-sm border rounded align-middle text-info">
+                                    <h4 class="display-4 py-2 text-success">
+                                        {{$stage['tracker_action']}}
+                                    </h4>
+                                </div>
+                            </div>     
+                            <div class="row py-2">
+                                <div class="col py-2 border-light">
+                                    <h5 class="display-5 text-info">
+                                        {{$stage['tracker_content']}}
+                                    </h5>
+                                    @if( ($stage['status_id'] == 0 || $stage['status_id'] == 1  || $stage['status_id'] == 2) && $registrant->data->unit->registration_veriform_link)
+                                        <div id="extra-content">
+                                            Jika kamu memiliki akun <span class="text-danger">Gmail</span> (Google), Kamu dapat melakukan verifikasi pembayaran dan pengumpulan berkas untuk <strong> {{$registrant->data->unit->name}} Warga Surakarta </strong> secara <strong class="text-warning">ONLINE</strong> melalui Google form 
+                                            dengan cara klik tombol di bawah ini
+                                            <div class="row my-2 justify-content-center">
+                                                <a href="{{$registrant->data->unit->registration_veriform_link}}" class="btn btn-outline-primary">Form Verifikasi</a>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if($stage['status_id'] == 4 || $stage['status_id'] == 5)
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Nama Biaya</th>
+                                                <th scope="col">Nominal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if($registrant->data->unit->school_fee)
+                                            <tr>
+                                                <td>
+                                                    SPM
+                                                </td>
+                                                <td>
+                                                    <?php                                        
+                                                        $value = $registrant->data->scheme_amount;
+                                                    ?>
+                                                    Rp. {{number_format($value , 2, ',', '.')}}
+                                                </td>
+                                            </tr>
+                                            @else
+                                            <tr>
+                                                <td>
+                                                    DPP
+                                                </td>
+                                                <td>
+                                                    <?php                                        
+                                                        if($registrant->data->unit->have_major && $registrant->data->tier->dpp){
+                                                            $value = $registrant->data->tier->dpp;
+                                                        }else{
+                                                            $value = $registrant->data->unit->dpp;
+                                                        }
+                                                    ?>
+                                                    Rp. {{number_format($value , 2, ',', '.')}}
+                                                </td>
+                                            </tr>
+                                                <td>
+                                                    DP
+                                                </td>
+                                                <td>
+                                                    <?php                                        
+                                                        if($registrant->data->unit->have_major && $registrant->data->tier->dp){
+                                                            $value = $registrant->data->tier->dp;
+                                                        }else{
+                                                            $value = $registrant->data->unit->dp;
+                                                        }
+                                                    ?>
+                                                    Rp. {{number_format($value , 2, ',', '.')}}
+                                                </td>
+                                            </tr>
+                                            @endif
+                                                <td>
+                                                    SPP
+                                                </td>
+                                                <td>
+                                                    <?php                                        
+                                                        if($registrant->data->unit->have_major && $registrant->data->tier->spp){
+                                                            $value = $registrant->data->tier->spp;
+                                                        }else{
+                                                            $value = $registrant->data->unit->spp;
+                                                        }
+                                                    ?>
+                                                    Rp. {{number_format($value , 2, ',', '.')}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table> 
+                                    @endif
+                                    @if($now['status_id'] == 6)
+                                            <div id="extra-content">
+                                                Terima kasih. Kamu telah menyelesaikan proses heregistrasi
+                                            </div>
+                                        <!-- @if($registrant->data->scheme_tenor > 1) 
+                                            <div id="extra-content">
+                                                Skema pembayaran yang dipilih adalah dengan cara mengangsur biaya pendidikan dengan <span class="text-primary"><strong>{{$registrant->data->scheme_tenor}} Kali</strong></span> pembayaran
+                                            </div>
+                                            <div id="extra-content">
+                                                Terima kasih, karena kamu sudah melakukan pembayaran tahap pertama
+                                            </div>
+                                        @elseif($registrant->data->scheme_tenor == 0)
+                                            <div id="extra-content">
+                                                Untuk info pembayaran silakan menghubungi pihak sekolah
+                                            </div>
+                                        @else -->
+                                        <!-- @endif -->
+                                    @endif
+                                        <hr>
+                                        <div id="extra-content">
+                                            Untuk Informasi lebih lanjut terkait proses penerimaan silakan hubungi: (WA/telp) <span class="text-danger"><strong>{{$registrant->data->unit->contact_number}}</strong></span>
+                                        </div>
+                                    @if($now['message_tracker'])
+                                        <div class="alert alert-warning my-1 text-dark" role="alert">
+                                        <strong>PERHATIAN!!</strong> Kamu seharusnya sudah mendapatkan pesan, Silakan cek status <strong>Pesan {{$now['title']}} </strong> di bawah ini untuk memastikan pesan terkirim.
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                     </div>
-                @endif
-                @if($now['status_id'] == 4 || $now['status_id'] == 5)
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">Nama Biaya</th>
-                            <th scope="col">Nominal</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if($registrant->data->unit->school_fee)
-                        <tr>
-                            <td>
-                                Uang Masuk
-                            </td>
-                            <td>
-                                <?php                                        
-                                    if($registrant->data->unit->have_major && $registrant->data->tier->dpp){
-                                        $value = $registrant->data->tier->dpp;
-                                    }else{
-                                        $value = $registrant->data->unit->dpp;
-                                    }
-                                ?>
-                                Rp. {{number_format($value , 2, ',', '.')}}
-                            </td>
-                        </tr>
-                        @else
-                        <tr>
-                            <td>
-                                DPP
-                            </td>
-                            <td>
-                                <?php                                        
-                                    if($registrant->data->unit->have_major && $registrant->data->tier->dpp){
-                                        $value = $registrant->data->tier->dpp;
-                                    }else{
-                                        $value = $registrant->data->unit->dpp;
-                                    }
-                                ?>
-                                Rp. {{number_format($value , 2, ',', '.')}}
-                            </td>
-                        </tr>
-                            <td>
-                                DP
-                            </td>
-                            <td>
-                                <?php                                        
-                                    if($registrant->data->unit->have_major && $registrant->data->tier->dp){
-                                        $value = $registrant->data->tier->dp;
-                                    }else{
-                                        $value = $registrant->data->unit->dp;
-                                    }
-                                ?>
-                                Rp. {{number_format($value , 2, ',', '.')}}
-                            </td>
-                        </tr>
-                        @endif
-                            <td>
-                                SPP
-                            </td>
-                            <td>
-                                <?php                                        
-                                    if($registrant->data->unit->have_major && $registrant->data->tier->spp){
-                                        $value = $registrant->data->tier->spp;
-                                    }else{
-                                        $value = $registrant->data->unit->spp;
-                                    }
-                                ?>
-                                Rp. {{number_format($value , 2, ',', '.')}}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table> 
-                @endif
-                @if($now['status_id'] == 6)
-                    @php
-                        $isTenorSet = isset($registrant->data->registrant_stage->installment->tenor);
-                        if($isTenorSet){
-                            $tenor = $registrant->data->registrant_stage->installment->tenor;
-                        }else{
-                            $tenor = 0;
-                        }
-                    @endphp
-                    @if($tenor > 1) 
-                        <div id="extra-content">
-                            Skema pembayaran yang dipilih adalah dengan cara mengangsur biaya pendidikan dengan <span class="text-primary"><strong>{{$registrant->data->registrant_stage->installment->name}}</strong></span> pembayaran
-                        </div>
-                        <div id="extra-content">
-                            Terima kasih, karena kamu sudah melakukan pembayaran tahap pertama
-                        </div>
-                    @elseif($tenor == 0)
-                        <div id="extra-content">
-                            Untuk info pembayaran silakan menghubungi pihak sekolah
-                        </div>
-                    @else
-                        <div id="extra-content">
-                            Terima kasih, karena kamu sudah melakukan pelunasan DP, DPP dan SPP Bulan Juli 2022
-                        </div>
-                    @endif
-                @endif
-                    <hr>
-                    <div id="extra-content">
-                        Untuk Informasi lebih lanjut terkait proses penerimaan silakan hubungi: (WA/telp) <span class="text-danger"><strong>{{$registrant->data->unit->contact_number}}</strong></span>
-                    </div>
-                @if($now['message_tracker'])
-                    <div class="alert alert-warning my-1 text-dark" role="alert">
-                       <strong>PERHATIAN!!</strong> Kamu seharusnya sudah mendapatkan pesan, Silakan cek status <strong>Pesan {{$now['title']}} </strong> di bawah ini untuk memastikan pesan terkirim.
-                    </div>
-                @endif
-            </div>
-        </div>
-    </div>
+
+                </div>
+
+                <?php
+                    $counter++;
+                ?>
+            @endif
+        @endif
+    @endforeach
 </div>
 
 <div class="card shadow bg-white border-light mt-2 text-center">
