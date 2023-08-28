@@ -227,10 +227,15 @@
             if (optionalFormer.includes(unit_split[0])) {
                 $('#former_school').removeAttr('required');
                 $('#former_school-required').hide();
+            }else{
+                $('#former_school').attr('required');
+                $('#former_school-required').show();
             }
 
             if (hideFormer.includes(unit_split[0])) {
                 $('#former_school_group').hide();
+            }else{
+                $('#former_school_group').show();
             }
 
             $('#type').empty();
