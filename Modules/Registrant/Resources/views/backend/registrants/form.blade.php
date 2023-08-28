@@ -161,7 +161,7 @@
             $field_data_id = 'former_school';
             $field_lable = __("registrant::$module_name.$field_name");
             $field_placeholder = $field_lable;
-            $required = "required";
+            $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}    
@@ -217,7 +217,7 @@
             $select_options = [];
 
             ?>
-            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}<i class="fas fa-lg fa-circle" style="color:{{$tags[$registrant->tag_color]}}"></i>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}<i class="fas fa-lg fa-circle" style="color:{{$tags[$registrant->tag_color ?? 0]}}"></i>
             <select name="{{$field_name}}" class="form-control">
                 @foreach($tags as $key=>$tag)
                     <option value="{{$key}}" style="color:{{$tag}}" ><i class="fas fa-lg fa-circle"></i>{{strtoupper($tagsName[$key])}}</option>

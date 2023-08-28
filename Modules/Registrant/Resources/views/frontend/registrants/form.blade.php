@@ -113,7 +113,7 @@
             <small>Jika anak belom memiliki email diisi sama dengan email orang tua</small>
         </div>
     </div>
-    <div class="col-md-6 col-sm-6">
+    <div class="col-md-6 col-sm-6" id="former_school_group">
         <div class="form-group">
             <?php
             $field_name = 'former_school';
@@ -198,12 +198,34 @@
 @push ('after-scripts')
 <script>
     $(document).ready(function() {
+        var unitOptions = $('#unit_id option'); // Select all option elements
+        var unitObject = {};
+        var correspondUnit = {
+            "KB/TK" : undefined,
+            "SD" : "KB/TK",
+            "SMP" : "SD",
+            "SMA" : "SMP",
+            "SMK" : "SMP"
+        };
+        var optionalFormer = [
+            "KB/TK",
+            "SD"
+        ];
+
         if({{ app('request')->filled('ref') == '' ? 'false' : 'true'}}){
             $('#success-ref').html("Referal telah aktif!");
             $('#success-ref').addClass("text-success");
         }
 
         $('#unit_id').on('change', function(){
+            
+            var unit_split = $('#unit_id').find(":selected").text().split(" ");
+
+            if (optionalFormer.includes(unit_split[0])) {
+                $('#former_school').removeAttr('required');
+                $('#former_school_group').hide();
+            }
+
             $('#type').empty();
             var unit_id = $('#unit_id').val();
             if(unit_id){
@@ -252,35 +274,64 @@
             }
         });
 
-        $('#former_school').select2({
-            theme: "bootstrap",
-            placeholder: '@lang("Select an option")',
-            minimumInputLength: 2,
-            allowClear: true,
-            ajax: {
-                url : 'https://api-sekolah-indonesia.vercel.app/sekolah/s',
-                dataType: 'json',
-                data: function (params) {
-                    return {
-                        sekolah: $.trim(params.term),
-                        perPage: 100
-                    };
-                },
-                processResults: function (data) {
-                    console.log(data);
-                    return {
-                        results: data.dataSekolah.map(function(sekolah) {
-                            return {
-                                id: sekolah.sekolah,
-                                text: sekolah.sekolah+", "+sekolah.kabupaten_kota,
-                            };
-                        })
-                    };
-                },
-                cache: true
-            }
+        $(document).ready(function() {
+
+            unitOptions.each(function() {
+                var key = $(this).val();   // Get the value attribute
+                var value = $(this).text(); // Get the text content
+                
+                unitObject[key] = value;    // Assign the value to the dynamic key
+            });
+
+            former_school_config = {
+                theme: "bootstrap",
+                placeholder: '@lang("Select an option")',
+                minimumInputLength: 2,
+                allowClear: true,
+                ajax: {
+                    url : 'https://api-sekolah-indonesia.vercel.app/sekolah/s',
+                    dataType: 'json',
+                    data: function (params) {
+                        return {
+                            sekolah: $.trim(params.term),
+                            perPage: 100
+                        };
+                    },
+                    processResults: function (data) {
+                        raw_data_sekolah = data.dataSekolah;
+                        var unit_raw = unitObject[$('#unit_id').val()];
+                        var unit_split = unit_raw.split(" ");
+
+                        var filteredSchools = raw_data_sekolah.filter(function(sekolah) {
+                        return sekolah.bentuk == correspondUnit[unit_split[0]];
+                        });
+                    
+                        return {
+                            results: filteredSchools.map(function(sekolah) {
+                                return {
+                                    id: sekolah.sekolah,
+                                    text: sekolah.sekolah+", "+sekolah.kabupaten_kota,
+                                };
+                            })
+                        };
+                    },
+                    cache: true
+                }
+            };
+
+            $('#former_school').select2(former_school_config);
         });
-        
+
+        function splitUnitDropdown(){
+            var unitOptions = $('#unit_id option'); // Select all option elements
+            var unitArray = [];
+
+            unitOptions.each(function() {
+                var key = $(this).val(); // Get the value attribute
+                var value = $(this).text(); // Get the text content
+                unitArray.push({ key: key, value: value });
+            });
+        }
         // $('#former_school').select2({
         //     theme: "bootstrap",
         //     placeholder: '@lang("Select an option")',
