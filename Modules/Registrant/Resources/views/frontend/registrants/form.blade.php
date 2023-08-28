@@ -211,6 +211,9 @@
             "KB/TK",
             "SD"
         ];
+        var hideFormer = [
+            "KB/TK",
+        ];
 
         if({{ app('request')->filled('ref') == '' ? 'false' : 'true'}}){
             $('#success-ref').html("Referal telah aktif!");
@@ -223,6 +226,9 @@
 
             if (optionalFormer.includes(unit_split[0])) {
                 $('#former_school').removeAttr('required');
+            }
+
+            if (hideFormer.includes(unit_split[0])) {
                 $('#former_school_group').hide();
             }
 
