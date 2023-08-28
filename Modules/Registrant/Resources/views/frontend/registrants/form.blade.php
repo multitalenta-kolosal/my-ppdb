@@ -122,7 +122,7 @@
             $field_placeholder = $field_lable;
             $required = "required";
             ?>
-            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->label($field_lable, $field_name) }} <span class="text-danger" id="{{$field_name}}-required">*</span>
             {{ html()->select($field_name, null)->placeholder($field_placeholder)->class('select2 form-control')->attributes(["$required"]) }}
             <!-- {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}     -->
         </div>
@@ -226,6 +226,7 @@
 
             if (optionalFormer.includes(unit_split[0])) {
                 $('#former_school').removeAttr('required');
+                $('#former_school-required').hide();
             }
 
             if (hideFormer.includes(unit_split[0])) {
