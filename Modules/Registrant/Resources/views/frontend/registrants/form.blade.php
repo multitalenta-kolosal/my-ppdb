@@ -320,7 +320,7 @@
                         });
                     
                         return {
-                            results: raw_data_sekolah.map(function(sekolah) {
+                            results: filteredSchools.map(function(sekolah) {
                                 return {
                                     id: sekolah.sekolah+", "+sekolah.kabupaten_kota,
                                     text: sekolah.sekolah+", "+sekolah.kabupaten_kota,
