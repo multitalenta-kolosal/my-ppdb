@@ -19,7 +19,7 @@ return [
     'ref_code'                  => 'Kode Referal',
     'notes'                     => 'Notes',
     'info'                     => 'Mendapat info dari?',
-    'installment'               => 'Skema Pembayaran',
+    'installment'               => 'Skema Pembayaran Sumbangan Mutu Pendidikan (SPM)',
     'has_scholarship'           => 'Mendapat Beasiswa?',
     'scholarship_amount'        => 'Jumlah Beasiswa (Rp)',
     'tag_color'                 => 'Tag',
