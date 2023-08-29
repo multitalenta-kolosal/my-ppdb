@@ -202,7 +202,7 @@
         var unitObject = {};
         var correspondUnit = {
             "KB/TK" : undefined,
-            "SD" : "KB/TK",
+            "SD" : undefined,
             "SMP" : "SD",
             "SMA" : "SMP",
             "SMK" : "SMP"
@@ -213,6 +213,7 @@
         ];
         var hideFormer = [
             "KB/TK",
+            "SD"
         ];
 
         if({{ app('request')->filled('ref') == '' ? 'false' : 'true'}}){
@@ -319,15 +320,28 @@
                         });
                     
                         return {
-                            results: filteredSchools.map(function(sekolah) {
+                            results: raw_data_sekolah.map(function(sekolah) {
                                 return {
-                                    id: sekolah.sekolah,
+                                    id: sekolah.sekolah+", "+sekolah.kabupaten_kota,
                                     text: sekolah.sekolah+", "+sekolah.kabupaten_kota,
                                 };
                             })
                         };
                     },
                     cache: true
+                },
+                createTag: function (params) {
+                    var term = $.trim(params.term);
+
+                    if (term === '') {
+                    return null;
+                    }
+
+                    return {
+                        id: term,
+                        text: term,
+                        newTag: true // add additional parameters
+                    }
                 }
             };
 

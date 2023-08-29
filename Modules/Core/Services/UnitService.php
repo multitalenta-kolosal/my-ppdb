@@ -402,9 +402,15 @@ class UnitService{
 
         foreach($payment_intervals as $index => $payment_interval ){
             $modified_amount = ($um/$payment_interval) * $payment_modifiers[$index];
+
+            if($modified_amount % 1000 != 0){
+                $true_amount = ceil($modified_amount / 1000) * 1000;
+            }else{
+                $true_amount = $modified_amount;
+            }
             
-            $fees[$payment_interval] = $payment_interval." x Rp ".number_format(ceil($modified_amount / 1000) * 1000, 2, ',', '.');
-            $fees_amount[$payment_interval] = ceil($modified_amount / 1000) * 1000;
+            $fees[$payment_interval] = $payment_interval." x Rp ".number_format($true_amount, 2, ',', '.');
+            $fees_amount[$payment_interval] = $true_amount;
         }
 
         return (object) array(
@@ -423,7 +429,6 @@ class UnitService{
 
         $scheme_string = $fees[$tenor];
         $scheme_amount = round($fees_amount[$tenor],0);
-        $scheme_amount = ceil($scheme_amount / 1000) * 1000;
 
         return [$tenor, $scheme_string, $scheme_amount];
     }
