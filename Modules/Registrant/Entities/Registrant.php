@@ -86,30 +86,30 @@ class Registrant extends BaseModel
         return \Modules\Registrant\Database\Factories\RegistrantFactory::new();
     }
 
-    public function compose_tuition_fee(){
+    public function compose_tuition_fee($registrant){
 
         // $school_fee_group = ["KB/TK", "SD"];
 
-        $composed_string= "1. Sumbangan Mutu Pendidikan (SPM) Rp. ". number_format($this->concluseFeeByType('spm', true), 2, ',', '.')."\n2. SPP bulan Juli Rp. ". number_format($this->concluseFeeByType('spm')->unit->spp , 2, ',', '.');
+        $composed_string= "1. Sumbangan Mutu Pendidikan (SPM): Rp. ". number_format($this->concluseFeeByType('spm', false), 2, ',', '.')."\n2. SPP bulan Juli: Rp. ". number_format($this->concluseFeeByType('spp') , 2, ',', '.');
        
         return $composed_string;
     }
 
-    public function concluseFeeByType($type, $isPersonal){
+    public function concluseFeeByType($type, $isPersonal = false){
         $fee_type = $type;
 
         if($type == "spm"){
             $fee_type = 'school_fee';
 
             if($isPersonal){
-                return $registrant->scheme_amount;
+                return $this->scheme_amount;
             }
         }
 
         if($this->unit->have_major){
-            $fee = $registrant->tier->$fee_type ?? $registrant->unit->$fee_type;
+            $fee = $this->tier->$fee_type ?? $this->unit->$fee_type;
         }else{
-            $fee = $registrant->unit->$fee_type;
+            $fee = $this->unit->$fee_type;
         }
 
         return $fee;
