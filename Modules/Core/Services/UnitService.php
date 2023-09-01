@@ -374,25 +374,18 @@ class UnitService{
                 return (object) array(
                     'error'     => false,            
                     'message'   => '',
-                    'fees'      => [0 => "-- Silakan memilih jurusan terlebih dahulu --"],
+                    'fees'      => [0 => "-- Silakan memilih kelas/jurusan terlebih dahulu --"],
                 );
             }
 
             $tier = $this->tierRepository->findOrFail($tier_id);
 
             if(empty($tier->school_fee)){
-                $um = $tier->dp + $tier->dpp;
+                $um = $unit->school_fee;
             }else{
                 $um = $tier->school_fee;
             }
 
-            if($um == 0){
-                if(empty($unit->school_fee)){
-                    $um = $unit->dp +$unit->dpp;
-                }else{
-                    $um = $unit->school_fee;
-                }
-            }
         }else{
             if(empty($unit->school_fee)){
                 $um = $unit->dp +$unit->dpp;
