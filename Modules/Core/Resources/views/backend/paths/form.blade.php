@@ -16,6 +16,22 @@
     <div class="col">
         <div class="form-group">
             <?php
+            $field_name = 'sort';
+            $field_lable = __("core::$module_name.$field_name");
+            $helper = __("core::$module_name.$field_name"."_helper");
+            $field_placeholder = $field_lable;
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
+            {{ html()->div($helper)->class('m-2 text-primary') }} 
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="form-group">
+            <?php
             $field_name = 'code';
             $field_lable = __("core::$module_name.$field_name");
             $helper = __("core::$module_name.$field_name"."_helper");

@@ -11,6 +11,7 @@ return [
     'dpp'                       => 'DPP',
     'dp'                        => 'DP',
     'spp'                       => 'SPP',
+    'school_fee'                => 'SPM',
     'unit'                      => 'Nama Unit',
     'order'                     => 'Urutan jenjang',
     'additional_lines_payment'  => 'Kalimat perpesanan tambahan langkah pembayaran',

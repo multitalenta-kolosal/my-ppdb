@@ -44,7 +44,7 @@ class RegistrantsStageDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', function ($data) {
+            ->addColumn('Note', function ($data) {
                 $module_name = $this->module_name;
 
                 return view('backend.includes.action_note', compact('data','module_name'));
@@ -87,6 +87,13 @@ class RegistrantsStageDataTable extends DataTable
                 }else{
                     return "Status Loading...";
                 }
+            })
+            ->editColumn('tag_color', function ($data) {
+
+                $module_name = $this->module_name;
+                $icon = '<i class="far fa-lg fa-check-circle"></i>';
+
+                return view('backend.includes.tag_column', compact('data','icon','module_name'));
             })
             ->editColumn('registrant_stage.va_pass', function ($data) {
                 if($data->registrant_stage->va_pass){
@@ -142,7 +149,7 @@ class RegistrantsStageDataTable extends DataTable
                             '<a href="https://wa.me/'.$model->formatted_phone_child.'" target="blank">'.($model->phone2 ?? '-' ).'</a>';
                 }
             })
-            ->rawColumns(['name', 'status', 'action','phone','phone2','registrant_stage.va_pass','registrant_stage.entrance_fee_pass', 'registrant_stage.requirements_pass','registrant_stage.test_pass','registrant_stage.accepted_pass']);
+            ->rawColumns(['name', 'tag_color','status', 'action','phone','phone2','registrant_stage.va_pass','registrant_stage.entrance_fee_pass', 'registrant_stage.requirements_pass','registrant_stage.test_pass','registrant_stage.accepted_pass']);
     }
     
     /**
@@ -227,6 +234,9 @@ class RegistrantsStageDataTable extends DataTable
             });
         }
 
+        if($this->request()->get('tag_color')){
+            $data->where('tag_color', 'LIKE', "%".$this->request()->get('tag_color')."%");
+        }
         //END APPLY FILTERING
 
         return $this->applyScopes($data);
@@ -239,7 +249,7 @@ class RegistrantsStageDataTable extends DataTable
      */
     public function html()
     {
-        $created_at = 1;
+        $created_at = 0;
         return $this->builder()
                 ->setTableId('registrants-table')
                 ->columns($this->getColumns())
@@ -306,7 +316,9 @@ class RegistrantsStageDataTable extends DataTable
 
             Column::make('former_school')->title('Asal Sekolah')->hidden()
                     ->title(__("registrant::$this->module_name.datatable.former_school")),
-            Column::computed('action')
+            Column::make('tag_color')->title('Tag')
+                    ->title(__("registrant::$this->module_name.datatable.tag_color")),
+            Column::computed('Note')
                 ->exportable(false)
                 ->printable(false)
                 ->addClass('text-center'),

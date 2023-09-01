@@ -129,7 +129,48 @@
                     $field_lable = "Angsuran Peserta";
                     $field_placeholder = "";
                     $required = "";
-                    $select_options = $installment
+                    $select_options = ["1"=>"1","3"=>"3","6"=>"6"];
+                    ?>
+                    {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                    {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control select2') }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <?php
+                    $field_name = 'tag_color';
+                    $field_data_id = 'tag_color';
+                    $field_lable = __("registrant::$module_name.$field_name");
+                    $field_placeholder = $field_lable;
+                    $required = "";
+
+                    // compose select options
+                    $tags = config('tag-color.code');
+                    $tagsName = config('tag-color.name');
+                    $select_options = [];
+
+                    ?>
+                    {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                    <select name="{{$field_name}}" class="form-control">
+                        <option value="" style="" ><i class="fas fa-lg fa-circle"></i>--Pilih--</option>
+                        @foreach($tags as $key=>$tag)
+                            <option value="{{$key}}" style="color:{{$tag}}" ><i class="fas fa-lg fa-circle"></i>{{strtoupper($tagsName[$key])}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <?php
+                    $field_name = 'has_scholarship';
+                    $field_lable = "Penerima Beasiswa?";
+                    $field_placeholder = "";
+                    $required = "";
+                    $select_options = ["1" => "ya", "0" => "tidak"];
                     ?>
                     {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
                     {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control select2') }}

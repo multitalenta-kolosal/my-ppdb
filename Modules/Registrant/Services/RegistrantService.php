@@ -5,6 +5,7 @@ namespace Modules\Registrant\Services;
 use Modules\Registrant\Services\RegistrantStageService;
 use Modules\Message\Services\RegistrantMessageService;
 use Modules\Message\Services\MessageService;
+use Modules\Core\Services\UnitService;
 
 use Modules\Registrant\Repositories\RegistrantRepository;
 use Modules\Registrant\Repositories\RegistrantStageRepository;
@@ -35,6 +36,7 @@ class RegistrantService{
 
     protected $registrantMessageService;
     protected $registrantStageService;
+    protected $unitService;
     protected $messageService;
 
     protected $registrantRepository;
@@ -52,6 +54,7 @@ class RegistrantService{
         RegistrantMessageService $registrantMessageService,
         RegistrantStageService $registrantStageService,
         MessageService $messageService,
+        UnitService $unitService,
         /**
          * Repositories Parameter
          * 
@@ -72,6 +75,7 @@ class RegistrantService{
         $this->registrantMessageService = $registrantMessageService;
         $this->registrantStageService = $registrantStageService;
         $this->messageService = $messageService;
+        $this->unitService = $unitService;
         /**
          * Repositories Declaration
          * 
@@ -133,7 +137,7 @@ class RegistrantService{
             foreach ($datas as $data) {
                 $array[$data->sekolah] = $data->sekolah;
             }
-            \Log::debug(json_encode($array_data));
+            // \Log::debug(json_encode($array_data));
             return $array_data;
         }
     }
@@ -193,10 +197,16 @@ class RegistrantService{
             $registrant->period_id = $this->periodRepository->findActivePeriodId();
             $registrant->register_ip = request()->getClientIP();
 
-            // $register_info_array = explode(",",setting('register_info'));
-            // $registrant->info = $register_info_array[$registrant->info];
+            //payment scheme
+            [$registrant->scheme_tenor, $registrant->scheme_string, $registrant->scheme_amount]  = $this->unitService->proccessUnitFeeByTenor($unit_id,$registrant->tier_id,$registrant->scheme_tenor);
 
             $registrant_stage = $this->registrantStageService->store($request, $registrant);
+           
+            if(isset($registrant->scheme_tenor)){
+                // $registrant_stage->data->installment_id = $registrant->scheme_tenor;
+                $registrant_stage->data->installment_id_checked_date = now();
+                $registrant_stage->data->save();
+            }
 
             $registrant->progress_id = $registrant_stage->data->id;
 
@@ -211,6 +221,14 @@ class RegistrantService{
 
                     $sendToSFTP = new CreateVaBySFTP($registrant);
                     dispatch($sendToSFTP);
+                }
+            }else{
+                if( (env('APP_ENV') == 'staging') || (env('APP_ENV') == 'local') ){
+                    $registrantStage = $registrant->registrant_stage;
+                    $registrantStage->va_pass = true;
+                    $registrantStage->status_id = $this->registrantStageService->getSetStatus($registrantStage);
+                    
+                    $registrantStage->save();
                 }
             }
 
@@ -266,13 +284,14 @@ class RegistrantService{
     public function edit($id){
 
         $registrant = $this->registrantRepository->findOrFail($id);
-
         Log::info(label_case($this->module_title.' '.__function__)." | '".$registrant->name.'(ID:'.$registrant->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+        $createOptions = $this->prepareOptions();
 
         return (object) array(
             'error'=> false,            
             'message'=> '',
             'data'=> $registrant,
+            'createOptions' => $createOptions,
         );
     }
 
@@ -448,6 +467,10 @@ class RegistrantService{
 
         if(!$unit){
             $unit = ['Silakan membuat unit'];
+        }
+
+        foreach($unit as $key => $unit_item){
+            $unit[$key] = $unit_item." warga";
         }
 
         $type = [];

@@ -17,7 +17,8 @@ return [
     'status'                    => 'Status',
     'ref_code'                  => 'Referal Code',
     'notes'                     => 'Notes',
-    'info'                     => 'Got info from?',
+    'info'                      => 'Got info from?',
+    'installment'               => 'Skema Pembayaran Sumbangan Mutu Pendidikan (SPM)',
 
     'verification'=>
     [
@@ -25,7 +26,7 @@ return [
         'entrance_fee_pass'         => 'Entrance Fee payment',
         'requirements_pass'         => 'Requirements completeness',
         'test_pass'                 => 'Entrance test status',
-        'installment'               => 'Payment (DPP + DP)',
+        'installment'               => 'Payment (SPM)',
         'dpp_pass'                  => 'DPP payment',
         'dp_pass'                   => 'DP payment',
         'spp_pass'                  => 'SPP payment',
@@ -43,7 +44,7 @@ return [
         'phone2'                    => 'Telp. Anak',
         'email'                     => 'Email',
         'unit'                      => 'Unit',
-        'former_school'             => 'FOrmer School',
+        'former_school'             => 'Former School',
         'tier'                      => 'Class/Major',
         'status'                    => 'Status',
         'notes'                     => 'Notes',

@@ -23,6 +23,7 @@
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->textarea($field_name)->rows(15)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
+            <small>Pastikan huruf besar kecil variabel pesan (kata dengan tanda '$') sama dengan kunci pengganti dibawahnya (jika $namaMurid maka kunci pengganti adalah namaMurid)</small>
         </div>
     </div>
 </div>

@@ -59,6 +59,7 @@ Route::group(['namespace' => '\Modules\Registrant\Http\Controllers\Backend', 'as
     Route::post("$module_name/generateId",['as' => "$module_name.generateId", 'uses' => "$controller_name@generateId"]);
     //Transactional
     Route::resource("$module_name", "$controller_name");
+    Route::get("$module_name/edit-tag/{id}", ['as' => "$module_name.edit-tag", 'uses' => "$controller_name@editTag"]);
     Route::get("$module_name/edit-note/{id}", ['as' => "$module_name.edit-note", 'uses' => "$controller_name@editNote"]);
     Route::patch("$module_name/update-note/{registrant}", ['as' => "$module_name.update-note", 'uses' => "$controller_name@updateNote"]);
      /*

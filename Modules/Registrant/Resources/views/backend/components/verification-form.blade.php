@@ -181,12 +181,9 @@
                 </div>
                 <div class="col-5 align-self-center">
                     <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <button class="btn btn-primary" type="button" id="button-installment-set-{{$data->id}}">@lang('auto') <i class="fas fa-hand-point-right"></i></button>
-                        </div>
-                        {{ html()->select($field_data_id.$data->id,$select_options, $data->registrant_stage->$field_data_id)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
+                        {{ html()->select($field_data_id.$data->id,[], $data->registrant_stage->$field_data_id)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
                     </div>
-                    <small id="emailHelp" class="form-text text-muted">tombol "autoselect" akan otomatis memilih angsuran sesuai dengan ketentuan</small>      
+                    <!-- <small id="emailHelp" class="form-text text-muted">tombol "autoselect" akan otomatis memilih angsuran sesuai dengan ketentuan</small>       -->
                 </div>
                 <div class="col-2 align-self-center"  id="col_{{$field_name}}_{{$data->id}}">
                     @if($data->registrant_stage)
@@ -224,7 +221,9 @@
                 </div>
                 <div class="col-2">
                     {{ html()->checkbox($field_name.$data->id)->class('form-control float-left')->attributes(["$required", "$checked"]) }}
-                    
+
+                    {{ html()->label('kirim pesan', $field_name.$data->id.'_message') }}
+                    {{ html()->checkbox($field_name.$data->id.'_message',false,'Kirim pesan')->class('my-auto form-check-label') }}             
                 </div>
                 <div class="col-2 align-self-center"  id="col_{{$field_name}}_{{$data->id}}">
                     @if($data->registrant_stage)

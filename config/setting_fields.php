@@ -52,6 +52,24 @@ return [
                 'value' => '8995', // default value if you want
             ],
             [
+                'type'  => 'text', // input fields type
+                'data'  => 'string', // data type, string, int, boolean
+                'name'  => 'payment_interval', // unique name for field
+                'label' => 'Payment interval', // you know what label it is
+                'rules' => 'required|nullable|max:191', // validation rule of laravel
+                'class' => '', // any class for input
+                'value' => '1,3,6', // default value if you want
+            ],
+            [
+                'type'  => 'text', // input fields type
+                'data'  => 'string', // data type, string, int, boolean
+                'name'  => 'payment_modifier', // unique name for field
+                'label' => 'Payment modifier', // you know what label it is
+                'rules' => 'required|nullable|max:191', // validation rule of laravel
+                'class' => '', // any class for input
+                'value' => '1,1.1,1.2', // default value if you want
+            ],
+            [
                 'type'  => 'checkbox', // input fields type
                 'data'  => 'string', // data type, string, int, boolean
                 'name'  => 'send_email', // unique name for field
@@ -76,7 +94,7 @@ return [
                 'label' => 'Info Pendaftaran', // you know what label it is
                 'rules' => '', // validation rule of laravel
                 'class' => '', // any class for input
-                'value' => 'Brosur (Tim Sosialiasi PPDB),Sekolah (Guru BP/BK),Keluarga,Alumni,Instagram,Pelatihan,Baliho,Lainnya', // default value if you want
+                'value' => 'Brosur (Tim Sosialiasi PPDB),Sekolah (Guru BP/BK),Keluarga,Alumni Sekolah Warga,Instagram,Facebook,Browsing,Baliho,Lainnya', // default value if you want
                 'help'     => 'Pisahkan dengan koma (,)', // Help text for the input field.
                 'display'  => 'raw', // Help text for the input field.
             ],

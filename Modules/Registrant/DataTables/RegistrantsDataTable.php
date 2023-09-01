@@ -51,6 +51,12 @@ class RegistrantsDataTable extends DataTable
 
                 return view('registrant::backend.includes.action_column', compact('module_name', 'data','installment'));
             })
+            ->editColumn('registrant_id', function ($model) {
+                $colors = config('tag-color.code');
+               
+                return '<i class="fas fa-sm fa-circle" style="color:'.$colors[$model->tag_color ?? 0].';"></i> '.$model->registrant_id;
+                
+            })
             ->editColumn('name', function ($model) {
                 if( ($model->registrant_stage->status_id ?? null) == -1)
                 {
@@ -106,7 +112,7 @@ class RegistrantsDataTable extends DataTable
                     return '-';
                 }
             })
-            ->rawColumns(['name', 'status', 'action','phone','phone2']);
+            ->rawColumns(['name','registrant_id', 'status', 'action','phone','phone2']);
     }
 
     /**
@@ -190,7 +196,14 @@ class RegistrantsDataTable extends DataTable
                 $query->where('installment_id', $this->request()->get('installment'));          
             });
         }
+        
+        if($this->request()->get('tag_color')){
+            $data->where('tag_color', 'LIKE', "%".$this->request()->get('tag_color')."%");
+        }
 
+        if($this->request()->get('has_scholarship') != null){
+            $data->where('has_scholarship',$this->request()->get('has_scholarship'));
+        }
         //END APPLY FILTERING
 
         return $this->applyScopes($data);
@@ -273,6 +286,9 @@ class RegistrantsDataTable extends DataTable
             Column::make('email')->hidden()
                     ->title(__("registrant::$this->module_name.datatable.email")),
 
+            Column::make('email_2')->hidden()
+            ->title(__("registrant::$this->module_name.datatable.email_2")),
+
             Column::make('unit.name')->data('unit.name')->name('unit.name')
                     ->title(__("registrant::$this->module_name.datatable.unit")),
 
@@ -281,6 +297,12 @@ class RegistrantsDataTable extends DataTable
 
             Column::make('former_school')->title('Asal Sekolah')->hidden()
                     ->title(__("registrant::$this->module_name.datatable.former_school")),
+
+            Column::make('has_scholarship')->title('Status Beasiswa')->hidden()
+                    ->title(__("registrant::$this->module_name.datatable.has_scholarship")),
+
+            Column::make('scholarship_amount')->title('Nominal Beasiswa')->hidden()
+                    ->title(__("registrant::$this->module_name.datatable.scholarship_amount")),
 
             Column::make('registrant_stage.va_pass_checked_date')->title('Tgl Verif VA')->hidden(),
             Column::make('registrant_stage.entrance_fee_pass_checked_date')->title('Tgl Verif Biaya Pendaftaran')->hidden(),

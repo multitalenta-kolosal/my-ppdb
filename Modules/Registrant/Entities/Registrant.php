@@ -88,15 +88,31 @@ class Registrant extends BaseModel
 
     public function compose_tuition_fee($registrant){
 
-        $school_fee_group = ["KB/TK", "SD"];
+        // $school_fee_group = ["KB/TK", "SD"];
 
-        if(in_array($registrant->unit->name, $school_fee_group)){
-            $composed_string= "1. Uang Masuk Rp. ". number_format($registrant->unit->school_fee , 2, ',', '.')."\n2. SPP bulan Juli 2022 Rp. ". number_format($registrant->unit->spp , 2, ',', '.');
-        }else{
-            $composed_string= "1. Dana Pendidikan Rp. ". number_format($registrant->unit->dp , 2, ',', '.')."\n2. Dana Penunjang Pendidikan Rp. ". number_format($registrant->unit->dpp , 2, ',', '.')."\n3. SPP bulan Juli 2022 Rp. ". number_format($registrant->unit->spp , 2, ',', '.');
+        $composed_string= "1. Sumbangan Mutu Pendidikan (SPM): Rp. ". number_format($this->concluseFeeByType('spm', false), 2, ',', '.')."\n2. SPP bulan Juli: Rp. ". number_format($this->concluseFeeByType('spp') , 2, ',', '.');
+       
+        return $composed_string;
+    }
+
+    public function concluseFeeByType($type, $isPersonal = false){
+        $fee_type = $type;
+
+        if($type == "spm"){
+            $fee_type = 'school_fee';
+
+            if($isPersonal){
+                return $this->scheme_amount;
+            }
         }
 
-        return $composed_string;
+        if($this->unit->have_major){
+            $fee = $this->tier->$fee_type ?? $this->unit->$fee_type;
+        }else{
+            $fee = $this->unit->$fee_type;
+        }
+
+        return $fee;
     }
 
 

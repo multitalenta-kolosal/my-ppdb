@@ -3,7 +3,9 @@
 namespace Modules\Registrant\Services;
 
 use Modules\Registrant\Repositories\RegistrantStageRepository;
+use Modules\Registrant\Entities\Registrant;
 use Modules\Finance\Repositories\InstallmentRepository;
+use Modules\Core\Services\UnitService;
 use Modules\Core\Repositories\UnitRepository;
 use Modules\Core\Repositories\PeriodRepository;
 use App\Models\Notification;
@@ -21,6 +23,7 @@ class RegistrantStageService{
     protected $registrantStageRepository;
 
     protected $unitRepository;
+    protected $unitService;
 
     protected $periodRepository;
 
@@ -29,6 +32,7 @@ class RegistrantStageService{
     public function __construct(
         RegistrantStageRepository $registrantStageRepository,
         UnitRepository $unitRepository,
+        UnitService  $unitService,
         PeriodRepository $periodRepository,
         InstallmentRepository $installmentRepository
     ) {
@@ -36,6 +40,8 @@ class RegistrantStageService{
         $this->registrantStageRepository = $registrantStageRepository;
 
         $this->unitRepository = $unitRepository;
+
+        $this->unitService = $unitService;
 
         $this->periodRepository = $periodRepository;
 
@@ -117,6 +123,12 @@ class RegistrantStageService{
             $registrantStage = $this->registrantStageRepository->make($data);
             $registrant_stage_check = $this->registrantStageRepository->findBy('registrant_id',$registrantStage->registrant_id);
 
+            if(array_key_exists("installment_id",$data)){
+                $registrant = Registrant::where('registrant_id',$registrantStage->registrant_id)->first();
+                [$registrant->scheme_tenor, $registrant->scheme_string, $registrant->scheme_amount]  = $this->unitService->proccessUnitFeeByTenor($registrant->unit_id,$registrant->tier_id,$data["installment_id"]);
+                $registrant->save();
+            }
+
             foreach($this->stages as $stage){
                 $validation = $stage['validation'];
                 $validation_date = $validation.'_checked_date';
@@ -132,7 +144,7 @@ class RegistrantStageService{
                         
             if(array_key_exists("status_id",$data)){
                 if($data['status_id'] > -1){
-                    $registrantStage->status_id = $$data['status_id'];
+                    $registrantStage->status_id = $data['status_id'];
                 }
             }else{
                 $registrantStage->status_id = $this->getSetStatus($registrantStage);
@@ -208,7 +220,12 @@ class RegistrantStageService{
     public function getSetStatus($registrantStage){
         $progresses =  config('stages.progress');
         $status = 0;
+        $skipped = [5];
         foreach($progresses as $progress){
+            if(in_array($progress['status_id'], $skipped)){
+                continue;
+            }
+            
             $validation = $progress['validation'];
             if($registrantStage->$validation){
                 $status = $progress['status_id'];

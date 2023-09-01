@@ -32,8 +32,8 @@ return [
             'message_tracker'   => null,
         ],
         [
-            'title'             => 'Pembayaran Registrasi',
-            'pass-title'        => 'Pendaftaran Lunas',
+            'title'             => 'Pembayaran Biaya pendaftaran',
+            'pass-title'        => 'Pembayaran Biaya pendaftaran',
             'tracker_action'    => 'PEMBAYARAN PENDAFTARAN DIKONFIRMASI',
             'tracker_content'   => '',
             'status_id'         => '2',
@@ -42,7 +42,7 @@ return [
         ],
         [
             'title'             => 'Pengumpulan Berkas',
-            'pass-title'        => 'Berkas Diterima',
+            'pass-title'        => 'Pengumpulan Berkas',
             'tracker_action'    => 'PERSYARATAN SUDAH LENGKAP',
             'tracker_content'   => 'Silakan menunggu proses pemberian informasi lanjutan dari Sekolah melalui Whatsapp/Email',
             'status_id'         => '3',
@@ -50,8 +50,8 @@ return [
             'message_tracker'   => 'requirements_pass_message_sent',
         ],
         [
-            'title'             => 'Pengumuman Status Penerimaan',
-            'pass-title'        => 'Lulus Tes',
+            'title'             => 'Tes Seleksi',
+            'pass-title'        => 'Tes Seleksi',
             'tracker_action'    => 'SELAMAT KAMU SUDAH DITERIMA!',
             'tracker_content'   => 'Setelah ini, silakan melakukan pembayaran biaya pendidikan berikut ini ke Virtual Account kamu diatas.',
             'status_id'         => '4',
@@ -60,7 +60,7 @@ return [
         ],
         [
             'title'             => 'Pemilihan Skema Pembayaran Biaya Pendidikan',
-            'pass-title'        => 'Angsuran Dipilih',
+            'pass-title'        => 'Angsuran Dipilih (SPM)',
             'tracker_action'    => 'SELAMAT KAMU SUDAH DITERIMA!',
             'tracker_content'   => 'Setelah ini, silakan melakukan pembayaran biaya pendidikan berikut ini ke Virtual Account kamu diatas.',
             'status_id'         => '5',
@@ -68,10 +68,10 @@ return [
             'message_tracker'   => null,
         ],
         [
-            'title'             => 'Penerimaan Pembayaran',
-            'pass-title'        => 'Penerimaan Pembayaran',
+            'title'             => 'Pembayaran Heregistrasi',
+            'pass-title'        => 'Pembayaran Heregistrasi',
             'tracker_action'    => 'TERIMA KASIH!',
-            'tracker_content'   => 'Pembayaran kamu sudah kami terima',
+            'tracker_content'   => 'Pembayaran heregistrasi sudah kami terima',
             'status_id'         => '6',
             'validation'        => 'accepted_pass',
             'message_tracker'   => null,
