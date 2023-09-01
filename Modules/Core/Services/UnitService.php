@@ -301,7 +301,7 @@ class UnitService{
     
     public function prepareOptions(){
         
-        $paths = $this->pathRepository->query()->orderBy('id','asc')->pluck('name','id');
+        $paths = $this->pathRepository->query()->orderBy('sort','asc')->pluck('name','id');
 
         if(!$paths){
             $paths = ['Silakan membuat Jalur Pendaftaran'];
@@ -348,7 +348,12 @@ class UnitService{
         if($unit->have_major){
             $tiers = $this->tierRepository->query()->where('unit_id',$unit_id)->pluck('tier_name','id');
         }
-
+        \Log::debug(array(
+            'error'     => false,            
+            'message'   => '',
+            'path'      => $paths,
+            'tier'     => $tiers,
+        ));
         return (object) array(
             'error'     => false,            
             'message'   => '',

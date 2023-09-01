@@ -76,7 +76,7 @@ class PathsDataTable extends DataTable
      */
     public function query()
     {
-        $data = $this->pathRepository->query();
+        $data = $this->pathRepository->query()->orderBy('sort','asc');
 
         return $this->applyScopes($data);
     }
@@ -121,6 +121,8 @@ class PathsDataTable extends DataTable
                   ->printable(false)
                   ->addClass('text-center'),
             Column::make('name'),
+            Column::make('id'),
+            Column::make('sort')->hidden(),
             Column::make('units'),
             Column::make('additional_requirements'),
             Column::make('created_at'),
