@@ -257,10 +257,10 @@
                         
                         console.log(response);
                         $.each(response.path,function(key, val) {
+                            var newOption = $('<option value="'+key+'">'+val+'</option>');
+
                             if(val == "istimewa"){
                                 var newOption = $('<option class="font-weight-bold" value="'+key+'">'+val+'</option>');
-                            }else{
-                                var newOption = $('<option value="'+key+'">'+val+'</option>');
                             }
                             $('#type').append(newOption);
                         });
@@ -273,6 +273,7 @@
                             var defaultOption = $('<option value="">-- Pilih --</option>');
                             $('#tier_id').append(defaultOption);
                             $.each(response.tier,function(key, val) {
+                                var newOption = $('<option value="'+key+'">'+val+'</option>');
                                 $('#tier_id').append(newOption);
                             });
                         }else{
