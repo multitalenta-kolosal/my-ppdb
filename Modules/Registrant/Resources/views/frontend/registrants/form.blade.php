@@ -259,7 +259,7 @@
                         $.each(response.path,function(key, val) {
                             var newOption = $('<option value="'+key+'">'+val+'</option>');
 
-                            if(val == "istimewa"){
+                            if(val.toLowerCase() == "istimewa"){
                                 var newOption = $('<option class="font-weight-bold" value="'+key+'">'+val+'</option>');
                             }
                             $('#type').append(newOption);
