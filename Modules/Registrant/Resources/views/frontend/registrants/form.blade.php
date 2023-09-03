@@ -122,7 +122,7 @@
             $field_placeholder = $field_lable;
             $required = "";
             ?>
-            {{ html()->label($field_lable, $field_name) }} <span class="text-danger" id="{{$field_name}}-required">*</span>
+            {{ html()->label($field_lable, $field_name) }} 
             {{ html()->select($field_name, null)->placeholder($field_placeholder)->class('select2 form-control')->attributes(["$required"]) }}
             <!-- {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}     -->
             <small>Masukkan nama sekolah di kolom pencarian. Jika tidak bisa menemukan, silakan dilewati saja</small>
