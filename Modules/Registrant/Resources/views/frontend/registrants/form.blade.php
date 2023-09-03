@@ -255,12 +255,16 @@
                         var defaultOption = $('<option value="">-- Pilih --</option>');
                         $('#type').append(defaultOption);
                         
-                        console.log(response);
                         $.each(response.path,function(key, val) {
-                            var newOption = $('<option value="'+key+'">'+val+'</option>');
-
                             if(val.toLowerCase() == "istimewa"){
                                 var newOption = $('<option class="font-weight-bold" value="'+key+'">'+val+'</option>');
+                            }
+                            $('#type').append(newOption);
+                        });
+
+                        $.each(response.path,function(key, val) {
+                            if(val.toLowerCase() != "istimewa"){
+                                var newOption = $('<option value="'+key+'">'+val+'</option>');
                             }
                             $('#type').append(newOption);
                         });
