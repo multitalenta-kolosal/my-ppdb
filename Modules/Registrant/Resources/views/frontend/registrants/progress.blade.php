@@ -83,7 +83,7 @@
         ?>
         @if(!in_array($stage['status_id'],$skipped_status))
             <li class="nav-item" role="presentation">
-                <a class="nav-link {{$myStatus == 1 ? 'active' : ''}} {{$now['status_id'] < $stage['status_id'] ? 'disabled' : ''}}" id="status{{$stage['status_id']}}-tab" data-toggle="tab" href="#status{{$stage['status_id']}}-panel" role="tab" aria-controls="status{{$stage['status_id']}}-panel" aria-selected="{{$myStatus == 1 ? 'true' : 'false'}}">Tahap {{$counter}}</a>
+                <a class="nav-link {{$myStatus == 1 ? 'border border-bottom-0 border-primary active' : ''}} {{$now['status_id'] < $stage['status_id'] ? 'should-disabled' : ''}}" id="status{{$stage['status_id']}}-tab" data-toggle="tab" href="#status{{$stage['status_id']}}-panel" role="tab" aria-controls="status{{$stage['status_id']}}-panel" aria-selected="{{$myStatus == 1 ? 'true' : 'false'}}">Tahap {{$counter}}</a>
             </li>
 
             <?php
