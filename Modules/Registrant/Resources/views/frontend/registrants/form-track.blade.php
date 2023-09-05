@@ -9,6 +9,7 @@
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
             {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required"]) }}
+            <small>Dapat dilihat pada ringkasan pendaftaran, pesan whatsapp, atau email yang sudah dikirimkan ketika pendaftaran. Jika tidak mendapatkan atau lupa silakan menghubungi admin sekolah yang dituju.</small>
         </div>
     </div>
 </div>

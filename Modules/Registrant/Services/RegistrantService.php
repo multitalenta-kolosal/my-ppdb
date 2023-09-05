@@ -193,6 +193,10 @@ class RegistrantService{
                 $registrant->va_number = $va_number;
             }
 
+            if(isset($data['former_school_manual'])){
+                $registrant->former_school = $data['former_school_manual'];
+            }
+
             $registrant->unit_increment = $this->generateUnitIncrement($unit_id);
             $registrant->period_id = $this->periodRepository->findActivePeriodId();
             $registrant->register_ip = request()->getClientIP();
@@ -266,7 +270,7 @@ class RegistrantService{
         return (object) array(
             'error'=> false,            
             'message'=> '',
-            'data'=> $registrant,
+            'data'=> $this->registrantRepository->findOrFail($registrant->id),
         );
     }
 
@@ -278,6 +282,22 @@ class RegistrantService{
             'error'=> false,            
             'message'=> '',
             'data'=> $this->registrantRepository->findOrFail($id),
+        );
+    }
+
+    public function getSummary($combination){
+
+        Log::info(label_case($this->module_title.' '.__function__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
+        
+        $splited = explode("-", $combination);
+        $registrant = $this->registrantRepository->findWhere([
+                        'registrant_id' => $splited[0],
+                        'phone' => $splited[1],
+                    ])->first();
+        return (object) array(
+            'error'=> false,            
+            'message'=> '',
+            'data'=> $registrant
         );
     }
 

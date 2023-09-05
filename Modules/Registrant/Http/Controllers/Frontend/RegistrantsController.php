@@ -181,9 +181,9 @@ class RegistrantsController extends Controller
 
         $module_action = 'Store';
 
-        $registrants = $this->registrantService->store($request);
+        $registrant = $this->registrantService->store($request);
 
-        $$module_name_singular = $registrants;
+        $$module_name_singular = $registrant;
 
         if(!$$module_name_singular->error){
             Flash::success('
@@ -195,7 +195,7 @@ class RegistrantsController extends Controller
                     Silakan tunggu pesan di Email atau Whatsapp untuk masuk ke HP mu
                 </h5>
                     Jika setelah 30 menit belum mendapat pesan bisa menghubungi (WA) '
-                    .$registrants->data->unit->contact_number.
+                    .$registrant->data->unit->contact_number.
                     ' Untuk info lebih lanjut.'
                 )->important();
         }else{
@@ -208,13 +208,38 @@ class RegistrantsController extends Controller
                     Silakan coba lagi
                 </h5>
                     Jika mengalami masalah silakan menghubungi (WA) 
-                    '.$registrants->data->unit->contact_number.' 
+                    '.$registrant->data->unit->contact_number.' 
                     Untuk info lebih lanjut.'
             )->important();
         }
 
-        return redirect("/");
+        return redirect()->route('frontend.'.$module_name.'.summary', ['combination' => $registrant->data->registrant_id."-".$registrant->data->phone]);
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return View
+     */
+
+     public function summary($combination)
+     {
+         $module_title = $this->module_title;
+         $module_name = $this->module_name;
+         $module_path = $this->module_path;
+         $module_icon = $this->module_icon;
+         $module_model = $this->module_model;
+         $module_name_singular = Str::singular($module_name);
+ 
+         $module_action = 'List';
+ 
+         $registrant = $this->registrantService->getSummary($combination);
+ 
+         return view(
+             "registrant::frontend.$module_path.thank-you",
+             compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','registrant')
+         );
+     }
 
     /**
      * Update the specified resource in storage.

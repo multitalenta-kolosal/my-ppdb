@@ -280,28 +280,29 @@ class MessageService{
 
         $message = '';
 
-        try{
-            $template = $this->messageRepository->findBy('code',$message_code);
+        $template = $this->messageRepository->findBy('code',$message_code);
 
-            if($template)
-            {
-                $message = $template->message;
+        if($template)
+        {
+            $message = $template->message;
 
-                if(!$replaces){
-                    $replaces = $this->parseMessageReplaces($registrant, $template);
-                }
+            if(!$replaces){
+                $replaces = $this->parseMessageReplaces($registrant, $template);
+            }
 
-                if($replaces){
-                    foreach($replaces as $key => $value){
-                        $message =  Str::replace('$'.$key, $value, $message);
-                    }
+            if($replaces){
+                foreach($replaces as $key => $value){
+                    $message =  Str::replace('$'.$key, $value, $message);
                 }
             }
-            
-            \Log::info(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Generated Message: '.$message);
-            
-            $this->sendEmail($registrant, $message);
-          
+        }
+        
+        \Log::info(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Generated Message: '.$message);
+    
+
+        $this->sendEmail($registrant, $message);
+
+        try{
             $curl = curl_init();
             
             $apikey = $registrant->unit->api_key;

@@ -123,10 +123,24 @@
             $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} 
-            {{ html()->select($field_name, null)->placeholder($field_placeholder)->class('select2 form-control')->attributes(["$required"]) }}
+            {{ html()->select($field_data_id, null)->placeholder($field_placeholder)->class('select2 form-control')->attributes(["$required"]) }}
             <!-- {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}     -->
             <small>Masukkan nama sekolah di kolom pencarian. Jika tidak bisa menemukan, silakan dilewati saja</small>
 
+        </div>
+    </div>
+
+    <div class="col-md-6 col-sm-6" id="former_school_group_manual" >
+        <div class="form-group">
+            <?php
+            $field_name = 'former_school';
+            $field_data_id = 'former_school_manual';
+            $field_lable = __("registrant::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} 
+            {{ html()->text($field_data_id)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}    
         </div>
     </div>
     <div class="col-6">
@@ -215,8 +229,13 @@
         ];
         var hideFormer = [
             "KB/TK",
+        ];
+
+        var manualFormer = [
             "SD"
         ];
+        
+        $('#former_school_group_manual').hide();
 
         if({{ app('request')->filled('ref') == '' ? 'false' : 'true'}}){
             $('#success-ref').html("Referal telah aktif!");
@@ -234,11 +253,17 @@
                 $('#former_school-required').show();
             }
 
-            if (hideFormer.includes(unit_split[0])) {
+            if (manualFormer.includes(unit_split[0])) {
                 $('#former_school_group').hide();
+                $('#former_school_group_manual').show();
+            }else if (hideFormer.includes(unit_split[0])) {
+                $('#former_school_group').hide();
+                $('#former_school_group_manual').hide();
             }else{
                 $('#former_school_group').show();
+                $('#former_school_group_manual').hide();
             }
+
 
             $('#type').empty();
             var unit_id = $('#unit_id').val();
