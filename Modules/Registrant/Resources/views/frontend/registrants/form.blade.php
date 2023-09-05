@@ -253,17 +253,12 @@
                 $('#former_school-required').show();
             }
 
-            if (hideFormer.includes(unit_split[0])) {
-                $('#former_school_group').hide();
-                $('#former_school_group_manual').hide();
-            }else{
-                $('#former_school_group').show();
-                $('#former_school_group_manual').hide();
-            }
-            
             if (manualFormer.includes(unit_split[0])) {
                 $('#former_school_group').hide();
                 $('#former_school_group_manual').show();
+            }else if (hideFormer.includes(unit_split[0])) {
+                $('#former_school_group').hide();
+                $('#former_school_group_manual').hide();
             }else{
                 $('#former_school_group').show();
                 $('#former_school_group_manual').hide();
