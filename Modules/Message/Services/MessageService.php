@@ -301,7 +301,19 @@ class MessageService{
             \Log::info(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Generated Message: '.$message);
             
             $this->sendEmail($registrant, $message);
-          
+
+        }catch (Exception $e){
+            DB::rollBack();
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
+            return (object) $response = [
+                'data'          => null,
+                'registrant'    => $registrant,
+                'error'         => true,
+                'message'       => 'response message: '.$e->getMessage(),
+            ];
+        }
+        
+        try{
             $curl = curl_init();
             
             $apikey = $registrant->unit->api_key;
