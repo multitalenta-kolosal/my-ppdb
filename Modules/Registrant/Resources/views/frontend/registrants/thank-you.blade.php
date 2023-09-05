@@ -14,6 +14,7 @@
             <div class="col-lg-12 mb-5">
                 @include('flash::message')
 
+                @if(!$registrant->error)
                 <div class="card bg-white border-light shadow-soft flex-md-row no-gutters p-4">
                     <div class="card-body d-flex flex-column justify-content-between col-auto py-4 p-lg-5">
                         <h3 class="text-center mb-4">
@@ -24,7 +25,7 @@
                                 <div class="col col-md-3">
                                     <strong>ID Pendaftar</strong>
                                 </div>
-                                <div class="col col-md-9">
+                                <div class="col col-md-9 text-primary font-weight-bold">
                                     : {{$regData->registrant_id}}
                                 </div>
                             </div>
@@ -110,11 +111,27 @@
                             </div>
                         </div>
 
+                            <div class="row">
+                                <div class="col">
+                                    <small>Apabila terdapat data yang kurang tepat, silakan menghubungi admin sekolah <strong> {{$regData->unit->name}} Warga </strong> melalui nomor whatsapp 
+                                            <?php
+                                            $crude_number = $regData->unit->contact_number;
+                                            $clean_number = \Str::replaceFirst('0','62',$crude_number);
+                                            ?>
+                                            <a type="" href="https://wa.me/{{$clean_number}}" id ="{{$regData->unit->id}}" class="">
+                                                <i class="fab fa-lg fa-whatsapp"></i>
+                                                <span class="">
+                                                {{'+'.$clean_number}}
+                                                </span>
+                                            </a>                                    
+                                    </small>
+                                </div>
+                            </div>
                         <hr>
-                        <a href="{{ route('frontend.registrants.track') }}" class="btn btn-info btn-lg m-2 rounded-pill pr-4" title="cek_status"><i class="fas fa-running mx-2"></i>Cek Status</a>
-
+                        <a href="{{ route('frontend.registrants.track') }}" target="_blank" class="btn btn-info btn-lg m-2 rounded-pill pr-4" title="cek_status"><i class="fas fa-running mx-2"></i>Cek Status </a>
                     </div>
                 </div>
+                @endif
             </div>
 
         </div>

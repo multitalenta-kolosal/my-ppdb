@@ -111,7 +111,6 @@
             };
         ?>
         @if(!in_array($stage['status_id'],$skipped_status))
-            @if($now['status_id'] >= $stage['status_id'])
                 <div class="tab-pane fade {{$myStatus == 1 ? 'show active' : ''}}" id="status{{$stage['status_id']}}-panel" role="tabpanel" aria-labelledby="status{{$stage['status_id']}}-tab">
                     <div class="card shadow bg-white border-light p-1 text-center">
                         <div class="card-body col-auto py-3 p-lg-3">      
@@ -242,7 +241,6 @@
                 <?php
                     $counter++;
                 ?>
-            @endif
         @endif
     @endforeach
 </div>
