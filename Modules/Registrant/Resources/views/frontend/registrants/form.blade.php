@@ -129,6 +129,20 @@
 
         </div>
     </div>
+
+    <div class="col-md-6 col-sm-6" id="former_school_group_manual" >
+        <div class="form-group">
+            <?php
+            $field_name = 'former_school';
+            $field_data_id = 'former_school';
+            $field_lable = __("registrant::$module_name.$field_name");
+            $field_placeholder = $field_lable;
+            $required = "";
+            ?>
+            {{ html()->label($field_lable, $field_name) }} 
+            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}    
+        </div>
+    </div>
     <div class="col-6">
         <div class="form-group">
             <?php
@@ -215,8 +229,13 @@
         ];
         var hideFormer = [
             "KB/TK",
+        ];
+
+        var manualFormer = [
             "SD"
         ];
+        
+        $('#former_school_group_manual').hide();
 
         if({{ app('request')->filled('ref') == '' ? 'false' : 'true'}}){
             $('#success-ref').html("Referal telah aktif!");
@@ -236,9 +255,20 @@
 
             if (hideFormer.includes(unit_split[0])) {
                 $('#former_school_group').hide();
+                $('#former_school_group_manual').hide();
             }else{
                 $('#former_school_group').show();
+                $('#former_school_group_manual').hide();
             }
+            
+            if (manualFormer.includes(unit_split[0])) {
+                $('#former_school_group').hide();
+                $('#former_school_group_manual').show();
+            }else{
+                $('#former_school_group').show();
+                $('#former_school_group_manual').hide();
+            }
+
 
             $('#type').empty();
             var unit_id = $('#unit_id').val();
