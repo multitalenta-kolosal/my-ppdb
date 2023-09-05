@@ -421,7 +421,7 @@ function resetTypeTier(){
                     $('#type').append(newOption);
                 });
 
-                $('#type').val("{{$registrant->type}}");
+                $('#type').val("{{$registrant->type ?? ''}}");
 
                 if(response.tier){
                     $('#tier_id').empty();
@@ -434,7 +434,7 @@ function resetTypeTier(){
                         $('#tier_id').append(newOption);
                     });
 
-                    $('#tier_id').val("{{$registrant->tier_id}}");
+                    $('#tier_id').val("{{$registrant->tier_id ?? ''}}");
                 }else{
                     $('#tier_id').empty();
                     $('#tier_options').addClass('d-none');
@@ -478,7 +478,7 @@ function resetScheme(){
                         $('#scheme_tenor').append(newOption);
                     });
 
-                    $('#scheme_tenor').val("{{$registrant->scheme_tenor}}");
+                    $('#scheme_tenor').val("{{$registrant->scheme_tenor ?? ''}}");
 
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
