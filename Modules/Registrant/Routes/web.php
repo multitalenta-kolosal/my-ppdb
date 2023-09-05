@@ -20,6 +20,7 @@ Route::group(['namespace' => '\Modules\Registrant\Http\Controllers\Frontend', 'a
     Route::get("verifikasi", ['as' => "$module_name.veriform", 'uses' => "$controller_name@veriform"]);
     Route::get("daftar", ['as' => "$module_name.index", 'uses' => "$controller_name@index"]);
     Route::get("lacak", ['as' => "$module_name.track", 'uses' => "$controller_name@track"]);
+    Route::get("summary/{combination}", ['as' => "$module_name.summary", 'uses' => "$controller_name@summary"]);
     Route::post("progress/{registrant_id}", ['as' => "$module_name.progress", 'uses' => "$controller_name@progress"]);
     Route::resource("$module_name", "$controller_name")->only([
         'store', 'update'
