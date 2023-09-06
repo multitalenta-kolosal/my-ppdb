@@ -30,7 +30,7 @@
                                 <div class="col-5 m-3">
                                     <h3>{{$unit->name}}</h3>
                                     @if($unit->registration_veriform_link)
-                                        <a href="{{$unit->register_form_link}}" class="btn btn-primary"><i class="fas fa-user-check"></i> Form Verifikasi</a>
+                                        <a href="{{$unit->registration_veriform_link}}" class="btn btn-primary"><i class="fas fa-user-check"></i> Form Verifikasi</a>
                                     @else
                                         <button class="btn btn-gray" disabled><i class="fas fa-user-check"></i> Form Verifikasi</button>
                                         <p class="text-warning">Verifikasi Online belum tersedia</p>
