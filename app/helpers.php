@@ -516,9 +516,22 @@ if (!function_exists('my_period')) {
     }
 }
 
+if (!function_exists('is_same_period')) {
+
+    /**
+     * Return My Period
+     */
+    function is_same_period()
+    {
+        $myPeriod = auth()->user()->now_period;
+
+        return $myPeriod == Period::findActivePeriodId();
+    }
+}
+
 /*
  *
- * Return this user now period
+ * 
  *
  * ------------------------------------------------------------------------
  */

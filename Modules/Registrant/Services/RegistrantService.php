@@ -197,8 +197,14 @@ class RegistrantService{
                 $registrant->former_school = $data['former_school_manual'];
             }
 
+            $nowPeriod = $this->periodRepository->findActivePeriodId();
+
+            if(isset($data['is_backoffice'])){
+                $nowPeriod = auth()->user()->now_period;
+            }
+
             $registrant->unit_increment = $this->generateUnitIncrement($unit_id);
-            $registrant->period_id = $this->periodRepository->findActivePeriodId();
+            $registrant->period_id = $nowPeriod;
             $registrant->register_ip = request()->getClientIP();
 
             //payment scheme
