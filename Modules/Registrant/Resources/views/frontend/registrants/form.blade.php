@@ -113,37 +113,50 @@
             <small>Jika anak belom memiliki email diisi sama dengan email orang tua</small>
         </div>
     </div>
-    <div class="col-md-6 col-sm-6" id="former_school_group">
-        <div class="form-group">
-            <?php
-            $field_name = 'former_school';
-            $field_data_id = 'former_school';
-            $field_lable = __("registrant::$module_name.$field_name");
-            $field_placeholder = $field_lable;
-            $required = "";
-            ?>
-            {{ html()->label($field_lable, $field_name) }} 
-            {{ html()->select($field_data_id, null)->placeholder($field_placeholder)->class('select2 form-control')->attributes(["$required"]) }}
-            <!-- {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}     -->
-            <small>Masukkan nama sekolah di kolom pencarian. Jika tidak bisa menemukan, silakan dilewati saja</small>
+</div>
+<div class="row">
+    <div class="col-md-6 col-sm-6">
+        <div class="row">
+            <div class="col" id="former_school_group">
+                <div class="form-group">
+                    <?php
+                    $field_name = 'former_school';
+                    $field_data_id = 'former_school';
+                    $field_lable = __("registrant::$module_name.$field_name");
+                    $field_placeholder = $field_lable;
+                    $required = "";
+                    ?>
+                    {{ html()->label($field_lable, $field_name) }} 
+                    {{ html()->select($field_data_id, null)->placeholder($field_placeholder)->class('select2 form-control')->attributes(["$required"]) }}
+                    <!-- {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}     -->
+                    <!-- <small>Masukkan nama sekolah di kolom pencarian. Jika tidak bisa menemukan, silakan dilewati saja</small> -->
 
+                </div>
+            </div>
+
+            <div class="col" id="former_school_group_manual" >
+                <div class="form-group">
+                    <?php
+                    $field_name = 'former_school';
+                    $field_data_id = 'former_school_manual';
+                    $field_lable = __("registrant::$module_name.$field_name");
+                    $field_placeholder = $field_lable;
+                    $required = "";
+                    ?>
+                    {{ html()->label($field_lable, $field_name) }} 
+                    {{ html()->text($field_data_id)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}    
+                </div>
+            </div>            
+        </div>
+        <div class="row">
+            <div class="col my-auto" id="former_school_checkbox_group" >
+                <div class="form-group">
+                    <input type="checkbox" id="former_school_checkbox" style="width:20px;height:20px"><label class="ml-2" for="former_school_checkbox">Saya ingin menulis nama sekolah secara manual</label>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="col-md-6 col-sm-6" id="former_school_group_manual" >
-        <div class="form-group">
-            <?php
-            $field_name = 'former_school';
-            $field_data_id = 'former_school_manual';
-            $field_lable = __("registrant::$module_name.$field_name");
-            $field_placeholder = $field_lable;
-            $required = "";
-            ?>
-            {{ html()->label($field_lable, $field_name) }} 
-            {{ html()->text($field_data_id)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required", 'aria-label'=>'Image']) }}    
-        </div>
-    </div>
-    <div class="col-6">
+    <div class="col-md-6 col-sm-6">
         <div class="form-group">
             <?php
             $field_name = 'installment';
@@ -159,7 +172,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-6">
+    <div class="col-md-6 col-sm-6">
         <div class="form-group">
             <?php
             $field_name = 'info';
@@ -237,6 +250,18 @@
         
         $('#former_school_group_manual').hide();
 
+        $("#former_school_checkbox").change(function () {
+            if ($(this).is(":checked")) {
+                $("#former_school_group").hide();
+                $("#former_school_group_manual").fadeIn();
+                $("#former_school").val('');
+            } else {
+                $("#former_school_group_manual").hide();
+                $("#former_school_group").fadeIn();
+                $("#former_school_manual").val('');
+            }
+        });
+
         if({{ app('request')->filled('ref') == '' ? 'false' : 'true'}}){
             $('#success-ref').html("Referal telah aktif!");
             $('#success-ref').addClass("text-success");
@@ -255,12 +280,15 @@
 
             if (manualFormer.includes(unit_split[0])) {
                 $('#former_school_group').hide();
+                $("#former_school_checkbox_group").hide();
                 $('#former_school_group_manual').show();
             }else if (hideFormer.includes(unit_split[0])) {
                 $('#former_school_group').hide();
+                $("#former_school_checkbox_group").hide();
                 $('#former_school_group_manual').hide();
             }else{
                 $('#former_school_group').show();
+                $("#former_school_checkbox_group").show();
                 $('#former_school_group_manual').hide();
             }
 

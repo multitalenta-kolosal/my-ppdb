@@ -28,6 +28,11 @@ class Unit extends BaseModel
         return $this->hasMany('Modules\Core\Entities\Unit');
     }
 
+    public function unit_path_fees()
+    {
+        return $this->hasMany('Modules\Core\Entities\UnitPathFee');
+    }
+
     protected static function newFactory()
     {
         return \Modules\Core\Database\factories\UnitFactory::new();

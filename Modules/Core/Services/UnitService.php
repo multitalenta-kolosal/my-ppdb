@@ -2,6 +2,8 @@
 
 namespace Modules\Core\Services;
 
+use Modules\Core\Entities\UnitPathFee;
+
 use Modules\Core\Services\PathService;
 
 use Modules\Core\Repositories\UnitRepository;
@@ -111,6 +113,7 @@ class UnitService{
 
             $unit = $this->unitRepository->create($unitObject->toArray());
 
+            $unitPathFee = $this->setUnitPathFee($data, $unit->id);
             //Updating Paths
             $sync_path = $this->pathService->syncPath();
 
@@ -198,7 +201,8 @@ class UnitService{
             $updated = $this->unitRepository->update($unit->toArray(),$id);
 
             $updated_unit = $this->unitRepository->findOrFail($id);
-            
+
+            $unitPathFee = $this->setUnitPathFee($data, $id);
             //Updating Paths
             $sync_path = $this->pathService->syncPath();
 
@@ -270,6 +274,41 @@ class UnitService{
             'message'=> '',
             'data'=> $this->unitRepository->trashed(),
         );
+    }
+    
+    public function setUnitPathFee($data, $id){
+        // make paths fee list. assign it to the unit path fee
+
+        $paths =[];
+        $field_value = 'path-fee-';
+        foreach($data as $key => $value){
+            if (Str::contains($key, $field_value)) {
+                // \Log::debug($key);
+                // \Log::debug($value);
+
+                // $paths = Arr::add($paths,Str::after($key, $field_value),$value);
+
+                if(isset($value)){                    
+                    $path_and_parameter_raw = Str::after($key, $field_value);
+                    $path_and_parameter = explode("-",$path_and_parameter_raw);
+
+                    $unitPathFee = UnitPathFee::updateOrCreate(
+                        [
+                            'unit_id' => $id,
+                            'path_id' => $path_and_parameter[0]
+                        ],
+                        [
+                            $path_and_parameter[1] => $value
+                        ]
+                        );
+                }
+
+                unset($data[$key]);
+            }
+        }
+
+        \Log::debug($paths);
+
     }
 
     public function restore($id){

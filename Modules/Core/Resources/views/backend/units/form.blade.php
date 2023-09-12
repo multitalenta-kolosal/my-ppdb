@@ -281,6 +281,10 @@
     </div>
 </div>
 
+<hr>
+@include('core::backend.units.unit-path-fee-form')
+<hr>
+
 <div class="h3">Angsuran</div>
 <div class="row">
     <div class="col-4">
