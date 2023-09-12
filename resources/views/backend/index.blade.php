@@ -184,9 +184,13 @@
 
                     
                     if($quota != ""){
-                        if($quota->$unit_quota<1){
+                        if(!isset($quota->$unit_quota)){
                             $quota->$unit_quota = 1;
                         }
+                        else if($quota->$unit_quota<1){
+                            $quota->$unit_quota = 1;
+                        }
+            
 
                         $bar_percentage = round( ( $amount / $quota->$unit_quota) * 100, 2);
                         $accepted_per_amount_percentage = round( ( $amount_acc / $amount) * 100, 2);
