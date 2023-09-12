@@ -292,8 +292,6 @@ class RegistrantService{
     }
 
     public function getSummary($combination){
-
-        Log::info(label_case($this->module_title.' '.__function__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
         
         $splited = explode("-", $combination);
         $registrant = $this->registrantRepository->findWhere([
