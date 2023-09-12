@@ -163,6 +163,14 @@ class UnitService{
 
         $unit->installment_ids = json_decode($unit->installment_ids, true);
 
+        $unitPathFees = $this->getUnitPathFee($id);
+
+        foreach($unitPathFees as $key => $value){
+            $unit->setAttribute($key, $value);
+        }
+
+        \Log::debug($unit);
+
         Log::info(label_case($this->module_title.' '.__function__)." | '".$unit->name.'(ID:'.$unit->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return (object) array(
@@ -308,6 +316,34 @@ class UnitService{
         }
 
         \Log::debug($paths);
+
+    }
+
+
+    public function getUnitPathFee($id){
+        // make paths fee list. assign it to the unit path fee
+        $pathFees = UnitPathFee::where(['unit_id' => $id])->get();
+
+        if($pathFees->count() < 0){
+            return $pathFees; //empty paths
+        }
+
+        $field_value = 'path-fee-';
+
+        $encoded_paths = [];
+        foreach($pathFees as $pathFee){
+           $temp_encoded_path = [
+                $field_value.$pathFee->path_id.'-spp' => $pathFee->spp,
+                $field_value.$pathFee->path_id.'-school_fee' => $pathFee->school_fee,
+                $field_value.$pathFee->path_id.'-enabled' => $pathFee->enabled,
+                $field_value.$pathFee->path_id.'-use_credit_scheme' => $pathFee->use_credit_scheme,
+           ];
+
+           $encoded_paths = $encoded_paths + $temp_encoded_path;
+        }
+
+        \Log::debug($encoded_paths);
+        return $encoded_paths;
 
     }
 
