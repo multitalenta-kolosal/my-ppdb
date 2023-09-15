@@ -208,7 +208,7 @@ class RegistrantService{
             $registrant->register_ip = request()->getClientIP();
 
             //payment scheme
-            [$registrant->scheme_tenor, $registrant->scheme_string, $registrant->scheme_amount]  = $this->unitService->proccessUnitFeeByTenor($unit_id,$registrant->tier_id,$registrant->scheme_tenor);
+            [$registrant->scheme_tenor, $registrant->scheme_string, $registrant->scheme_amount]  = $this->unitService->proccessUnitFeeByTenor($registrant->type,$unit_id,$registrant->tier_id,$registrant->scheme_tenor);
 
             $registrant_stage = $this->registrantStageService->store($request, $registrant);
            
@@ -293,6 +293,7 @@ class RegistrantService{
 
     public function getSummary($combination){
         
+        \Log::debug(json_encode($combination));
         $splited = explode("-", $combination);
         $registrant = $this->registrantRepository->findWhere([
                         'registrant_id' => $splited[0],

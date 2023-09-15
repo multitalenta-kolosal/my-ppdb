@@ -78,7 +78,7 @@
 $(document).ready(function() {
 
         if({{$registrant->unit->have_major}}){
-            $('#tier_options').removeClass('d-none');
+            $('#tier_options').show();
         }
         
         $('#unit_id').on('change', function(){
@@ -104,7 +104,7 @@ $(document).ready(function() {
 
                     if(response.tier){
                         $('#tier_id').empty();
-                        $('#tier_options').removeClass('d-none');
+                        $('#tier_options').show();
 
                         var defaultOption = $('<option value="">-- Pilih --</option>');
                         $('#tier_id').append(defaultOption);
@@ -114,7 +114,7 @@ $(document).ready(function() {
                         });
                     }else{
                         $('#tier_id').empty();
-                        $('#tier_options').addClass('d-none');
+                        $('#tier_options').hide();
                     }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {

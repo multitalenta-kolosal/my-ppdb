@@ -291,11 +291,6 @@ class UnitService{
         $field_value = 'path-fee-';
         foreach($data as $key => $value){
             if (Str::contains($key, $field_value)) {
-                // \Log::debug($key);
-                // \Log::debug($value);
-
-                // $paths = Arr::add($paths,Str::after($key, $field_value),$value);
-
                 if(isset($value)){                    
                     $path_and_parameter_raw = Str::after($key, $field_value);
                     $path_and_parameter = explode("-",$path_and_parameter_raw);
@@ -314,9 +309,6 @@ class UnitService{
                 unset($data[$key]);
             }
         }
-
-        \Log::debug($paths);
-
     }
 
 
@@ -438,7 +430,7 @@ class UnitService{
     }
 
     //set option according to unit
-    public function getUnitFee($unit_id,$tier_id){
+    public function getUnitFee($path_id,$unit_id,$tier_id){
         $unit = $this->unitRepository->findOrFail($unit_id);
         $um = 0;
         $fees = $fees_amount = [];
@@ -455,17 +447,36 @@ class UnitService{
 
             $tier = $this->tierRepository->findOrFail($tier_id);
 
-            if(empty($tier->school_fee)){
-                $um = $unit->school_fee;
+            $pathFee = UnitPathFee::where(['unit_id' => $unit_id,'path_id' => $path_id,'tier_id' => $tier_id])->first();
+
+            if(isset($pathFee) && $pathFee->school_fee>0 && $pathFee->enabled == true){
+                $um = $pathFee->school_fee;
             }else{
-                $um = $tier->school_fee;
+                $pathFee = UnitPathFee::where(['unit_id' => $unit_id,'path_id' => $path_id,'tier_id' => null])->first();
+
+                if(isset($pathFee) && $pathFee->school_fee>0 && $pathFee->enabled == true){
+                    $um = $pathFee->school_fee;
+                }else{
+                    if(empty($tier->school_fee)){
+                        $um = $unit->school_fee;
+                    }else{
+                        $um = $tier->school_fee;
+                    }
+                }
             }
 
+
         }else{
-            if(empty($unit->school_fee)){
-                $um = $unit->dp +$unit->dpp;
+            $pathFee = UnitPathFee::where(['unit_id' => $unit_id,'path_id' => $path_id,'tier_id' => null])->first();
+            if(isset($pathFee) && $pathFee->school_fee>0 && $pathFee->enabled == true){
+
+                $um = $pathFee->school_fee;
             }else{
-                $um = $unit->school_fee;
+                if(empty($unit->school_fee)){
+                    $um = $unit->dp +$unit->dpp;
+                }else{
+                    $um = $unit->school_fee;
+                }
             }
         }
 
@@ -494,8 +505,8 @@ class UnitService{
         );
     }
 
-    public function proccessUnitFeeByTenor($unit_id,$tier_id,$tenor){
-        $fees_object = $this->getUnitFee($unit_id,$tier_id);
+    public function proccessUnitFeeByTenor($path_id,$unit_id,$tier_id,$tenor){
+        $fees_object = $this->getUnitFee($path_id,$unit_id,$tier_id);
 
         $fees = $fees_object->fees;
         $fees_amount = $fees_object->fees_amount;

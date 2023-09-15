@@ -319,6 +319,10 @@ $(document).ready(function() {
         resetScheme();
     });
 
+    $('#type').on('change', function(){
+        resetScheme();
+    });
+
     $('#former_school').select2({
         theme: "bootstrap",
         placeholder: '@lang("Select an option")',
@@ -406,11 +410,11 @@ function resetTypeTier(){
             type: "GET",
             url: '{{route("frontend.units.getunitopt",'')}}'+'/'+unit_id,
             beforeSend: function () {
-                var loader = $('<option value="xloader">Loading...</option>');
+                var loader = $('<option value="0">Loading...</option>');
                 $('#type').append(loader);
             },
             complete: function () {
-                $("#type option[value='xloader']").remove();
+                $("#type option[value='0']").remove();
             },
             success: function (response) {
                 var defaultOption = $('<option value="">-- Pilih --</option>');
@@ -425,7 +429,8 @@ function resetTypeTier(){
 
                 if(response.tier){
                     $('#tier_id').empty();
-                    $('#tier_options').removeClass('d-none');
+                    $('#tier_options').show();
+                    $('#tier_id').attr('required');
 
                     var defaultOption = $('<option value="">-- Pilih --</option>');
                     $('#tier_id').append(defaultOption);
@@ -437,7 +442,9 @@ function resetTypeTier(){
                     $('#tier_id').val("{{$registrant->tier_id ?? ''}}");
                 }else{
                     $('#tier_id').empty();
-                    $('#tier_options').addClass('d-none');
+                    $('#tier_options').hide();
+                    $('#tier_id').removeAttr('required');
+
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -454,6 +461,7 @@ function resetScheme(){
     $('#scheme_tenor').empty();
     var unit_id = $('#unit_id').val();
     var tier_id = $('#tier_id').val();
+    var path_id = $('#type').val();
     if(tier_id == null || tier_id == ""){
         tier_id = 0;
     }
@@ -461,13 +469,13 @@ function resetScheme(){
         if(unit_id){
             $.ajax({
                 type: "GET",
-                url: '/getunitfee/' + unit_id + '/' + tier_id,
+                url: '/getunitfee/' + path_id + '/' + unit_id + '/' + tier_id,
                 beforeSend: function () {
-                    var loader = $('<option value="xloader">Loading...</option>');
+                    var loader = $('<option value="0">Loading...</option>');
                     $('#scheme_tenor').append(loader);
                 },
                 complete: function () {
-                    $("#scheme_tenor option[value='xloader']").remove();
+                    $("#scheme_tenor option[value='0']").remove();
                 },
                 success: function (response) {
                     var defaultOption = $('<option value="">-- Pilih --</option>');
