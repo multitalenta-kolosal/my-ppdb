@@ -29,7 +29,7 @@ Route::group(['namespace' => '\Modules\Core\Http\Controllers\Frontend', 'as' => 
     $controller_name = 'UnitsController';    
     Route::get("getunitopt/{id}", 
         ['as' => "$module_name.getunitopt", 'uses' => "$controller_name@getUnitOpt"])->middleware(['throttle:10,1']);
-    Route::get("getunitfee/{unit_id}/{tier_id}", 
+    Route::get("getunitfee/{path_id}/{unit_id}/{tier_id}", 
         ['as' => "$module_name.getunitfee", 'uses' => "$controller_name@getunitfee"])->middleware(['throttle:10,1']);
    
 });

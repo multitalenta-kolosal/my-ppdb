@@ -387,17 +387,18 @@
         //for scheme_tenor
         $('#installment_id{{$data->id}}').empty();
         var unit_id = "{{$data->unit_id}}";
+        var path_id = "{{$data->type}}";
         tier_id = "{{$data->tier_id ?? 0}}";
         if(unit_id){
             $.ajax({
                 type: "GET",
-                url: '/getunitfee/' + unit_id + '/' + tier_id,
+                url: '/getunitfee/' + path_id + '/' + unit_id + '/' + tier_id,
                 beforeSend: function () {
-                    var loader = $('<option value="xloader">Loading...</option>');
+                    var loader = $('<option value="0">Loading...</option>');
                     $('#installment_id{{$data->id}}').append(loader);
                 },
                 complete: function () {
-                    $("#installment_id{{$data->id}} option[value='xloader']").remove();
+                    $("#installment_id{{$data->id}} option[value='0']").remove();
                 },
                 success: function (response) {
                     var defaultOption = $('<option value="">-- Pilih --</option>');

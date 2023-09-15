@@ -29,7 +29,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col d-none" id="tier_options">
+    <div class="col" id="tier_options">
         <div class="form-group">
             <?php
             $field_name = 'tier';
@@ -249,6 +249,7 @@
         ];
         
         $('#former_school_group_manual').hide();
+        $('#tier_options').hide();
 
         $("#former_school_checkbox").change(function () {
             if ($(this).is(":checked")) {
@@ -300,11 +301,11 @@
                     type: "GET",
                     url: '{{route("frontend.units.getunitopt",'')}}'+'/'+unit_id,
                     beforeSend: function () {
-                        var loader = $('<option value="xloader">Loading...</option>');
+                        var loader = $('<option value="0">Loading...</option>');
                         $('#type').append(loader);
                     },
                     complete: function () {
-                        $("#type option[value='xloader']").remove();
+                        $("#type option[value='0']").remove();
                     },
                     success: function (response) {
                         var defaultOption = $('<option value="">-- Pilih --</option>');
@@ -327,7 +328,8 @@
 
                         if(response.tier){
                             $('#tier_id').empty();
-                            $('#tier_options').removeClass('d-none');
+                            $('#tier_id').attr('required');
+                            $('#tier_options').show();
 
                             var defaultOption = $('<option value="">-- Pilih --</option>');
                             $('#tier_id').append(defaultOption);
@@ -337,7 +339,8 @@
                             });
                         }else{
                             $('#tier_id').empty();
-                            $('#tier_options').addClass('d-none');
+                            $('#tier_id').removeAttr('required');
+                            $('#tier_options').hide();
                         }
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
@@ -471,17 +474,59 @@
         $('#unit_id').on('change', function(){
             $('#scheme_tenor').empty();
             var unit_id = $('#unit_id').val();
+            var path_id = $('#type').val();
             tier_id = 0;
             if(unit_id){
                 $.ajax({
                     type: "GET",
-                    url: '/getunitfee/' + unit_id + '/' + tier_id,
+                    url: '/getunitfee/' + path_id + '/' + unit_id + '/' + tier_id,
                     beforeSend: function () {
-                        var loader = $('<option value="xloader">Loading...</option>');
+                        var loader = $('<option value="0">Loading...</option>');
                         $('#scheme_tenor').append(loader);
                     },
                     complete: function () {
-                        $("#scheme_tenor option[value='xloader']").remove();
+                        $("#scheme_tenor option[value='0']").remove();
+                    },
+                    success: function (response) {
+                        var defaultOption = $('<option value="">-- Pilih --</option>');
+                        $('#scheme_tenor').append(defaultOption);
+                        
+                        $.each(response.fees,function(key, val) {
+                            var newOption = $('<option value="'+key+'">'+val+'</option>');
+                            $('#scheme_tenor').append(newOption);
+                        });
+
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        Swal.fire("Silakan coba lagi beberapa saat", "@lang('error')", "error");
+                    }
+                });
+            }else{
+                var defaultOption = $('<option value="">--Silakan Pilih Sekolah Dahulu--</option>');
+                $('#scheme_tenor').append(defaultOption);
+            }
+        });
+
+
+        $('#type').on('change', function(){
+            $('#scheme_tenor').empty();
+            var unit_id = $('#unit_id').val();
+            var tier_id = $('#tier_id').val();
+
+            if(!(tier_id > 0)){
+                tier_id = 0;
+            }
+            var path_id = $('#type').val();
+            if(unit_id){
+                $.ajax({
+                    type: "GET",
+                    url: '/getunitfee/' + path_id + '/' + unit_id + '/' + tier_id,
+                    beforeSend: function () {
+                        var loader = $('<option value="0">Loading...</option>');
+                        $('#scheme_tenor').append(loader);
+                    },
+                    complete: function () {
+                        $("#scheme_tenor option[value='0']").remove();
                     },
                     success: function (response) {
                         var defaultOption = $('<option value="">-- Pilih --</option>');
@@ -508,17 +553,18 @@
             $('#scheme_tenor').empty();
             var unit_id = $('#unit_id').val();
             var tier_id = $('#tier_id').val();
+            var path_id = $('#type').val();
             if(unit_id){
                 if(unit_id){
                     $.ajax({
                         type: "GET",
-                        url: '/getunitfee/' + unit_id + '/' + tier_id,
+                        url: '/getunitfee/' + path_id + '/' + unit_id + '/' + tier_id,
                         beforeSend: function () {
-                            var loader = $('<option value="xloader">Loading...</option>');
+                            var loader = $('<option value="0">Loading...</option>');
                             $('#scheme_tenor').append(loader);
                         },
                         complete: function () {
-                            $("#scheme_tenor option[value='xloader']").remove();
+                            $("#scheme_tenor option[value='0']").remove();
                         },
                         success: function (response) {
                             var defaultOption = $('<option value="">-- Pilih --</option>');

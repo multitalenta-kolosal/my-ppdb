@@ -4,7 +4,7 @@
 
 @section('content')
 <?php
-    $regData = $registrant->data
+    $regData = $registrant->data;
 ?>
 
 <section class="section section-lg line-bottom-light bg-light">

@@ -108,10 +108,11 @@ class TiersController extends Controller
         $options = $this->tierService->create();
        
         $unit_options = $options['units'];
+        $path_options = $options['paths'];
 
         return view(
             "core::backend.$module_name.create",
-            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','unit_options')
+            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','unit_options','path_options')
         );
     }
 
@@ -197,12 +198,13 @@ class TiersController extends Controller
         $options = $this->tierService->prepareOptions();
        
         $unit_options = $options['units'];
+        $path_options = $options['paths'];
 
         $$module_name_singular = $tiers->data;
 
         return view(
             "core::backend.$module_name.edit",
-            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular",'unit_options')
+            compact('module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular",'unit_options','path_options')
         );
     }
 

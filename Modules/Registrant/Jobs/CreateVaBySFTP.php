@@ -65,7 +65,7 @@ class CreateVaBySFTP implements ShouldQueue
             }
         }catch(Exception $e){
             DB::rollBack();
-            Log::critical(label_case('CreateVaBySFTP AT '.Carbon::now().' | Function: Store to MFT for: '.$registrantstage_check->registrant_id.' | Msg: '.$e->getMessage().' reg_id: '.$registrantStage->registrant_id));
+            Log::critical(label_case('CreateVaBySFTP AT '.Carbon::now().' | Function: Store to MFT for: '.$registrantstage_check->registrant_id.' | Msg: '.$e->getMessage().' path_id: '.$registrantStage->registrant_id));
         }
 
         DB::commit();

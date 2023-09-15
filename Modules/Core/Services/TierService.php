@@ -2,6 +2,8 @@
 
 namespace Modules\Core\Services;
 
+use Modules\Core\Entities\UnitPathFee;
+
 use Modules\Core\Services\PathService;
 
 use Modules\Core\Repositories\TierRepository;
@@ -107,6 +109,7 @@ class TierService{
 
             //Updating Paths
             $sync_path = $this->pathService->syncPath();
+            $unitPathFee = $this->setUnitPatTierFee($data, $tier);
 
             if($sync_path->error){
                 return (object) array(
@@ -152,6 +155,12 @@ class TierService{
 
         $tier = $this->tierRepository->findOrFail($id);
 
+        $unitPathTierFees = $this->getUnitPathTierFee($id);
+
+        foreach($unitPathTierFees as $key => $value){
+            $tier->setAttribute($key, $value);
+        }
+
         Log::info(label_case($this->module_title.' '.__function__)." | '".$tier->name.'(ID:'.$tier->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return (object) array(
@@ -191,6 +200,7 @@ class TierService{
             
             //Updating Paths
             $sync_path = $this->pathService->syncPath();
+            $unitPathFee = $this->setUnitPathTierFee($data, $updated_tier);
 
             if($sync_path->error){
                 return (object) array(
@@ -291,6 +301,12 @@ class TierService{
     
     public function prepareOptions(){
         
+        $paths = $this->pathRepository->query()->orderBy('sort','asc')->pluck('name','id');
+
+        if(!$paths){
+            $paths = ['Silakan membuat Jalur Pendaftaran'];
+        }
+        
         $units = $this->unitRepository->query()->orderBy('order','asc')->pluck('name','id');
 
         if(!$units){
@@ -298,6 +314,7 @@ class TierService{
         }
 
         $options = array(
+            'paths' => $paths,
             'units' => $units,
         );
 
@@ -365,5 +382,63 @@ class TierService{
             'message'=> '',
             'data'=> null,
         );
+    }
+
+
+    public function setUnitPathTierFee($data, $tier){
+        // make paths fee list. assign it to the unit path fee
+
+        $paths =[];
+        $field_value = 'path-fee-';
+        foreach($data as $key => $value){
+            if (Str::contains($key, $field_value)) {
+                if(isset($value)){                    
+                    $path_and_parameter_raw = Str::after($key, $field_value);
+                    $path_and_parameter = explode("-",$path_and_parameter_raw);
+
+                    $unitPathTierFee = UnitPathFee::updateOrCreate(
+                        [
+                            'unit_id' => $tier->unit_id,
+                            'tier_id' => $tier->id,
+                            'path_id' => $path_and_parameter[0]
+                        ],
+                        [
+                            $path_and_parameter[1] => $value
+                        ]
+                        );
+                }
+
+                unset($data[$key]);
+            }
+        }
+    }
+
+
+    public function getUnitPathTierFee($tier_id){
+        // make paths fee list. assign it to the unit path fee
+        $tier = $this->tierRepository->findOrFail($tier_id);
+        $pathFees = UnitPathFee::where(['unit_id' => $tier->unit->id,'tier_id'=>$tier->id])->get();
+
+        if($pathFees->count() < 0){
+            return $pathFees; //empty paths
+        }
+
+        $field_value = 'path-fee-';
+
+        $encoded_paths = [];
+        foreach($pathFees as $pathFee){
+           $temp_encoded_path = [
+                $field_value.$pathFee->path_id.'-spp' => $pathFee->spp,
+                $field_value.$pathFee->path_id.'-school_fee' => $pathFee->school_fee,
+                $field_value.$pathFee->path_id.'-enabled' => $pathFee->enabled,
+                $field_value.$pathFee->path_id.'-use_credit_scheme' => $pathFee->use_credit_scheme,
+           ];
+
+           $encoded_paths = $encoded_paths + $temp_encoded_path;
+        }
+
+        \Log::debug($encoded_paths);
+        return $encoded_paths;
+
     }
 }

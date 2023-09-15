@@ -191,6 +191,10 @@
     </div>
 </div>
 
+<hr>
+@include('core::backend.units.unit-path-fee-form')
+<hr>
+
 <!-- Select2 Library -->
 <x-library.select2 />
 <x-library.datetime-picker />

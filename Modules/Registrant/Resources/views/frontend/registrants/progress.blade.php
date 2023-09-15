@@ -144,7 +144,6 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @if($registrant->data->unit->school_fee)
                                             <tr>
                                                 <td>
                                                     SPM
@@ -156,37 +155,6 @@
                                                     Rp. {{number_format($value , 2, ',', '.')}}
                                                 </td>
                                             </tr>
-                                            @else
-                                            <tr>
-                                                <td>
-                                                    DPP
-                                                </td>
-                                                <td>
-                                                    <?php                                        
-                                                        if($registrant->data->unit->have_major && $registrant->data->tier->dpp){
-                                                            $value = $registrant->data->tier->dpp;
-                                                        }else{
-                                                            $value = $registrant->data->unit->dpp;
-                                                        }
-                                                    ?>
-                                                    Rp. {{number_format($value , 2, ',', '.')}}
-                                                </td>
-                                            </tr>
-                                                <td>
-                                                    DP
-                                                </td>
-                                                <td>
-                                                    <?php                                        
-                                                        if($registrant->data->unit->have_major && $registrant->data->tier->dp){
-                                                            $value = $registrant->data->tier->dp;
-                                                        }else{
-                                                            $value = $registrant->data->unit->dp;
-                                                        }
-                                                    ?>
-                                                    Rp. {{number_format($value , 2, ',', '.')}}
-                                                </td>
-                                            </tr>
-                                            @endif
                                                 <td>
                                                     SPP
                                                 </td>

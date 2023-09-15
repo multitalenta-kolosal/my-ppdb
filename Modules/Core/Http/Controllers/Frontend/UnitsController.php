@@ -67,7 +67,7 @@ class UnitsController extends Controller
      *
      * @return Response
      */
-    public function getUnitfee($unit_id,$tier_id)
+    public function getUnitfee($path_id,$unit_id,$tier_id)
     {
         $module_title = $this->module_title;
         $module_name = $this->module_name;
@@ -78,7 +78,7 @@ class UnitsController extends Controller
 
         $module_action = 'get Fee';
 
-        $fees = $this->unitService->getUnitfee($unit_id,$tier_id);
+        $fees = $this->unitService->getUnitfee($path_id,$unit_id,$tier_id);
         
         return response()->json($fees);
     }
