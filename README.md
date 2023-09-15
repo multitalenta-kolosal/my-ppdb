@@ -1,33 +1,10 @@
 
-<p align="center"><img src="https://user-images.githubusercontent.com/396987/82162573-6940f500-98c7-11ea-974e-888b4f866c74.jpg" alt="Laravel Starter - A CMS like modular starter project built with Laravel"></p>
+# A system for school admision online
+**PPDB Warga** ppdb-warga is a laravel web apps that used in Yayasan Pendidikan Warga Surakarta since 2020. Proven to increase school admissions rate regarding the 2020 pandemic. Unfortunately, this web apps is not well documented. I'm really commited to completing the documentation of this system so every people could use this system.
 
-# Laravel Starter (based on Laravel 8.x)
-**Laravel Starter** is a Laravel 8.x based simple starter project. It can be used to build all type of applications. Most of the commonly needed features like Authentication, Application Backend, Backup, Logviewer are available here. It is modular, so you can use this project as a base and build your own modules. You can use the same module in any of the `Laravel Starter` based projects. New features and functionalities are being added on a regular basis.
+big thanks to nasirkhn for the laravel boilerplate!
 
 Please let me know your feedback and comments.
-
-
-# Demo
-Check the following demo project. It is just a straight installation of the project without any modification.
-
-Demo URL: http://laravel.nasirkhn.com
-
-```
-User: super@admin.com
-Pass: secret
-
-User: user@user.com
-Pass: secret
-
-```
-
-For additional demo data you may use the following command. By using this you can truncate the `posts, categories, tags and comments` table and insert new demo data. `--fresh` option will truncate the tables, without this command new set to data will be inserted only.
-
-```
-
-php artisan starter:insert-demo-data --fresh
-
-```
 
 # Custom Commands
 
@@ -48,24 +25,21 @@ apply the code style fix by this command.
 
 # Features
 
-The `Laravel Starter` comes with a number of features which are the most common in almost all the applications. It is a template project which means it is intended to build in a way that it can be used for other projects.
-
-It is a modular application, and a number of modules are installed by default. It will be helpful to use it as a base for the future applications.
-
-* Admin feature and public views are completely separated as `Backend` and `Frontend` namespace.
-* Major feature are developed as `Modules`. Module like Posts, Comments, Tags are separated from the core features like User, Role, Permission
+* New student (Registrant) Registration
+* Sending Whatsapp through rapiwha.com service
+* Registration progress checker for admin
+* Message delivery checker (callback from rapiwha.com system)
+* Support multischool (we use unit for the term)
+* Support period changing (202a/202b admission to 202c/202d)
+* Support multi registration path (reguler, special, dll)
+* Support multi School tier (admission for 1st,2nd,3rd,4th grade etc)
+* Referal system
+* etc...
 
 
 ## Core Features
 
 * User Authentication
-* Social Login
-  * Google
-  * Facebook
-  * Github
-  * Build in a way adding more is much easy now
-* User Profile with Avatar
-  * Separate User Profile table
 * Role-Permissions for Users
 * Dynamic Menu System
 * Language Switcher
@@ -127,26 +101,24 @@ FontAwesome & CoreUI Icons, two different font icon library is installed for the
 
 # Screenshots
 
-__Home Page__
+__New Student Registration__
 
-![Laravel Starter Home](https://user-images.githubusercontent.com/396987/95010200-3d8d9400-0649-11eb-8c44-72b02a37c00b.jpeg)
+![Screenshot from 2023-09-15 10-11-18](https://github.com/multitalenta-kolosal/ppdb-warga/assets/60207273/ccccc0e1-a5c2-4759-bd0c-96f39033bfa1)
 
-__Login Page__
+__Admin Page Dashboard__
 
-![Laravel Starter Login](https://user-images.githubusercontent.com/396987/95010203-3ebec100-0649-11eb-91a6-1a7ef0bb47eb.jpeg)
+![image](https://github.com/multitalenta-kolosal/ppdb-warga/assets/60207273/38907575-3814-4629-96cc-877e0ab59b43)
 
-__Posts Page__
+__Registrant Management__
 
-![Laravel Starter Posts Page](https://user-images.githubusercontent.com/396987/95010196-39fa0d00-0649-11eb-8a06-78472065b2e6.jpeg)
+![Screenshot from 2023-09-15 10-12-45](https://github.com/multitalenta-kolosal/ppdb-warga/assets/60207273/2b71923e-34f4-44bd-a745-a8b53cb323c3)
 
-__Backend Dashboard__
+__Schools Management__
 
-![Backend Dashboard](https://user-images.githubusercontent.com/396987/88489727-f3889200-cfb7-11ea-819f-dc9a52bc8d82.jpg)
+![Screenshot from 2023-09-15 10-14-46](https://github.com/multitalenta-kolosal/ppdb-warga/assets/60207273/267aa414-7396-4185-ae52-2968f8afbb4d)
 
----
+__Logs Management__
 
-![List-Posts-Laravel-Starter](https://user-images.githubusercontent.com/396987/88519250-a0dcc380-d013-11ea-9dc5-9d731af611f1.jpg)
+![image](https://github.com/multitalenta-kolosal/ppdb-warga/assets/60207273/5fdccef3-0f6b-45f3-ab2d-8e436cc61de2)
 
----
 
-![Edit-Posts-Laravel-Starter](https://user-images.githubusercontent.com/396987/88519360-d1bcf880-d013-11ea-9f6c-b5d33912057f.jpg)
