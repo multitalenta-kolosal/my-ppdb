@@ -2,6 +2,8 @@
 # A system for school admision online
 **PPDB Warga** ppdb-warga is a laravel web apps that used in Yayasan Pendidikan Warga Surakarta since 2020. Proven to increase school admissions rate regarding the 2020 pandemic. Unfortunately, this web apps is not well documented. I'm really commited to completing the documentation of this system so every people could use this system.
 
+![Screenshot from 2023-09-15 10-15-42](https://github.com/multitalenta-kolosal/ppdb-warga/assets/60207273/9fe8c6fc-e5ac-4f42-b52e-6058582aa7a3)
+
 big thanks to nasirkhn for the laravel boilerplate!
 
 Please let me know your feedback and comments.
