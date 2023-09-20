@@ -18,7 +18,7 @@ return [
     'ref_code'                  => 'Referal Code',
     'notes'                     => 'Notes',
     'info'                      => 'Got info from?',
-    'installment'               => 'Skema Pembayaran Sumbangan Mutu Pendidikan (SPM)',
+    'installment'               => 'Skema Pembayaran Sumbangan pengembangan mutu (SPM)',
 
     'verification'=>
     [
