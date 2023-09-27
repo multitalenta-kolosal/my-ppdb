@@ -36,7 +36,7 @@
             @endif
         </div>
     </div>
-    <div class="col-md-4 d-none" id="tier_options">
+    <div class="col-md-4" id="tier_options">
         <div class="form-group">
             <?php
             $field_name = 'tier';
