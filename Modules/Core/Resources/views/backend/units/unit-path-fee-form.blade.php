@@ -1,67 +1,72 @@
 @foreach($path_options as $key => $path)
-    <div class="row">
-        <div class="col">
-            <div class="form-group">
-                <?php
-                $field_name = $path;
-                $field_lable = $path;
-                $field_placeholder = $field_lable;
-                $required = "";
-                ?>
-                {{ html()->label($field_lable, $field_name)->class('font-weight-bold') }} {!! fielf_required($required) !!}
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <?php
+                        $field_name = $path;
+                        $field_lable = "Jalur ".$path;
+                        $field_placeholder = $field_lable;
+                        $required = "";
+                        ?>
+                        {{ html()->label($field_lable, $field_name)->class('h5 font-weight-bold') }} {!! fielf_required($required) !!}
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <div class="form-group">
-                <?php
-                $field_name = 'path-fee-'.$key.'-'.'school_fee';
-                $field_lable = 'SPM';
-                $field_placeholder = $field_lable;
-                $required = "";
-                ?>
-                {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-                {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <?php
+                        $field_name = 'path-fee-'.$key.'-'.'school_fee';
+                        $field_lable = 'SPM Default';
+                        $field_placeholder = $field_lable;
+                        $required = "";
+                        ?>
+                        {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                        {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <?php
+                        $field_name = 'path-fee-'.$key.'-'.'spp';
+                        $field_lable = 'SPP Default';
+                        $field_placeholder = $field_lable;
+                        $required = "";
+                        ?>
+                        {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                        {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <?php
+                        $field_name = 'path-fee-'.$key.'-'.'use_credit_scheme';
+                        $field_data_id = 'path-fee-'.$key.'-'.'use_credit_scheme';
+                        $field_lable = 'Bisa dicicil?';
+                        $required = "";
+                        $select_options = [0=>"tidak",1=>"ya"];
+                        ?>
+                        {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                        {{ html()->select($field_data_id, $select_options)->class('form-control border-purple')->attributes(["$required"]) }}
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <?php
+                        $field_name = 'path-fee-'.$key.'-'.'enabled';
+                        $field_data_id = 'path-fee-'.$key.'-'.'enabled';
+                        $field_lable = 'Aktif?';
+                        $required = "";
+                        $select_options = [0=>"tidak",1=>"ya"];
+                        ?>
+                        {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                        {{ html()->select($field_data_id, $select_options)->class('form-control border-purple')->attributes(["$required"]) }}
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="col">
-            <div class="form-group">
-                <?php
-                $field_name = 'path-fee-'.$key.'-'.'spp';
-                $field_lable = 'SPP';
-                $field_placeholder = $field_lable;
-                $required = "";
-                ?>
-                {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-                {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
-            </div>
-        </div>
-        <div class="col">
-            <div class="form-group">
-                <?php
-                $field_name = 'path-fee-'.$key.'-'.'use_credit_scheme';
-                $field_data_id = 'path-fee-'.$key.'-'.'use_credit_scheme';
-                $field_lable = 'Bisa dicicil?';
-                $required = "";
-                $select_options = [0=>"tidak",1=>"ya"];
-                ?>
-                {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-                {{ html()->select($field_data_id, $select_options)->class('form-control border-purple')->attributes(["$required"]) }}
-            </div>
-        </div>
-        <div class="col">
-            <div class="form-group">
-                <?php
-                $field_name = 'path-fee-'.$key.'-'.'enabled';
-                $field_data_id = 'path-fee-'.$key.'-'.'enabled';
-                $field_lable = 'Aktif?';
-                $required = "";
-                $select_options = [0=>"tidak",1=>"ya"];
-                ?>
-                {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-                {{ html()->select($field_data_id, $select_options)->class('form-control border-purple')->attributes(["$required"]) }}
-            </div>
+            @include('core::backend.units.unit-path-fee-manual-form')
         </div>
     </div>
 @endforeach

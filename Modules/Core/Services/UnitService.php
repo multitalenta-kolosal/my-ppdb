@@ -3,6 +3,7 @@
 namespace Modules\Core\Services;
 
 use Modules\Core\Entities\UnitPathFee;
+use Modules\Core\Entities\UnitPathFeeManual;
 
 use Modules\Core\Services\PathService;
 
@@ -106,7 +107,7 @@ class UnitService{
 
         try {
 
-            $data['installment_ids'] = json_encode($data['installment_ids']);
+            // $data['installment_ids'] = json_encode($data['installment_ids']);
 
             $unitObject = $this->unitRepository->make($data);
             $unitObject->paths = json_encode($paths);
@@ -161,11 +162,17 @@ class UnitService{
 
         $unit = $this->unitRepository->findOrFail($id);
 
-        $unit->installment_ids = json_decode($unit->installment_ids, true);
+        // $unit->installment_ids = json_decode($unit->installment_ids, true);
 
         $unitPathFees = $this->getUnitPathFee($id);
+        $unitPathFeeManuals = $this->getUnitPathFeeManual($id);
+
 
         foreach($unitPathFees as $key => $value){
+            $unit->setAttribute($key, $value);
+        }
+
+        foreach($unitPathFeeManuals as $key => $value){
             $unit->setAttribute($key, $value);
         }
 
@@ -197,7 +204,7 @@ class UnitService{
         DB::beginTransaction();
 
         try{
-            $data['installment_ids'] = json_encode($data['installment_ids']);
+            // $data['installment_ids'] = json_encode($data['installment_ids']);
 
             $unit = $this->unitRepository->make($data);
             $unit->paths = json_encode($paths);
@@ -305,8 +312,28 @@ class UnitService{
                         ]
                         );
                 }
+            }
+        }
 
-                unset($data[$key]);
+        $field_value = 'path-feeManual-';
+        foreach($data as $key => $value){
+            if (Str::contains($key, $field_value)) {
+                if(isset($value)){                    
+                    $path_and_parameter_raw = Str::after($key, $field_value);
+                    $path_and_parameter = explode("-",$path_and_parameter_raw);
+
+                    $unitPathFee = UnitPathFeeManual::updateOrCreate(
+                        [
+                            'unit_id' => $id,
+                            'path_id' => $path_and_parameter[0],
+                            'tenor' => $path_and_parameter[1],
+                            'payment_number' => $path_and_parameter[2]
+                        ],
+                        [
+                            $path_and_parameter[3] => $value
+                        ]
+                        );
+                }
             }
         }
     }
@@ -336,6 +363,30 @@ class UnitService{
 
         \Log::debug($encoded_paths);
         return $encoded_paths;
+
+    }
+
+    public function getUnitPathFeeManual($id){
+        $pathFeeManuals = UnitPathFeeManual::where(['unit_id' => $id])->get();
+
+        if($pathFeeManuals->count() < 0){
+            return $pathFeeManuals; //empty paths
+        }
+
+        $field_value = 'path-feeManual-';
+
+        $encoded_manual_paths = [];
+        foreach($pathFeeManuals as $pathFeeManual){
+           $temp_encoded_path = [
+                $field_value.$pathFeeManual->path_id.'-'.$pathFeeManual->tenor.'-'.$pathFeeManual->payment_number.'-spp' => $pathFeeManual->spp,
+                $field_value.$pathFeeManual->path_id.'-'.$pathFeeManual->tenor.'-'.$pathFeeManual->payment_number.'-school_fee' => $pathFeeManual->school_fee,
+           ];
+
+           $encoded_manual_paths = $encoded_manual_paths + $temp_encoded_path;
+        }
+
+        \Log::debug($encoded_manual_paths);
+        return $encoded_manual_paths;
 
     }
 

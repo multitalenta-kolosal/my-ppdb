@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'name' => 'Core'
+    'name' => 'Core',
+    'tenor' => [1,3,6]
 ];
