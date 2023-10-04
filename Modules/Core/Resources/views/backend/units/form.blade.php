@@ -230,6 +230,28 @@
         </div>
     </div>
 </div>
+
+<div class="h3">Jalur Pendaftaran</div>
+<div class="row">
+    <?php
+        $field_name = 'path';
+        $field_lable = __("core::$module_name.$field_name");
+        $field_placeholder = $field_lable;
+        $field_value = $path_value ?? [];
+        $required = "";
+    ?>
+    @foreach($path_options as $key => $path)
+        <div class="col-sm-6 col-md-3 col-lg-2 m-2">
+            <div class="form-group">
+                    {{ html()->label($path)->class('float-center') }} {!! fielf_required($required) !!}
+                    {{ html()->checkbox($field_name.'_'.strtolower($path), array_key_exists($key, $field_value) ? true : false, $key)->class('inline m-1 display-1')->attributes(["$required"]) }}
+            </div>
+        </div>
+    @endforeach
+</div>
+<hr>
+
+<h3>Biaya Default</h3>
 <div class="row">
     <div class="col-3">
         <div class="form-group">
@@ -282,10 +304,11 @@
 </div>
 
 <hr>
+<h3>Biaya Per Jalur</h3>
 @include('core::backend.units.unit-path-fee-form')
 <hr>
 
-<div class="h3">Angsuran</div>
+<!-- <div class="h3">Angsuran</div>
 <div class="row">
     <div class="col-4">
         <div class="form-group">
@@ -301,27 +324,7 @@
             {{ html()->multiselect($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
         </div>
     </div>
-</div>
-
-<div class="h3">Jalur Pendaftaran</div>
-<div class="row">
-    <?php
-        $field_name = 'path';
-        $field_lable = __("core::$module_name.$field_name");
-        $field_placeholder = $field_lable;
-        $field_value = $path_value ?? [];
-        $required = "";
-    ?>
-    @foreach($path_options as $key => $path)
-        <div class="col-sm-6 col-md-3 col-lg-2 m-2">
-            <div class="form-group">
-                    {{ html()->label($path)->class('float-center') }} {!! fielf_required($required) !!}
-                    {{ html()->checkbox($field_name.'_'.strtolower($path), array_key_exists($key, $field_value) ? true : false, $key)->class('inline m-1 display-1')->attributes(["$required"]) }}
-            </div>
-        </div>
-    @endforeach
-</div>
-
+</div> -->
 
 <!-- Select2 Library -->
 <x-library.select2 />

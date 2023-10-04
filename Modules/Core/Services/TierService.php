@@ -3,6 +3,7 @@
 namespace Modules\Core\Services;
 
 use Modules\Core\Entities\UnitPathFee;
+use Modules\Core\Entities\UnitPathFeeManual;
 
 use Modules\Core\Services\PathService;
 
@@ -156,8 +157,13 @@ class TierService{
         $tier = $this->tierRepository->findOrFail($id);
 
         $unitPathTierFees = $this->getUnitPathTierFee($id);
+        $unitPathTierFeeManuals = $this->getUnitPathTierFeeManual($id);
 
         foreach($unitPathTierFees as $key => $value){
+            $tier->setAttribute($key, $value);
+        }
+
+        foreach($unitPathTierFeeManuals as $key => $value){
             $tier->setAttribute($key, $value);
         }
 
@@ -407,8 +413,30 @@ class TierService{
                         ]
                         );
                 }
+            }
+        }
 
-                unset($data[$key]);
+
+        $field_value = 'path-feeManual-';
+        foreach($data as $key => $value){
+            if (Str::contains($key, $field_value)) {
+                if(isset($value)){                    
+                    $path_and_parameter_raw = Str::after($key, $field_value);
+                    $path_and_parameter = explode("-",$path_and_parameter_raw);
+
+                    $unitPathFee = UnitPathFeeManual::updateOrCreate(
+                        [
+                            'unit_id' => $tier->unit_id,
+                            'tier_id' => $tier->id,
+                            'path_id' => $path_and_parameter[0],
+                            'tenor' => $path_and_parameter[1],
+                            'payment_number' => $path_and_parameter[2]
+                        ],
+                        [
+                            $path_and_parameter[3] => $value
+                        ]
+                        );
+                }
             }
         }
     }
@@ -439,6 +467,31 @@ class TierService{
 
         \Log::debug($encoded_paths);
         return $encoded_paths;
+
+    }
+
+    public function getUnitPathTierFeeManual($tier_id){
+        $tier = $this->tierRepository->findOrFail($tier_id);
+        $pathFeeManuals = UnitPathFeeManual::where(['unit_id' => $tier->unit->id,'tier_id'=>$tier_id])->get();
+
+        if($pathFeeManuals->count() < 0){
+            return $pathFeeManuals; //empty paths
+        }
+
+        $field_value = 'path-feeManual-';
+
+        $encoded_manual_paths = [];
+        foreach($pathFeeManuals as $pathFeeManual){
+           $temp_encoded_path = [
+                $field_value.$pathFeeManual->path_id.'-'.$pathFeeManual->tenor.'-'.$pathFeeManual->payment_number.'-spp' => $pathFeeManual->spp,
+                $field_value.$pathFeeManual->path_id.'-'.$pathFeeManual->tenor.'-'.$pathFeeManual->payment_number.'-school_fee' => $pathFeeManual->school_fee,
+           ];
+
+           $encoded_manual_paths = $encoded_manual_paths + $temp_encoded_path;
+        }
+
+        \Log::debug($encoded_manual_paths);
+        return $encoded_manual_paths;
 
     }
 }
