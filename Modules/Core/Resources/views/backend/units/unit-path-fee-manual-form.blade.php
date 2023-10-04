@@ -5,7 +5,7 @@
     <div class="card-body">
         <div class="row">
             @foreach(config('tenor.list') as $value)
-            <div class="col">
+            <div class="col-12 col-lg">
                 <div class="form-group">
                     <?php
                     $field_name = $value;

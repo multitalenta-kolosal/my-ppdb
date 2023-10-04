@@ -1,6 +1,6 @@
 @foreach($path_options as $key => $path)
     <div class="card">
-        <div class="card-body">
+        <div class="card-body bg-light">
             <div class="row">
                 <div class="col">
                     <div class="form-group">
@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col">
+                <div class="col-12 col-lg">
                     <div class="form-group">
                         <?php
                         $field_name = 'path-fee-'.$key.'-'.'school_fee';
@@ -27,7 +27,7 @@
                         {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-12 col-lg">
                     <div class="form-group">
                         <?php
                         $field_name = 'path-fee-'.$key.'-'.'spp';
@@ -39,7 +39,7 @@
                         {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-12 col-lg">
                     <div class="form-group">
                         <?php
                         $field_name = 'path-fee-'.$key.'-'.'use_credit_scheme';
@@ -52,7 +52,7 @@
                         {{ html()->select($field_data_id, $select_options)->class('form-control border-purple')->attributes(["$required"]) }}
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-12 col-lg">
                     <div class="form-group">
                         <?php
                         $field_name = 'path-fee-'.$key.'-'.'enabled';
