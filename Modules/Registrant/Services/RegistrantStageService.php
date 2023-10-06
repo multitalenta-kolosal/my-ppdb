@@ -125,7 +125,7 @@ class RegistrantStageService{
 
             if(array_key_exists("installment_id",$data)){
                 $registrant = Registrant::where('registrant_id',$registrantStage->registrant_id)->first();
-                [$registrant->scheme_tenor, $registrant->scheme_string, $registrant->scheme_amount]  = $this->unitService->proccessUnitFeeByTenor($registrant->type,$registrant->unit_id,$registrant->tier_id,$data["installment_id"]);
+                [$registrant->scheme_tenor, $registrant->scheme_string, $registrant->scheme_amount, $registrant->scheme_amount_next]  = $this->unitService->proccessUnitFeeByTenor($registrant->type,$registrant->unit_id,$registrant->tier_id,$data["installment_id"]);
                 $registrant->save();
             }
 

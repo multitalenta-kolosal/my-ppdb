@@ -146,7 +146,7 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    SPM
+                                                    SPM (Pembayaran Pertama)
                                                 </td>
                                                 <td>
                                                     <?php                                        
