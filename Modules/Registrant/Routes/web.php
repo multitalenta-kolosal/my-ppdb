@@ -24,7 +24,7 @@ Route::group(['namespace' => '\Modules\Registrant\Http\Controllers\Frontend', 'a
     Route::post("progress/{registrant_id}", ['as' => "$module_name.progress", 'uses' => "$controller_name@progress"]);
     Route::resource("$module_name", "$controller_name")->only([
         'store', 'update'
-    ])->middleware(['throttle:10,1']);
+    ])->middleware(['throttle:30,1']);
 });
 
 /*

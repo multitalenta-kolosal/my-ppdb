@@ -480,8 +480,8 @@ class UnitService{
         );
     }
 
-    //set option according to unit
-    public function getUnitFee($path_id,$unit_id,$tier_id){
+    // set option according to unit (Legacy)
+    public function getUnitFeeLegacy($path_id,$unit_id,$tier_id){
         $unit = $this->unitRepository->findOrFail($unit_id);
         $um = 0;
         $fees = $fees_amount = [];
@@ -553,6 +553,80 @@ class UnitService{
             'message'          => '',
             'fees'             => $fees,
             'fees_amount'      => $fees_amount,
+            'fees_amount_next'      => [],
+        );
+    }
+
+    public function getUnitFee($path_id,$unit_id,$tier_id){
+        $unit = $this->unitRepository->findOrFail($unit_id);
+        $um = 0;
+        $fees = $fees_amount = $fees_amount_next = [];
+
+        if($unit->have_major){
+            if($tier_id == 0){
+                return (object) array(
+                    'error'     => false,            
+                    'message'   => '',
+                    'fees'      => [0 => "-- Silakan memilih kelas/jurusan terlebih dahulu --"],
+                );
+            }
+        }
+
+        \Log::debug("unit_id: ".json_encode($unit_id));
+        \Log::debug("path_id: ".json_encode($path_id));
+        \Log::debug("tier_id: ".json_encode($tier_id));
+
+        $pathFeeManual = UnitPathFeeManual::where(['unit_id' => $unit_id,'path_id' => $path_id,'tier_id' => $tier_id])->get();
+
+        \Log::debug("here: ".json_encode($pathFeeManual));
+        if($pathFeeManual->isEmpty()){
+            \Log::debug("no tier");
+            $pathFeeManual = UnitPathFeeManual::where(['unit_id' => $unit_id,'path_id' => $path_id,'tier_id' => null])->get();
+            
+            \Log::debug($pathFeeManual);
+            if($pathFeeManual->isEmpty()){
+                return $this->getUnitFeeLegacy($path_id,$unit_id,$tier_id);
+            }
+        }
+
+
+        $payment_intervals = payment_interval();
+
+        foreach($payment_intervals as $index => $payment_interval ){              
+            $first_amount = 0;
+            $second_amount = 0;
+            if($payment_interval == 1){
+                $first_amount_fee = $pathFeeManual->where('tenor',1)->first();
+                if(isset($first_amount_fee)){
+                    $first_amount = $first_amount_fee->school_fee;
+                }
+                $fees[$payment_interval] = $payment_interval."x Rp ".number_format($first_amount, 2, ',', '.');
+                $fees_amount[$payment_interval] = $first_amount;
+
+            }else{
+                $first_amount_fee = $pathFeeManual->where('tenor',$payment_interval)->where('payment_number',1)->first();
+
+                if(isset($first_amount_fee)){
+                    $first_amount = $first_amount_fee->school_fee;
+                }
+                $second_amount_fee = $pathFeeManual->where('tenor',$payment_interval)->where('payment_number',2)->first();
+
+                if(isset($second_amount_fee)){
+                    $second_amount = $second_amount_fee->school_fee;
+                }
+                $fees[$payment_interval] = $payment_interval."x Ke-1 (Rp. ".number_format($first_amount, 2, ',', '.').") Ke 2-".$payment_interval." (Rp. ".number_format($second_amount, 2, ',', '.').")";
+                $fees_amount[$payment_interval] = $first_amount;
+                $fees_amount_next[$payment_interval] = $second_amount;
+
+            }
+        }
+
+        return (object) array(
+            'error'            => false,            
+            'message'          => '',
+            'fees'             => $fees,
+            'fees_amount'             => $fees_amount,
+            'fees_amount_next'      => $fees_amount_next,
         );
     }
 
@@ -561,11 +635,13 @@ class UnitService{
 
         $fees = $fees_object->fees;
         $fees_amount = $fees_object->fees_amount;
+        $fees_amount_next = $fees_object->fees_amount_next;
 
         $scheme_string = $fees[$tenor];
         $scheme_amount = round($fees_amount[$tenor],0);
+        $scheme_amount_next = round($fees_amount_next[$tenor],0);
 
-        return [$tenor, $scheme_string, $scheme_amount];
+        return [$tenor, $scheme_string, $scheme_amount,$scheme_amount_next];
     }
 
     public function purge($id){

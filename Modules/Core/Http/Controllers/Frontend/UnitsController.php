@@ -79,7 +79,7 @@ class UnitsController extends Controller
         $module_action = 'get Fee';
 
         $fees = $this->unitService->getUnitfee($path_id,$unit_id,$tier_id);
-        
+        \Log::debug(json_encode($fees));
         return response()->json($fees);
     }
 }
