@@ -5,6 +5,9 @@ namespace Modules\Registrant\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Flash;
+use PDF;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Response;
 use GeneaLabs\LaravelMultiStepProgressbar\ProgressbarItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -239,6 +242,31 @@ class RegistrantsController extends Controller
              "registrant::frontend.$module_path.thank-you",
              compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','registrant')
          );
+     }
+
+
+     public function download($combination)
+     {
+         $module_title = $this->module_title;
+         $module_name = $this->module_name;
+         $module_path = $this->module_path;
+         $module_icon = $this->module_icon;
+         $module_model = $this->module_model;
+         $module_name_singular = Str::singular($module_name);
+ 
+         $module_action = 'List';
+ 
+         $data = $this->registrantService->getSummary($combination);
+
+         $registrant = $data->data;
+ 
+         $pdf = PDF::loadView("registrant::frontend.$module_path.print-receipt", compact('registrant'));
+
+         return view(
+            "registrant::frontend.$module_path.print-receipt",
+            compact('registrant')
+        );
+        //  return $pdf->stream('tess.pdf');
      }
 
     /**

@@ -21,6 +21,7 @@ Route::group(['namespace' => '\Modules\Registrant\Http\Controllers\Frontend', 'a
     Route::get("daftar", ['as' => "$module_name.index", 'uses' => "$controller_name@index"]);
     Route::get("cekstatus", ['as' => "$module_name.track", 'uses' => "$controller_name@track"]);
     Route::get("summary/{combination}", ['as' => "$module_name.summary", 'uses' => "$controller_name@summary"]);
+    Route::get("download/{registrant_id}", ['as' => "$module_name.download", 'uses' => "$controller_name@download"]);
     Route::post("progress/{registrant_id}", ['as' => "$module_name.progress", 'uses' => "$controller_name@progress"]);
     Route::resource("$module_name", "$controller_name")->only([
         'store', 'update'

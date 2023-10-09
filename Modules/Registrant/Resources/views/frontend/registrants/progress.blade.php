@@ -5,9 +5,15 @@
 ?>
 
 <div>
+    <?php
+        $combination = $registrant->data->registrant_id."-".$registrant->data->phone;
+    ?>
     <h2 class="display-3 mb-3 text-center">
         Progress Calon Peserta
-    </h2>
+    </h2>        
+    <div class="row py-1 my-3 text-center justify-content-center align-middle">
+        <a href="{{ route('frontend.registrants.download',$combination)}}" target="_blank" class="btn btn-primary btn-sm m-2 rounded-pill pr-4" title="download"><i class="fas fa-download mx-2"></i>Download / Print Bukti Pendaftaran </a>
+    </div>
     <div class="row py-1 my-3 text-center justify-content-center align-middle">
         <div class="col-sm-6 col-md-6">
             <h4 class="text-primary">{{$registrant->data->name ?? 'DATA NOT FOUND'}}</h4>
