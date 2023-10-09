@@ -146,7 +146,7 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col">Nama Biaya</th>
-                                                <th scope="col">Nominal</th>
+                                                <th scope="col">Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -156,9 +156,9 @@
                                                 </td>
                                                 <td>
                                                     <?php                                        
-                                                        $value = $registrant->data->scheme_amount;
+                                                        $value = $registrant->data->scheme_string;
                                                     ?>
-                                                    Rp. {{number_format($value , 2, ',', '.')}}
+                                                    {{$value}}
                                                 </td>
                                             </tr>
                                                 <td>
