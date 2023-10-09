@@ -128,6 +128,10 @@
                                 </div>
                             </div>
                         <hr>
+                        <?php
+                            $combination = $regData->registrant_id."-".$regData->phone;
+                        ?>
+                        <a href="{{ route('frontend.registrants.download',$combination)}}" target="_blank" class="btn btn-primary btn-lg m-2 rounded-pill pr-4" title="download"><i class="fas fa-download mx-2"></i>Download / Print Bukti Pendaftaran </a>
                         <a href="{{ route('frontend.registrants.track') }}" target="_blank" class="btn btn-info btn-lg m-2 rounded-pill pr-4" title="cek_status"><i class="fas fa-running mx-2"></i>Cek Status </a>
                     </div>
                 </div>
