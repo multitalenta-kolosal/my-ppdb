@@ -572,18 +572,12 @@ class UnitService{
             }
         }
 
-        \Log::debug("unit_id: ".json_encode($unit_id));
-        \Log::debug("path_id: ".json_encode($path_id));
-        \Log::debug("tier_id: ".json_encode($tier_id));
 
         $pathFeeManual = UnitPathFeeManual::where(['unit_id' => $unit_id,'path_id' => $path_id,'tier_id' => $tier_id])->get();
 
-        \Log::debug("here: ".json_encode($pathFeeManual));
         if($pathFeeManual->isEmpty()){
-            \Log::debug("no tier");
             $pathFeeManual = UnitPathFeeManual::where(['unit_id' => $unit_id,'path_id' => $path_id,'tier_id' => null])->get();
             
-            \Log::debug($pathFeeManual);
             if($pathFeeManual->isEmpty()){
                 return $this->getUnitFeeLegacy($path_id,$unit_id,$tier_id);
             }
@@ -602,7 +596,7 @@ class UnitService{
                 }
                 $fees[$payment_interval] = $payment_interval."x Rp ".number_format($first_amount, 2, ',', '.');
                 $fees_amount[$payment_interval] = $first_amount;
-
+                $fees_amount_next[$payment_interval] = $second_amount;
             }else{
                 $first_amount_fee = $pathFeeManual->where('tenor',$payment_interval)->where('payment_number',1)->first();
 
