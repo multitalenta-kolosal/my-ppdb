@@ -208,7 +208,7 @@ class RegistrantService{
             $registrant->register_ip = request()->getClientIP();
 
             //payment scheme
-            [$registrant->scheme_tenor, $registrant->scheme_string, $registrant->scheme_amount/* , $registrant->scheme_amount_next */]  = $this->unitService->proccessUnitFeeByTenor($registrant->type,$unit_id,$registrant->tier_id,$registrant->scheme_tenor);
+            [$registrant->scheme_tenor, $registrant->scheme_string, $registrant->scheme_amount , $registrant->scheme_amount_next ]  = $this->unitService->proccessUnitFeeByTenor($registrant->type,$unit_id,$registrant->tier_id,$registrant->scheme_tenor);
 
             $registrant_stage = $this->registrantStageService->store($request, $registrant);
            
