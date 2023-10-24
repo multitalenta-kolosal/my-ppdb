@@ -19,10 +19,13 @@ class UserEventSubscriber
             /*
              * Updating user profile data after successful login
              */
-            $user_profile->last_login = Carbon::now();
-            $user_profile->last_ip = request()->getClientIp();
-            $user_profile->login_count = $user_profile->login_count + 1;
-            $user_profile->save();
+            if( isset($user_profile)){
+                $user_profile->last_login = Carbon::now();
+                $user_profile->last_ip = request()->getClientIp();
+                $user_profile->login_count = $user_profile->login_count + 1;
+                $user_profile->save();
+
+            }
         } catch (\Exception $e) {
             Log::error($e);
         }

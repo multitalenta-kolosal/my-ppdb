@@ -25,7 +25,7 @@
             <?php
             $field_name = 'type';
             $field_lable = __("registrant::$module_name.$field_name");
-            $field_placeholder = __("Select an option");
+            $field_placeholder = "-- Silakan memilih unit terlebih dahulu --";
             $required = "required";
             $select_options = [];
             ?>
@@ -284,7 +284,6 @@
 
 $(document).ready(function() {
     resetTypeTier();
-    resetScheme();
 });
 
 $(document).ready(function() {
@@ -440,6 +439,8 @@ function resetTypeTier(){
                     });
 
                     $('#tier_id').val("{{$registrant->tier_id ?? ''}}");
+                    
+                    resetScheme();
                 }else{
                     $('#tier_id').empty();
                     $('#tier_options').hide();
@@ -462,6 +463,9 @@ function resetScheme(){
     var unit_id = $('#unit_id').val();
     var tier_id = $('#tier_id').val();
     var path_id = $('#type').val();
+    console.log(unit_id);
+    console.log(tier_id);
+    console.log(path_id);
     if(tier_id == null || tier_id == ""){
         tier_id = 0;
     }

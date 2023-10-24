@@ -52,9 +52,16 @@
     if($batch_period){
         $quota = json_decode($batch_period->quota);
     }else{
-        $quota = null;
+        $quota = [];
     }
-    $total_target = 0;
+    
+    $total_target = 1;
+
+    if(is_null($quota)){
+        $quota = [];
+    }
+
+
     foreach($quota as $quota_amount){
         $total_target += $quota_amount;
     }
@@ -152,8 +159,13 @@
     if($batch_period){
         $quota = json_decode($batch_period->quota);
     }else{
-        $quota = null;
+        $quota = [];
     }
+
+    if(is_null($quota)){
+        $quota = [];
+    }
+
     foreach($unit_counts as $unit){
         $total += $unit->amount;
         $total_acc += $unit->accepted_amount;
