@@ -55,5 +55,7 @@ return [
         'notes'                     => 'Notes',
         'info'                      => 'Info',
         'tag_color'                 => 'Tag',
+        'has_scholarship'           => 'Mendapat Beasiswa?',
+        'scholarship_amount'        => 'Jumlah Beasiswa (Rp)',
     ],
 ];
