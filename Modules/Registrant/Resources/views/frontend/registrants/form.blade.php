@@ -18,17 +18,13 @@
         <div class="form-group">
             <?php
             $field_name = 'type';
-            $field_data_id = 'type';
             $field_lable = __("registrant::$module_name.$field_name");
-            $field_placeholder = __("Select an option");
+            $field_placeholder = "-- Silakan memilih unit terlebih dahulu --";
             $required = "required";
             $select_options = [];
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->select($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control select2')->attributes(["$required"]) }}
-            @if($module_action == 'Edit')
-                <small id="nowPath" class="form-text text-muted">Jurusan pendaftar saat ini: <span class="text-primary">{{$registrant->path->name}}</span></small>      
-            @endif
+            {{ html()->select($field_name, $select_options)->placeholder($field_placeholder)->class('form-control border-purple')->attributes(["$required"]) }}
         </div>
     </div>
 </div>
