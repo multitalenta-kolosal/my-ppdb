@@ -44,7 +44,8 @@ class CreateVaBySFTP implements ShouldQueue
     {
 
         $sftp_push = \Storage::disk('sftp')->put('89955_'.$this->registrant->va_number.'.txt', $this->composeTxtContent($this->registrant));
-        
+        $data_save = \Storage::disk('local')->put('89955_'.$this->registrant->va_number.'.txt', $this->composeTxtContent($this->registrant));
+
         DB::beginTransaction();
 
         try{
