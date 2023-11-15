@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Arr;
 use Auth;
 
+use Illuminate\Http\Request;
+use Modules\Registrant\Entities\Registrant;
 use Modules\Registrant\Repositories\RegistrantRepository;
 use Modules\Core\Repositories\PeriodRepository;
 use Modules\Registrant\Charts\RegistrantInsight;
@@ -102,5 +104,42 @@ class BackendController extends Controller
         $unit_counts = $this->registrantRepository->getCount();
 
         return view('backend.analytics-index',compact('color','unit_counts','color_array','batch_period','insights','stageInsights'));
+    }
+
+    public function typeStats(Request $request){
+
+        // Get parameters from the request
+        $unitId = $request->input('unit_id');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        $statsRegistrant = Registrant::select('paths.name as path_name', \DB::raw('count(*) as count'))
+            ->join('paths', 'registrants.type', '=', 'paths.id')
+            ->when($unitId, function ($query) use ($unitId) {
+                $query->where('registrants.unit_id', $unitId);
+            })
+            ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('registrants.created_at', [$startDate, $endDate]);
+            })
+            ->groupBy('path_name')
+            ->get();
+        
+            
+        $statsRegistrantHereg = Registrant::select('paths.name as path_name', \DB::raw('count(*) as count'))
+        ->join('paths', 'registrants.type', '=', 'paths.id')
+        ->join('registrant_stages', 'registrants.progress_id', '=', 'registrant_stages.id')
+        ->where('registrant_stages.accepted_pass',1)
+        ->when($unitId, function ($query) use ($unitId) {
+            $query->where('registrants.unit_id', $unitId);
+        })
+        ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+            $query->whereBetween('registrant_stages.accepted_pass_checked_date', [$startDate, $endDate]);
+        })
+        ->groupBy('path_name')
+        ->get();
+
+
+        return view('backend.type-stats', compact('statsRegistrant','statsRegistrantHereg'))->render();
+
     }
 }

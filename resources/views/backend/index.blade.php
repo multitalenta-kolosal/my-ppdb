@@ -318,6 +318,72 @@
     </div>
 </div>
 
+@can('inter_unit')
+<div class="card">
+    <div class="card-header">
+        <h2>Data Peserta Didik by Jalur Pendaftaran</h2>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-sm-3">
+                <div class="form-group">
+                    <?php
+                    $field_name = 'start_date';
+                    $field_lable = "Start Date";
+                    $field_placeholder = $field_lable;
+                    $required = "";
+                    ?>
+                    {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                    <div class="input-group date datetime" id="{{$field_name}}" data-target-input="nearest">
+                        {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control datetimepicker-input')->attributes(["$required", 'data-target'=>"#$field_name"]) }}
+                        <div class="input-group-append" data-target="#{{$field_name}}" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-3">
+                <div class="form-group">
+                    <?php
+                    $field_name = 'end_date';
+                    $field_lable = "End Date";
+                    $field_placeholder = $field_lable;
+                    $required = "";
+                    ?>
+                    {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                    <div class="input-group date datetime" id="{{$field_name}}" data-target-input="nearest">
+                        {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control datetimepicker-input')->attributes(["$required", 'data-target'=>"#$field_name"]) }}
+                        <div class="input-group-append" data-target="#{{$field_name}}" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-3">
+                <div class="form-group">
+                    <?php
+                    $field_name = 'unit';
+                    $field_data_id = 'unit_id';
+                    $field_lable = "Unit";
+                    $field_placeholder = __("Select an option");
+                    $required = "";
+                    $select_options = \Modules\Core\Entities\Unit::pluck("name","id");
+
+                    ?>
+                    {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                    {{ html()->select($field_data_id, $select_options)->placeholder($field_placeholder)->class('form-control select2') }}
+                </div>
+            </div>
+            <div class="col-12 col-sm-3 d-flex mt-2 align-self-center">
+                <button class="btn btn-lg btn-primary" id="filter-type">Filter</button>
+            </div>
+        </div>
+        <div class="row justify-content-center" id="type-stats">
+           -- Pilih Filter terlebih dahulu --
+        </div>
+    </div>
+</div>
+@endcan
 <div class="card">
     <div class="card-body">
         <hr>
@@ -335,6 +401,59 @@
 <!-- Chartisan -->
 <script src="https://unpkg.com/@chartisan/chartjs@^2.1.0/dist/chartisan_chartjs.umd.js"></script>
 
+<x-library.datetime-picker />
+
+<!-- Date Time Picker & Moment Js-->
+<script type="text/javascript">
+    $(function() {
+        $('.datetime').datetimepicker({
+            format: 'DD/MM/YYYY',
+            icons: {
+                time: 'far fa-clock',
+                date: 'far fa-calendar-alt',
+                up: 'fas fa-arrow-up',
+                down: 'fas fa-arrow-down',
+                previous: 'fas fa-chevron-left',
+                next: 'fas fa-chevron-right',
+                today: 'far fa-calendar-check',
+                clear: 'far fa-trash-alt',
+                close: 'fas fa-times'
+            }
+        });
+    });
+    
+    $(document).ready(function() {
+        $("#filter-type").on("click", function() {
+            var unitId = $("#unit_id").val();
+            var startDate = $("#start_date").data('datetimepicker').date();
+            var endDate = $("#end_date").data('datetimepicker').date();
+
+            if (unitId != "" && startDate != "" && endDate != "") {
+                
+                formattedStartDate = startDate.format("YYYY-MM-DD");
+                formattedEndDate = endDate.format("YYYY-MM-DD");
+                $.ajax({
+                    url: "/admin/typeStats",
+                    method: "GET",
+                    data: {
+                        unit_id: unitId,
+                        start_date: formattedStartDate,
+                        end_date: formattedEndDate
+                    },
+                    dataType: "html", // Expecting HTML data
+                    success: function(data) {
+                        $("#type-stats").html(data);
+                    },
+                    error: function(error) {
+                        console.error("Ajax request failed:", error);
+                    }
+                });
+            }else{
+                alert("Lengkapi tanggal dan unit sebelum melakukan filtering");
+            }
+        });
+    });
+</script>
 
 <script>
 
