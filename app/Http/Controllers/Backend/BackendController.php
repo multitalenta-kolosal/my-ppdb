@@ -113,7 +113,7 @@ class BackendController extends Controller
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
 
-        $statsRegistrant = Registrant::select('paths.name as path_name', \DB::raw('count(*) as count'))
+        $statsRegistrant = Registrant::where('period_id',my_period())->select('paths.name as path_name', \DB::raw('count(*) as count'))
             ->join('paths', 'registrants.type', '=', 'paths.id')
             ->when($unitId, function ($query) use ($unitId) {
                 $query->where('registrants.unit_id', $unitId);
@@ -125,7 +125,7 @@ class BackendController extends Controller
             ->get();
         
             
-        $statsRegistrantHereg = Registrant::select('paths.name as path_name', \DB::raw('count(*) as count'))
+        $statsRegistrantHereg = Registrant::where('period_id',my_period())->select('paths.name as path_name', \DB::raw('count(*) as count'))
         ->join('paths', 'registrants.type', '=', 'paths.id')
         ->join('registrant_stages', 'registrants.progress_id', '=', 'registrant_stages.id')
         ->where('registrant_stages.accepted_pass',1)
