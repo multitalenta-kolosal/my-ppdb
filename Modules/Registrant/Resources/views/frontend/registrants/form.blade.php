@@ -64,7 +64,7 @@
             <?php
             $field_name = 'phone';
             $field_lable = __("registrant::$module_name.$field_name");
-            $field_placeholder = $field_lable;
+            $field_placeholder = "08123456xxx...";
             $required = "required";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
@@ -77,7 +77,7 @@
             <?php
             $field_name = 'phone2';
             $field_lable = __("registrant::$module_name.$field_name");
-            $field_placeholder = $field_lable;
+            $field_placeholder = "08123456xxx...";
             $required = "";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
