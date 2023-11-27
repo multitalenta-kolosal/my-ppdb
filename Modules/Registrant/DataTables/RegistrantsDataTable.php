@@ -204,6 +204,12 @@ class RegistrantsDataTable extends DataTable
         if($this->request()->get('has_scholarship') != null){
             $data->where('has_scholarship',$this->request()->get('has_scholarship'));
         }
+        
+        if ($this->request()->get('start_month') != null) {
+            $startMonth = $this->request()->get('start_month');
+            $data->whereYear('created_at', substr($startMonth, 0, 4))
+                 ->whereMonth('created_at', substr($startMonth, 5, 2));
+        }
         //END APPLY FILTERING
 
         return $this->applyScopes($data);
