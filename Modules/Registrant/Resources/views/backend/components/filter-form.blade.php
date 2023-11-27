@@ -110,6 +110,25 @@
             <div class="col">
                 <div class="form-group">
                     <?php
+                    $field_name = 'start_month';
+                    $field_lable = "Month";
+                    $field_placeholder = $field_lable;
+                    $required = "";
+                    ?>
+                    {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
+                    <div class="input-group date datetime" id="{{$field_name}}" data-target-input="nearest">
+                        {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control datetimepicker-input')->attributes(["$required", 'data-target'=>"#$field_name"]) }}
+                        <div class="input-group-append" data-target="#{{$field_name}}" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fas fa-calendar-alt"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <?php
                     $field_name = 'status';
                     $field_lable = "status peserta";
                     $field_placeholder = "";
@@ -179,3 +198,28 @@
         </div>
     </div>
 </div>
+
+@push('after-scripts')
+
+    <x-library.datetime-picker />
+
+    <!-- Date Time Picker & Moment Js-->
+    <script type="text/javascript">
+        $(function() {
+            $('.datetime').datetimepicker({
+                format: 'YYYY-MM',
+                icons: {
+                    time: 'far fa-clock',
+                    date: 'far fa-calendar-alt',
+                    up: 'fas fa-arrow-up',
+                    down: 'fas fa-arrow-down',
+                    previous: 'fas fa-chevron-left',
+                    next: 'fas fa-chevron-right',
+                    today: 'far fa-calendar-check',
+                    clear: 'far fa-trash-alt',
+                    close: 'fas fa-times'
+                }
+            });
+        });
+    </script>
+@endpush
