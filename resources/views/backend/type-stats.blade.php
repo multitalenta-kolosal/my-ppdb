@@ -3,7 +3,6 @@
     <h4 class="card-title">Pendaftar</h4>
     <div class="table-responsive">
         <table class="table">
-            <caption>Jumlah Pendaftar</caption>
             <thead>
                 <tr>
                 <th scope="col">Jalur</th>
@@ -11,9 +10,12 @@
                 </tr>
             </thead>
             <tbody>
+                <?php
+                    $total = 0;
+                ?>
                 @foreach($statsRegistrant as $value)
                     @php
-                        $total = 0;
+                        $total += $value->count;
                     @endphp
                     <tr>
                         <th scope="row">{{$value->path_name}}</th>
@@ -21,6 +23,12 @@
                     </tr>
                 @endforeach
             </tbody>
+            <tfoot>
+                <tr>
+                    <th scope="col"><h5>Total</h5></th>
+                    <th scope="col"><h5 class="font-weight-bold text-primary">{{$total}}</h5</th>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </div>
@@ -28,7 +36,6 @@
     <h4 class="card-title">Heregistrasi</h4>
     <div class="table-responsive">
         <table class="table">
-            <caption>Jumlah Heregistrasi</caption>
             <thead>
                 <tr>
                 <th scope="col">Jalur</th>
@@ -36,9 +43,12 @@
                 </tr>
             </thead>
             <tbody>
+                <?php
+                    $total = 0;
+                ?>
                 @foreach($statsRegistrantHereg as $value)
                     @php
-                        $total = 0;
+                        $total += $value->count;
                     @endphp
                     <tr>
                         <th scope="row">{{$value->path_name}}</th>
@@ -46,6 +56,12 @@
                     </tr>
                 @endforeach
             </tbody>
+            <tfoot>
+                <tr>
+                    <th scope="col"><h5>Total</h5></th>
+                    <th scope="col"><h5 class="font-weight-bold text-primary">{{$total}}</h5</th>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </div>
