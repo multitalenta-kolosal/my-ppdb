@@ -119,7 +119,10 @@ class BackendController extends Controller
                 $query->where('registrants.unit_id', $unitId);
             })
             ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-                $query->whereBetween('registrants.created_at', [$startDate, $endDate]);
+                $startDateFormatted = Carbon::parse($startDate)->startOfDay();
+                $endDateFormatted = Carbon::parse($endDate)->endOfDay();
+        
+                $query->whereBetween('registrants.created_at', [$startDateFormatted, $endDateFormatted]);
             })
             ->groupBy('path_name')
             ->get();
