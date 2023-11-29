@@ -90,7 +90,7 @@ class Registrant extends BaseModel
 
         // $school_fee_group = ["KB/TK", "SD"];
 
-        $composed_string= "1. Sumbangan Pengembangan Mutu (SPM): ".$this->scheme_string."\n2. SPP bulan Juli: Rp. ". number_format($this->concluseFeeByType('spp') , 2, ',', '.');
+        $composed_string= "1. Sumbangan Pengembangan Mutu (SPM): ".$this->scheme_string." (sudah termasuk SPP bulan Juli:  Rp 550.000,00)";
        
         return $composed_string;
     }
