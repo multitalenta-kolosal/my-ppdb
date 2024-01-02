@@ -40,8 +40,6 @@
 <section class="section section-lg line-bottom-light bg-light">
     <div class="container mt-n7 mt-lg-n12 z-2">
         <div class="row">
-             <img class="d-block my-3" src="/img/content/jalur_istimewa.webp" alt="Jalur Istimewa">
-
             <div class="col-lg-12 mb-5">
                 <div class="card bg-white border-light shadow-soft flex-md-row no-gutters p-4">
                     

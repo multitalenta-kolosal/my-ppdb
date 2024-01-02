@@ -38,8 +38,6 @@
     <div class="container">
         <div class="row">
             @include('flash::message')
-            <img class="d-block my-3" src="/img/content/jalur_istimewa.webp" alt="Jalur Istimewa">
-
             <div class="col-12 text-center">
                 <h2 class="mb-4 mb-lg-5">Pendaftaran Peserta</h2>
                 <p class="lead text-info">
