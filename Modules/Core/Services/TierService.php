@@ -110,7 +110,7 @@ class TierService{
 
             //Updating Paths
             $sync_path = $this->pathService->syncPath();
-            $unitPathFee = $this->setUnitPatTierFee($data, $tier);
+            $unitPathFee = $this->setUnitPathTierFee($data, $tier);
 
             if($sync_path->error){
                 return (object) array(
