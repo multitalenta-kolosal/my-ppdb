@@ -57,25 +57,27 @@ class HeregistrantChart extends BaseChart
                                             $query->where('accepted_pass_checked_date', '>=', Carbon::now()->subDays($periods));
                                         })
                                         ->ThisPeriod(my_period())
+                                        ->join('registrant_stages', 'registrants.id', '=', 'registrant_stages.registrant_id')
                                         ->groupBy('date')
                                         ->orderBy('date', 'ASC')
                                         ->get(array(
-                                            DB::raw('DATE_FORMAT(created_at, "%d %b") as date'),
+                                            DB::raw('DATE_FORMAT(accepted_pass_checked_date, "%d %b") as date'),
                                             DB::raw('COUNT(*) as "views"')
                                         )
                                     );
                         break;
                         case 'pgsql':
-                            $registrant =  Registrant::where('unit_id','=',Auth::user()->unit_id)
+                            $registrant =  Registrant::with('registrant_stage')->where('unit_id','=',Auth::user()->unit_id)
                                             ->whereHas('registrant_stage', function($query) use ($periods){
                                                 $query->where('accepted_pass',1);
                                                 $query->where('accepted_pass_checked_date', '>=', Carbon::now()->subDays($periods));
                                             })
                                             ->ThisPeriod(my_period())
+                                            ->join('registrant_stages', 'registrants.id', '=', 'registrant_stages.registrant_id')
                                             ->groupBy('date')
                                             ->orderBy('date', 'ASC')
                                             ->get(array(
-                                                DB::raw('TO_CHAR(created_at, '."'DD Mon'".') as date'),
+                                                DB::raw('TO_CHAR(accepted_pass_checked_date, '."'DD Mon'".') as date'),
                                                 DB::raw('COUNT(*) as "views"')
                                             )
                                         );
@@ -88,31 +90,33 @@ class HeregistrantChart extends BaseChart
                     foreach($units as $key => $unit){
                         switch($driver){
                             case 'mysql':
-                                $registrant =  Registrant::where('unit_id','=', $key)
+                                $registrant =  Registrant::with('registrant_stage')->where('unit_id','=', $key)
                                                 ->whereHas('registrant_stage', function($query) use ($periods){
                                                     $query->where('accepted_pass',1);
                                                     $query->where('accepted_pass_checked_date', '>=', Carbon::now()->subDays($periods));
                                                 })
                                                 ->ThisPeriod(my_period())
+                                                ->join('registrant_stages', 'registrants.id', '=', 'registrant_stages.registrant_id')
                                                 ->groupBy('date')
                                                 ->orderBy('date', 'ASC')
                                                 ->get(array(
-                                                    DB::raw('DATE_FORMAT(created_at, "%d %b") as date'),
+                                                    DB::raw('DATE_FORMAT(accepted_pass_checked_date, "%d %b") as date'),
                                                     DB::raw('COUNT(*) as "views"')
                                                 )
                                             );
                             break;
                             case 'pgsql':
-                                $registrant =  Registrant::where('unit_id','=', $key)
+                                $registrant =  Registrant::with('registrant_stage')->where('unit_id','=', $key)
                                                 ->whereHas('registrant_stage', function($query) use ($periods){
                                                     $query->where('accepted_pass',1);
                                                     $query->where('accepted_pass_checked_date', '>=', Carbon::now()->subDays($periods));
                                                 })
                                                 ->ThisPeriod(my_period())
+                                                ->join('registrant_stages', 'registrants.id', '=', 'registrant_stages.registrant_id')
                                                 ->groupBy('date')
                                                 ->orderBy('date', 'ASC')
                                                 ->get(array(
-                                                    DB::raw('TO_CHAR(created_at, '."'DD Mon'".') as date'),
+                                                    DB::raw('TO_CHAR(accepted_pass_checked_date, '."'DD Mon'".') as date'),
                                                     DB::raw('COUNT(*) as "views"')
                                                 )
                                             );
@@ -144,33 +148,35 @@ class HeregistrantChart extends BaseChart
 
                     switch($driver){
                         case 'mysql':
-                            $registrant =  Registrant::where('unit_id','=',Auth::user()->unit_id)
+                            $registrant =  Registrant::with('registrant_stage')->where('unit_id','=',Auth::user()->unit_id)
                                         ->whereHas('registrant_stage', function($query) use ($periods){
                                             $query->where('accepted_pass',1);
                                             $query->where('accepted_pass_checked_date', '>=', Carbon::now()->subMonth($periods)->startOfMonth());
                                         })
                                         ->ThisPeriod(my_period())
+                                        ->join('registrant_stages', 'registrants.id', '=', 'registrant_stages.registrant_id')
                                         ->where('deleted_at',NULL)
                                         ->groupBy('date')
                                         ->orderBy('date', 'ASC')
                                         ->get(array(
-                                            DB::raw('DATE_FORMAT(created_at, "%b") as date'),
+                                            DB::raw('DATE_FORMAT(accepted_pass_checked_date, "%b") as date'),
                                             DB::raw('COUNT(*) as "views"')
                                         )
                                     );
                         break;
                         case 'pgsql':
-                            $registrant =  Registrant::where('unit_id','=',Auth::user()->unit_id)
+                            $registrant =  Registrant::with('registrant_stage')->where('unit_id','=',Auth::user()->unit_id)
                                             ->whereHas('registrant_stage', function($query) use ($periods){
                                                 $query->where('accepted_pass',1);
                                                 $query->where('accepted_pass_checked_date', '>=', Carbon::now()->subMonth($periods)->startOfMonth());
                                             })
                                             ->ThisPeriod(my_period())
+                                            ->join('registrant_stages', 'registrants.id', '=', 'registrant_stages.registrant_id')
                                             ->where('deleted_at',NULL)
                                             ->groupBy('date')
                                             ->orderBy('date', 'ASC')
                                             ->get(array(
-                                                DB::raw('TO_CHAR(created_at, '."'Mon'".') as date'),
+                                                DB::raw('TO_CHAR(accepted_pass_checked_date, '."'Mon'".') as date'),
                                                 DB::raw('COUNT(*) as "views"')
                                             )
                                         );
@@ -184,33 +190,35 @@ class HeregistrantChart extends BaseChart
 
                         switch($driver){
                             case 'mysql':
-                                $registrant =  Registrant::where('unit_id','=', $key)
+                                $registrant =  Registrant::with('registrant_stage')->where('unit_id','=', $key)
                                                 ->whereHas('registrant_stage', function($query) use ($periods){
                                                     $query->where('accepted_pass',1);
                                                     $query->where('accepted_pass_checked_date', '>=', Carbon::now()->subMonth($periods)->startOfMonth());
                                                 })
                                                 ->ThisPeriod(my_period())
+                                                ->join('registrant_stages', 'registrants.id', '=', 'registrant_stages.registrant_id')
                                                 ->where('deleted_at',NULL)
                                                 ->groupBy('date')
                                                 ->orderBy('date', 'ASC')
                                                 ->get(array(
-                                                    DB::raw('DATE_FORMAT(created_at, "%b") as date'),
+                                                    DB::raw('DATE_FORMAT(accepted_pass_checked_date, "%b") as date'),
                                                     DB::raw('COUNT(*) as "views"')
                                                 )
                                             );
                             break;
                             case 'pgsql':
-                                $registrant =  Registrant::where('unit_id','=', $key)
+                                $registrant =  Registrant::with('registrant_stage')->where('unit_id','=', $key)
                                                 ->whereHas('registrant_stage', function($query) use ($periods){
                                                     $query->where('accepted_pass',1);
                                                     $query->where('accepted_pass_checked_date', '>=', Carbon::now()->subMonth($periods)->startOfMonth());
                                                 })
                                                 ->ThisPeriod(my_period())
+                                                ->join('registrant_stages', 'registrants.id', '=', 'registrant_stages.registrant_id')
                                                 ->where('deleted_at',NULL)
                                                 ->groupBy('date')
                                                 ->orderBy('date', 'ASC')
                                                 ->get(array(
-                                                    DB::raw('TO_CHAR(created_at, '."'Mon'".') as date'),
+                                                    DB::raw('TO_CHAR(accepted_pass_checked_date, '."'Mon'".') as date'),
                                                     DB::raw('COUNT(*) as "views"')
                                                 )
                                             );
