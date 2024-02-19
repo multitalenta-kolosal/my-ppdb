@@ -57,7 +57,7 @@ class HeregistrantChart extends BaseChart
                                             $query->where('accepted_pass_checked_date', '>=', Carbon::now()->subDays($periods));
                                         })
                                         ->ThisPeriod(my_period())
-                                        ->join('registrant_stages', 'registrants.id', '=', 'registrant_stages.registrant_id')
+                                        ->join('registrant_stages', 'registrants.progress_id', '=', 'registrant_stages.id')
                                         ->groupBy('date')
                                         ->orderBy('date', 'ASC')
                                         ->get(array(
@@ -73,7 +73,7 @@ class HeregistrantChart extends BaseChart
                                                 $query->where('accepted_pass_checked_date', '>=', Carbon::now()->subDays($periods));
                                             })
                                             ->ThisPeriod(my_period())
-                                            ->join('registrant_stages', 'registrants.id', '=', 'registrant_stages.registrant_id')
+                                            ->join('registrant_stages', 'registrants.progress_id', '=', 'registrant_stages.id')
                                             ->groupBy('date')
                                             ->orderBy('date', 'ASC')
                                             ->get(array(
@@ -96,7 +96,7 @@ class HeregistrantChart extends BaseChart
                                                     $query->where('accepted_pass_checked_date', '>=', Carbon::now()->subDays($periods));
                                                 })
                                                 ->ThisPeriod(my_period())
-                                                ->join('registrant_stages', 'registrants.id', '=', 'registrant_stages.registrant_id')
+                                                ->join('registrant_stages', 'registrants.progress_id', '=', 'registrant_stages.id')
                                                 ->groupBy('date')
                                                 ->orderBy('date', 'ASC')
                                                 ->get(array(
@@ -112,7 +112,7 @@ class HeregistrantChart extends BaseChart
                                                     $query->where('accepted_pass_checked_date', '>=', Carbon::now()->subDays($periods));
                                                 })
                                                 ->ThisPeriod(my_period())
-                                                ->join('registrant_stages', 'registrants.id', '=', 'registrant_stages.registrant_id')
+                                                ->join('registrant_stages', 'registrants.progress_id', '=', 'registrant_stages.id')
                                                 ->groupBy('date')
                                                 ->orderBy('date', 'ASC')
                                                 ->get(array(
@@ -154,7 +154,7 @@ class HeregistrantChart extends BaseChart
                                             $query->where('accepted_pass_checked_date', '>=', Carbon::now()->subMonth($periods)->startOfMonth());
                                         })
                                         ->ThisPeriod(my_period())
-                                        ->join('registrant_stages', 'registrants.id', '=', 'registrant_stages.registrant_id')
+                                        ->join('registrant_stages', 'registrants.progress_id', '=', 'registrant_stages.id')
                                         ->where('deleted_at',NULL)
                                         ->groupBy('date')
                                         ->orderBy('date', 'ASC')
@@ -171,7 +171,7 @@ class HeregistrantChart extends BaseChart
                                                 $query->where('accepted_pass_checked_date', '>=', Carbon::now()->subMonth($periods)->startOfMonth());
                                             })
                                             ->ThisPeriod(my_period())
-                                            ->join('registrant_stages', 'registrants.id', '=', 'registrant_stages.registrant_id')
+                                            ->join('registrant_stages', 'registrants.progress_id', '=', 'registrant_stages.id')
                                             ->where('deleted_at',NULL)
                                             ->groupBy('date')
                                             ->orderBy('date', 'ASC')
@@ -196,7 +196,7 @@ class HeregistrantChart extends BaseChart
                                                     $query->where('accepted_pass_checked_date', '>=', Carbon::now()->subMonth($periods)->startOfMonth());
                                                 })
                                                 ->ThisPeriod(my_period())
-                                                ->join('registrant_stages', 'registrants.id', '=', 'registrant_stages.registrant_id')
+                                                ->join('registrant_stages', 'registrants.progress_id', '=', 'registrant_stages.id')
                                                 ->where('deleted_at',NULL)
                                                 ->groupBy('date')
                                                 ->orderBy('date', 'ASC')
@@ -213,7 +213,7 @@ class HeregistrantChart extends BaseChart
                                                     $query->where('accepted_pass_checked_date', '>=', Carbon::now()->subMonth($periods)->startOfMonth());
                                                 })
                                                 ->ThisPeriod(my_period())
-                                                ->join('registrant_stages', 'registrants.id', '=', 'registrant_stages.registrant_id')
+                                                ->join('registrant_stages', 'registrants.progress_id', '=', 'registrant_stages.id')
                                                 ->where('deleted_at',NULL)
                                                 ->groupBy('date')
                                                 ->orderBy('date', 'ASC')
