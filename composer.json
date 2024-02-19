@@ -23,7 +23,7 @@
         "laravel/socialite": "^5.0",
         "laravel/tinker": "^2.7",
         "lavary/laravel-menu": "^1.7",
-        "league/flysystem-sftp": "^3.0",
+        "league/flysystem-sftp-v3": "^3.23",
         "mews/purifier": "^3.3",
         "nabcellent/chartisan": "^1.2",
         "nwidart/laravel-modules": "^8.0",
