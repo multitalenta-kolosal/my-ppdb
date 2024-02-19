@@ -16,7 +16,7 @@ use Illuminate\Support\Arr;
 use Modules\Registrant\Entities\Registrant;
 use Modules\Core\Entities\Path;
 
-class PathChartBar extends BaseChart
+class HeregPathChartBar extends BaseChart
 {
     /**
      * Handles the HTTP request for the given chart.
@@ -37,16 +37,20 @@ class PathChartBar extends BaseChart
         $chartisan = Chartisan::build();
         if(!Auth::user()->isSuperAdmin() && !Auth::user()->hasAllUnitAccess()){
             $path_count = DB::table('registrants')
+                            ->join('registrant_stages', 'registrants.progress_id', '=', 'registrant_stages.id')
                             ->select('type', DB::raw('count(*) as total'))
                             ->where('period_id',my_period())
+                            ->where('registrant_stages.accepted_pass',1)
                             ->where('unit_id',Auth::user()->unit_id)
                             ->where('deleted_at',NULL)
                             ->groupBy('type')
                             ->get();
         }else{
             $path_count = DB::table('registrants')
+                            ->join('registrant_stages', 'registrants.progress_id', '=', 'registrant_stages.id')
                             ->select('type', DB::raw('count(*) as total'))
                             ->where('period_id',my_period())
+                            ->where('registrant_stages.accepted_pass',1)
                             ->where('deleted_at',NULL)
                             ->groupBy('type')
                             ->get();

@@ -9,10 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Modules\Article\Entities\Presenters\PostPresenter;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Feed\Feedable;
-use Spatie\Feed\FeedItem;
 
-class Post extends BaseModel implements Feedable
+class Post extends BaseModel
 {
     use HasFactory;
     use LogsActivity;

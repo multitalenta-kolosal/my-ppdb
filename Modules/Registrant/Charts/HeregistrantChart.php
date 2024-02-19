@@ -18,7 +18,7 @@ use Modules\Registrant\Services\RegistrantService;
 use Modules\Registrant\Entities\Registrant;
 use Modules\Core\Entities\Unit;
 
-class RegistrantChart extends BaseChart
+class HeregistrantChart extends BaseChart
 {
     /**
      * Handles the HTTP request for the given chart.
@@ -53,6 +53,9 @@ class RegistrantChart extends BaseChart
                         case 'mysql':
                             $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subDays($periods))
                                         ->where('unit_id','=',Auth::user()->unit_id)
+                                        ->whereHas('registrant_stage', function($query){
+                                            $query->where('accepted_pass',1);
+                                        })
                                         ->ThisPeriod(my_period())
                                         ->groupBy('date')
                                         ->orderBy('date', 'ASC')
@@ -65,6 +68,9 @@ class RegistrantChart extends BaseChart
                         case 'pgsql':
                             $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subDays($periods))
                                             ->where('unit_id','=',Auth::user()->unit_id)
+                                            ->whereHas('registrant_stage', function($query){
+                                                $query->where('accepted_pass',1);
+                                            })
                                             ->ThisPeriod(my_period())
                                             ->groupBy('date')
                                             ->orderBy('date', 'ASC')
@@ -84,6 +90,9 @@ class RegistrantChart extends BaseChart
                             case 'mysql':
                                 $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subDays($periods))
                                                 ->where('unit_id','=', $key)
+                                                ->whereHas('registrant_stage', function($query){
+                                                    $query->where('accepted_pass',1);
+                                                })
                                                 ->ThisPeriod(my_period())
                                                 ->groupBy('date')
                                                 ->orderBy('date', 'ASC')
@@ -96,6 +105,9 @@ class RegistrantChart extends BaseChart
                             case 'pgsql':
                                 $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subDays($periods))
                                                 ->where('unit_id','=', $key)
+                                                ->whereHas('registrant_stage', function($query){
+                                                    $query->where('accepted_pass',1);
+                                                })
                                                 ->ThisPeriod(my_period())
                                                 ->groupBy('date')
                                                 ->orderBy('date', 'ASC')
@@ -134,6 +146,9 @@ class RegistrantChart extends BaseChart
                         case 'mysql':
                             $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subMonth($periods)->startOfMonth())
                                         ->where('unit_id','=',Auth::user()->unit_id)
+                                        ->whereHas('registrant_stage', function($query){
+                                            $query->where('accepted_pass',1);
+                                        })
                                         ->ThisPeriod(my_period())
                                         ->where('deleted_at',NULL)
                                         ->groupBy('date')
@@ -147,6 +162,9 @@ class RegistrantChart extends BaseChart
                         case 'pgsql':
                             $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subMonth($periods)->startOfMonth())
                                             ->where('unit_id','=',Auth::user()->unit_id)
+                                            ->whereHas('registrant_stage', function($query){
+                                                $query->where('accepted_pass',1);
+                                            })
                                             ->ThisPeriod(my_period())
                                             ->where('deleted_at',NULL)
                                             ->groupBy('date')
@@ -168,6 +186,9 @@ class RegistrantChart extends BaseChart
                             case 'mysql':
                                 $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subMonth($periods)->startOfMonth())
                                                 ->where('unit_id','=', $key)
+                                                ->whereHas('registrant_stage', function($query){
+                                                    $query->where('accepted_pass',1);
+                                                })
                                                 ->ThisPeriod(my_period())
                                                 ->where('deleted_at',NULL)
                                                 ->groupBy('date')
@@ -181,6 +202,9 @@ class RegistrantChart extends BaseChart
                             case 'pgsql':
                                 $registrant =  Registrant::where('created_at', '>=', Carbon::now()->subMonth($periods)->startOfMonth())
                                                 ->where('unit_id','=', $key)
+                                                ->whereHas('registrant_stage', function($query){
+                                                    $query->where('accepted_pass',1);
+                                                })
                                                 ->ThisPeriod(my_period())
                                                 ->where('deleted_at',NULL)
                                                 ->groupBy('date')

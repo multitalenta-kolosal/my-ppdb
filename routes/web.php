@@ -14,8 +14,6 @@
 // Autho Routes
 require __DIR__.'/auth.php';
 
-// Atom/ RSS Feed Routes
-Route::feeds();
 
 if (true) {
     Route::any('/register', function() {

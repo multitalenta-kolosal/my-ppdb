@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Arr;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Feed\FeedItem;
 
@@ -24,7 +25,6 @@ class Registrant extends BaseModel
     protected static $logName = 'registrants';
     protected static $logOnlyDirty = true;
     protected static $logAttributes = ['name', 'registrant_id'];
-
     
     public function unit()
     {
