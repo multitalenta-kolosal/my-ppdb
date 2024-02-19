@@ -2,9 +2,8 @@
 
 namespace Modules\Registrant\Providers;
 
-use ConsoleTVs\Charts\Registrar as Charts;
+use Nabcellent\Chartisan\Registrar as Charts;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factory;
 use Symfony\Component\Finder\Finder;
 
 class RegistrantServiceProvider extends ServiceProvider
@@ -32,8 +31,10 @@ class RegistrantServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
         
         $charts->register([
+            \Modules\Registrant\Charts\HeregistrantChart::class,
             \Modules\Registrant\Charts\RegistrantChart::class,
-            \Modules\Registrant\Charts\PathChartBar::class
+            \Modules\Registrant\Charts\PathChartBar::class,
+            \Modules\Registrant\Charts\HeregPathChartBar::class,
         ]);
 
         // adding global middleware

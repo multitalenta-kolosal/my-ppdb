@@ -1,6 +1,8 @@
 @extends('backend.layouts.app')
 
-@section('title') @lang("Dashboard") @endsection
+@section('title') 
+    @lang("Dashboard") 
+@endsection
 
 @section('breadcrumbs')
 <x-backend-breadcrumbs/>
@@ -11,7 +13,9 @@
     <div class="card-body">
         <div class="row">
             <div class="col-sm-8">
-                <h4 class="card-title mb-0">@lang("Welcome to", ['name'=>config('app.name')])</h4>
+                <h4 class="card-title mb-0"> 
+                    @lang("Welcome to", ['name'=>config('app.name')])
+                </h4>
                 <div class="small text-muted">{{ date_today() }}</div>
             </div>
         </div>
@@ -39,6 +43,8 @@
         </div>
 
         <div id="registrant_chart" style="height: 300px;"></div>
+        <hr>
+        <div id="heregistrant_chart" style="height: 300px;"></div>
        
         <!-- / Dashboard Content Area -->
 
@@ -389,6 +395,9 @@
         <hr>
 
         <div id="path_chart_bar" style="height: 300px;"></div>
+        <hr>
+
+        <div id="hereg_path_chart_bar" style="height: 300px;"></div>
        
     </div>
 </div>
@@ -397,9 +406,12 @@
 @push('after-scripts')
 
 <!-- Charting library -->
-<script src="https://unpkg.com/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
 <!-- Chartisan -->
-<script src="https://unpkg.com/@chartisan/chartjs@^2.1.0/dist/chartisan_chartjs.umd.js"></script>
+@php
+ $chartisan_url = "https://cdn.jsdelivr.net/npm/@chartisan/chartjs@2.1.0/dist/chartisan_chartjs.umd.js";
+@endphp
+<script src="{{$chartisan_url}}"></script>
 
 <x-library.datetime-picker />
 
@@ -455,13 +467,35 @@
     });
 </script>
 
-<script>
-
+<script type="text/javascript">
+    
+    var chartUrl = "@chartisan('registrant_chart')"+"?periods="+$('#periods').val();
     const registrant_chart = new Chartisan({
         el: '#registrant_chart',
-        url: "@chart('registrant_chart')"+"?periods="+$('#periods').val(),
+        url: chartUrl,
         hooks: new ChartisanHooks()
             .title('Pendaftar')
+            .colors({!! $color !!})
+            .borderColors({!! $color !!})
+            .responsive(true)
+            .tooltip(true)
+            .stepSize(2,'y')
+            .datasets([
+                { 
+                    type: 'line', 
+                    fill: false,
+                    borderWidth: 2,
+                    bezierCurve: false,
+                }
+            ]),
+    });
+
+    var chartUrl = "@chartisan('heregistrant_chart')"+"?periods="+$('#periods').val();
+    const heregistrant_chart = new Chartisan({
+        el: '#heregistrant_chart',
+        url: chartUrl,
+        hooks: new ChartisanHooks()
+            .title('Heregistran')
             .colors({!! $color !!})
             .borderColors({!! $color !!})
             .responsive(true)
@@ -480,18 +514,40 @@
     $(document).ready(function(){
         $("#periods").change(function () {
             registrant_chart.update({
-                url: "@chart('registrant_chart')"+"?periods="+$('#periods').val(),
+                url: "@chartisan('registrant_chart')"+"?periods="+$('#periods').val(),
+            })
+
+            heregistrant_chart.update({
+                url: "@chartisan('heregistrant_chart')"+"?periods="+$('#periods').val(),
             })
         });
     });
 </script>
 
 <script>
+
     const path_chart_bar = new Chartisan({
         el: '#path_chart_bar',
-        url: "@chart('path_chart_bar')",
+        url: "@chartisan('path_chart_bar')",
         hooks: new ChartisanHooks()
             .title('Pendaftar')
+            .colors({!! $color !!})
+            .borderColors({!! $color !!})
+            .responsive(true)
+            .beginAtZero(true,'y')
+            .tooltip(true)
+            .datasets([
+                { 
+                    type: 'bar', 
+                }
+            ]),
+    });
+
+    const hereg_path_chart_bar = new Chartisan({
+        el: '#hereg_path_chart_bar',
+        url: "@chartisan('hereg_path_chart_bar')",
+        hooks: new ChartisanHooks()
+            .title('Heregistran')
             .colors({!! $color !!})
             .borderColors({!! $color !!})
             .responsive(true)

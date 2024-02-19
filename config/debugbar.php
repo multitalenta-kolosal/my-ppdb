@@ -32,6 +32,7 @@ return [
      |
      */
     'storage' => [
+        'open'       => true,
         'enabled'    => true,
         'driver'     => 'file', // redis, file, pdo, custom
         'path'       => storage_path('debugbar'), // For file driver

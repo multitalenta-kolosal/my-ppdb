@@ -82,7 +82,9 @@
                 {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required", 'aria-label'=>'Image', 'aria-describedby'=>'button-generate-id']) }}
                 @if($module_action != 'Edit' && is_same_period() )
                     <div class="input-group-append">
-                        <button class="btn btn-info" type="button" id="button-generate-id"><i class="fas fa-sync"></i> @lang('Generate')</button>
+                        <button class="btn btn-info" type="button" id="button-generate-id"><i class="fas fa-sync"></i> 
+                            @lang('Generate')
+                        </button>
                     </div>
                 @endif
             </div>            
@@ -287,9 +289,10 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
+    var selectOption = "Select an option";
     $('.select2-tags').select2({
         theme: "bootstrap",
-        placeholder: '@lang("Select an option")',
+        placeholder: selectOption,
         minimumInputLength: 2,
         allowClear: true,
         ajax: {
@@ -324,7 +327,7 @@ $(document).ready(function() {
 
     $('#former_school').select2({
         theme: "bootstrap",
-        placeholder: '@lang("Select an option")',
+        placeholder: "Select an option",
         minimumInputLength: 3,
         allowClear: true,
         tags: true,
@@ -466,6 +469,9 @@ function resetScheme(){
     console.log(unit_id);
     console.log(tier_id);
     console.log(path_id);
+    if(path_id == null || path_id == ""){
+        path_id = 0;
+    }
     if(tier_id == null || tier_id == ""){
         tier_id = 0;
     }

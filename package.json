@@ -44,6 +44,7 @@
         "waypoints": "^4.0.1"
     },
     "dependencies": {
+        "@chartisan/chartisan": "^3.2.3",
         "datatables.net-bs4": "^3.2.2",
         "datatables.net-buttons-bs4": "^1.7.1",
         "ngrok": "^4.0.1",
