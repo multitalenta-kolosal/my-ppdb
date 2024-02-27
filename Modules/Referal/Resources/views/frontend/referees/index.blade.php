@@ -1,6 +1,8 @@
 @extends('frontend.layouts.app')
 
-@section('title') {{ __("Referees") }} @endsection
+@section('title')
+{{ __("Referees") }}
+@endsection
 
 @section('content')
 
@@ -13,9 +15,9 @@
                 </h1>
                 <div class="row justify-content-center">
                     <p class="lead">
-                    Masuk ke Area Referee atau <a href="#form_referee"><strong>Daftar</strong></a> dengan menggunakan form di bawah
+                    Masuk ke Area Referee atau <a href="{{route('frontend.referees.create')}}"><strong>Daftar</strong></a> dengan menggunakan form di bawah
                     </p>
-                    <div class="card bg-gray-dark border border-soft">
+                    <div class="card bg-dark border border-soft">
                         <div class="card-body px-lg-8 py-lg-5">
                             <H3>
                                 Area Referee
@@ -40,6 +42,7 @@
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
+
                             </div>
                             @endif
 
@@ -62,13 +65,22 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-phone"></i></span>
                                         </div>
-                                        <input type="text" class="form-control" id="phone" name="phone" placeholder="@lang('No. Handphone')" aria-label="@lang('No. Handphone')" aria-describedby="input-password" required>
+                                        <input type="text" class="form-control" id="phone" name="phone" placeholder="No. Handphone" aria-label="No. Handphone" aria-describedby="input-password" required>
                                     </div>
                                 </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary mt-2">
                                         @lang('Masuk')
                                     </button>
+                                </div>
+                                <div class="text-center">
+                                    <hr>
+                                    <small>atau</small>
+                                </div>
+                                <div class="text-center">
+                                    <a href="{{ route('frontend.referees.refarea') }}" type="button" class="btn btn-danger mt-2">
+                                        @lang('Daftar')
+                                    </a>
                                 </div>
                             </form>
                         </div>

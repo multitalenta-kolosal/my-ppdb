@@ -49,7 +49,7 @@ class RegistrantService{
     public function __construct(
         /**
          * Services Parameter
-         * 
+         *
          */
         RegistrantMessageService $registrantMessageService,
         RegistrantStageService $registrantStageService,
@@ -57,7 +57,7 @@ class RegistrantService{
         UnitService $unitService,
         /**
          * Repositories Parameter
-         * 
+         *
          */
         PathRepository $pathRepository,
         RegistrantRepository $registrantRepository,
@@ -70,7 +70,7 @@ class RegistrantService{
     ) {
         /**
          * Services Declaration
-         * 
+         *
          */
         $this->registrantMessageService = $registrantMessageService;
         $this->registrantStageService = $registrantStageService;
@@ -78,7 +78,7 @@ class RegistrantService{
         $this->unitService = $unitService;
         /**
          * Repositories Declaration
-         * 
+         *
          */
         $this->pathRepository = $pathRepository;
         $this->registrantRepository = $registrantRepository;
@@ -102,7 +102,7 @@ class RegistrantService{
                     ->sortByDesc('created_at');
 
         return (object) array(
-            'error'=> false,            
+            'error'=> false,
             'message'=> '',
             'data'=> $registrant,
         );
@@ -123,11 +123,11 @@ class RegistrantService{
                 "Content-Type: application/json",
             ),
         ]);
-        
+
         $response = curl_exec($curl);
         $err = curl_error($curl);
         curl_close($curl);
-        
+
         if ($err) {
             return null;
         } else {
@@ -141,7 +141,7 @@ class RegistrantService{
             return $array_data;
         }
     }
-    
+
 
     public function create(){
 
@@ -211,7 +211,7 @@ class RegistrantService{
             [$registrant->scheme_tenor, $registrant->scheme_string, $registrant->scheme_amount , $registrant->scheme_amount_next ]  = $this->unitService->proccessUnitFeeByTenor($registrant->type,$unit_id,$registrant->tier_id,$registrant->scheme_tenor);
 
             $registrant_stage = $this->registrantStageService->store($request, $registrant);
-           
+
             if(isset($registrant->scheme_tenor)){
                 // $registrant_stage->data->installment_id = $registrant->scheme_tenor;
                 $registrant_stage->data->installment_id_checked_date = now();
@@ -223,7 +223,7 @@ class RegistrantService{
             $registrant = $this->registrantRepository->create($registrant->toArray());
 
             $registrant_message = $this->registrantMessageService->store($request, $registrant);
-            
+
             if(setting('create_va_sftp')){
                 if(env('SFTP_HOST')){
                     // $sftp_push = \Storage::disk('sftp')->put('89955_'.$registrant->va_number.'.txt', $this->composeTxtContent($registrant));
@@ -237,7 +237,7 @@ class RegistrantService{
                     $registrantStage = $registrant->registrant_stage;
                     $registrantStage->va_pass = true;
                     $registrantStage->status_id = $this->registrantStageService->getSetStatus($registrantStage);
-                    
+
                     $registrantStage->save();
                 }
             }
@@ -274,7 +274,7 @@ class RegistrantService{
         }
 
         return (object) array(
-            'error'=> false,            
+            'error'=> false,
             'message'=> '',
             'data'=> $this->registrantRepository->findOrFail($registrant->id),
         );
@@ -283,16 +283,16 @@ class RegistrantService{
     public function show($id){
 
         Log::info(label_case($this->module_title.' '.__function__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
- 
+
         return (object) array(
-            'error'=> false,            
+            'error'=> false,
             'message'=> '',
             'data'=> $this->registrantRepository->findOrFail($id),
         );
     }
 
     public function getSummary($combination){
-        
+
         \Log::debug(json_encode($combination));
         $splited = explode("-", $combination);
         $registrant = $this->registrantRepository->findWhere([
@@ -300,7 +300,7 @@ class RegistrantService{
                         'phone' => $splited[1],
                     ])->first();
         return (object) array(
-            'error'=> false,            
+            'error'=> false,
             'message'=> '',
             'data'=> $registrant
         );
@@ -313,7 +313,7 @@ class RegistrantService{
         $createOptions = $this->prepareOptions();
 
         return (object) array(
-            'error'=> false,            
+            'error'=> false,
             'message'=> '',
             'data'=> $registrant,
             'createOptions' => $createOptions,
@@ -328,7 +328,7 @@ class RegistrantService{
 
         try{
             $registrant_check = $this->registrantRepository->findOrFail($id);
-     
+
             $registrant = $this->registrantRepository->make($data);
 
             if(!$registrant->internal){
@@ -339,9 +339,9 @@ class RegistrantService{
 
         }catch (Exception $e){
             DB::rollBack();
-            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage()); 
+            Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) array(
-                'error'=> true,            
+                'error'=> true,
                 'message'=> $e->getMessage(),
                 'data'=>  null,
             );
@@ -352,10 +352,10 @@ class RegistrantService{
         Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$registrant_check->name.'(ID:'.$registrant_check->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return (object) array(
-            'error'=> false,            
+            'error'=> false,
             'message'=> '',
             'data'=>  $this->registrantRepository->find($id),
-        );  
+        );
     }
 
     public function destroy($id){
@@ -364,13 +364,13 @@ class RegistrantService{
 
         try{
             $registrants = $this->registrantRepository->findOrFail($id);
-    
+
             $deleted = $this->registrantRepository->delete($id);
         }catch (Exception $e){
             DB::rollBack();
             Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) array(
-                'error'=> true,            
+                'error'=> true,
                 'message'=> $e->getMessage(),
                 'data'=>  null,
             );
@@ -381,10 +381,10 @@ class RegistrantService{
         Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$registrants->name.', ID:'.$registrants->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return (object) array(
-            'error'=> false,            
+            'error'=> false,
             'message'=> '',
             'data'=> $registrants,
-        );  
+        );
     }
 
     public function purge($id){
@@ -392,7 +392,7 @@ class RegistrantService{
 
         try{
             $registrants = $this->registrantRepository->findTrash($id);
-    
+
             $deleted = $this->registrantRepository->purge($id);
 
             $deleted = $this->registrantStageRepository->delete($registrants->progress_id);
@@ -414,7 +414,7 @@ class RegistrantService{
         Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$registrants->name.', ID:'.$registrants->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return (object) array(
-            'error'=> false,            
+            'error'=> false,
             'message'=> '',
             'data'=> $registrants,
         );
@@ -423,12 +423,12 @@ class RegistrantService{
     public function trashed(){
 
         Log::info(label_case($this->module_title.' View'.__FUNCTION__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
-        
+
         return (object) array(
-            'error'=> false,            
+            'error'=> false,
             'message'=> '',
             'data'=> $this->registrantRepository->trashed(),
-        ); 
+        );
     }
 
     public function restore($id){
@@ -441,7 +441,7 @@ class RegistrantService{
             DB::rollBack();
             Log::critical(label_case($this->module_title.' AT '.Carbon::now().' | Function:'.__FUNCTION__).' | Msg: '.$e->getMessage());
             return (object) array(
-                'error'=> true,            
+                'error'=> true,
                 'message'=> $e->getMessage(),
                 'data'=>  null,
             );
@@ -452,13 +452,13 @@ class RegistrantService{
         Log::info(label_case(__FUNCTION__)." ".$this->module_title.": ".$registrants->name.", ID:".$registrants->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return (object) array(
-            'error'=> false,            
+            'error'=> false,
             'message'=> '',
             'data'=>  $registrants,
         );
     }
     public function prepareFilterOptions(){
-        
+
         $unit = $this->unitRepository->query()->orderBy('order','asc')->pluck('name','id');
 
         if(!$unit){
@@ -487,7 +487,7 @@ class RegistrantService{
     }
 
     public function prepareOptions(){
-        
+
         $unit = $this->unitRepository->query()->orderBy('order','asc')->pluck('name','id');
 
         if(!$unit){
@@ -521,7 +521,7 @@ class RegistrantService{
     }
 
     public function getUnits(){
-        
+
         $units = $this->unitRepository->query()->orderBy('order','asc')->get();
 
         if(!$units){
@@ -560,7 +560,7 @@ class RegistrantService{
             'error' => false,
             'message' => '',
         ];
-    
+
         return $response;
     }
 
@@ -593,7 +593,7 @@ class RegistrantService{
 
     public function track(Request $request){
         $data = $request->all();
-        
+
         DB::beginTransaction();
 
         try {
@@ -621,9 +621,9 @@ class RegistrantService{
         DB::commit();
 
         Log::info(label_case($this->module_title.' '.__function__)." | '".$registrant->name.'(ID:'.$registrant->id.") IP: ".request()->getClientIp()."'' ");
-            
+
         return (object) array(
-            'error'=> false,            
+            'error'=> false,
             'message'=> '',
             'data'=> $registrant,
         );
@@ -667,7 +667,7 @@ class RegistrantService{
         Log::info(label_case($this->module_title.' AT '.Carbon::now().' '.__FUNCTION__)." | by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return (object) array(
-            'error'=> false,            
+            'error'=> false,
             'message'=> '',
             'data'=> null,
         );
@@ -682,10 +682,10 @@ class RegistrantService{
         $close_date = Carbon::now()->addYears(7)->format('Ymd'); //change to year
         $bill = $this->getBillRecapAnnualized($registrant);
 
-        $composed= 
+        $composed=
         // 'NO VA|Bill Key 2|Bill Key 3|Currency|NAMA|UNIT|KET|Bill Info 4|Bill Info 5|Bill Info 6|Bill Info 7|Bill Info 8|Bill Info 9|Bill Info 10|Bill Info 11|Bill Info 12|Bill Info 13|Bill Info 14|Bill Info 15|Bill Info 16|Bill Info 17|Bill Info 18|Bill Info 19|Bill Info 20|Bill Info 21|Bill Info 22|Bill Info 23|Bill Info 24|Bill Info 25|Periode Open|Periode Close|Tagihan 1|Tagihan 2|Tagihan 3|Tagihan 4|Tagihan 5|Tagihan 6|Tagihan 7|Tagihan 8|Tagihan 9|Tagihan 10|Tagihan 11|Tagihan 12|Tagihan 13|Tagihan 14|Tagihan 15|Tagihan 16|Tagihan 17|Tagihan 18|Tagihan 19|Tagihan 20|Tagihan 21|Tagihan 22|Tagihan 23|Tagihan 24|Tagihan 25|'.
         $va.'|||IDR|'.$name.'|'.$unit_name.' WARGA|SPP|||||||||||||||||||||||'.$open_date.'|'.$close_date.'|01\\TOTAL\\TOTAL\\'.$bill."|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|\\\\\|~";
-         
+
         return $composed;
     }
 

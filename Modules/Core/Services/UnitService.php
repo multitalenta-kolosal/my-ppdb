@@ -45,7 +45,7 @@ class UnitService{
         )
         {
         $this->pathService = $pathService;
-        
+
         $this->unitRepository = $unitRepository;
         $this->pathRepository = $pathRepository;
         $this->tierRepository = $tierRepository;
@@ -60,9 +60,9 @@ class UnitService{
         Log::info(label_case($this->module_title.' '.__FUNCTION__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         $unit =$this->unitRepository->query()->orderBy('order','asc')->get();
-        
+
         return (object) array(
-            'error'=> false,            
+            'error'=> false,
             'message'=> '',
             'data'=> $unit,
         );
@@ -73,7 +73,7 @@ class UnitService{
         $unit =$this->unitRepository->query()->orderBy('order','asc')->get();
 
         return (object) array(
-            'error'=> false,            
+            'error'=> false,
             'message'=> '',
             'data'=> $unit,
         );
@@ -123,7 +123,7 @@ class UnitService{
                     'error'=> true,
                     'message'=> $sync_path->message,
                     'data'=> null,
-                );            
+                );
             }
 
         }catch (Exception $e){
@@ -141,7 +141,7 @@ class UnitService{
         Log::info(label_case($this->module_title.' '.__function__)." | '".$unit->name.'(ID:'.$unit->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return (object) array(
-            'error'=> false,            
+            'error'=> false,
             'message'=> '',
             'data'=> $unit,
         );
@@ -152,7 +152,7 @@ class UnitService{
         Log::info(label_case($this->module_title.' '.__function__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return (object) array(
-            'error'=> false,            
+            'error'=> false,
             'message'=> '',
             'data'=> $this->unitRepository->findOrFail($id),
         );
@@ -181,7 +181,7 @@ class UnitService{
         Log::info(label_case($this->module_title.' '.__function__)." | '".$unit->name.'(ID:'.$unit->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return (object) array(
-            'error'=> false,            
+            'error'=> false,
             'message'=> '',
             'data'=> $unit,
         );
@@ -226,7 +226,7 @@ class UnitService{
                     'error'=> true,
                     'message'=> $sync_path->message,
                     'data'=> null,
-                );            
+                );
             }
 
         }catch (Exception $e){
@@ -245,7 +245,7 @@ class UnitService{
         Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$updated_unit->name.'(ID:'.$updated_unit->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return (object) array(
-            'error'=> false,            
+            'error'=> false,
             'message'=> '',
             'data'=> $updated_unit,
         );
@@ -257,7 +257,7 @@ class UnitService{
 
         try{
             $units = $this->unitRepository->findOrFail($id);
-    
+
             $deleted = $this->unitRepository->delete($id);
         }catch (Exception $e){
             DB::rollBack();
@@ -274,7 +274,7 @@ class UnitService{
         Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$units->name.', ID:'.$units->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return (object) array(
-            'error'=> false,            
+            'error'=> false,
             'message'=> '',
             'data'=> $units,
         );
@@ -285,12 +285,12 @@ class UnitService{
         Log::info(label_case($this->module_title.' View'.__FUNCTION__).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return (object) array(
-            'error'=> false,            
+            'error'=> false,
             'message'=> '',
             'data'=> $this->unitRepository->trashed(),
         );
     }
-    
+
     public function setUnitPathFee($data, $id){
         // make paths fee list. assign it to the unit path fee
 
@@ -298,7 +298,7 @@ class UnitService{
         $field_value = 'path-fee-';
         foreach($data as $key => $value){
             if (Str::contains($key, $field_value)) {
-                if(isset($value)){                    
+                if(isset($value)){
                     $path_and_parameter_raw = Str::after($key, $field_value);
                     $path_and_parameter = explode("-",$path_and_parameter_raw);
 
@@ -318,7 +318,7 @@ class UnitService{
         $field_value = 'path-feeManual-';
         foreach($data as $key => $value){
             if (Str::contains($key, $field_value)) {
-                if(isset($value)){                    
+                if(isset($value)){
                     $path_and_parameter_raw = Str::after($key, $field_value);
                     $path_and_parameter = explode("-",$path_and_parameter_raw);
 
@@ -411,14 +411,14 @@ class UnitService{
         Log::info(label_case(__FUNCTION__)." ".$this->module_title.": ".$units->name.", ID:".$units->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return (object) array(
-            'error'=> false,            
+            'error'=> false,
             'message'=> '',
             'data'=> $units,
         );
     }
-    
+
     public function prepareOptions(){
-        
+
         $paths = $this->pathRepository->query()->orderBy('sort','asc')->pluck('name','id');
 
         if(!$paths){
@@ -440,7 +440,7 @@ class UnitService{
 
 
     public function decodePath($unit){
-        
+
         $path = json_decode($unit->paths,true);
 
         if(!$path){
@@ -467,13 +467,13 @@ class UnitService{
             $tiers = $this->tierRepository->query()->where('unit_id',$unit_id)->pluck('tier_name','id');
         }
         \Log::debug(array(
-            'error'     => false,            
+            'error'     => false,
             'message'   => '',
             'path'      => $paths,
             'tier'     => $tiers,
         ));
         return (object) array(
-            'error'     => false,            
+            'error'     => false,
             'message'   => '',
             'path'      => $paths,
             'tier'     => $tiers,
@@ -490,7 +490,7 @@ class UnitService{
 
             if($tier_id == 0){
                 return (object) array(
-                    'error'     => false,            
+                    'error'     => false,
                     'message'   => '',
                     'fees'      => [0 => "-- Silakan memilih kelas/jurusan terlebih dahulu --"],
                 );
@@ -543,13 +543,13 @@ class UnitService{
             }else{
                 $true_amount = $modified_amount;
             }
-            
+
             $fees[$payment_interval] = $payment_interval." x Rp ".number_format($true_amount, 2, ',', '.');
             $fees_amount[$payment_interval] = $true_amount;
         }
 
         return (object) array(
-            'error'            => false,            
+            'error'            => false,
             'message'          => '',
             'fees'             => $fees,
             'fees_amount'      => $fees_amount,
@@ -565,7 +565,7 @@ class UnitService{
         if($unit->have_major){
             if($tier_id == 0){
                 return (object) array(
-                    'error'     => false,            
+                    'error'     => false,
                     'message'   => '',
                     'fees'      => [0 => "-- Silakan memilih kelas/jurusan terlebih dahulu --"],
                 );
@@ -577,7 +577,7 @@ class UnitService{
 
         if($pathFeeManual->isEmpty()){
             $pathFeeManual = UnitPathFeeManual::where(['unit_id' => $unit_id,'path_id' => $path_id,'tier_id' => null])->get();
-            
+
             if($pathFeeManual->isEmpty()){
                 return $this->getUnitFeeLegacy($path_id,$unit_id,$tier_id);
             }
@@ -586,7 +586,7 @@ class UnitService{
 
         $payment_intervals = payment_interval();
 
-        foreach($payment_intervals as $index => $payment_interval ){              
+        foreach($payment_intervals as $index => $payment_interval ){
             $first_amount = 0;
             $second_amount = 0;
             if($payment_interval == 1){
@@ -616,7 +616,7 @@ class UnitService{
         }
 
         return (object) array(
-            'error'            => false,            
+            'error'            => false,
             'message'          => '',
             'fees'             => $fees,
             'fees_amount'             => $fees_amount,
@@ -643,7 +643,7 @@ class UnitService{
 
         try{
             $units = $this->unitRepository->findTrash($id);
-    
+
             $deleted = $this->unitRepository->purge($id);
         }catch (Exception $e){
             DB::rollBack();
@@ -660,7 +660,7 @@ class UnitService{
         Log::info(label_case($this->module_title.' '.__FUNCTION__)." | '".$units->name.', ID:'.$units->id." ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
         return (object) array(
-            'error'=> false,            
+            'error'=> false,
             'message'=> '',
             'data'=> $units,
         );
