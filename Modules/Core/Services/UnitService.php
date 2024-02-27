@@ -630,10 +630,13 @@ class UnitService{
         $fees = $fees_object->fees;
         $fees_amount = $fees_object->fees_amount;
         $fees_amount_next = $fees_object->fees_amount_next;
-
         $scheme_string = $fees[$tenor];
         $scheme_amount = round($fees_amount[$tenor],0);
-        $scheme_amount_next = round($fees_amount_next[$tenor],0);
+        if($fees_amount_next){
+            $scheme_amount_next = round($fees_amount_next[$tenor],0);
+        }else{
+            $scheme_amount_next = 0;
+        }
 
         return [$tenor, $scheme_string, $scheme_amount,$scheme_amount_next];
     }
