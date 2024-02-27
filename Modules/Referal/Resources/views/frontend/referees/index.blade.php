@@ -73,8 +73,7 @@
                                         @lang('Masuk')
                                     </button>
                                 </div>
-                                <div class="text-center">
-                                    <hr>
+                                <div class="text-center mt-2">
                                     <small>atau</small>
                                 </div>
                                 <div class="text-center">
