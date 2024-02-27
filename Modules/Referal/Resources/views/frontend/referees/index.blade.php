@@ -78,7 +78,7 @@
                                     <small>atau</small>
                                 </div>
                                 <div class="text-center">
-                                    <a href="{{ route('frontend.referees.refarea') }}" type="button" class="btn btn-danger mt-2">
+                                    <a href="{{ route('frontend.referees.create') }}" type="button" class="btn btn-danger mt-2">
                                         @lang('Daftar')
                                     </a>
                                 </div>
