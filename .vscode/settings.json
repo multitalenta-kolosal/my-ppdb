@@ -1,0 +1,14 @@
+{
+    "i18n-ally.localesPaths": [
+        "resources/lang",
+        "Modules/Article/Resources/lang",
+        "Modules/Comment/Resources/lang",
+        "Modules/Core/Resources/lang",
+        "Modules/Finance/Resources/lang",
+        "Modules/Message/Resources/lang",
+        "Modules/Referal/Resources/lang",
+        "Modules/Registrant/Resources/lang",
+        "Modules/Tag/Resources/lang",
+        "Modules/Message/Resources/views/backend/messages"
+    ]
+}

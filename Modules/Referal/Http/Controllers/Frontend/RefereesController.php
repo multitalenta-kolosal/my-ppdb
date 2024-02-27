@@ -63,6 +63,33 @@ class RefereesController extends Controller
             compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','banks')
         );
     }
+
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return View
+     */
+    public function create()
+    {
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'List';
+
+        $options = $this->refereeService->prepareOptions();
+
+        $banks = $options['banks'];
+
+        return view(
+            "referal::frontend.$module_path.create",
+            compact('module_title', 'module_name', 'module_icon', 'module_action', 'module_name_singular','banks')
+        );
+    }
 /**
      * Display a listing of the resource.
      *
@@ -127,7 +154,7 @@ class RefereesController extends Controller
         $module_action = 'refarea';
 
         $referee = $this->refereeService->track($request);
-        
+
         if($referee->error){
             Flash::error("<i class='fas fa-times-circle'></i> ".$referee->message)->important();
             return redirect()->back();
@@ -164,7 +191,7 @@ class RefereesController extends Controller
         if(!$$module_name_singular->error){
             Flash::success('
                 <h4>
-                    <i class="fas fa-check"></i> 
+                    <i class="fas fa-check"></i>
                         Anda Sudah terdaftar Sebagai Referee Yayasan Pendidikan Warga
                 </h4>
                 <p>
@@ -174,7 +201,7 @@ class RefereesController extends Controller
         }else{
             Flash::error('
                 <h4>
-                    <i class="fas fa-times-circle"></i> 
+                    <i class="fas fa-times-circle"></i>
                         Pendaftaran Gagal!
                 </h4>
                 <h5>
